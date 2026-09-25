@@ -3,8 +3,7 @@
 /* ==================================================================
    MEGAPARC — global stylesheet
    Consolidated in the Fable one-pass review (2026-09-25).
-   Fable one-pass system aligned to OWNER-supplied Brand Guidelines 2025.
-   Colour tokens remain provisional until final digital specifications are supplied.
+   Provisional tokens until the final Brand Book is supplied.
    ================================================================== */
 
 :root {
@@ -30,8 +29,8 @@
   --header-h: 7rem;
 
   /* type */
-  --font-brand: "Canva Sans", var(--font-geist-sans), Arial, Helvetica, sans-serif;
-  --font: var(--font-brand);
+  /* Official Brand Book typography */
+  --font: "Canva Sans", var(--font-geist-sans), Arial, Helvetica, sans-serif;
   --label-size: .64rem;
 
   /* motion */
@@ -1612,8 +1611,10 @@ section:hover .section-index::after { transform: scaleX(1); }
 }
 
 
-/* === ABOUT / SOURCE-GROUNDED HERITAGE === */
-.heritage { padding-bottom: var(--space); }
+/* ------------------------------------------------------------------
+   About — source-grounded heritage
+   ------------------------------------------------------------------ */
+.heritage { padding: var(--space) 0; }
 .heritage__grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1628,24 +1629,24 @@ section:hover .section-index::after { transform: scaleX(1); }
   border-right: 1px solid var(--line-inverse);
 }
 .heritage__grid article + article { padding-left: 3rem; border-right: 0; }
-.heritage__year {
+.heritage__grid article > span {
   color: var(--red);
   font-size: var(--label-size);
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: .1em;
   text-transform: uppercase;
 }
 .heritage__grid h3 {
   margin: auto 0 1.4rem;
   color: white;
-  font-size: clamp(2.6rem, 5vw, 5.8rem);
-  line-height: .9;
-  letter-spacing: -.055em;
+  font-size: clamp(2.7rem, 5vw, 6rem);
+  line-height: .88;
+  letter-spacing: -.06em;
   font-weight: 430;
 }
 .heritage__grid p {
   margin: 0;
-  max-width: 34rem;
+  max-width: 36rem;
   color: var(--muted-light);
   line-height: 1.6;
 }

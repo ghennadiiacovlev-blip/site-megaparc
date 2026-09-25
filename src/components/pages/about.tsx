@@ -26,10 +26,12 @@ const copy = {
     ownerCta: "Vezi portofoliul",
     contactCta: "Discuție corporate",
     heritageIndex: "Repere",
-    heritage: [
-      ["2005", "MEGAPARC", "MEGAPARC a fost fondată în 2005, cu o abordare axată pe achiziția și revitalizarea activelor comerciale."],
-      ["Astăzi", "Focus imobiliar", "Strategia actuală este concentrată pe piața imobiliară din Republica Moldova, pe administrarea activelor, dezvoltare și revitalizare urbană."],
-    ],
+    founded: "2005",
+    foundedTitle: "MEGAPARC",
+    foundedText: "MEGAPARC a fost fondată în 2005, cu o abordare axată pe achiziția și revitalizarea activelor comerciale.",
+    today: "Astăzi",
+    todayTitle: "Focus imobiliar",
+    todayText: "Strategia actuală este concentrată pe piața imobiliară din Republica Moldova, pe administrarea activelor, dezvoltare și revitalizare urbană.",
   },
   en: {
     eyebrow: "Investment platform",
@@ -53,10 +55,12 @@ const copy = {
     ownerCta: "View the portfolio",
     contactCta: "Corporate enquiry",
     heritageIndex: "Selected milestones",
-    heritage: [
-      ["2005", "MEGAPARC", "MEGAPARC was established in 2005 with an approach focused on acquiring and revitalising commercial real-estate assets."],
-      ["Today", "Real-estate focus", "The current strategy is focused on real estate in the Republic of Moldova, combining asset management, development and urban revitalisation."],
-    ],
+    founded: "2005",
+    foundedTitle: "MEGAPARC",
+    foundedText: "MEGAPARC was established in 2005 with an approach focused on acquiring and revitalising commercial real-estate assets.",
+    today: "Today",
+    todayTitle: "Real-estate focus",
+    todayText: "The current strategy is focused on real estate in the Republic of Moldova, combining asset management, development and urban revitalisation.",
   },
 } as const;
 
@@ -124,30 +128,33 @@ export function AboutPage({ locale }: { locale: SiteLocale }) {
         </div>
       </section>
 
-      <section className="heritage ink">
-        <div className="shell">
-          <SectionIndex no="04" inverse>{c.heritageIndex}</SectionIndex>
-          <div className="heritage__grid" data-reveal>
-            {c.heritage.map(([year, title, text]) => (
-              <article key={title}>
-                <span className="heritage__year">{year}</span>
-                <h3>{title}</h3>
-                <p>{text}</p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
       <section className="owner paper">
         <div className="shell">
-          <SectionIndex no="05">{c.ownerIndex}</SectionIndex>
+          <SectionIndex no="04">{c.ownerIndex}</SectionIndex>
           <div className="owner__grid" data-reveal>
             <p className="owner__statement">{c.ownerTitle}</p>
             <div className="owner__actions">
               <ArrowLink href={localePath(locale, "/portfolio")}>{c.ownerCta}</ArrowLink>
               <ArrowLink href={localePath(locale, "/contact")}>{c.contactCta}</ArrowLink>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="heritage ink">
+        <div className="shell">
+          <SectionIndex no="05" inverse>{c.heritageIndex}</SectionIndex>
+          <div className="heritage__grid" data-reveal>
+            <article>
+              <span>{c.founded}</span>
+              <h3>{c.foundedTitle}</h3>
+              <p>{c.foundedText}</p>
+            </article>
+            <article>
+              <span>{c.today}</span>
+              <h3>{c.todayTitle}</h3>
+              <p>{c.todayText}</p>
+            </article>
           </div>
         </div>
       </section>

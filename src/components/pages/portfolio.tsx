@@ -6,9 +6,9 @@ import { developmentProject, localePath, portfolioAssets, ui, type SiteLocale } 
 
 const copy = {
   ro: {
-    eyebrow: "Portofoliu de active",
+    eyebrow: "Active deținute / administrate",
     title: ["Portofoliu.", "Active reale."],
-    lead: "Activele prezentate fac parte din portofoliul public MEGAPARC. Portofoliul separă activele operaționale de proiectele în dezvoltare și de disponibilitățile comerciale.",
+    lead: "Activele prezentate sunt deținute sau administrate de MEGAPARC. Portofoliul public separă activele operaționale de proiectele în dezvoltare și de disponibilitățile comerciale.",
     operatingIndex: "Active operaționale",
     developmentIndex: "Dezvoltare",
     developmentTitle: ["Un proiect gândit", "ca activ."],
@@ -19,9 +19,9 @@ const copy = {
     closingCta: "Vezi disponibilitățile",
   },
   en: {
-    eyebrow: "Asset portfolio",
+    eyebrow: "Owned / managed assets",
     title: ["Portfolio.", "Real assets."],
-    lead: "The assets shown form part of the public MEGAPARC portfolio. The portfolio separates operating assets from development projects and commercial availability.",
+    lead: "The assets shown are owned or managed by MEGAPARC. The public portfolio separates operating assets from development projects and commercial availability.",
     operatingIndex: "Operating assets",
     developmentIndex: "Development",
     developmentTitle: ["A project conceived", "as an asset."],

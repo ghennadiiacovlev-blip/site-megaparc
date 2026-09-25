@@ -76,7 +76,7 @@ export const ui = {
   location: { ro: "Localitate", en: "Location" },
   status: { ro: "Status", en: "Status" },
   role: { ro: "Rol MEGAPARC", en: "MEGAPARC role" },
-  ownedManaged: { ro: "Rol în portofoliu", en: "Portfolio role" },
+  ownedManaged: { ro: "Deținut / administrat", en: "Owned / managed" },
   assetType: { ro: "Tip", en: "Type" },
   nextAsset: { ro: "Următorul activ", en: "Next asset" },
   allAssets: { ro: "Toate activele", en: "All assets" },
