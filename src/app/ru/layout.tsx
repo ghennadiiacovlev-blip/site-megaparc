@@ -1,0 +1,15 @@
+import type { Metadata } from "next";
+import type { ReactNode } from "react";
+import { RootDocument } from "@/components/root-document";
+import { pageMetadata, siteUrl } from "@/lib/seo";
+import "../globals.css";
+
+/** Root layout for the RU edition: static HTML is served with lang="ru". */
+export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
+  ...pageMetadata("ru", "home", "/"),
+};
+
+export default function RURootLayout({ children }: { children: ReactNode }) {
+  return <RootDocument locale="ru">{children}</RootDocument>;
+}
