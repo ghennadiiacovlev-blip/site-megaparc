@@ -1,5 +1,5 @@
 import { PageShell } from "@/components/page-shell";
-import { ArrowLink, DataPending, PageHero, SectionIndex } from "@/components/primitives";
+import { ArrowLink, Note, PageHero, SectionIndex } from "@/components/primitives";
 import { localePath, type SiteLocale } from "@/lib/site-data";
 
 const copy = {
@@ -13,11 +13,25 @@ const copy = {
       ["Responsabilitate", "Fiecare rol privește activul cu mentalitatea proprietarului."],
       ["Perspectivă", "Construim pentru nevoile de astăzi fără a pierde din vedere relevanța de mâine."],
     ],
-    openingsIndex: "Poziții publice",
-    emptyTitle: "Nu există poziții publicate în acest moment.",
-    emptyText: "Rolurile și datele de contact pentru recrutare vor fi publicate după validare. Până atunci, solicitările pot fi transmise prin pagina de contact.",
-    pending: "Recrutare · informații publice în curs de validare",
+    openingsIndex: "Poziții deschise",
+    emptyTitle: "Nu există poziții deschise în acest moment.",
+    emptyText: "Candidaturile spontane sunt binevenite. Profilurile relevante pentru investiții, dezvoltare, administrarea activelor și operațiuni pot fi transmise prin pagina de contact.",
     cta: "Discuție corporate",
+  },
+  ru: {
+    eyebrow: "Карьера",
+    title: ["Команда, которая мыслит", "как собственник."],
+    lead: "MEGAPARC объединяет инвестиционное мышление, девелопмент, управление и реализацию в платформе, построенной на долгий срок.",
+    valuesIndex: "Как мы работаем",
+    values: [
+      ["Дисциплина", "Решения начинаются с экономики, назначения и долгосрочной стоимости."],
+      ["Ответственность", "Каждая роль смотрит на актив глазами собственника."],
+      ["Перспектива", "Строим для сегодняшних потребностей, не теряя из виду актуальность завтрашнего дня."],
+    ],
+    openingsIndex: "Открытые позиции",
+    emptyTitle: "В настоящий момент открытых позиций нет.",
+    emptyText: "Мы открыты к инициативным обращениям. Профили, релевантные для инвестиций, девелопмента, управления активами и операционной деятельности, можно направить через страницу контактов.",
+    cta: "Корпоративный запрос",
   },
   en: {
     eyebrow: "Careers",
@@ -29,10 +43,9 @@ const copy = {
       ["Ownership", "Every role looks at the asset with an owner's mindset."],
       ["Perspective", "We build for today's needs without losing sight of tomorrow's relevance."],
     ],
-    openingsIndex: "Public openings",
-    emptyTitle: "There are no published openings at this time.",
-    emptyText: "Roles and recruitment contact details will be published after validation. Until then, enquiries can be sent through the contact page.",
-    pending: "Recruitment · public information pending validation",
+    openingsIndex: "Open positions",
+    emptyTitle: "There are no open positions at this time.",
+    emptyText: "Speculative applications are welcome. Profiles relevant to investment, development, asset management and operations can be sent through the contact page.",
     cta: "Corporate enquiry",
   },
 } as const;
@@ -76,8 +89,7 @@ export function CareersPage({ locale }: { locale: SiteLocale }) {
           <div className="empty-state__grid" data-reveal>
             <h2>{c.emptyTitle}</h2>
             <div>
-              <p>{c.emptyText}</p>
-              <DataPending light>{c.pending}</DataPending>
+              <Note light>{c.emptyText}</Note>
               <ArrowLink href={localePath(locale, "/contact")} inverse>{c.cta}</ArrowLink>
             </div>
           </div>

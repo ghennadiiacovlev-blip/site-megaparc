@@ -1,50 +1,57 @@
 import Link from "next/link";
 import { PageShell } from "@/components/page-shell";
-import { ArrowLink, DataPending, PageHero, SectionIndex } from "@/components/primitives";
+import { ArrowLink, Note, PageHero, SectionIndex } from "@/components/primitives";
+import { availableAssets } from "@/lib/assets";
 import { localePath, ui, type SiteLocale } from "@/lib/site-data";
 
 const copy = {
   ro: {
     eyebrow: "Disponibilități comerciale",
     title: ["Spațiul potrivit", "pentru următoarea etapă."],
-    lead: "Disponibilitățile comerciale sunt prezentate separat de portofoliul instituțional și includ numai spațiile aprobate pentru promovare.",
+    lead: "Spații de birouri și retail disponibile în prezent în portofoliul MEGAPARC din Chișinău. Această secțiune este separată de portofoliul instituțional și prezintă numai disponibilități confirmate.",
+    listIndex: "Disponibil în prezent",
+    note: "Suprafețele finale, durata contractului, data predării și condițiile tehnice se stabilesc prin negociere. Informații suplimentare la cerere.",
     distinctionIndex: "Două prezentări distincte",
     distinction: [
       ["Portofoliu instituțional", "Active deținute sau administrate de MEGAPARC, prezentate ca profil de activ: arhitectură, utilizare, status, abordare."],
-      ["Disponibilități comerciale", "Spații concrete disponibile pentru închiriere, cu informații actualizate și aprobate: tip, suprafață, disponibilitate."],
+      ["Disponibilități comerciale", "Spații concrete disponibile pentru închiriere, cu informații confirmate: suprafață, chirie solicitată, disponibilitate."],
     ],
-    intentsIndex: "Solicitări",
-    intents: [
-      ["Spații retail și comerciale", "Parter comercial, showroom, servicii"],
-      ["Spații office", "Birouri și spații de business"],
-      ["Alte solicitări", "Utilizări speciale, parteneriate, propuneri"],
-    ],
-    request: "Solicită informații",
-    pending: "Lista publică a spațiilor disponibile este în curs de validare. Nu publicăm suprafețe, chirii sau termeni până la aprobare.",
     closingIndex: "Portofoliu",
     closing: "Activele MEGAPARC sunt prezentate ca profil de activ, nu ca anunț.",
     closingCta: "Vezi portofoliul",
+    details: "Detalii",
+  },
+  ru: {
+    eyebrow: "Коммерческие предложения",
+    title: ["Подходящее пространство", "для следующего этапа."],
+    lead: "Офисные и торговые помещения, доступные сейчас в портфеле MEGAPARC в Кишинёве. Раздел отделён от институционального портфеля и показывает только подтверждённые предложения.",
+    listIndex: "Доступно сейчас",
+    note: "Итоговая площадь, срок аренды, дата передачи и технические условия согласовываются в ходе переговоров. Дополнительная информация по запросу.",
+    distinctionIndex: "Две разные презентации",
+    distinction: [
+      ["Институциональный портфель", "Активы во владении или управлении MEGAPARC, представленные как профиль объекта: архитектура, назначение, статус, подход."],
+      ["Коммерческие предложения", "Конкретные помещения, доступные для аренды, с подтверждённой информацией: площадь, арендная ставка, доступность."],
+    ],
+    closingIndex: "Портфель",
+    closing: "Активы MEGAPARC представлены как профиль объекта, а не как объявление.",
+    closingCta: "Смотреть портфель",
+    details: "Подробнее",
   },
   en: {
     eyebrow: "Commercial opportunities",
     title: ["The right space", "for what comes next."],
-    lead: "Commercial availability is presented separately from the institutional portfolio and includes only spaces approved for promotion.",
+    lead: "Office and retail space currently available in the MEGAPARC Chișinău portfolio. This section is separate from the institutional portfolio and presents confirmed availability only.",
+    listIndex: "Currently available",
+    note: "Final areas, lease term, handover date and technical conditions are agreed through negotiation. Additional information available on request.",
     distinctionIndex: "Two distinct presentations",
     distinction: [
       ["Institutional portfolio", "Assets owned or managed by MEGAPARC, presented as asset profiles: architecture, use, status, approach."],
-      ["Commercial availability", "Specific spaces available for lease, with current and approved information: type, area, availability."],
+      ["Commercial availability", "Specific spaces available for lease, with confirmed information: area, asking rent, availability."],
     ],
-    intentsIndex: "Enquiries",
-    intents: [
-      ["Retail and commercial space", "Ground-floor retail, showroom, services"],
-      ["Office space", "Offices and business premises"],
-      ["Other enquiries", "Special uses, partnerships, proposals"],
-    ],
-    request: "Request information",
-    pending: "The public list of available spaces is pending validation. We do not publish areas, rents or terms before approval.",
     closingIndex: "Portfolio",
     closing: "MEGAPARC assets are presented as asset profiles, not as listings.",
     closingCta: "View the portfolio",
+    details: "Details",
   },
 } as const;
 
@@ -65,13 +72,60 @@ export function OpportunitiesPage({ locale }: { locale: SiteLocale }) {
           </>
         }
         lead={c.lead}
-      >
-        <DataPending>{ui.ownerInput[locale]}</DataPending>
-      </PageHero>
+      />
+
+      <section className="offers ink">
+        <div className="shell">
+          <SectionIndex no="05" inverse>{c.listIndex}</SectionIndex>
+          <div className="offers__list">
+            {availableAssets.map((asset, index) => {
+              const a = asset.availability!;
+              return (
+                <article key={asset.slug} className="offer-row" data-reveal>
+                  <span className="offer-row__no">0{index + 1}</span>
+                  <div className="offer-row__identity">
+                    <h2>{asset.name}</h2>
+                    <span>{asset.positioning[locale]}</span>
+                    <span>{asset.district[locale]} · {asset.city[locale]}</span>
+                  </div>
+                  <p className="offer-row__headline">{a.headline[locale]}</p>
+                  <dl className="offer-row__facts">
+                    <div>
+                      <dt>{ui.totalArea[locale]}</dt>
+                      <dd>{a.area[locale]}</dd>
+                    </div>
+                    <div>
+                      <dt>{ui.askingRent[locale]}</dt>
+                      <dd>{a.rent[locale]}</dd>
+                    </div>
+                    {a.from ? (
+                      <div>
+                        <dt>{ui.availableFrom[locale]}</dt>
+                        <dd>{a.from[locale]}</dd>
+                      </div>
+                    ) : null}
+                  </dl>
+                  <div className="offer-row__actions">
+                    <Link className="arrow-link arrow-link--inverse" href={`${p(`/portfolio/${asset.slug}`)}#availability`}>
+                      <span>{c.details}</span>
+                      <span className="arrow-link__icon" aria-hidden="true">↗</span>
+                    </Link>
+                    <Link className="arrow-link arrow-link--inverse" href={p("/contact")}>
+                      <span>{ui.enquire[locale]}</span>
+                      <span className="arrow-link__icon" aria-hidden="true">↗</span>
+                    </Link>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+          <Note light>{c.note}</Note>
+        </div>
+      </section>
 
       <section className="distinction paper">
         <div className="shell">
-          <SectionIndex no="05">{c.distinctionIndex}</SectionIndex>
+          <SectionIndex no="06">{c.distinctionIndex}</SectionIndex>
           <div className="distinction__grid">
             {c.distinction.map(([title, text], index) => (
               <article key={title} data-reveal className={index === 1 ? "is-current" : undefined}>
@@ -81,23 +135,6 @@ export function OpportunitiesPage({ locale }: { locale: SiteLocale }) {
               </article>
             ))}
           </div>
-        </div>
-      </section>
-
-      <section className="intents ink">
-        <div className="shell">
-          <SectionIndex no="06" inverse>{c.intentsIndex}</SectionIndex>
-          <div className="intents__list">
-            {c.intents.map(([title, meta], index) => (
-              <Link key={title} href={p("/contact")} className="intents__row" data-reveal>
-                <span className="intents__no">0{index + 1}</span>
-                <h2>{title}</h2>
-                <span className="intents__meta">{meta}</span>
-                <span className="intents__cta">{c.request} ↗</span>
-              </Link>
-            ))}
-          </div>
-          <DataPending light>{c.pending}</DataPending>
         </div>
       </section>
 

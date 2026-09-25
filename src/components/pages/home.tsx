@@ -1,14 +1,16 @@
 import Image from "next/image";
 import Link from "next/link";
 import { PageShell } from "@/components/page-shell";
+import { ScaleSection } from "@/components/scale-section";
 import { ArrowLink, AssetMedia, MediaPlaceholder, SectionIndex } from "@/components/primitives";
-import { brand, developmentProject, localePath, portfolioAssets, ui, type SiteLocale } from "@/lib/site-data";
+import { availableAssets, developmentProjects, portfolioAssets } from "@/lib/assets";
+import { brand, localePath, ui, type SiteLocale } from "@/lib/site-data";
 
 const copy = {
   ro: {
     heroId: "acasa",
     title: ["Construim active.", "Creăm valoare", "pe termen lung."],
-    lead: "O platformă imobiliară orientată spre investiții, dezvoltare și administrarea activelor.",
+    lead: "Platformă imobiliară orientată spre investiții, dezvoltare și administrarea activelor, în Republica Moldova.",
     heroCta: "Descoperă portofoliul",
     introIndex: "MEGAPARC",
     introKicker: "Construim viitorul.",
@@ -29,6 +31,12 @@ const copy = {
       ["Dezvoltăm", "Transformăm terenuri, clădiri și concepte în active relevante pentru oraș, utilizatori și capital."],
       ["Administrăm", "Privim exploatarea, leasingul și calitatea activului ca parte din aceeași decizie de investiție."],
     ],
+    historyIndex: "Parcurs",
+    historyYear: "2005",
+    historyHeritage: ["Experiență investițională construită din 1995.", "MEGAPARC, fondată în 2005."],
+    historyTitle: "Din 2005, transformăm active și dezvoltăm valoare pe termen lung.",
+    historyText: "MEGAPARC a fost fondată în 2005, cu o strategie orientată spre achiziția și revitalizarea activelor comerciale amplasate strategic. Din 2020, strategia se concentrează pe sectorul imobiliar din Republica Moldova.",
+    historyCta: "Descoperă parcursul MEGAPARC",
     portfolioIndex: "Portofoliu selectat",
     portfolioTitle: ["Active reale.", "Valoare construită în timp."],
     portfolioText:
@@ -41,15 +49,12 @@ const copy = {
     developmentIndex: "Dezvoltare",
     developmentTitle: ["De la oportunitate", "la activ durabil."],
     developmentText: "Dezvoltarea este privită ca parte din ciclul investițional: concept, execuție, utilizare și valoare pe termen lung.",
-    stages: ["Concept", "Planificare", "Execuție", "Activ"],
     developmentCta: "Explorează VATRA",
     availabilityIndex: "Disponibilități",
     availabilityEyebrow: "Disponibilități comerciale",
     availabilityTitle: ["Spațiul potrivit", "pentru următoarea etapă."],
-    availabilityText:
-      "Disponibilitățile comerciale sunt prezentate separat de portofoliul instituțional și includ numai spațiile aprobate pentru promovare.",
-    availabilityCta: "Discută cu MEGAPARC",
-    availabilityPending: "Lista publică a spațiilor disponibile este în curs de validare.",
+    availabilityText: "Spații de birouri și retail disponibile în prezent în portofoliul MEGAPARC din Chișinău, prezentate separat de portofoliul instituțional.",
+    availabilityCta: "Vezi toate disponibilitățile",
     principlesIndex: "Principii",
     principlesTitle: ["Valoarea nu este", "un rezultat întâmplător."],
     principles: [
@@ -60,18 +65,84 @@ const copy = {
     registerIndex: "Prezență",
     registerTitle: ["Active ancorate", "în oraș."],
     registerText: "Portofoliul este prezentat în contextul în care funcționează: locație, utilizare și relația cu mediul urban.",
-    registerCaption: "Registru public · Chișinău",
+    registerCaption: "Registru public · Republica Moldova",
     precontact: "Construim active care rămân relevante.",
     contactIndex: "Contact",
     contactTitle: ["Construim", "ce urmează."],
     contactA: "Caut un spațiu",
-    contactB: "Propune o proprietate",
+    contactB: "Propun o proprietate",
     contactC: "Discuție corporate",
+  },
+  ru: {
+    heroId: "home",
+    title: ["Создаём активы.", "Формируем стоимость", "на долгий срок."],
+    lead: "Платформа недвижимости, ориентированная на инвестиции, девелопмент и управление активами в Республике Молдова.",
+    heroCta: "Смотреть портфель",
+    introIndex: "MEGAPARC",
+    introKicker: "Строим будущее.",
+    introTitle: ["Недвижимость", "как"],
+    introEm: "капитал.",
+    introText:
+      "MEGAPARC развивает, владеет и управляет объектами недвижимости с долгосрочной перспективой. Нас интересует не только здание, но и то, как актив работает, развивается и сохраняет свою актуальность.",
+    introCta: "Как мы создаём стоимость",
+    manifestoEyebrow: "Мышление долгосрочного собственника",
+    manifesto: ["Капитал становится стоимостью, когда актив рассчитан на", "долгий срок."],
+    manifestoNoteLabel: "Инвестиционный подход",
+    manifestoNote: "Дисциплинированный отбор. Осмысленный девелопмент. Активное управление.",
+    modelIndex: "Модель создания стоимости",
+    modelTitle: "Инвестиция продолжается после приобретения.",
+    modelText: "Стратегия, девелопмент и управление объединены в единый цикл владения.",
+    pillars: [
+      ["Инвестируем", "Отбираем объекты по потенциалу использования, развития и создания стоимости во времени."],
+      ["Развиваем", "Превращаем участки, здания и идеи в активы, значимые для города, арендаторов и капитала."],
+      ["Управляем", "Эксплуатацию, аренду и качество актива рассматриваем как часть одного инвестиционного решения."],
+    ],
+    historyIndex: "История",
+    historyYear: "2005",
+    historyHeritage: ["Инвестиционный опыт, формируемый с 1995 года.", "MEGAPARC основана в 2005 году."],
+    historyTitle: "С 2005 года мы трансформируем активы и создаём долгосрочную стоимость.",
+    historyText: "MEGAPARC была основана в 2005 году с фокусом на приобретении и ревитализации стратегически расположенных коммерческих активов. С 2020 года стратегический фокус сосредоточен на недвижимости в Республике Молдова.",
+    historyCta: "История MEGAPARC",
+    portfolioIndex: "Избранные активы",
+    portfolioTitle: ["Реальные активы.", "Стоимость, созданная временем."],
+    portfolioText:
+      "Представленные активы находятся во владении или управлении MEGAPARC. В публичной презентации операционные активы, девелоперские проекты и коммерческие предложения показаны раздельно.",
+    portfolioFoot: "Операционные · Девелопмент · Предложения",
+    portfolioCta: "Смотреть портфель",
+    statementLabel: "MEGAPARC / Портфель",
+    statement:
+      "Мы не рассматриваем объекты как изолированные продукты. Для нас это активы, которые должны работать, адаптироваться и сохранять актуальность во времени.",
+    developmentIndex: "Девелопмент",
+    developmentTitle: ["От возможности", "к устойчивому активу."],
+    developmentText: "Девелопмент — часть инвестиционного цикла: концепция, реализация, использование и долгосрочная стоимость.",
+    developmentCta: "Открыть VATRA",
+    availabilityIndex: "Предложения",
+    availabilityEyebrow: "Коммерческие предложения",
+    availabilityTitle: ["Подходящее пространство", "для следующего этапа."],
+    availabilityText: "Офисные и торговые помещения, доступные сейчас в портфеле MEGAPARC в Кишинёве, представлены отдельно от институционального портфеля.",
+    availabilityCta: "Все предложения",
+    principlesIndex: "Принципы",
+    principlesTitle: ["Стоимость —", "не случайный результат."],
+    principles: [
+      ["Дисциплина", "Решения начинаются с экономики, назначения и долгосрочной стоимости."],
+      ["Ответственность", "Управляем активами как собственник, а не только как оператор."],
+      ["Перспектива", "Строим для сегодняшних потребностей, не теряя из виду актуальность завтрашнего дня."],
+    ],
+    registerIndex: "Присутствие",
+    registerTitle: ["Активы, укоренённые", "в городе."],
+    registerText: "Портфель представлен в контексте, в котором он работает: расположение, назначение и связь с городской средой.",
+    registerCaption: "Публичный реестр · Республика Молдова",
+    precontact: "Создаём активы, которые остаются актуальными.",
+    contactIndex: "Контакты",
+    contactTitle: ["Строим", "то, что дальше."],
+    contactA: "Ищу помещение",
+    contactB: "Предложить объект",
+    contactC: "Корпоративный запрос",
   },
   en: {
     heroId: "home",
     title: ["We build assets.", "We create value", "for the long term."],
-    lead: "A real estate platform focused on investment, development and active asset management.",
+    lead: "A real estate platform focused on investment, development and active asset management in the Republic of Moldova.",
     heroCta: "Explore the portfolio",
     introIndex: "MEGAPARC",
     introKicker: "We build the future.",
@@ -92,6 +163,12 @@ const copy = {
       ["Develop", "We transform land, buildings and ideas into assets that matter to cities, occupiers and capital."],
       ["Manage", "We treat operations, leasing and asset quality as one continuous investment decision."],
     ],
+    historyIndex: "Our story",
+    historyYear: "2005",
+    historyHeritage: ["Investment experience built since 1995.", "MEGAPARC established in 2005."],
+    historyTitle: "Since 2005, we have been transforming assets and building long-term value.",
+    historyText: "MEGAPARC was established in 2005 with a strategy focused on acquiring and revitalising strategically located commercial assets. Since 2020, the strategic focus has been concentrated on real estate in the Republic of Moldova.",
+    historyCta: "Explore our story",
     portfolioIndex: "Selected portfolio",
     portfolioTitle: ["Real assets.", "Value built over time."],
     portfolioText:
@@ -104,15 +181,12 @@ const copy = {
     developmentIndex: "Development",
     developmentTitle: ["From opportunity", "to enduring asset."],
     developmentText: "Development is part of the investment cycle: concept, delivery, use and long-term value.",
-    stages: ["Concept", "Planning", "Delivery", "Asset"],
     developmentCta: "Explore VATRA",
     availabilityIndex: "Availability",
     availabilityEyebrow: "Commercial opportunities",
     availabilityTitle: ["The right space", "for what comes next."],
-    availabilityText:
-      "Commercial availability is presented separately from the institutional portfolio and includes only spaces approved for promotion.",
-    availabilityCta: "Talk to MEGAPARC",
-    availabilityPending: "The public list of available spaces is pending validation.",
+    availabilityText: "Office and retail space currently available in the MEGAPARC Chișinău portfolio, presented separately from the institutional portfolio.",
+    availabilityCta: "View all availability",
     principlesIndex: "Principles",
     principlesTitle: ["Value is not", "an accidental outcome."],
     principles: [
@@ -123,7 +197,7 @@ const copy = {
     registerIndex: "Presence",
     registerTitle: ["Assets anchored", "in the city."],
     registerText: "The portfolio is presented in the context in which it operates: location, use and its relationship with the urban environment.",
-    registerCaption: "Public register · Chișinău",
+    registerCaption: "Public register · Republic of Moldova",
     precontact: "We build assets that stay relevant.",
     contactIndex: "Contact",
     contactTitle: ["We build", "what comes next."],
@@ -136,15 +210,15 @@ const copy = {
 function AssetCaption({
   index,
   title,
-  status,
-  city,
+  meta,
+  positioning,
   href,
   locale,
 }: {
   index: string;
   title: string;
-  status: string;
-  city: string;
+  meta: string;
+  positioning: string;
   href: string;
   locale: SiteLocale;
 }) {
@@ -152,11 +226,13 @@ function AssetCaption({
     <div className="asset-caption">
       <div>
         <span className="asset-caption__index">{index}</span>
-        <h3>{title}</h3>
+        <div>
+          <h3>{title}</h3>
+          <span className="asset-caption__positioning">{positioning}</span>
+        </div>
       </div>
       <div className="asset-caption__meta">
-        <span>{status}</span>
-        <span>{city}</span>
+        <span>{meta}</span>
         <Link className="asset-caption__link" href={href}>{ui.exploreAsset[locale]} ↗</Link>
       </div>
     </div>
@@ -166,6 +242,7 @@ function AssetCaption({
 export function HomePage({ locale }: { locale: SiteLocale }) {
   const c = copy[locale];
   const [dacia, moscova9, moscova20, creanga] = portfolioAssets;
+  const vatra = developmentProjects[0];
   const p = (path: string) => localePath(locale, path);
 
   return (
@@ -180,7 +257,7 @@ export function HomePage({ locale }: { locale: SiteLocale }) {
             fetchPriority="high"
             sizes="100vw"
             className="hero__image"
-            style={{ objectPosition: "50% 58%" }}
+            style={{ objectPosition: "52% 60%" }}
           />
           <div className="hero__overlay" />
         </div>
@@ -188,6 +265,7 @@ export function HomePage({ locale }: { locale: SiteLocale }) {
         <div className="hero__content shell">
           <div className="hero__title">
             <p className="hero__brandline">{brand.name}</p>
+            <p className="hero__since" lang="en"><i aria-hidden="true" />{brand.since}</p>
             <h1>
               {c.title.map((line) => (
                 <span key={line}>{line}</span>
@@ -261,9 +339,29 @@ export function HomePage({ locale }: { locale: SiteLocale }) {
         </div>
       </section>
 
+      <ScaleSection locale={locale} no="03" />
+
+      <section className="history-teaser paper">
+        <div className="shell">
+          <SectionIndex no="04">{c.historyIndex}</SectionIndex>
+          <div className="history-teaser__grid" data-reveal>
+            <div className="history-teaser__anchor">
+              <span className="label label--red" lang="en">{brand.since}</span>
+              <span className="history-teaser__year">{c.historyYear}</span>
+            </div>
+            <div>
+              <p className="history-teaser__heritage">{c.historyHeritage[0]}<br />{c.historyHeritage[1]}</p>
+              <p className="history-teaser__title">{c.historyTitle}</p>
+              <p className="history-teaser__text">{c.historyText}</p>
+              <ArrowLink href={`${p("/about")}#history`}>{c.historyCta}</ArrowLink>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section className="portfolio paper" id="portofoliu">
         <div className="shell">
-          <SectionIndex no="03">{c.portfolioIndex}</SectionIndex>
+          <SectionIndex no="05">{c.portfolioIndex}</SectionIndex>
           <div className="portfolio__heading" data-reveal>
             <h2>
               {c.portfolioTitle[0]}
@@ -275,23 +373,23 @@ export function HomePage({ locale }: { locale: SiteLocale }) {
 
           <article className="asset-feature" data-reveal>
             <AssetMedia src={dacia.image!} alt={`${dacia.name} — MEGAPARC`} position={dacia.imagePosition} sizes="92vw" />
-            <AssetCaption index="01" title={dacia.name} status={dacia.status[locale]} city={dacia.city} href={p(`/portfolio/${dacia.slug}`)} locale={locale} />
+            <AssetCaption index="01" title={dacia.name} positioning={dacia.positioning[locale]} meta={`${dacia.district[locale]} · ${dacia.city[locale]}`} href={p(`/portfolio/${dacia.slug}`)} locale={locale} />
           </article>
 
           <div className="asset-pair">
             <article className="asset-card asset-card--wide" data-reveal>
               <AssetMedia src={moscova9.image!} alt={`${moscova9.name} — MEGAPARC`} position={moscova9.imagePosition} sizes="(max-width: 720px) 92vw, 56vw" />
-              <AssetCaption index="02" title={moscova9.name} status={moscova9.status[locale]} city={moscova9.city} href={p(`/portfolio/${moscova9.slug}`)} locale={locale} />
+              <AssetCaption index="02" title={moscova9.name} positioning={moscova9.positioning[locale]} meta={`${moscova9.district[locale]} · ${moscova9.city[locale]}`} href={p(`/portfolio/${moscova9.slug}`)} locale={locale} />
             </article>
             <article className="asset-card asset-card--tall" data-reveal>
               <AssetMedia src={moscova20.image!} alt={`${moscova20.name} — MEGAPARC`} position={moscova20.imagePosition} sizes="(max-width: 720px) 92vw, 36vw" />
-              <AssetCaption index="03" title={moscova20.name} status={moscova20.status[locale]} city={moscova20.city} href={p(`/portfolio/${moscova20.slug}`)} locale={locale} />
+              <AssetCaption index="03" title={moscova20.name} positioning={moscova20.positioning[locale]} meta={`${moscova20.district[locale]} · ${moscova20.city[locale]}`} href={p(`/portfolio/${moscova20.slug}`)} locale={locale} />
             </article>
           </div>
 
           <article className="asset-card asset-card--placeholder" data-reveal>
             <MediaPlaceholder title={creanga.name} note={ui.photoPending[locale]} />
-            <AssetCaption index="04" title={creanga.name} status={creanga.status[locale]} city={creanga.city} href={p(`/portfolio/${creanga.slug}`)} locale={locale} />
+            <AssetCaption index="04" title={creanga.name} positioning={creanga.positioning[locale]} meta={creanga.city[locale]} href={p(`/portfolio/${creanga.slug}`)} locale={locale} />
           </article>
 
           <div className="portfolio__footer">
@@ -309,8 +407,8 @@ export function HomePage({ locale }: { locale: SiteLocale }) {
       <section className="development" id="dezvoltare">
         <div className="development__media">
           <Image
-            src={developmentProject.image}
-            alt={`${developmentProject.name} — MEGAPARC`}
+            src={vatra.image!}
+            alt={`${vatra.name} — MEGAPARC`}
             fill
             sizes="100vw"
             className="development__image"
@@ -319,10 +417,10 @@ export function HomePage({ locale }: { locale: SiteLocale }) {
           <div className="development__shade" />
         </div>
         <div className="development__content shell">
-          <SectionIndex no="04" inverse>{c.developmentIndex}</SectionIndex>
+          <SectionIndex no="06" inverse>{c.developmentIndex}</SectionIndex>
           <div className="development__copy" data-reveal>
             <div>
-              <p className="eyebrow eyebrow--red">{developmentProject.name}</p>
+              <p className="eyebrow eyebrow--red">{vatra.name} · {vatra.place[locale]}</p>
               <h2>
                 {c.developmentTitle[0]}
                 <br />
@@ -332,8 +430,11 @@ export function HomePage({ locale }: { locale: SiteLocale }) {
             <div className="development__aside">
               <p>{c.developmentText}</p>
               <div className="development__stages">
-                {c.stages.map((stage) => (
-                  <span key={stage}>{stage}</span>
+                {developmentProjects.map((project) => (
+                  <Link key={project.slug} href={p(`/development/${project.slug}`)}>
+                    <span>{project.name}</span>
+                    <span>{project.status[locale]}</span>
+                  </Link>
                 ))}
               </div>
               <ArrowLink href={p("/development/vatra")} inverse>{c.developmentCta}</ArrowLink>
@@ -344,7 +445,7 @@ export function HomePage({ locale }: { locale: SiteLocale }) {
 
       <section className="availability paper" id="disponibilitati">
         <div className="shell">
-          <SectionIndex no="05">{c.availabilityIndex}</SectionIndex>
+          <SectionIndex no="07">{c.availabilityIndex}</SectionIndex>
           <div className="availability__grid" data-reveal>
             <div>
               <p className="eyebrow eyebrow--red">{c.availabilityEyebrow}</p>
@@ -356,16 +457,26 @@ export function HomePage({ locale }: { locale: SiteLocale }) {
             </div>
             <div className="availability__copy">
               <p>{c.availabilityText}</p>
-              <p className="data-pending">{c.availabilityPending}</p>
               <ArrowLink href={p("/opportunities")}>{c.availabilityCta}</ArrowLink>
             </div>
+          </div>
+          <div className="availability__list" data-reveal>
+            {availableAssets.map((asset) => (
+              <Link key={asset.slug} href={p(`/portfolio/${asset.slug}`)} className="availability__row">
+                <span className="availability__name">{asset.name}</span>
+                <span className="availability__meta">{asset.positioning[locale]} · {asset.district[locale]}</span>
+                <span className="availability__area">{asset.availability!.area[locale]}</span>
+                <span className="availability__from">{asset.availability!.from ? `${ui.availableFrom[locale]} ${asset.availability!.from[locale]}` : asset.availability!.headline[locale]}</span>
+                <span className="availability__arrow" aria-hidden="true">↗</span>
+              </Link>
+            ))}
           </div>
         </div>
       </section>
 
       <section className="principles ink">
         <div className="shell">
-          <SectionIndex no="06" inverse>{c.principlesIndex}</SectionIndex>
+          <SectionIndex no="08" inverse>{c.principlesIndex}</SectionIndex>
           <div className="principles__heading" data-reveal>
             <h2>
               {c.principlesTitle[0]}
@@ -388,7 +499,7 @@ export function HomePage({ locale }: { locale: SiteLocale }) {
       <section className="register paper">
         <div className="shell register__grid">
           <div data-reveal>
-            <SectionIndex no="07">{c.registerIndex}</SectionIndex>
+            <SectionIndex no="09">{c.registerIndex}</SectionIndex>
             <h2>
               {c.registerTitle[0]}
               <br />
@@ -401,18 +512,20 @@ export function HomePage({ locale }: { locale: SiteLocale }) {
               <Link key={asset.slug} className="register__row" href={p(`/portfolio/${asset.slug}`)}>
                 <span className="register__no">0{index + 1}</span>
                 <span className="register__name">{asset.name}</span>
-                <span className="register__meta">{asset.status[locale]}</span>
-                <span className="register__meta">{asset.city}</span>
+                <span className="register__meta">{asset.positioning[locale]}</span>
+                <span className="register__meta">{asset.district.en === asset.city.en ? asset.city[locale] : `${asset.district[locale]} · ${asset.city[locale]}`}</span>
                 <span className="register__arrow" aria-hidden="true">↗</span>
               </Link>
             ))}
-            <Link className="register__row" href={p("/development/vatra")}>
-              <span className="register__no">05</span>
-              <span className="register__name">{developmentProject.name}</span>
-              <span className="register__meta">{developmentProject.status[locale]}</span>
-              <span className="register__meta">Chișinău</span>
-              <span className="register__arrow" aria-hidden="true">↗</span>
-            </Link>
+            {developmentProjects.map((project, index) => (
+              <Link key={project.slug} className="register__row" href={p(`/development/${project.slug}`)}>
+                <span className="register__no">0{portfolioAssets.length + index + 1}</span>
+                <span className="register__name">{project.name}</span>
+                <span className="register__meta">{project.status[locale]}</span>
+                <span className="register__meta">{project.place[locale]}</span>
+                <span className="register__arrow" aria-hidden="true">↗</span>
+              </Link>
+            ))}
             <span className="register__caption">{c.registerCaption}</span>
           </div>
         </div>
@@ -424,14 +537,14 @@ export function HomePage({ locale }: { locale: SiteLocale }) {
           <div className="precontact__veil" />
         </div>
         <div className="shell precontact__content" data-reveal>
-          <span>{brand.name} · Chișinău</span>
+          <span>{brand.name} · {brand.city[locale]}</span>
           <p>{c.precontact}</p>
         </div>
       </section>
 
       <section className="contact ink" id="contact">
         <div className="shell">
-          <SectionIndex no="08" inverse>{c.contactIndex}</SectionIndex>
+          <SectionIndex no="10" inverse>{c.contactIndex}</SectionIndex>
           <div className="contact__grid" data-reveal>
             <h2>
               {c.contactTitle[0]}
@@ -442,7 +555,6 @@ export function HomePage({ locale }: { locale: SiteLocale }) {
               <ArrowLink href={p("/opportunities")} inverse>{c.contactA}</ArrowLink>
               <ArrowLink href={p("/contact")} inverse>{c.contactB}</ArrowLink>
               <ArrowLink href={p("/contact")} inverse>{c.contactC}</ArrowLink>
-              <p className="contact__note">{ui.legalPending[locale]}</p>
             </div>
           </div>
         </div>

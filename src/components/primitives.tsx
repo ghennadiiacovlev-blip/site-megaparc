@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
+import type { Fact } from "@/lib/assets";
+import type { SiteLocale } from "@/lib/site-data";
 
 /** Text-led call to action: `Label ↗`. */
 export function ArrowLink({
@@ -74,9 +76,39 @@ export function PageHero({
   );
 }
 
-/** Honest pending state for OWNER inputs. Never masquerades as a fact. */
-export function DataPending({ children, light = false }: { children: ReactNode; light?: boolean }) {
-  return <p className={`data-pending${light ? " data-pending--light" : ""}`}>{children}</p>;
+/** Quiet editorial note (used for "available on request" and disclaimers). Never an internal label. */
+export function Note({ children, light = false }: { children: ReactNode; light?: boolean }) {
+  return <p className={`note${light ? " note--light" : ""}`}>{children}</p>;
+}
+
+/** Editorial fact grid: large values, small labels. */
+export function FactGrid({ facts, locale, light = false }: { facts: Fact[]; locale: SiteLocale; light?: boolean }) {
+  if (!facts.length) return null;
+  return (
+    <dl className={`fact-grid${light ? " fact-grid--light" : ""}`}>
+      {facts.map((fact) => (
+        <div key={fact.label.en}>
+          <dt>{fact.label[locale]}</dt>
+          <dd>{fact.value[locale]}</dd>
+        </div>
+      ))}
+    </dl>
+  );
+}
+
+/** Hairline list of label / value rows (floor programme, details). */
+export function FactList({ facts, locale, light = false }: { facts: Fact[]; locale: SiteLocale; light?: boolean }) {
+  if (!facts.length) return null;
+  return (
+    <dl className={`fact-list${light ? " fact-list--light" : ""}`}>
+      {facts.map((fact) => (
+        <div key={fact.label.en}>
+          <dt>{fact.label[locale]}</dt>
+          <dd>{fact.value[locale]}</dd>
+        </div>
+      ))}
+    </dl>
+  );
 }
 
 /** Cover image with reveal veil, depth and hover line. */
