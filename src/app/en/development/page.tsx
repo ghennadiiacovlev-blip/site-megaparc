@@ -1,4 +1,9 @@
 import type { Metadata } from "next";
 import { DevelopmentIndexPage } from "@/components/pages/development";
-export const metadata: Metadata = { title: { absolute: "MEGAPARC Development" } };
-export default function Page(){ return <DevelopmentIndexPage locale="en" />; }
+import { pageMetadata } from "@/lib/seo";
+
+export const metadata: Metadata = pageMetadata("en", "development", "/development");
+
+export default function Page() {
+  return <DevelopmentIndexPage locale="en" />;
+}
