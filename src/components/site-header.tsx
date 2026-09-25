@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { LanguageSwitcher } from "@/components/language-switcher";
+import { MobileMenu } from "@/components/mobile-menu";
 import { SiteNav } from "@/components/site-nav";
 import { brand, localePath, ui, type SiteLocale } from "@/lib/site-data";
 
@@ -29,6 +30,7 @@ export function Brand({
  * One header for the whole site.
  * `overlay` sits over the homepage hero and darkens on scroll;
  * `solid` is the sticky paper header used on interior routes.
+ * RO · RU · EN are always visible and always active.
  */
 export function SiteHeader({
   locale,
@@ -44,22 +46,7 @@ export function SiteHeader({
         <SiteNav locale={locale} />
         <div className="site-header__tools">
           <LanguageSwitcher locale={locale} />
-          <details className="mobile-menu">
-            <summary aria-label={ui.openMenu[locale]}>
-              <span className="mobile-menu__label">{ui.menu[locale]}</span>
-              <span className="mobile-menu__icon" aria-hidden="true">
-                <i />
-                <i />
-              </span>
-            </summary>
-            <div className="mobile-menu__panel">
-              <SiteNav locale={locale} variant="mobile" />
-              <div className="mobile-menu__foot">
-                <LanguageSwitcher locale={locale} variant="mobile" />
-                <span className="label">{brand.positioning}</span>
-              </div>
-            </div>
-          </details>
+          <MobileMenu locale={locale} />
         </div>
       </div>
     </header>
