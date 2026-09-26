@@ -75,9 +75,9 @@ export const mission: Titled = {
 export const vision: Titled = {
   title: { ro: "Viziune", ru: "Видение", en: "Vision" },
   text: {
-    ro: "O platformă imobiliară integrată, profesionistă, capabilă să creeze, să dezvolte și să păstreze valoare pe întreg ciclul de investiție, cu baza în Moldova, cu un mandat global și cu ambiția de a deveni un reper regional.",
-    ru: "Профессиональная интегрированная платформа недвижимости, способная создавать, развивать и сохранять стоимость на протяжении всего инвестиционного цикла, с базой в Молдове, глобальным мандатом и амбицией стать ориентиром в регионе.",
-    en: "A professional, integrated real-estate platform capable of creating, developing and preserving value across the full investment cycle, based in Moldova, with a global mandate and the ambition of becoming a regional reference.",
+    ro: "O platformă imobiliară integrată, profesionistă, capabilă să creeze, să dezvolte și să păstreze valoare pe întreg ciclul de investiție, cu baza în Moldova, care investește la nivel internațional și are ambiția de a deveni un reper regional.",
+    ru: "Профессиональная интегрированная платформа недвижимости, способная создавать, развивать и сохранять стоимость на протяжении всего инвестиционного цикла, с базой в Молдове, инвестирующая по всему миру, с амбицией стать ориентиром в регионе.",
+    en: "A professional, integrated real-estate platform capable of creating, developing and preserving value across the full investment cycle, based in Moldova, investing worldwide, with the ambition of becoming a regional reference.",
   },
 };
 
@@ -105,27 +105,27 @@ export const ownerMindset = {
 
 /**
  * MOLDOVA = current verified operating / portfolio base.
- * GLOBAL MARKETS = future investment opportunity universe.
+ * WORLDWIDE = investment opportunities are evaluated internationally.
  * No target countries, foreign offices, foreign holdings, ticket sizes,
  * allocations or thresholds are published. Nothing here implies that
  * MEGAPARC already owns or operates assets outside Moldova.
  */
 export const investmentMandate = {
-  kicker: { ro: "Mandat de investiții", ru: "Инвестиционный мандат", en: "Investment mandate" } satisfies Localized,
+  kicker: { ro: "Unde investim", ru: "Где мы инвестируем", en: "Where we invest" } satisfies Localized,
   statement: {
-    ro: ["Cu baza în Moldova.", "Investim cu un mandat global."],
-    ru: ["База — Молдова.", "Инвестируем с глобальным мандатом."],
-    en: ["Based in Moldova.", "Investing with a global mandate."],
+    ro: ["Moldova este baza noastră operațională.", "Analizăm oportunități de investiții imobiliare la nivel internațional."],
+    ru: ["Молдова — наша операционная база.", "Инвестиционные возможности рассматриваем по всему миру."],
+    en: ["Moldova is our operating base.", "We evaluate real-estate investment opportunities worldwide."],
   } as Record<SiteLocale, string[]>,
   expression: {
-    ro: "Oportunitate globală. Capital disciplinat.",
-    ru: "Глобальные возможности. Дисциплинированный капитал.",
-    en: "Global opportunity. Disciplined capital.",
+    ro: "Investim în imobiliare la nivel internațional.",
+    ru: "Инвестируем в недвижимость по всему миру.",
+    en: "We invest in real estate worldwide.",
   } satisfies Localized,
   text: {
-    ro: "Portofoliul operațional și proiectele de dezvoltare ale MEGAPARC se află în Republica Moldova. Mandatul de investiții nu se oprește la graniță: evaluăm oportunități imobiliare oriunde logica economică, activul și partenerii îndeplinesc aceleași criterii.",
-    ru: "Операционный портфель и девелоперские проекты MEGAPARC находятся в Республике Молдова. Инвестиционный мандат не заканчивается на границе: мы рассматриваем возможности в недвижимости везде, где экономическая логика, актив и партнёры отвечают тем же критериям.",
-    en: "MEGAPARC's operating portfolio and development projects are in the Republic of Moldova. The investment mandate does not stop at the border: we evaluate real-estate opportunities wherever the economic logic, the asset and the partners meet the same criteria.",
+    ro: "Portofoliul operațional și proiectele de dezvoltare ale MEGAPARC se află în Republica Moldova. Oportunitățile de investiții le analizăm oriunde activul, locația și partenerii îndeplinesc aceleași criterii.",
+    ru: "Операционный портфель и девелоперские проекты MEGAPARC находятся в Республике Молдова. Инвестиционные возможности мы рассматриваем везде, где актив, локация и партнёры отвечают тем же критериям.",
+    en: "MEGAPARC's operating portfolio and development projects are in the Republic of Moldova. We evaluate investment opportunities wherever the asset, the location and the partners meet the same criteria.",
   } satisfies Localized,
   base: {
     title: { ro: "Moldova", ru: "Молдова", en: "Moldova" } satisfies Localized,
@@ -138,7 +138,7 @@ export const investmentMandate = {
   },
   global: {
     title: { ro: "Piețe globale", ru: "Глобальные рынки", en: "Global markets" } satisfies Localized,
-    role: { ro: "Universul de oportunități de investiție", ru: "Вселенная инвестиционных возможностей", en: "The investment opportunity universe" } satisfies Localized,
+    role: { ro: "Oportunități de investiții la nivel internațional", ru: "Инвестиционные возможности по всему миру", en: "Investment opportunities worldwide" } satisfies Localized,
     points: {
       ro: ["Imobiliare generatoare de venit", "Amplasamente de dezvoltare", "Oportunități de repoziționare", "Proiecte imobiliare strategice", "Parteneriate și joint ventures"],
       ru: ["Доходная недвижимость", "Площадки под развитие", "Возможности репозиционирования", "Стратегические проекты недвижимости", "Партнёрства и совместные предприятия"],
@@ -294,9 +294,9 @@ export const megaparc2030 = {
     en: "From property ownership to an institutional real estate platform",
   } satisfies Localized,
   intro: {
-    ro: "O direcție strategică publică, nu un plan financiar public. Șapte piloni descriu cum MEGAPARC intenționează să crească în calitate, nu doar în scară: cu baza în Moldova și cu un mandat de investiții global.",
-    ru: "Публичное стратегическое направление, а не публичный финансовый план. Семь опор описывают, как MEGAPARC намерена расти в качестве, а не только в масштабе: с базой в Молдове и глобальным инвестиционным мандатом.",
-    en: "A public strategic direction, not a public financial plan. Seven pillars describe how MEGAPARC intends to grow in quality, not merely in scale: based in Moldova, with a global investment mandate.",
+    ro: "O direcție strategică publică, nu un plan financiar public. Șapte piloni descriu cum MEGAPARC intenționează să crească în calitate, nu doar în scară: cu baza în Moldova și cu oportunități de investiții analizate la nivel internațional.",
+    ru: "Публичное стратегическое направление, а не публичный финансовый план. Семь опор описывают, как MEGAPARC намерена расти в качестве, а не только в масштабе: с базой в Молдове и инвестиционными возможностями по всему миру.",
+    en: "A public strategic direction, not a public financial plan. Seven pillars describe how MEGAPARC intends to grow in quality, not merely in scale: based in Moldova, evaluating investment opportunities worldwide.",
   } satisfies Localized,
   equation: { ro: "MEGAPARC = capital + active + oameni + disciplină", ru: "MEGAPARC = капитал + активы + люди + дисциплина", en: "MEGAPARC = capital + assets + people + discipline" } satisfies Localized,
   pillars: [
@@ -334,10 +334,10 @@ export const megaparc2030 = {
       no: "04",
       title: { ro: "Disciplina capitalului", ru: "Дисциплина капитала", en: "Capital discipline" },
       idea: { ro: "Fiecare investiție concurează pentru capital.", ru: "Каждая инвестиция конкурирует за капитал.", en: "Every investment competes for capital." },
-      text: { ro: "Locația, utilizarea, potențialul fizic, logica economică, reziliența la scădere și opționalitatea pe termen lung sunt evaluate înainte de orice angajament, indiferent de geografie.", ru: "Локация, назначение, физический потенциал, экономическая логика, устойчивость к спаду и долгосрочная опциональность оцениваются до любого обязательства, независимо от географии.", en: "Location, use, physical potential, economic logic, downside resilience and long-term optionality are assessed before any commitment, whatever the geography." },
+      text: { ro: "Locația, utilizarea, potențialul fizic, logica economică, reziliența la scădere și flexibilitatea pe termen lung sunt evaluate înainte de orice angajament, indiferent de geografie.", ru: "Локация, назначение, физический потенциал, экономическая логика, устойчивость к спаду и долгосрочная гибкость оцениваются до любого обязательства, независимо от географии.", en: "Location, use, physical potential, economic logic, downside resilience and long-term optionality are assessed before any commitment, whatever the geography." },
       points: {
-        ro: ["Locație", "Utilizare", "Potențial fizic", "Logică economică", "Reziliență", "Opționalitate"],
-        ru: ["Локация", "Назначение", "Физический потенциал", "Экономическая логика", "Устойчивость", "Опциональность"],
+        ro: ["Locație", "Utilizare", "Potențial fizic", "Logică economică", "Reziliență", "Flexibilitate pe termen lung"],
+        ru: ["Локация", "Назначение", "Физический потенциал", "Экономическая логика", "Устойчивость", "Долгосрочная гибкость"],
         en: ["Location", "Use", "Physical potential", "Economic logic", "Downside resilience", "Optionality"],
       },
     },
@@ -432,9 +432,9 @@ export const historyAnchors: HistoryAnchor[] = [
     scope: "megaparc",
     title: { ro: "Investim · Dezvoltăm · Administrăm", ru: "Инвестируем · Развиваем · Управляем", en: "Invest · Develop · Manage" },
     text: {
-      ro: "O platformă integrată de investiții imobiliare cu baza în Moldova: active operaționale, proiecte de dezvoltare, un mandat de investiții global și o direcție strategică până în 2030.",
-      ru: "Интегрированная платформа инвестиций в недвижимость с базой в Молдове: операционные активы, девелоперские проекты, глобальный инвестиционный мандат и стратегическое направление до 2030 года.",
-      en: "An integrated real-estate investment platform based in Moldova: operating assets, development projects, a global investment mandate and a strategic direction to 2030.",
+      ro: "O platformă integrată de investiții imobiliare cu baza în Moldova: active operaționale, proiecte de dezvoltare, oportunități de investiții analizate la nivel internațional și o direcție strategică până în 2030.",
+      ru: "Интегрированная платформа инвестиций в недвижимость с базой в Молдове: операционные активы, девелоперские проекты, инвестиционные возможности, рассматриваемые по всему миру, и стратегическое направление до 2030 года.",
+      en: "An integrated real-estate investment platform based in Moldova: operating assets, development projects, investment opportunities evaluated worldwide and a strategic direction to 2030.",
     },
   },
 ];

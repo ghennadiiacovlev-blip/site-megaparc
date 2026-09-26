@@ -29,11 +29,11 @@ export const brandLayers = {
     ru: "Интегрированная платформа инвестиций в недвижимость",
     en: "Integrated real estate investment platform",
   } satisfies Localized,
-  /** Global investment mandate (OWNER addendum 2026-09-26). Moldova = verified base; global markets = opportunity universe. */
+  /** Investment geography (OWNER addendum + v3 wording). Moldova = operating base; opportunities evaluated worldwide. */
   mandate: {
-    ro: "Cu baza în Moldova. Investim cu un mandat global.",
-    ru: "База — Молдова. Инвестируем с глобальным мандатом.",
-    en: "Based in Moldova. Investing with a global mandate.",
+    ro: "Moldova este baza noastră operațională. Investim în imobiliare la nivel internațional.",
+    ru: "Молдова — наша операционная база. Инвестируем в недвижимость по всему миру.",
+    en: "Moldova is our operating base. We invest in real estate worldwide.",
   } satisfies Localized,
   /** Capabilities line, localised for body use. The English line is also a brand device. */
   capabilities: {

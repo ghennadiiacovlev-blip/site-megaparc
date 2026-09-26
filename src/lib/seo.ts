@@ -32,17 +32,17 @@ export const pageSeo = {
       en: "MEGAPARC — Real Estate Investment, Development & Asset Management",
     },
     description: {
-      ro: "Imobiliare administrate ca capital. Platformă integrată de investiții imobiliare cu baza în Moldova și un mandat de investiții global: investim, dezvoltăm, administrăm.",
-      ru: "Недвижимость, управляемая как капитал. Интегрированная платформа инвестиций в недвижимость с базой в Молдове и глобальным инвестиционным мандатом: инвестируем, развиваем, управляем.",
-      en: "Real estate managed as capital. An integrated real-estate investment platform based in Moldova with a global investment mandate: invest, develop, manage.",
+      ro: "Investim în imobiliare, dezvoltăm și administrăm active. Moldova este baza noastră operațională; analizăm oportunități de investiții imobiliare la nivel internațional.",
+      ru: "Инвестируем в недвижимость, развиваем и управляем активами. Молдова — наша операционная база; инвестиционные возможности рассматриваем по всему миру.",
+      en: "We invest in real estate, develop and manage assets. Moldova is our operating base; we evaluate real-estate investment opportunities worldwide.",
     },
   },
   approach: {
     title: { ro: "Abordarea noastră — Cum gândește MEGAPARC", ru: "Наш подход — Как мыслит MEGAPARC", en: "Our Approach — How MEGAPARC Thinks" },
     description: {
-      ro: "Filosofie de investiții, mandat global, principii, ciclul de creare a valorii și direcția strategică MEGAPARC 2030.",
-      ru: "Инвестиционная философия, глобальный мандат, принципы, цикл создания стоимости и стратегическое направление MEGAPARC 2030.",
-      en: "Investment philosophy, global mandate, principles, the value-creation cycle and the MEGAPARC 2030 strategic direction.",
+      ro: "Filosofie de investiții, unde investim, principii, ciclul de creare a valorii și direcția strategică MEGAPARC 2030.",
+      ru: "Инвестиционная философия, где мы инвестируем, принципы, цикл создания стоимости и стратегическое направление MEGAPARC 2030.",
+      en: "Investment philosophy, where we invest, principles, the value-creation cycle and the MEGAPARC 2030 strategic direction.",
     },
   },
   about: {

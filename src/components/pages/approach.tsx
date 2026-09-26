@@ -1,7 +1,7 @@
 import { PageShell } from "@/components/page-shell";
 import { ArrowLink, ImageBreak, PageHero } from "@/components/primitives";
 import { JourneysSection } from "@/components/sections/company-sections";
-import { CapitalSection, MandateSection, ManifestoSection, MindsetSection, PlatformSection, PrinciplesSection, Strategy2030Section, ValueCycleSection } from "@/components/sections/strategy-sections";
+import { CapitalSection, MandateSection, ManifestoSection, MindsetSection, PlatformSection, PrinciplesSection, SignatureSection, Strategy2030Section, ValueCycleSection } from "@/components/sections/strategy-sections";
 import { developmentProjects, portfolioAssets } from "@/lib/assets";
 import { brandLayers } from "@/lib/brand";
 import { megaparc2030 } from "@/lib/strategy";
@@ -60,6 +60,7 @@ export function ApproachPage({ locale }: { locale: SiteLocale }) {
       <ManifestoSection locale={locale} no={no()} />
       <MandateSection locale={locale} no={no()} surface="stone" counts={{ operating: portfolioAssets.length, projects: developmentProjects.length }} />
       <PlatformSection locale={locale} no={no()} links={false} />
+      <SignatureSection locale={locale} />
       <ValueCycleSection locale={locale} no={no()} surface="stone" />
       <ImageBreak media={dacia.media!} alt={`${dacia.name} — ${dacia.positioning[locale]}`} statementLabel={c.breakLabel} statement={megaparc2030.pillars[3].idea![locale]} />
       <PrinciplesSection locale={locale} no={no()} cta={{ href: "#megaparc-2030", label: c.principlesCta }} />

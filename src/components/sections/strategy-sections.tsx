@@ -92,12 +92,12 @@ export function ManifestoSection({ locale, no, surface = "ink" }: { locale: Site
 /* Capital at work — temporary review-only figures                     */
 /* ------------------------------------------------------------------ */
 
-export function CapitalSection({ locale, no, surface = "ink", id }: { locale: SiteLocale; no: string; surface?: Surface; id?: string }) {
+export function CapitalSection({ locale, no, surface = "ink", id, compact = false }: { locale: SiteLocale; no: string; surface?: Surface; id?: string; compact?: boolean }) {
   return (
-    <section className={`capital ${surface}`} id={id ?? "capital"} aria-label={capitalCopy.kicker[locale]}>
+    <section className={`capital ${surface}${compact ? " capital--compact" : ""}`} id={id ?? "capital"} aria-label={capitalCopy.kicker[locale]}>
       <div className="shell">
-        <SectionIndex no={no} inverse={isDark(surface)}>{capitalCopy.kicker[locale]}</SectionIndex>
-        <SectionHead title={capitalCopy.title[locale]} text={capitalCopy.text[locale]} />
+        {compact ? <span className="label label--light">{capitalCopy.kicker[locale]}</span> : <SectionIndex no={no} inverse={isDark(surface)}>{capitalCopy.kicker[locale]}</SectionIndex>}
+        {compact ? null : <SectionHead title={capitalCopy.title[locale]} text={capitalCopy.text[locale]} />}
         <dl className="capital__grid">
           {publicFinancialMetrics.map((metric) => {
             const [amount, suffix] = splitDisplay(metric.display);
@@ -394,14 +394,14 @@ export function Strategy2030Teaser({ locale, no }: { locale: SiteLocale; no: str
 }
 
 /* ------------------------------------------------------------------ */
-/* Global investment mandate — MOLDOVA base · GLOBAL MARKETS universe   */
+/* Where we invest — MOLDOVA operating base · opportunities WORLDWIDE     */
 /* ------------------------------------------------------------------ */
 
 const mandateCopy = {
   operating: { ro: "Active operaționale", ru: "Операционные активы", en: "Operating assets" },
   projects: { ro: "Proiecte de dezvoltare", ru: "Девелоперские проекты", en: "Development projects" },
   verified: { ro: "Verificat", ru: "Подтверждено", en: "Verified" },
-  universe: { ro: "Mandat", ru: "Мандат", en: "Mandate" },
+  universe: { ro: "La nivel internațional", ru: "По всему миру", en: "Worldwide" },
 } satisfies Record<string, Localized>;
 
 export function MandateSection({
