@@ -8,7 +8,7 @@ import { brand, localePath, type Localized, type SiteLocale } from "@/lib/site-d
 const copy = {
   navigate: { ro: "Navigare", ru: "Навигация", en: "Navigate" },
   corporate: { ro: "Companie", ru: "Компания", en: "Company" },
-  work: { ro: "Lucrează cu MEGAPARC", ru: "Работать с MEGAPARC", en: "Work with MEGAPARC" },
+  work: { ro: "Colaborare", ru: "Сотрудничество", en: "Work with us" },
   editions: { ro: "Limbă", ru: "Язык", en: "Language" },
   legal: {
     ro: "Informații juridice și de confidențialitate disponibile la cerere.",
@@ -16,9 +16,9 @@ const copy = {
     en: "Legal and privacy information available on request.",
   },
   statement: {
-    ro: "Investim, dezvoltăm și administrăm active imobiliare cu perspectiva unui proprietar pe termen lung.",
-    ru: "Инвестируем, развиваем и управляем недвижимостью с позиции долгосрочного собственника.",
-    en: "We invest in, develop and manage real estate with a long-term owner's perspective.",
+    ro: "Investim, dezvoltăm și administrăm imobiliare.",
+    ru: "Инвестируем, развиваем и управляем недвижимостью.",
+    en: "We invest in, develop and manage real estate.",
   },
 } satisfies Record<string, Localized>;
 
@@ -39,7 +39,7 @@ export function SiteFooter({ locale }: { locale: SiteLocale }) {
           <div className="site-footer__col">
             <span className="label label--light">{brand.name}</span>
             <p className="site-footer__statement">{copy.statement[locale]}</p>
-            <span className="site-footer__note">{brandLayers.strategicIdea[locale]}</span>
+            <span className="site-footer__note">{brandLayers.platform[locale]}</span>
           </div>
           <div className="site-footer__col">
             <span className="label label--light">{copy.navigate[locale]}</span>

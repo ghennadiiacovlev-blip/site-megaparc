@@ -13,9 +13,9 @@ export const brandLayers = {
   statement: { ro: "Construim viitorul.", ru: "Строим будущее.", en: "We build the future." } satisfies Localized,
   /** Investment philosophy. */
   strategicIdea: {
-    ro: "Imobiliare administrate ca capital",
-    ru: "Недвижимость, управляемая как капитал",
-    en: "Real estate managed as capital",
+    ro: "Imobiliarele ca activ de business",
+    ru: "Недвижимость как бизнес-актив",
+    en: "Real estate as a business asset",
   } satisfies Localized,
   /** Business model. */
   model: {
@@ -25,15 +25,15 @@ export const brandLayers = {
   } satisfies Localized,
   /** Positioning. */
   platform: {
-    ro: "Platformă integrată de investiții imobiliare",
-    ru: "Интегрированная платформа инвестиций в недвижимость",
-    en: "Integrated real estate investment platform",
+    ro: "Investiții, dezvoltare și administrare imobiliară",
+    ru: "Инвестиции, девелопмент и управление недвижимостью",
+    en: "Real estate investment, development and asset management",
   } satisfies Localized,
-  /** Investment geography (OWNER addendum + v3 wording). Moldova = operating base; opportunities evaluated worldwide. */
+  /** Investment geography (OWNER addendum). Current portfolio in Moldova; opportunities considered worldwide. */
   mandate: {
-    ro: "Moldova este baza noastră operațională. Investim în imobiliare la nivel internațional.",
-    ru: "Молдова — наша операционная база. Инвестируем в недвижимость по всему миру.",
-    en: "Moldova is our operating base. We invest in real estate worldwide.",
+    ro: "Portofoliul actual este în Moldova. Analizăm oportunități de investiții la nivel internațional.",
+    ru: "Действующий портфель — в Молдове. Инвестиционные возможности рассматриваем по всему миру.",
+    en: "The current portfolio is in Moldova. We consider investment opportunities worldwide.",
   } satisfies Localized,
   /** Capabilities line, localised for body use. The English line is also a brand device. */
   capabilities: {
@@ -53,14 +53,14 @@ export const signatureWords: Record<"ro" | "ru" | "en", string[]> = {
 export const brandEssence = {
   title: { ro: "Esența brandului", ru: "Суть бренда", en: "Brand essence" } satisfies Localized,
   text: {
-    ro: "MEGAPARC privește imobiliarele ca pe un capital care trebuie administrat cu responsabilitate, pe termen lung. Nu clădiri livrate, ci active care lucrează.",
-    ru: "MEGAPARC рассматривает недвижимость как капитал, которым нужно управлять ответственно и на долгий срок. Не сданные здания, а работающие активы.",
-    en: "MEGAPARC treats real estate as capital to be managed responsibly, over the long term. Not buildings delivered, but assets that work.",
+    ro: "MEGAPARC privește imobiliarele ca pe un activ de business care trebuie administrat responsabil și pe termen lung. Nu clădiri predate, ci obiecte care funcționează.",
+    ru: "MEGAPARC рассматривает недвижимость как бизнес-актив, которым нужно управлять ответственно и надолго. Не сданные здания, а работающие объекты.",
+    en: "MEGAPARC treats real estate as a business asset to be managed responsibly and for the long term. Not buildings handed over, but properties that work.",
   } satisfies Localized,
   words: {
-    ro: ["Instituțional", "Arhitectural", "Disciplinat", "Pe termen lung", "Proprietar"],
-    ru: ["Институциональный", "Архитектурный", "Дисциплинированный", "Долгосрочный", "Собственник"],
-    en: ["Institutional", "Architectural", "Disciplined", "Long-term", "Owner-minded"],
+    ro: ["Profesionist", "Arhitectural", "Consecvent", "Pe termen lung", "Proprietar"],
+    ru: ["Профессиональный", "Архитектурный", "Последовательный", "Долгосрочный", "Собственник"],
+    en: ["Professional", "Architectural", "Consistent", "Long-term", "Owner-minded"],
   } as Record<"ro" | "ru" | "en", string[]>,
 };
 

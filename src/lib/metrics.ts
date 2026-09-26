@@ -62,19 +62,19 @@ export function scaleMetrics(): ScaleMetric[] {
             ru: `${(portfolioMetrics.developmentLandArea / 10000).toFixed(1).replace(".", ",")} га`,
             en: `${(portfolioMetrics.developmentLandArea / 10000).toFixed(1)} ha`,
           },
-          label: { ro: "Teren pentru dezvoltare", ru: "Земля под девелопмент", en: "Development land" },
+          label: { ro: "Teren pentru dezvoltare", ru: "Земля под развитие", en: "Development land" },
         },
     {
       key: "operating",
       value: portfolioMetrics.operatingAssets,
       pad: 2,
-      label: { ro: "Active operaționale", ru: "Операционные активы", en: "Operating assets" },
+      label: { ro: "Obiecte în funcțiune", ru: "Действующие объекты", en: "Operating properties" },
     },
     {
       key: "projects",
       value: portfolioMetrics.developmentProjects,
       pad: 2,
-      label: { ro: "Proiecte de dezvoltare", ru: "Девелоперские проекты", en: "Development projects" },
+      label: { ro: "Proiecte de dezvoltare", ru: "Проекты развития", en: "Development projects" },
     },
   ];
   return list.filter((item): item is ScaleMetric => item !== null);

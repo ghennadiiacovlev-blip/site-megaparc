@@ -23,7 +23,7 @@ const isDark = (surface: Surface) => surface === "ink" || surface === "graphite"
 /* ------------------------------------------------------------------ */
 
 const philosophyCopy = {
-  cta: { ro: "Cum gândim", ru: "Как мы мыслим", en: "How we think" },
+  cta: { ro: "Abordarea noastră", ru: "Наш подход", en: "Our approach" },
 } satisfies Record<string, Localized>;
 
 export function PhilosophySection({ locale, no, id }: { locale: SiteLocale; no: string; id?: string }) {
@@ -126,16 +126,16 @@ function splitDisplay(display: string): [string, string] {
 }
 
 /* ------------------------------------------------------------------ */
-/* Integrated platform — INVESTMENT · DEVELOPMENT · ASSET MANAGEMENT    */
+/* What we do — INVESTMENT · DEVELOPMENT · ASSET MANAGEMENT             */
 /* ------------------------------------------------------------------ */
 
 const platformCopy = {
-  kicker: { ro: "Platformă integrată", ru: "Интегрированная платформа", en: "Integrated platform" },
-  title: { ro: "Trei capabilități. O singură decizie de investiție.", ru: "Три компетенции. Одно инвестиционное решение.", en: "Three capabilities. One investment decision." },
+  kicker: { ro: "Cum dezvoltăm și administrăm", ru: "Как мы развиваем и управляем", en: "How we develop and manage" },
+  title: { ro: "Investiții, dezvoltare și administrarea activelor.", ru: "Инвестиции, девелопмент и управление активами.", en: "Investment, development and asset management." },
   text: {
-    ro: "Investiția, dezvoltarea și administrarea activelor nu sunt departamente separate, ci un singur ciclu de proprietate.",
-    ru: "Инвестиции, девелопмент и управление активами — не отдельные департаменты, а единый цикл владения.",
-    en: "Investment, development and asset management are not separate departments, but one ownership cycle.",
+    ro: "Cele trei direcții lucrează ca un singur proces: de la decizia de investiție până la exploatarea obiectului.",
+    ru: "Три направления работают как единый процесс: от инвестиционного решения до эксплуатации объекта.",
+    en: "The three areas work as one process: from the investment decision to the operation of the property.",
   },
 } satisfies Record<string, Localized>;
 
@@ -178,9 +178,9 @@ export function PlatformSection({ locale, no, surface = "paper", links = true }:
 
 const signatureCopy = {
   text: {
-    ro: "Modelul de afaceri MEGAPARC, în patru cuvinte. Fiecare este o decizie de capital, nu o promisiune.",
-    ru: "Бизнес-модель MEGAPARC в четырёх словах. Каждое — решение о капитале, а не обещание.",
-    en: "The MEGAPARC business model in four words. Each one is a capital decision, not a promise.",
+    ro: "Patru cuvinte care descriu munca MEGAPARC.",
+    ru: "Четыре слова, которые описывают работу MEGAPARC.",
+    en: "Four words that describe what MEGAPARC does.",
   },
 } satisfies Record<string, Localized>;
 
@@ -241,8 +241,8 @@ export function ValueCycleSection({ locale, no, surface = "paper" }: { locale: S
 /* ------------------------------------------------------------------ */
 
 const principlesCopy = {
-  kicker: { ro: "Principiile noastre de investiție", ru: "Наши инвестиционные принципы", en: "Our investment principles" },
-  title: { ro: "Cinci principii. Nicio excepție.", ru: "Пять принципов. Без исключений.", en: "Five principles. No exceptions." },
+  kicker: { ro: "Principii de investiții", ru: "Принципы инвестирования", en: "Investment principles" },
+  title: { ro: "Cinci principii de investiții.", ru: "Пять принципов инвестирования.", en: "Five investment principles." },
 } satisfies Record<string, Localized>;
 
 export function PrinciplesSection({ locale, no, surface = "ink", cta }: { locale: SiteLocale; no: string; surface?: Surface; cta?: { href: string; label: string } }) {
@@ -353,12 +353,12 @@ function renderEquation(text: string) {
 
 const teaserCopy = {
   text: {
-    ro: "Direcția strategică publică a MEGAPARC: de la deținerea de proprietăți la o platformă imobiliară instituțională, în șapte piloni.",
-    ru: "Публичное стратегическое направление MEGAPARC: от владения недвижимостью к институциональной платформе, в семи опорах.",
-    en: "MEGAPARC's public strategic direction: from property ownership to an institutional real estate platform, in seven pillars.",
+    ro: "Direcția pe termen lung a MEGAPARC, în șapte puncte: portofoliu, proiecte, administrare, investiții, mediu urban, organizație, echipă.",
+    ru: "Долгосрочное направление MEGAPARC в семи пунктах: портфель, проекты, управление, инвестиции, городская среда, организация, команда.",
+    en: "MEGAPARC's long-term direction in seven points: portfolio, projects, management, investment, urban environment, organisation, team.",
   },
   cta: { ro: "Vezi MEGAPARC 2030", ru: "Смотреть MEGAPARC 2030", en: "See MEGAPARC 2030" },
-  pillar: { ro: "Pilon", ru: "Опора", en: "Pillar" },
+  pillar: { ro: "Direcție", ru: "Направление", en: "Direction" },
 } satisfies Record<string, Localized>;
 
 export function Strategy2030Teaser({ locale, no }: { locale: SiteLocale; no: string }) {
@@ -394,13 +394,13 @@ export function Strategy2030Teaser({ locale, no }: { locale: SiteLocale; no: str
 }
 
 /* ------------------------------------------------------------------ */
-/* Where we invest — MOLDOVA operating base · opportunities WORLDWIDE     */
+/* Where we invest — current portfolio in Moldova · opportunities worldwide */
 /* ------------------------------------------------------------------ */
 
 const mandateCopy = {
-  operating: { ro: "Active operaționale", ru: "Операционные активы", en: "Operating assets" },
-  projects: { ro: "Proiecte de dezvoltare", ru: "Девелоперские проекты", en: "Development projects" },
-  verified: { ro: "Verificat", ru: "Подтверждено", en: "Verified" },
+  operating: { ro: "Obiecte în funcțiune", ru: "Действующие объекты", en: "Operating properties" },
+  projects: { ro: "Proiecte de dezvoltare", ru: "Проекты развития", en: "Development projects" },
+  verified: { ro: "Confirmat", ru: "Подтверждено", en: "Confirmed" },
   universe: { ro: "La nivel internațional", ru: "По всему миру", en: "Worldwide" },
 } satisfies Record<string, Localized>;
 

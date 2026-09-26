@@ -7,10 +7,10 @@ import { brand, localePath, type SiteLocale } from "@/lib/site-data";
 const copy = {
   ro: {
     eyebrow: "Contact",
-    title: ["Construim", "ce"],
-    em: "urmează.",
-    lead: "Alege tipul discuției. Răspundem solicitărilor companiilor care caută un spațiu, proprietarilor care propun o oportunitate și partenerilor de capital sau de dezvoltare.",
-    pathsIndex: "Tipul discuției",
+    title: "Contactați",
+    em: "MEGAPARC.",
+    lead: "Alegeți subiectul solicitării: închirierea unui spațiu, propunerea unui obiect, investiții și parteneriat sau carieră.",
+    pathsIndex: "Subiectul solicitării",
     includeLabel: "Ce este util într-un prim mesaj",
     detailsIndex: "Date de contact",
     office: "Sediu",
@@ -18,17 +18,17 @@ const copy = {
     company: "Companie",
     companyValue: "MEGAPARC SRL",
     careers: "Cariere",
-    careersValue: "Candidaturile se transmit prin aceleași date de contact, cu mențiunea „Cariere”.",
+    careersValue: "CV-urile se transmit prin aceleași date de contact, cu mențiunea „Cariere”. Posturile deschise sunt publicate pe Rabota.md.",
     note: "Datele de contact directe și informațiile juridice sunt disponibile la cerere și vor fi publicate odată cu lansarea oficială a site-ului.",
-    careersCta: "Vezi Cariere",
+    careersCta: "Vezi posturile deschise",
     breakLabel: "MEGAPARC · Chișinău",
-    breakStatement: "Un singur interlocutor. Trei tipuri de discuție.",
+    breakStatement: "Investim, dezvoltăm și administrăm imobiliare.",
   },
   ru: {
     eyebrow: "Контакты",
-    title: ["Строим", "то, что"],
-    em: "дальше.",
-    lead: "Выберите тему обращения. Мы отвечаем компаниям, которые ищут помещение, владельцам, предлагающим объект, и партнёрам по капиталу или девелопменту.",
+    title: "Связаться с",
+    em: "MEGAPARC.",
+    lead: "Выберите тему обращения: аренда помещения, предложение объекта, инвестиции и партнёрство или карьера.",
     pathsIndex: "Тема обращения",
     includeLabel: "Что полезно указать в первом сообщении",
     detailsIndex: "Контактные данные",
@@ -37,18 +37,18 @@ const copy = {
     company: "Компания",
     companyValue: "MEGAPARC SRL",
     careers: "Карьера",
-    careersValue: "Заявки направляются по тем же контактным данным с пометкой «Карьера».",
+    careersValue: "Резюме направляются по тем же контактным данным с пометкой «Карьера». Открытые вакансии опубликованы на Rabota.md.",
     note: "Прямые контактные данные и юридическая информация предоставляются по запросу и будут опубликованы с официальным запуском сайта.",
-    careersCta: "Смотреть Карьеру",
+    careersCta: "Смотреть вакансии",
     breakLabel: "MEGAPARC · Кишинёв",
-    breakStatement: "Один собеседник. Три типа разговора.",
+    breakStatement: "Инвестируем, развиваем и управляем недвижимостью.",
   },
   en: {
     eyebrow: "Contact",
-    title: ["We build", "what comes"],
-    em: "next.",
-    lead: "Choose the purpose of the conversation. We respond to companies looking for a space, owners submitting an opportunity, and capital or development partners.",
-    pathsIndex: "Purpose",
+    title: "Contact",
+    em: "MEGAPARC.",
+    lead: "Choose the subject of your enquiry: leasing a space, proposing a property, investment and partnership, or careers.",
+    pathsIndex: "Subject",
     includeLabel: "What helps in a first message",
     detailsIndex: "Contact details",
     office: "Office",
@@ -56,11 +56,11 @@ const copy = {
     company: "Company",
     companyValue: "MEGAPARC SRL",
     careers: "Careers",
-    careersValue: "Applications are sent through the same contact details, marked \"Careers\".",
+    careersValue: "CVs are sent through the same contact details, marked \"Careers\". Open vacancies are published on Rabota.md.",
     note: "Direct contact details and legal information are available on request and will be published with the official launch of the website.",
-    careersCta: "See Careers",
+    careersCta: "See open vacancies",
     breakLabel: "MEGAPARC · Chișinău",
-    breakStatement: "One counterparty. Three kinds of conversation.",
+    breakStatement: "We invest in, develop and manage real estate.",
   },
 } as const;
 
@@ -75,9 +75,9 @@ export function ContactPage({ locale }: { locale: SiteLocale }) {
         eyebrow={c.eyebrow}
         title={
           <>
-            {c.title[0]}
+            {c.title}
             <br />
-            {c.title[1]} <em>{c.em}</em>
+            <em>{c.em}</em>
           </>
         }
         lead={c.lead}
@@ -128,7 +128,7 @@ export function ContactPage({ locale }: { locale: SiteLocale }) {
                   <dt>{c.office}</dt>
                   <dd>{c.officeValue}</dd>
                 </div>
-                <div id="careers">
+                <div id="careers-details">
                   <dt>{c.careers}</dt>
                   <dd>
                     {c.careersValue}

@@ -1,52 +1,49 @@
 import type { Localized, SiteLocale } from "@/lib/site-data";
 
 /**
- * Corporate strategy and philosophy — the single source for every strategic
- * statement on the site. Governance: docs/BRAND_BOOK_2_0.md, docs/MEGAPARC_2030.md.
- *
- * Nothing here discloses hurdle rates, IRR, payback, thresholds, debt or
- * internal model economics. Public strategic direction only.
+ * Public strategy copy — editorial source language is Russian
+ * (OWNER_EDITORIAL_COPY_BRIEF.md); RO and EN are professional adaptations.
+ * No hurdle rates, IRR, payback, thresholds, debt or internal economics.
  */
 
 export type Titled = { title: Localized; text: Localized };
 export type Numbered = Titled & { no: string };
 
 /* ------------------------------------------------------------------ */
-/* Philosophy                                                           */
+/* How we evaluate                                                      */
 /* ------------------------------------------------------------------ */
 
 export const philosophy = {
-  kicker: { ro: "Filosofie", ru: "Философия", en: "Philosophy" } satisfies Localized,
+  kicker: { ro: "Cum evaluăm", ru: "Как мы оцениваем объекты", en: "How we evaluate opportunities" } satisfies Localized,
   title: {
-    ro: "Imobiliarele nu sunt doar metri pătrați. Sunt capital.",
-    ru: "Недвижимость — не просто квадратные метры. Это капитал.",
-    en: "Real estate is not merely square metres. It is capital.",
+    ro: "Privim imobiliarele ca pe un activ de business.",
+    ru: "Рассматриваем недвижимость как бизнес-актив.",
+    en: "We treat real estate as a business asset.",
   } satisfies Localized,
   paragraphs: {
     ro: [
-      "Valoarea unui activ se formează pe întreg ciclul său de viață, nu doar la achiziție sau la finalizarea construcției.",
-      "De aceea privim fiecare obiect simultan ca proprietate, ca afacere în funcțiune, ca decizie de alocare a capitalului, ca loc și ca investiție pe termen lung.",
-      "Investim acolo unde vedem potențial. Dezvoltăm acolo unde putem crea valoare suplimentară. Administrăm așa cum administrează un proprietar interesat de calitatea activului peste ani.",
-      "Misiunea noastră este să creăm imobiliare care funcționează astăzi și rămân relevante mâine.",
+      "Înainte de a investi, evaluăm locația, destinația, economia proiectului, riscurile și potențialul de creștere a valorii.",
+      "Privim fiecare obiect din trei perspective: ca imobil, ca afacere în funcțiune și ca investiție pe termen lung.",
+      "Investim acolo unde vedem potențial. Dezvoltăm acolo unde putem adăuga valoare. Administrăm astfel încât obiectul să-și păstreze calitatea și randamentul peste ani.",
+      "Scopul nostru: imobiliare care funcționează astăzi și rămân căutate mâine.",
     ],
     ru: [
-      "Стоимость актива формируется на протяжении всего его жизненного цикла, а не только в момент приобретения или завершения строительства.",
-      "Поэтому мы рассматриваем каждый объект одновременно как недвижимость, как работающий бизнес, как решение о размещении капитала, как место и как долгосрочную инвестицию.",
-      "Мы инвестируем там, где видим потенциал. Развиваем там, где можем создать дополнительную стоимость. Управляем так, как управляет собственник, заинтересованный в качестве актива через годы.",
-      "Наша задача — создавать недвижимость, которая работает сегодня и остаётся актуальной завтра.",
+      "До инвестирования оцениваем локацию, назначение, экономику проекта, риски и потенциал роста стоимости.",
+      "Смотрим на объект с трёх сторон: как на недвижимость, как на работающий бизнес и как на долгосрочное вложение.",
+      "Инвестируем там, где видим потенциал. Развиваем там, где можем создать дополнительную стоимость. Управляем так, чтобы объект сохранял качество и доходность через годы.",
+      "Наша цель — недвижимость, которая работает сегодня и остаётся востребованной завтра.",
     ],
     en: [
-      "The value of an asset is created across its entire lifecycle, not only at acquisition or at the end of construction.",
-      "That is why we assess every property simultaneously as a physical asset, an operating business, a capital allocation decision, a place and a long-term investment.",
-      "We invest where we see potential. We develop where we can create additional value. We manage as an owner manages, with an interest in the quality of the asset years from now.",
-      "Our task is to create real estate that works today and remains relevant tomorrow.",
+      "Before we invest, we assess the location, the use, the project economics, the risks and the potential for value growth.",
+      "We look at every property from three angles: as real estate, as an operating business and as a long-term investment.",
+      "We invest where we see potential. We develop where we can add value. We manage so that a property keeps its quality and income for years.",
+      "Our aim is real estate that works today and stays in demand tomorrow.",
     ],
   } as Record<SiteLocale, string[]>,
-  /** The five simultaneous lenses. */
   lenses: {
-    ro: ["Activ fizic", "Afacere în funcțiune", "Decizie de alocare a capitalului", "Loc", "Investiție pe termen lung"],
-    ru: ["Физический актив", "Работающий бизнес", "Решение о размещении капитала", "Место", "Долгосрочная инвестиция"],
-    en: ["Physical asset", "Operating business", "Capital allocation decision", "Place", "Long-term investment"],
+    ro: ["Imobil", "Afacere în funcțiune", "Investiție pe termen lung"],
+    ru: ["Недвижимость", "Работающий бизнес", "Долгосрочное вложение"],
+    en: ["Real estate", "Operating business", "Long-term investment"],
   } as Record<SiteLocale, string[]>,
 };
 
@@ -59,25 +56,25 @@ export const purpose: Titled = {
   text: {
     ro: "Creăm valoare pe termen lung prin imobiliare.",
     ru: "Создавать долгосрочную стоимость через недвижимость.",
-    en: "Create long-term value through real estate.",
+    en: "To create long-term value through real estate.",
   },
 };
 
 export const mission: Titled = {
   title: { ro: "Misiune", ru: "Миссия", en: "Mission" },
   text: {
-    ro: "Creăm valoare pe termen lung prin investiții, dezvoltare și administrarea responsabilă a activelor imobiliare.",
-    ru: "Создавать долгосрочную стоимость через инвестиции, девелопмент и ответственное управление недвижимостью.",
-    en: "Create long-term value through investment, development and responsible management of real estate.",
+    ro: "Investim în imobiliare, dezvoltăm proiecte și administrăm obiecte astfel încât să-și păstreze valoarea și să aducă venit.",
+    ru: "Инвестировать в недвижимость, развивать проекты и управлять объектами так, чтобы они сохраняли стоимость и приносили доход.",
+    en: "To invest in real estate, develop projects and manage properties so that they keep their value and generate income.",
   },
 };
 
 export const vision: Titled = {
   title: { ro: "Viziune", ru: "Видение", en: "Vision" },
   text: {
-    ro: "O platformă imobiliară integrată, profesionistă, capabilă să creeze, să dezvolte și să păstreze valoare pe întreg ciclul de investiție, cu baza în Moldova, care investește la nivel internațional și are ambiția de a deveni un reper regional.",
-    ru: "Профессиональная интегрированная платформа недвижимости, способная создавать, развивать и сохранять стоимость на протяжении всего инвестиционного цикла, с базой в Молдове, инвестирующая по всему миру, с амбицией стать ориентиром в регионе.",
-    en: "A professional, integrated real-estate platform capable of creating, developing and preserving value across the full investment cycle, based in Moldova, investing worldwide, with the ambition of becoming a regional reference.",
+    ro: "O companie care reunește investițiile, dezvoltarea și administrarea imobiliară și lucrează cu obiecte și proiecte pe piețele internaționale.",
+    ru: "Компания, которая объединяет инвестиции, девелопмент и управление недвижимостью и работает с объектами и проектами на международных рынках.",
+    en: "A company that combines investment, development and asset management and works with properties and projects across international markets.",
   },
 };
 
@@ -88,34 +85,32 @@ export const vision: Titled = {
 export const ownerMindset = {
   title: { ro: "Mentalitate de proprietar", ru: "Мышление собственника", en: "Owner's mindset" } satisfies Localized,
   statement: {
-    ro: "Fiecare decizie este luată așa cum ar lua-o un proprietar care va răspunde de activ și peste zece ani.",
-    ru: "Каждое решение принимается так, как принял бы его собственник, который будет отвечать за актив и через десять лет.",
-    en: "Every decision is taken as an owner would take it, knowing they will still be responsible for the asset in ten years.",
+    ro: "Luăm deciziile ca și cum obiectul ar rămâne al nostru pentru mult timp.",
+    ru: "Принимаем решения так, как если бы объект оставался у нас надолго.",
+    en: "We make decisions as if the property were to stay with us for a long time.",
   } satisfies Localized,
   traits: {
-    ro: ["Gândire pe termen lung", "Responsabilitate față de capital", "Calitatea activului", "Disciplină operațională", "Conștiința riscului", "Adaptabilitate", "Păstrarea valorii", "Crearea de valoare"],
-    ru: ["Долгосрочное мышление", "Ответственность за капитал", "Качество актива", "Операционная дисциплина", "Понимание рисков", "Адаптивность", "Сохранение стоимости", "Создание стоимости"],
-    en: ["Long-term thinking", "Capital responsibility", "Asset quality", "Operational discipline", "Downside awareness", "Adaptability", "Value preservation", "Value creation"],
+    ro: ["Calitatea construcției", "Costurile de exploatare", "Chiriași de încredere", "Starea obiectului", "Posibilitatea de adaptare"],
+    ru: ["Качество строительства", "Эксплуатационные расходы", "Надёжные арендаторы", "Состояние объекта", "Возможность адаптации"],
+    en: ["Build quality", "Operating costs", "Reliable tenants", "Condition of the property", "Ability to adapt"],
   } as Record<SiteLocale, string[]>,
 };
 
 /* ------------------------------------------------------------------ */
-/* Global investment mandate — OWNER addendum 2026-09-26                */
+/* Where we invest                                                      */
 /* ------------------------------------------------------------------ */
 
 /**
- * MOLDOVA = current verified operating / portfolio base.
- * WORLDWIDE = investment opportunities are evaluated internationally.
- * No target countries, foreign offices, foreign holdings, ticket sizes,
- * allocations or thresholds are published. Nothing here implies that
- * MEGAPARC already owns or operates assets outside Moldova.
+ * Moldova holds the current portfolio; opportunities are evaluated on
+ * international markets. No target countries, foreign offices, foreign
+ * holdings, ticket sizes, allocations or thresholds are published.
  */
 export const investmentMandate = {
   kicker: { ro: "Unde investim", ru: "Где мы инвестируем", en: "Where we invest" } satisfies Localized,
   statement: {
-    ro: ["Moldova este baza noastră operațională.", "Analizăm oportunități de investiții imobiliare la nivel internațional."],
-    ru: ["Молдова — наша операционная база.", "Инвестиционные возможности рассматриваем по всему миру."],
-    en: ["Moldova is our operating base.", "We evaluate real-estate investment opportunities worldwide."],
+    ro: ["Oportunități de investiții", "la nivel internațional."],
+    ru: ["Инвестиционные возможности", "по всему миру."],
+    en: ["Investment opportunities", "worldwide."],
   } as Record<SiteLocale, string[]>,
   expression: {
     ro: "Investim în imobiliare la nivel internațional.",
@@ -123,46 +118,46 @@ export const investmentMandate = {
     en: "We invest in real estate worldwide.",
   } satisfies Localized,
   text: {
-    ro: "Portofoliul operațional și proiectele de dezvoltare ale MEGAPARC se află în Republica Moldova. Oportunitățile de investiții le analizăm oriunde activul, locația și partenerii îndeplinesc aceleași criterii.",
-    ru: "Операционный портфель и девелоперские проекты MEGAPARC находятся в Республике Молдова. Инвестиционные возможности мы рассматриваем везде, где актив, локация и партнёры отвечают тем же критериям.",
-    en: "MEGAPARC's operating portfolio and development projects are in the Republic of Moldova. We evaluate investment opportunities wherever the asset, the location and the partners meet the same criteria.",
+    ro: "Analizăm imobiliare generatoare de venit, terenuri de dezvoltare, proiecte de repoziționare și investiții comune pe piețele internaționale.",
+    ru: "Рассматриваем доходную недвижимость, площадки под развитие, проекты для репозиционирования и совместные инвестиции на международных рынках.",
+    en: "We consider income-producing real estate, development sites, repositioning projects and joint investments across international markets.",
   } satisfies Localized,
   base: {
     title: { ro: "Moldova", ru: "Молдова", en: "Moldova" } satisfies Localized,
-    role: { ro: "Baza operațională verificată", ru: "Проверенная операционная база", en: "Verified operating base" } satisfies Localized,
+    role: { ro: "Portofoliul actual", ru: "Действующий портфель", en: "Current portfolio" } satisfies Localized,
     points: {
-      ro: ["Sediul MEGAPARC, Chișinău", "Portofoliul operațional actual", "Proiectele de dezvoltare actuale", "Moștenire și experiență operațională din 1995"],
-      ru: ["Штаб-квартира MEGAPARC, Кишинёв", "Текущий операционный портфель", "Текущие девелоперские проекты", "Наследие и операционный опыт с 1995 года"],
-      en: ["MEGAPARC headquarters, Chișinău", "The current operating portfolio", "The current development projects", "Heritage and operating experience since 1995"],
+      ro: ["Biroul MEGAPARC, Chișinău", "Obiecte comerciale în funcțiune", "Proiecte de dezvoltare", "Experiența grupului din 1995"],
+      ru: ["Офис MEGAPARC в Кишинёве", "Действующие коммерческие объекты", "Проекты развития", "Опыт группы с 1995 года"],
+      en: ["MEGAPARC office, Chișinău", "Operating commercial properties", "Development projects", "Group experience since 1995"],
     } as Record<SiteLocale, string[]>,
   },
   global: {
-    title: { ro: "Piețe globale", ru: "Глобальные рынки", en: "Global markets" } satisfies Localized,
-    role: { ro: "Oportunități de investiții la nivel internațional", ru: "Инвестиционные возможности по всему миру", en: "Investment opportunities worldwide" } satisfies Localized,
+    title: { ro: "Piețe internaționale", ru: "Международные рынки", en: "International markets" } satisfies Localized,
+    role: { ro: "Ce analizăm", ru: "Что рассматриваем", en: "What we consider" } satisfies Localized,
     points: {
-      ro: ["Imobiliare generatoare de venit", "Amplasamente de dezvoltare", "Oportunități de repoziționare", "Proiecte imobiliare strategice", "Parteneriate și joint ventures"],
-      ru: ["Доходная недвижимость", "Площадки под развитие", "Возможности репозиционирования", "Стратегические проекты недвижимости", "Партнёрства и совместные предприятия"],
-      en: ["Income-producing real estate", "Development sites", "Repositioning opportunities", "Strategic real-estate projects", "Partnership and joint-venture opportunities"],
+      ro: ["Imobiliare generatoare de venit", "Terenuri de dezvoltare", "Repoziționarea obiectelor existente", "Proiecte strategice", "Proiecte comune și parteneriate"],
+      ru: ["Доходная недвижимость", "Площадки под развитие", "Репозиционирование существующих объектов", "Стратегические проекты", "Совместные проекты и партнёрства"],
+      en: ["Income-producing real estate", "Development sites", "Repositioning of existing buildings", "Strategic projects", "Joint projects and partnerships"],
     } as Record<SiteLocale, string[]>,
   },
   criteria: {
-    label: { ro: "Aceleași criterii, oriunde", ru: "Одни критерии, везде", en: "The same criteria, anywhere" } satisfies Localized,
+    label: { ro: "Ce evaluăm", ru: "Что оцениваем", en: "What we assess" } satisfies Localized,
     points: {
-      ro: ["Calitatea locației", "Fundamentele activului", "Utilizare clară", "Fezabilitate juridică și tranzacțională", "Potențial de dezvoltare sau repoziționare", "Reziliență", "Capacitate de execuție", "Creare de valoare pe termen lung", "Disciplina capitalului"],
-      ru: ["Качество локации", "Фундаментальные характеристики актива", "Ясное назначение", "Юридическая и транзакционная реализуемость", "Потенциал развития или репозиционирования", "Устойчивость", "Способность к реализации", "Долгосрочное создание стоимости", "Дисциплина капитала"],
-      en: ["Location quality", "Asset fundamentals", "Clear use case", "Legal and transaction feasibility", "Development or repositioning potential", "Downside resilience", "Execution capability", "Long-term value creation", "Capital discipline"],
+      ro: ["Locația", "Destinația", "Economia proiectului", "Claritatea juridică a tranzacției", "Potențialul de îmbunătățire", "Riscurile", "Posibilitatea de realizare"],
+      ru: ["Локация", "Назначение", "Экономика проекта", "Юридическая чистота сделки", "Потенциал улучшения", "Риски", "Возможность реализации"],
+      en: ["Location", "Use", "Project economics", "Legal clarity of the deal", "Potential to improve", "Risks", "Feasibility"],
     } as Record<SiteLocale, string[]>,
   },
   note: {
-    ro: "Nu publicăm țări-țintă, alocări sau praguri. Fiecare oportunitate este evaluată individual.",
-    ru: "Мы не публикуем целевые страны, аллокации или пороги. Каждая возможность оценивается индивидуально.",
-    en: "We do not publish target countries, allocations or thresholds. Every opportunity is assessed on its own merits.",
+    ro: "Fiecare oportunitate este evaluată separat.",
+    ru: "Каждую возможность оцениваем отдельно.",
+    en: "Every opportunity is assessed individually.",
   } satisfies Localized,
-  cta: { ro: "Propune o oportunitate", ru: "Предложить объект", en: "Submit an opportunity" } satisfies Localized,
+  cta: { ro: "Propune un obiect", ru: "Предложить объект", en: "Submit a property" } satisfies Localized,
 };
 
 /* ------------------------------------------------------------------ */
-/* Integrated platform                                                  */
+/* What we do                                                           */
 /* ------------------------------------------------------------------ */
 
 export const capabilities: Numbered[] = [
@@ -170,27 +165,27 @@ export const capabilities: Numbered[] = [
     no: "01",
     title: { ro: "Investiții", ru: "Инвестиции", en: "Investment" },
     text: {
-      ro: "Selectăm active și oportunități după logica economică, utilizare și potențial de creare a valorii, nu după volum, în Moldova și pe piețe internaționale. Fiecare investiție concurează pentru capital.",
-      ru: "Отбираем активы и возможности по экономической логике, назначению и потенциалу создания стоимости, а не по объёму, — в Молдове и на международных рынках. Каждая инвестиция конкурирует за капитал.",
-      en: "We select assets and opportunities on economic logic, use and value-creation potential, not on volume, in Moldova and in international markets. Every investment competes for capital.",
+      ro: "Căutăm obiecte cu o economie clară și potențial de creștere a valorii.",
+      ru: "Ищем объекты с понятной экономикой и потенциалом роста стоимости.",
+      en: "We look for properties with clear economics and potential for value growth.",
     },
   },
   {
     no: "02",
     title: { ro: "Dezvoltare", ru: "Девелопмент", en: "Development" },
     text: {
-      ro: "Transformăm terenuri, clădiri și concepte în active relevante pentru oraș, pentru utilizatori și pentru capital: de la amplasament, la produs, la activ operațional.",
-      ru: "Превращаем участки, здания и концепции в активы, значимые для города, арендаторов и капитала: от площадки — к продукту — к операционному активу.",
-      en: "We turn land, buildings and concepts into assets that matter to the city, to occupiers and to capital: from site, to product, to operating asset.",
+      ro: "Dezvoltăm proiecte de la teren și concept până la obiectul finalizat.",
+      ru: "Развиваем проекты от площадки и концепции до готового объекта.",
+      en: "We take projects from site and concept to a completed building.",
     },
   },
   {
     no: "03",
     title: { ro: "Administrarea activelor", ru: "Управление активами", en: "Asset management" },
     text: {
-      ro: "Poziționare, leasing, operare, investiții de capital și repoziționare, tratate ca parte a aceleiași decizii de investiție. Lucrul nu se încheie după achiziție sau construcție.",
-      ru: "Позиционирование, аренда, эксплуатация, капитальные улучшения и репозиционирование — как часть одного инвестиционного решения. Работа не заканчивается после покупки или стройки.",
-      en: "Positioning, leasing, operations, capital improvement and repositioning, treated as one investment decision. The work does not end after acquisition or construction.",
+      ro: "Creștem calitatea obiectelor, eficiența exploatării și atractivitatea lor pe termen lung.",
+      ru: "Повышаем качество объектов, эффективность эксплуатации и их долгосрочную востребованность.",
+      en: "We improve the quality, operating efficiency and long-term appeal of our properties.",
     },
   },
 ];
@@ -202,86 +197,86 @@ export const capabilities: Numbered[] = [
 export const investmentPrinciples: Numbered[] = [
   {
     no: "01",
-    title: { ro: "Valoare înainte de scară", ru: "Стоимость прежде масштаба", en: "Value before scale" },
+    title: { ro: "Economie clară", ru: "Понятная экономика", en: "Clear economics" },
     text: {
-      ro: "Calitatea capitalului contează mai mult decât acumularea de metri pătrați.",
-      ru: "Качество капитала важнее, чем простое накопление квадратных метров.",
-      en: "Capital quality matters more than simply accumulating square metres.",
+      ro: "Investim doar acolo unde este limpede cum câștigă obiectul.",
+      ru: "Инвестируем только там, где ясно, как объект зарабатывает.",
+      en: "We invest only where it is clear how a property earns.",
     },
   },
   {
     no: "02",
-    title: { ro: "Mentalitate de proprietar", ru: "Мышление собственника", en: "Owner's mindset" },
+    title: { ro: "Locație puternică", ru: "Сильная локация", en: "Strong location" },
     text: {
-      ro: "Deciziile sunt evaluate din perspectiva unui proprietar pe termen lung.",
-      ru: "Решения оцениваются с позиции долгосрочного собственника.",
-      en: "Decisions are evaluated from the perspective of a long-term owner.",
+      ro: "Locul determină cererea, chiriașii și valoarea pentru anii următori.",
+      ru: "Место определяет спрос, арендаторов и стоимость на годы вперёд.",
+      en: "Location determines demand, tenants and value for years ahead.",
     },
   },
   {
     no: "03",
-    title: { ro: "Disciplina capitalului", ru: "Дисциплина капитала", en: "Capital discipline" },
+    title: { ro: "Potențial real de îmbunătățire", ru: "Реальный потенциал улучшения", en: "Real potential to improve" },
     text: {
-      ro: "Fiecare activ are nevoie de o logică economică clară și de un drum credibil spre crearea de valoare.",
-      ru: "Каждому активу нужна ясная экономическая логика и убедительный путь к созданию стоимости.",
-      en: "Each asset needs a clear economic logic and a credible path to value creation.",
+      ro: "Căutăm obiecte cărora le putem adăuga valoare: reconcepere, reconstrucție, destinație nouă.",
+      ru: "Ищем объекты, которым можно добавить стоимость: реконцепция, реконструкция, новое назначение.",
+      en: "We look for properties where we can add value: a new concept, reconstruction or a new use.",
     },
   },
   {
     no: "04",
-    title: { ro: "Administrare activă", ru: "Активное управление", en: "Active management" },
+    title: { ro: "Controlul riscurilor", ru: "Контроль рисков", en: "Risk control" },
     text: {
-      ro: "Lucrul nu se încheie după achiziție sau construcție.",
-      ru: "Работа не заканчивается после приобретения или строительства.",
-      en: "The work does not end after acquisition or construction.",
+      ro: "Evaluăm riscurile juridice, de construcție și de piață înainte de tranzacție, nu după.",
+      ru: "Оцениваем юридические, строительные и рыночные риски до сделки, а не после.",
+      en: "We assess legal, construction and market risks before a deal, not after.",
     },
   },
   {
     no: "05",
-    title: { ro: "Relevanță pe termen lung", ru: "Долгосрочная актуальность", en: "Long-term relevance" },
+    title: { ro: "Cerere pe termen lung", ru: "Долгосрочная востребованность", en: "Lasting demand" },
     text: {
-      ro: "Un activ puternic trebuie să rămână util pe măsură ce piețele, afacerile și orașele se schimbă.",
-      ru: "Сильный актив должен оставаться востребованным, когда меняются рынки, бизнесы и города.",
-      en: "A strong asset must remain useful as markets, businesses and cities change.",
+      ro: "Alegem obiecte de care chiriașii și orașul vor avea nevoie și peste ani.",
+      ru: "Выбираем объекты, которые останутся нужными арендаторам и городу.",
+      en: "We choose properties that tenants and the city will still need in years to come.",
     },
   },
 ];
 
 /* ------------------------------------------------------------------ */
-/* Value creation model                                                 */
+/* What creates value                                                   */
 /* ------------------------------------------------------------------ */
 
 export type CycleStage = { key: string; no: string; title: Localized; text: Localized };
 
 export const valueCycle: CycleStage[] = [
-  { key: "identify", no: "01", title: { ro: "Identificăm", ru: "Находим", en: "Identify" }, text: { ro: "Amplasamente, clădiri și situații în care valoarea nu este încă realizată.", ru: "Площадки, здания и ситуации, где стоимость ещё не реализована.", en: "Sites, buildings and situations where value is not yet realised." } },
-  { key: "assess", no: "02", title: { ro: "Evaluăm", ru: "Оцениваем", en: "Assess" }, text: { ro: "Locație, utilizare, potențial fizic, logică economică, reziliență și opționalitate.", ru: "Локация, назначение, физический потенциал, экономическая логика, устойчивость и опциональность.", en: "Location, use, physical potential, economic logic, downside resilience and optionality." } },
-  { key: "invest", no: "03", title: { ro: "Investim", ru: "Инвестируем", en: "Invest" }, text: { ro: "Capital alocat doar acolo unde există un drum credibil spre valoare.", ru: "Капитал размещается только там, где есть убедительный путь к стоимости.", en: "Capital is committed only where a credible path to value exists." } },
-  { key: "develop", no: "04", title: { ro: "Dezvoltăm", ru: "Развиваем", en: "Develop" }, text: { ro: "De la concept și fezabilitate la proiectare și execuție disciplinată.", ru: "От концепции и технико-экономического обоснования к проектированию и дисциплинированной реализации.", en: "From concept and feasibility to design and disciplined delivery." } },
-  { key: "operate", no: "05", title: { ro: "Operăm", ru: "Эксплуатируем", en: "Operate" }, text: { ro: "Leasing, experiența utilizatorului și funcționarea clădirii ca decizie de investiție continuă.", ru: "Аренда, опыт арендатора и работа здания как непрерывное инвестиционное решение.", en: "Leasing, occupier experience and building operations as a continuous investment decision." } },
-  { key: "optimise", no: "06", title: { ro: "Optimizăm", ru: "Оптимизируем", en: "Optimise" }, text: { ro: "Investiții de capital, repoziționare și adaptare înainte ca utilizarea să se învechească.", ru: "Капитальные улучшения, репозиционирование и адаптация до того, как использование устареет.", en: "Capital improvement, repositioning and adaptation before use becomes outdated." } },
-  { key: "reinvest", no: "07", title: { ro: "Reinvestim", ru: "Реинвестируем", en: "Reinvest" }, text: { ro: "Valoarea creată revine în platformă: următorul activ, următorul proiect.", ru: "Созданная стоимость возвращается в платформу: следующий актив, следующий проект.", en: "Value created returns to the platform: the next asset, the next project." } },
+  { key: "identify", no: "01", title: { ro: "Identificare", ru: "Поиск", en: "Identify" }, text: { ro: "Căutăm obiecte și terenuri unde valoarea nu este încă valorificată.", ru: "Ищем объекты и площадки, где стоимость ещё не реализована.", en: "We look for properties and sites where value is not yet realised." } },
+  { key: "assess", no: "02", title: { ro: "Evaluare", ru: "Оценка", en: "Assess" }, text: { ro: "Evaluăm locația, destinația, economia proiectului și riscurile.", ru: "Оцениваем локацию, назначение, экономику проекта и риски.", en: "We assess the location, the use, the project economics and the risks." } },
+  { key: "invest", no: "03", title: { ro: "Investiție", ru: "Инвестиция", en: "Invest" }, text: { ro: "Investim acolo unde drumul spre creșterea valorii este clar.", ru: "Вкладываем средства там, где понятен путь к росту стоимости.", en: "We commit capital where the path to value growth is clear." } },
+  { key: "develop", no: "04", title: { ro: "Dezvoltare", ru: "Развитие", en: "Develop" }, text: { ro: "Proiectăm și construim, de la concept până la punerea în funcțiune.", ru: "Проектируем и строим — от концепции до ввода в эксплуатацию.", en: "We design and build, from concept to commissioning." } },
+  { key: "operate", no: "05", title: { ro: "Exploatare", ru: "Эксплуатация", en: "Operate" }, text: { ro: "Închiriem și întreținem obiectul ca pe o afacere în funcțiune.", ru: "Сдаём в аренду и обслуживаем объект как работающий бизнес.", en: "We lease and maintain the property as an operating business." } },
+  { key: "optimise", no: "06", title: { ro: "Îmbunătățire", ru: "Улучшение", en: "Improve" }, text: { ro: "Modernizăm, reprofilăm și adaptăm obiectul înainte să se învechească.", ru: "Обновляем, перепрофилируем и адаптируем объект, пока он не устарел.", en: "We renew, repurpose and adapt the property before it becomes outdated." } },
+  { key: "reinvest", no: "07", title: { ro: "Reinvestire", ru: "Реинвестирование", en: "Reinvest" }, text: { ro: "Direcționăm rezultatul spre următorul obiect sau proiect.", ru: "Направляем результат в следующий объект или проект.", en: "We put the result into the next property or project." } },
 ];
 
 export const cycleOutcomes: Record<SiteLocale, string[]> = {
-  ro: ["Păstrăm", "Repoziționăm", "Valorificăm", "Reinvestim"],
-  ru: ["Держим", "Репозиционируем", "Реализуем", "Реинвестируем"],
-  en: ["Hold", "Reposition", "Dispose", "Reinvest"],
+  ro: ["Păstrăm", "Modernizăm", "Vindem", "Reinvestim"],
+  ru: ["Держим", "Обновляем", "Продаём", "Реинвестируем"],
+  en: ["Hold", "Renew", "Sell", "Reinvest"],
 };
 
 export const valueCycleCopy = {
-  kicker: { ro: "Modelul de creare a valorii", ru: "Модель создания стоимости", en: "Value creation model" } satisfies Localized,
-  title: { ro: "Un ciclu. Șapte decizii.", ru: "Один цикл. Семь решений.", en: "One cycle. Seven decisions." } satisfies Localized,
+  kicker: { ro: "Ce creează valoare", ru: "Что создаёт стоимость", en: "What creates value" } satisfies Localized,
+  title: { ro: "Valoarea se creează la fiecare etapă.", ru: "Стоимость создаётся на каждом этапе.", en: "Value is created at every stage." } satisfies Localized,
   text: {
-    ro: "Investiția nu se încheie la achiziție. Fiecare etapă este o decizie de capital, iar fiecare decizie are un rezultat posibil.",
-    ru: "Инвестиция не заканчивается покупкой. Каждый этап — решение о капитале, и у каждого решения есть возможный исход.",
-    en: "The investment does not end at acquisition. Each stage is a capital decision, and each decision has a possible outcome.",
+    ro: "Investiția nu se încheie la cumpărare. Fiecare etapă, de la identificare la reinvestire, influențează rezultatul.",
+    ru: "Инвестиция не заканчивается покупкой. Каждый этап — от поиска до реинвестирования — влияет на результат.",
+    en: "An investment does not end with the purchase. Every stage, from search to reinvestment, shapes the result.",
   } satisfies Localized,
-  outcomesLabel: { ro: "Rezultate posibile", ru: "Возможные исходы", en: "Possible outcomes" } satisfies Localized,
+  outcomesLabel: { ro: "Decizii posibile", ru: "Возможные решения", en: "Possible decisions" } satisfies Localized,
 };
 
 /* ------------------------------------------------------------------ */
-/* MEGAPARC 2030                                                        */
+/* MEGAPARC 2030 — long-term direction                                  */
 /* ------------------------------------------------------------------ */
 
 export type Pillar = Numbered & { points: Record<SiteLocale, string[]>; idea?: Localized };
@@ -289,104 +284,104 @@ export type Pillar = Numbered & { points: Record<SiteLocale, string[]>; idea?: L
 export const megaparc2030 = {
   name: "MEGAPARC 2030",
   subtitle: {
-    ro: "De la deținerea de proprietăți la o platformă imobiliară instituțională",
-    ru: "От владения недвижимостью к институциональной платформе недвижимости",
-    en: "From property ownership to an institutional real estate platform",
+    ro: "Direcția companiei pe termen lung",
+    ru: "Долгосрочное направление компании",
+    en: "The company's long-term direction",
   } satisfies Localized,
   intro: {
-    ro: "O direcție strategică publică, nu un plan financiar public. Șapte piloni descriu cum MEGAPARC intenționează să crească în calitate, nu doar în scară: cu baza în Moldova și cu oportunități de investiții analizate la nivel internațional.",
-    ru: "Публичное стратегическое направление, а не публичный финансовый план. Семь опор описывают, как MEGAPARC намерена расти в качестве, а не только в масштабе: с базой в Молдове и инвестиционными возможностями по всему миру.",
-    en: "A public strategic direction, not a public financial plan. Seven pillars describe how MEGAPARC intends to grow in quality, not merely in scale: based in Moldova, evaluating investment opportunities worldwide.",
+    ro: "Șapte direcții arată cum MEGAPARC își dezvoltă portofoliul, proiectele și organizația.",
+    ru: "Семь направлений показывают, как MEGAPARC развивает портфель, проекты и организацию.",
+    en: "Seven directions show how MEGAPARC is developing its portfolio, projects and organisation.",
   } satisfies Localized,
-  equation: { ro: "MEGAPARC = capital + active + oameni + disciplină", ru: "MEGAPARC = капитал + активы + люди + дисциплина", en: "MEGAPARC = capital + assets + people + discipline" } satisfies Localized,
+  equation: { ro: "MEGAPARC = imobiliare + proiecte + echipă", ru: "MEGAPARC = недвижимость + проекты + команда", en: "MEGAPARC = real estate + projects + team" } satisfies Localized,
   pillars: [
     {
       no: "01",
       title: { ro: "Calitatea portofoliului", ru: "Качество портфеля", en: "Portfolio quality" },
-      text: { ro: "Active relevante fizic, comercial și urban, care rămân utile pe măsură ce piața se schimbă.", ru: "Активы, актуальные физически, коммерчески и для города, остающиеся востребованными при изменении рынка.", en: "Assets that are physically, commercially and urbanly relevant, and stay useful as the market changes." },
+      text: { ro: "Obiecte căutate de chiriași și ușor de exploatat.", ru: "Объекты, которые востребованы у арендаторов и удобны в эксплуатации.", en: "Properties that tenants want and that are easy to operate." },
       points: {
-        ro: ["Relevanța activului", "Calitate fizică", "Relevanță pentru utilizatori", "Adaptabilitate", "Eficiență operațională", "Reziliență", "Relevanță pe termen lung"],
-        ru: ["Актуальность актива", "Физическое качество", "Востребованность у арендаторов", "Адаптивность", "Операционная эффективность", "Устойчивость", "Долгосрочная актуальность"],
-        en: ["Asset relevance", "Physical quality", "Occupier relevance", "Adaptability", "Operating efficiency", "Resilience", "Long-term relevance"],
+        ro: ["Cerere", "Stare tehnică", "Exploatare eficientă", "Posibilitate de adaptare"],
+        ru: ["Востребованность", "Техническое состояние", "Эффективная эксплуатация", "Возможность адаптации"],
+        en: ["Demand", "Technical condition", "Efficient operation", "Ability to adapt"],
       },
     },
     {
       no: "02",
-      title: { ro: "Pipeline de dezvoltare", ru: "Девелоперский пайплайн", en: "Development pipeline" },
-      text: { ro: "Etape disciplinate, de la teren la operare sau exit, fără a sări peste decizia de investiție.", ru: "Дисциплинированные этапы — от участка до эксплуатации или выхода, без пропуска инвестиционного решения.", en: "Disciplined stages from land to operation or exit, never skipping the investment decision." },
+      title: { ro: "Proiecte de dezvoltare", ru: "Проекты развития", en: "Development projects" },
+      text: { ro: "Un proces clar, de la teren până la punerea în funcțiune.", ru: "Понятный процесс от участка до ввода в эксплуатацию.", en: "A clear process from site to commissioning." },
       points: {
-        ro: ["Teren", "Concept", "Fezabilitate", "Decizie de investiție", "Proiectare", "Dezvoltare", "Operare / exit"],
-        ru: ["Участок", "Концепция", "Обоснование", "Инвестиционное решение", "Проектирование", "Девелопмент", "Эксплуатация / выход"],
-        en: ["Land", "Concept", "Feasibility", "Investment decision", "Design", "Development", "Operation / exit"],
+        ro: ["Teren", "Concept", "Evaluare economică", "Proiectare", "Construcție", "Punere în funcțiune"],
+        ru: ["Участок", "Концепция", "Экономическая оценка", "Проектирование", "Строительство", "Ввод в эксплуатацию"],
+        en: ["Site", "Concept", "Economic assessment", "Design", "Construction", "Commissioning"],
       },
     },
     {
       no: "03",
-      title: { ro: "Administrare activă a activelor", ru: "Активное управление активами", en: "Active asset management" },
-      text: { ro: "Activul este administrat ca o afacere: poziționare, leasing, experiența utilizatorului, operare, îmbunătățiri de capital.", ru: "Актив управляется как бизнес: позиционирование, аренда, опыт арендатора, эксплуатация, капитальные улучшения.", en: "The asset is run as a business: positioning, leasing, occupier experience, operations, capital improvement." },
+      title: { ro: "Administrarea obiectelor", ru: "Управление объектами", en: "Property management" },
+      text: { ro: "Închiriere, întreținere și modernizare ca un singur proces.", ru: "Аренда, обслуживание и обновление объектов как единый процесс.", en: "Leasing, maintenance and renewal as one process." },
       points: {
-        ro: ["Poziționare", "Leasing", "Experiența utilizatorului", "Operarea clădirii", "Îmbunătățiri de capital", "Repoziționare", "Adaptabilitate"],
-        ru: ["Позиционирование", "Аренда", "Опыт арендатора", "Эксплуатация здания", "Капитальные улучшения", "Репозиционирование", "Адаптивность"],
-        en: ["Positioning", "Leasing", "Occupier experience", "Building operations", "Capital improvement", "Repositioning", "Adaptability"],
+        ro: ["Închiriere", "Întreținere", "Modernizare", "Relația cu chiriașii"],
+        ru: ["Аренда", "Обслуживание", "Обновление", "Работа с арендаторами"],
+        en: ["Leasing", "Maintenance", "Renewal", "Tenant relations"],
       },
     },
     {
       no: "04",
-      title: { ro: "Disciplina capitalului", ru: "Дисциплина капитала", en: "Capital discipline" },
-      idea: { ro: "Fiecare investiție concurează pentru capital.", ru: "Каждая инвестиция конкурирует за капитал.", en: "Every investment competes for capital." },
-      text: { ro: "Locația, utilizarea, potențialul fizic, logica economică, reziliența la scădere și flexibilitatea pe termen lung sunt evaluate înainte de orice angajament, indiferent de geografie.", ru: "Локация, назначение, физический потенциал, экономическая логика, устойчивость к спаду и долгосрочная гибкость оцениваются до любого обязательства, независимо от географии.", en: "Location, use, physical potential, economic logic, downside resilience and long-term optionality are assessed before any commitment, whatever the geography." },
+      title: { ro: "Investiții echilibrate", ru: "Взвешенные инвестиции", en: "Considered investment" },
+      idea: { ro: "Investim acolo unde înțelegem economia obiectului.", ru: "Инвестируем там, где понимаем экономику объекта.", en: "We invest where we understand the economics of the property." },
+      text: { ro: "Înainte de a investi, evaluăm locația, destinația, economia proiectului, riscurile și potențialul.", ru: "До инвестирования оцениваем локацию, назначение, экономику проекта, риски и потенциал.", en: "Before investing, we assess the location, the use, the project economics, the risks and the potential." },
       points: {
-        ro: ["Locație", "Utilizare", "Potențial fizic", "Logică economică", "Reziliență", "Flexibilitate pe termen lung"],
-        ru: ["Локация", "Назначение", "Физический потенциал", "Экономическая логика", "Устойчивость", "Долгосрочная гибкость"],
-        en: ["Location", "Use", "Physical potential", "Economic logic", "Downside resilience", "Optionality"],
+        ro: ["Locație", "Destinație", "Economie", "Riscuri", "Potențial"],
+        ru: ["Локация", "Назначение", "Экономика", "Риски", "Потенциал"],
+        en: ["Location", "Use", "Economics", "Risks", "Potential"],
       },
     },
     {
       no: "05",
-      title: { ro: "Valoare urbană", ru: "Городская ценность", en: "Urban value" },
-      text: { ro: "Revitalizare, utilizarea mai bună a activelor existente, medii funcționale, accesibilitate și dezvoltare responsabilă.", ru: "Ревитализация, лучшее использование существующих активов, функциональная среда, доступность и ответственное развитие.", en: "Revitalisation, better use of existing assets, functional environments, accessibility and responsible development." },
+      title: { ro: "Mediul urban", ru: "Городская среда", en: "Urban environment" },
+      text: { ro: "Utilizarea mai bună a clădirilor existente și construcții noi de calitate.", ru: "Лучшее использование существующих зданий и качественная новая застройка.", en: "Better use of existing buildings and good-quality new construction." },
       points: {
-        ro: ["Revitalizare", "Utilizare mai bună a activelor existente", "Medii funcționale", "Accesibilitate", "Dezvoltare responsabilă"],
-        ru: ["Ревитализация", "Лучшее использование существующих активов", "Функциональная среда", "Доступность", "Ответственное развитие"],
-        en: ["Revitalisation", "Better use of existing assets", "Functional environments", "Accessibility", "Responsible development"],
+        ro: ["Reconstrucție", "Accesibilitate", "Mediu de calitate"],
+        ru: ["Реконструкция", "Доступность", "Качественная среда"],
+        en: ["Reconstruction", "Accessibility", "Quality environment"],
       },
     },
     {
       no: "06",
-      title: { ro: "Instituționalizare", ru: "Институционализация", en: "Institutionalisation" },
-      text: { ro: "De la imobiliare antreprenoriale la o platformă structurată: procese repetabile, guvernanță, dezvoltare disciplinată și administrare bazată pe date.", ru: "От предпринимательской недвижимости к структурированной платформе: повторяемые процессы, управление, дисциплинированный девелопмент и управление на основе данных.", en: "From entrepreneurial real estate to a structured platform: repeatable processes, governance, disciplined development and data-informed management." },
+      title: { ro: "Organizație", ru: "Организация", en: "Organisation" },
+      text: { ro: "Procese clare, control financiar și o echipă profesionistă.", ru: "Понятные процессы, финансовый контроль и профессиональная команда.", en: "Clear processes, financial control and a professional team." },
       points: {
-        ro: ["Procese repetabile", "Guvernanță", "Dezvoltare disciplinată", "Administrare bazată pe date"],
-        ru: ["Повторяемые процессы", "Управление", "Дисциплинированный девелопмент", "Управление на основе данных"],
-        en: ["Repeatable processes", "Governance", "Disciplined development", "Data-informed management"],
+        ro: ["Procese", "Control financiar", "Echipă"],
+        ru: ["Процессы", "Финансовый контроль", "Команда"],
+        en: ["Processes", "Financial control", "Team"],
       },
     },
     {
       no: "07",
-      title: { ro: "Oameni și brand", ru: "Люди и бренд", en: "People & brand" },
-      text: { ro: "Capital, active și disciplină au nevoie de oameni care gândesc ca proprietari. Brandul este promisiunea că această disciplină se menține.", ru: "Капиталу, активам и дисциплине нужны люди, мыслящие как собственники. Бренд — обещание, что эта дисциплина сохраняется.", en: "Capital, assets and discipline need people who think like owners. The brand is the promise that this discipline holds." },
+      title: { ro: "Echipă și reputație", ru: "Команда и репутация", en: "Team and reputation" },
+      text: { ro: "Compania crește împreună cu oamenii care răspund de rezultat.", ru: "Компания растёт вместе с людьми, которые отвечают за результат.", en: "The company grows with the people who are accountable for results." },
       points: {
-        ro: ["Capital", "Active", "Oameni", "Disciplină"],
-        ru: ["Капитал", "Активы", "Люди", "Дисциплина"],
-        en: ["Capital", "Assets", "People", "Discipline"],
+        ro: ["Echipă", "Reputație"],
+        ru: ["Команда", "Репутация"],
+        en: ["Team", "Reputation"],
       },
     },
   ] as Pillar[],
 };
 
 /* ------------------------------------------------------------------ */
-/* Development stages                                                   */
+/* Development process                                                  */
 /* ------------------------------------------------------------------ */
 
 export const developmentNarrative = {
-  title: { ro: "De la amplasament, la produs, la activ operațional.", ru: "От площадки — к продукту — к операционному активу.", en: "From site, to product, to operating asset." } satisfies Localized,
+  title: { ro: "Dezvoltăm proiecte de la idee la realizare.", ru: "Развиваем проекты от идеи до реализации.", en: "We take projects from idea to completion." } satisfies Localized,
   stages: [
-    { no: "01", title: { ro: "Amplasament", ru: "Площадка", en: "Site" }, text: { ro: "Teren sau clădire cu o logică urbană și de acces verificabilă.", ru: "Участок или здание с проверяемой городской логикой и доступностью.", en: "Land or a building with a verifiable urban and access logic." } },
-    { no: "02", title: { ro: "Concept", ru: "Концепция", en: "Concept" }, text: { ro: "Utilizare, scară și economie definite înainte de imagine.", ru: "Назначение, масштаб и экономика определяются раньше картинки.", en: "Use, scale and economics defined before the image." } },
-    { no: "03", title: { ro: "Fezabilitate", ru: "Обоснование", en: "Feasibility" }, text: { ro: "Verificări urbanistice, inginerești și comerciale; decizia de investiție.", ru: "Градостроительная, инженерная и коммерческая проверка; инвестиционное решение.", en: "Planning, engineering and commercial due diligence; the investment decision." } },
-    { no: "04", title: { ro: "Proiectare", ru: "Проектирование", en: "Design" }, text: { ro: "Arhitectură și inginerie pentru costul de operare și adaptabilitate, nu doar pentru livrare.", ru: "Архитектура и инженерия ради стоимости эксплуатации и адаптивности, а не только сдачи.", en: "Architecture and engineering for operating cost and adaptability, not just handover." } },
-    { no: "05", title: { ro: "Dezvoltare", ru: "Девелопмент", en: "Development" }, text: { ro: "Execuție cu control al calității, costului și termenelor.", ru: "Реализация с контролем качества, затрат и сроков.", en: "Delivery with quality, cost and schedule control." } },
-    { no: "06", title: { ro: "Operare", ru: "Эксплуатация", en: "Operation" }, text: { ro: "Activul intră în faza de operare sau în următoarea etapă de investiție, conform strategiei de capital: păstrare, repoziționare, valorificare sau reinvestire.", ru: "Актив переходит в фазу эксплуатации или в следующий инвестиционный этап согласно стратегии капитала: удержание, репозиционирование, реализация или реинвестирование.", en: "The asset enters its operating or next investment phase according to the capital strategy: hold, reposition, dispose or reinvest." } },
+    { no: "01", title: { ro: "Teren / obiect", ru: "Участок / объект", en: "Site / building" }, text: { ro: "Teren sau clădire existentă, cu o logică urbană clară.", ru: "Земля или существующее здание с понятной городской логикой.", en: "Land or an existing building with a clear urban logic." } },
+    { no: "02", title: { ro: "Concept", ru: "Концепция", en: "Concept" }, text: { ro: "Stabilim destinația, scara și formatul.", ru: "Определяем назначение, масштаб и формат.", en: "We define the use, the scale and the format." } },
+    { no: "03", title: { ro: "Evaluare economică", ru: "Экономическая оценка", en: "Economic assessment" }, text: { ro: "Calculăm economia proiectului și verificăm condițiile urbanistice și juridice.", ru: "Считаем экономику, проверяем градостроительные и юридические условия.", en: "We run the numbers and check planning and legal conditions." } },
+    { no: "04", title: { ro: "Proiectare", ru: "Проектирование", en: "Design" }, text: { ro: "Proiectăm pentru exploatare, nu doar pentru predare.", ru: "Проектируем с расчётом на эксплуатацию, а не только на сдачу.", en: "We design for operation, not just for handover." } },
+    { no: "05", title: { ro: "Construcție", ru: "Строительство", en: "Construction" }, text: { ro: "Controlăm bugetul, termenele și calitatea.", ru: "Контролируем бюджет, сроки и качество.", en: "We control budget, schedule and quality." } },
+    { no: "06", title: { ro: "Punere în funcțiune", ru: "Ввод в эксплуатацию", en: "Commissioning" }, text: { ro: "Obiectul începe să funcționeze: închiriere, întreținere, deciziile următoare.", ru: "Объект начинает работать: аренда, обслуживание, дальнейшие решения.", en: "The building starts working: leasing, maintenance, next decisions." } },
   ] as Numbered[],
 };
 
@@ -400,31 +395,31 @@ export const historyAnchors: HistoryAnchor[] = [
   {
     year: "1995",
     scope: "group",
-    title: { ro: "Moștenirea grupului", ru: "Наследие группы", en: "Group heritage" },
+    title: { ro: "Experiența grupului", ru: "Опыт группы", en: "Group experience" },
     text: {
-      ro: "Experiență antreprenorială și investițională acumulată din 1995: retail, investiții, producție, servicii financiare și infrastructură.",
-      ru: "Предпринимательский и инвестиционный опыт, накопленный с 1995 года: розница, инвестиции, производство, финансовые услуги и инфраструктура.",
-      en: "Entrepreneurial and investment experience accumulated since 1995: retail, investment, manufacturing, financial services and infrastructure.",
+      ro: "Experiență antreprenorială a grupului din 1995: retail, investiții, producție, servicii financiare.",
+      ru: "Предпринимательский опыт группы с 1995 года: розница, инвестиции, производство, финансовые услуги.",
+      en: "The group's entrepreneurial experience since 1995: retail, investment, manufacturing, financial services.",
     },
   },
   {
     year: "2005",
     scope: "megaparc",
-    title: { ro: "MEGAPARC este fondată", ru: "Основана MEGAPARC", en: "MEGAPARC established" },
+    title: { ro: "Este fondată MEGAPARC", ru: "Основана MEGAPARC", en: "MEGAPARC is founded" },
     text: {
-      ro: "MEGAPARC este fondată în 2005, cu o strategie orientată spre achiziția și revitalizarea activelor comerciale amplasate strategic.",
-      ru: "MEGAPARC основана в 2005 году со стратегией приобретения и ревитализации стратегически расположенных коммерческих активов.",
-      en: "MEGAPARC is established in 2005 with a strategy focused on acquiring and revitalising strategically located commercial assets.",
+      ro: "MEGAPARC este fondată în 2005: achiziția și modernizarea obiectelor comerciale.",
+      ru: "Основана MEGAPARC: покупка и модернизация коммерческих объектов.",
+      en: "MEGAPARC is founded in 2005: acquiring and modernising commercial properties.",
     },
   },
   {
     year: "2020",
     scope: "megaparc",
-    title: { ro: "Focus strategic pe imobiliare", ru: "Стратегический фокус на недвижимости", en: "Strategic real estate focus" },
+    title: { ro: "Focus pe imobiliare", ru: "Фокус на недвижимости", en: "Focus on real estate" },
     text: {
-      ro: "Strategia se concentrează pe sectorul imobiliar din Republica Moldova: administrarea activelor, dezvoltare și revitalizare urbană.",
-      ru: "Стратегия сосредотачивается на недвижимости в Республике Молдова: управление активами, девелопмент и городская ревитализация.",
-      en: "The strategy concentrates on real estate in the Republic of Moldova: asset management, development and urban revitalisation.",
+      ro: "Focus pe imobiliare în Moldova: administrarea obiectelor, dezvoltare și modernizarea mediului urban.",
+      ru: "Фокус на недвижимости в Молдове: управление объектами, девелопмент, обновление городской среды.",
+      en: "Focus on real estate in Moldova: property management, development and urban renewal.",
     },
   },
   {
@@ -432,21 +427,21 @@ export const historyAnchors: HistoryAnchor[] = [
     scope: "megaparc",
     title: { ro: "Investim · Dezvoltăm · Administrăm", ru: "Инвестируем · Развиваем · Управляем", en: "Invest · Develop · Manage" },
     text: {
-      ro: "O platformă integrată de investiții imobiliare cu baza în Moldova: active operaționale, proiecte de dezvoltare, oportunități de investiții analizate la nivel internațional și o direcție strategică până în 2030.",
-      ru: "Интегрированная платформа инвестиций в недвижимость с базой в Молдове: операционные активы, девелоперские проекты, инвестиционные возможности, рассматриваемые по всему миру, и стратегическое направление до 2030 года.",
-      en: "An integrated real-estate investment platform based in Moldova: operating assets, development projects, investment opportunities evaluated worldwide and a strategic direction to 2030.",
+      ro: "Investiții, dezvoltare și administrare imobiliară. Analizăm obiecte și proiecte pe piețele internaționale.",
+      ru: "Инвестиции, девелопмент и управление недвижимостью. Объекты и проекты рассматриваем на международных рынках.",
+      en: "Investment, development and asset management. We consider properties and projects across international markets.",
     },
   },
 ];
 
 export const historyCopy = {
   today: { ro: "Astăzi", ru: "Сегодня", en: "Today" } satisfies Localized,
-  group: { ro: "Moștenirea grupului", ru: "Наследие группы", en: "Group heritage" } satisfies Localized,
+  group: { ro: "Experiența grupului", ru: "Опыт группы", en: "Group experience" } satisfies Localized,
   megaparc: { ro: "MEGAPARC", ru: "MEGAPARC", en: "MEGAPARC" } satisfies Localized,
   supporting: [
-    { year: "1996–1997", title: { ro: "Servicii financiare și agro-industrie", ru: "Финансовые услуги и агропромышленность", en: "Financial services and agro-industry" }, text: { ro: "Extindere în servicii financiare și activități agro-industriale.", ru: "Расширение в сферу финансовых услуг и агропромышленной деятельности.", en: "Expansion into financial services and agro-industrial activities." } },
-    { year: "2006–2007", title: { ro: "Diversificare", ru: "Диверсификация", en: "Diversification" }, text: { ro: "Diversificare suplimentară și experiență operațională internațională.", ru: "Дальнейшая диверсификация и международный операционный опыт.", en: "Further diversification and international operating experience." } },
-    { year: "2017–2019", title: { ro: "Comerț internațional și logistică", ru: "Международная торговля и логистика", en: "International trade and logistics" }, text: { ro: "Operațiuni de comerț internațional și logistică pe mai multe piețe.", ru: "Международные торговые и логистические операции на нескольких рынках.", en: "International trading and logistics operations across several markets." } },
+    { year: "1996–1997", title: { ro: "Servicii financiare și agroindustrie", ru: "Финансовые услуги и агропромышленность", en: "Financial services and agro-industry" }, text: { ro: "Extindere în servicii financiare și activități agroindustriale.", ru: "Выход в финансовые услуги и агропромышленный сектор.", en: "Expansion into financial services and agro-industry." } },
+    { year: "2006–2007", title: { ro: "Diversificare", ru: "Диверсификация", en: "Diversification" }, text: { ro: "Noi domenii de activitate și experiență operațională internațională.", ru: "Новые направления бизнеса и международный опыт.", en: "New lines of business and international operating experience." } },
+    { year: "2017–2019", title: { ro: "Comerț internațional și logistică", ru: "Международная торговля и логистика", en: "International trade and logistics" }, text: { ro: "Operațiuni de comerț și logistică pe mai multe piețe.", ru: "Торговые и логистические операции на нескольких рынках.", en: "Trading and logistics operations across several markets." } },
   ] as { year: string; title: Localized; text: Localized }[],
 };
 
@@ -457,8 +452,8 @@ export const historyCopy = {
 export const responsibility: Titled = {
   title: { ro: "Responsabilitate", ru: "Ответственность", en: "Responsibility" },
   text: {
-    ro: "Responsabilitatea noastră este față de capital, față de utilizatorii activelor și față de orașul în care ele funcționează: utilizare mai bună a clădirilor existente, medii funcționale și dezvoltare care nu împrumută de la viitor.",
-    ru: "Наша ответственность — перед капиталом, перед пользователями активов и перед городом, в котором они работают: лучшее использование существующих зданий, функциональная среда и развитие, которое не берёт взаймы у будущего.",
-    en: "Our responsibility is to capital, to the people who use our assets and to the city in which they operate: better use of existing buildings, functional environments and development that does not borrow from the future.",
+    ro: "Dezvoltăm și administrăm imobiliare astfel încât să-și păstreze valoarea pentru proprietar, să fie comode pentru utilizatori și să îmbunătățească mediul urban.",
+    ru: "Развиваем и управляем недвижимостью так, чтобы она сохраняла стоимость для собственника, была удобной для пользователей и улучшала городскую среду.",
+    en: "We develop and manage real estate so that it keeps its value for the owner, works well for its users and improves the urban environment.",
   },
 };

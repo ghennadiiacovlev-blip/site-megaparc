@@ -1,13 +1,9 @@
 import type { Localized, SiteLocale } from "@/lib/site-data";
 
 /**
- * Organisation / people layer.
- *
- * No real employee names, biographies, portraits or LinkedIn profiles are
- * approved for publication. `teamMembers` therefore stays empty and the
- * organisation is communicated through four areas of capability with
- * branded placeholders. Do not add people here without OWNER approval —
- * see docs/OWNER_DATA_TO_REPLACE.md.
+ * Team and competencies. No public team profiles are approved, so
+ * `teamMembers` stays empty and the organisation is shown as functions only.
+ * Do not add people without OWNER approval (docs/OWNER_DATA_TO_REPLACE.md).
  */
 
 export type TeamArea = "leadership" | "investment-finance" | "development" | "asset-management";
@@ -19,7 +15,6 @@ export type TeamMember = {
   bio: Localized;
   image: string | null;
   linkedin: string | null;
-  /** Only members with `public: true` are ever rendered. */
   public: boolean;
   order: number;
 };
@@ -42,29 +37,29 @@ export const organisationAreas: OrganisationArea[] = [
     no: "01",
     title: { ro: "Conducere", ru: "Руководство", en: "Leadership" },
     lead: {
-      ro: "Direcția strategică, alocarea capitalului și responsabilitatea finală pentru calitatea platformei.",
-      ru: "Стратегическое направление, распределение капитала и итоговая ответственность за качество платформы.",
-      en: "Strategic direction, capital allocation and final responsibility for the quality of the platform.",
+      ro: "Strategia companiei, deciziile de investiții și responsabilitatea pentru rezultat.",
+      ru: "Стратегия компании, инвестиционные решения и ответственность за результат.",
+      en: "Company strategy, investment decisions and accountability for results.",
     },
     responsibilities: {
-      ro: ["Strategie și MEGAPARC 2030", "Decizii de investiție", "Guvernanță și parteneri"],
-      ru: ["Стратегия и MEGAPARC 2030", "Инвестиционные решения", "Управление и партнёры"],
-      en: ["Strategy and MEGAPARC 2030", "Investment decisions", "Governance and partners"],
+      ro: ["Strategie și priorități", "Decizii de investiții", "Parteneri și finanțare"],
+      ru: ["Стратегия и приоритеты", "Инвестиционные решения", "Партнёры и финансирование"],
+      en: ["Strategy and priorities", "Investment decisions", "Partners and financing"],
     },
   },
   {
     key: "investment-finance",
     no: "02",
-    title: { ro: "Investiții și finanțe", ru: "Инвестиции и финансы", en: "Investment & finance" },
+    title: { ro: "Investiții și finanțe", ru: "Инвестиции и финансы", en: "Investment and finance" },
     lead: {
-      ro: "Evaluarea oportunităților, structurarea capitalului și disciplina financiară pe întreg ciclul.",
-      ru: "Оценка возможностей, структурирование капитала и финансовая дисциплина на всём цикле.",
-      en: "Opportunity assessment, capital structuring and financial discipline across the cycle.",
+      ro: "Evaluarea obiectelor, finanțarea tranzacțiilor și controlul financiar.",
+      ru: "Оценка объектов, финансирование сделок и финансовый контроль.",
+      en: "Property appraisal, deal financing and financial control.",
     },
     responsibilities: {
-      ro: ["Analiză și fezabilitate", "Structurare și finanțare", "Raportare și control"],
-      ru: ["Анализ и обоснование", "Структурирование и финансирование", "Отчётность и контроль"],
-      en: ["Analysis and feasibility", "Structuring and financing", "Reporting and control"],
+      ro: ["Evaluare și economia proiectelor", "Finanțare", "Raportare și control"],
+      ru: ["Оценка и экономика проектов", "Финансирование", "Отчётность и контроль"],
+      en: ["Appraisal and project economics", "Financing", "Reporting and control"],
     },
   },
   {
@@ -72,46 +67,45 @@ export const organisationAreas: OrganisationArea[] = [
     no: "03",
     title: { ro: "Dezvoltare", ru: "Девелопмент", en: "Development" },
     lead: {
-      ro: "De la amplasament la activ operațional: concept, proiectare, autorizare și execuție.",
-      ru: "От площадки до операционного актива: концепция, проектирование, разрешения и реализация.",
-      en: "From site to operating asset: concept, design, permitting and delivery.",
+      ro: "Proiecte de la concept și proiectare până la construcție și punere în funcțiune.",
+      ru: "Проекты от концепции и проектирования до строительства и ввода в эксплуатацию.",
+      en: "Projects from concept and design to construction and commissioning.",
     },
     responsibilities: {
-      ro: ["Concept și program", "Proiectare și autorizare", "Execuție și control al costurilor"],
-      ru: ["Концепция и программа", "Проектирование и разрешения", "Реализация и контроль затрат"],
-      en: ["Concept and brief", "Design and permitting", "Delivery and cost control"],
+      ro: ["Concept și proiectare", "Autorizații", "Construcție și controlul costurilor"],
+      ru: ["Концепция и проектирование", "Разрешения", "Строительство и контроль затрат"],
+      en: ["Concept and design", "Permits", "Construction and cost control"],
     },
   },
   {
     key: "asset-management",
     no: "04",
-    title: { ro: "Administrarea activelor", ru: "Управление активами", en: "Asset management" },
+    title: { ro: "Administrare și exploatare", ru: "Управление активами и эксплуатация", en: "Asset management and operations" },
     lead: {
-      ro: "Poziționare, leasing, operare și investiții de capital pentru active care rămân relevante.",
-      ru: "Позиционирование, аренда, эксплуатация и капитальные улучшения для активов, которые остаются актуальными.",
-      en: "Positioning, leasing, operations and capital improvement for assets that stay relevant.",
+      ro: "Închirierea, întreținerea și modernizarea obiectelor în funcțiune.",
+      ru: "Аренда, обслуживание и обновление действующих объектов.",
+      en: "Leasing, maintenance and renewal of operating properties.",
     },
     responsibilities: {
-      ro: ["Leasing și relația cu utilizatorii", "Operarea clădirilor", "Repoziționare și îmbunătățiri"],
-      ru: ["Аренда и отношения с арендаторами", "Эксплуатация зданий", "Репозиционирование и улучшения"],
-      en: ["Leasing and occupier relationships", "Building operations", "Repositioning and improvement"],
+      ro: ["Închiriere și relația cu chiriașii", "Exploatare tehnică", "Modernizarea obiectelor"],
+      ru: ["Аренда и работа с арендаторами", "Техническая эксплуатация", "Обновление объектов"],
+      en: ["Leasing and tenant relations", "Technical operations", "Property renewal"],
     },
   },
 ];
 
 export const peopleCopy = {
-  kicker: { ro: "Organizație", ru: "Организация", en: "Organisation" } satisfies Localized,
-  title: { ro: "Oamenii din spatele activelor", ru: "Люди, которые управляют активами", en: "The people behind the assets" } satisfies Localized,
+  kicker: { ro: "Echipă", ru: "Команда", en: "Team" } satisfies Localized,
+  title: { ro: "Echipă și competențe", ru: "Команда и компетенции", en: "Team and competencies" } satisfies Localized,
   text: {
-    ro: "O platformă imobiliară este capital, active și disciplină, dar mai ales oamenii care iau deciziile. Organizația MEGAPARC este construită pe patru arii de competență, fiecare cu responsabilitate directă pentru calitatea activului.",
-    ru: "Платформа недвижимости — это капитал, активы и дисциплина, но прежде всего люди, принимающие решения. Организация MEGAPARC построена на четырёх областях компетенции, каждая из которых несёт прямую ответственность за качество актива.",
-    en: "A real-estate platform is capital, assets and discipline, but above all the people who make the decisions. The MEGAPARC organisation is built on four areas of expertise, each with direct responsibility for asset quality.",
+    ro: "Lucrul cu imobiliarele cere colaborarea dintre investiții, finanțe, dezvoltare, administrarea activelor și exploatarea tehnică.",
+    ru: "Работа с недвижимостью требует совместной работы инвестиций, финансов, девелопмента, управления активами и технической эксплуатации.",
+    en: "Working with real estate takes investment, finance, development, asset management and technical operations working together.",
   } satisfies Localized,
-  responsibilities: { ro: "Responsabilități", ru: "Ответственность", en: "Responsibilities" } satisfies Localized,
-  /** Rendered only when publicTeam is empty. */
+  responsibilities: { ro: "Responsabilități", ru: "Задачи", en: "Responsibilities" } satisfies Localized,
   placeholderNote: {
-    ro: "Profilurile publice ale echipei vor fi publicate odată cu aprobarea lor.",
-    ru: "Публичные профили команды будут опубликованы после их утверждения.",
-    en: "Public team profiles will be published once approved.",
+    ro: "Profilurile publice ale echipei vor fi adăugate după aprobare.",
+    ru: "Публичные профили команды будут добавлены после утверждения.",
+    en: "Public team profiles will be added once approved.",
   } satisfies Localized,
 };

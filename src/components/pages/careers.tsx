@@ -33,9 +33,9 @@ export function CareersPage({ locale }: { locale: SiteLocale }) {
         <span className="page-hero__signature" aria-hidden="true" />
       </section>
 
-      <section className="why ink" id="why">
+      <section className="why stone" id="why">
         <div className="shell">
-          <SectionIndex no="02" inverse>{e.why.kicker[locale]}</SectionIndex>
+          <SectionIndex no="02">{e.why.kicker[locale]}</SectionIndex>
           <SectionHead title={e.why.title[locale]} />
           <div className="why__grid">
             {e.why.points.map((point) => (
@@ -94,6 +94,7 @@ export function CareersPage({ locale }: { locale: SiteLocale }) {
       <section className="positions ink" id="positions">
         <div className="shell">
           <SectionIndex no="05" inverse>{e.positions.kicker[locale]}</SectionIndex>
+          <p className="positions__source-note">{e.positions.sourceNote[locale]}</p>
           {openVacancies.length ? (
             <div className="positions__list">
               {openVacancies.map((vacancy, index) => (
@@ -101,9 +102,18 @@ export function CareersPage({ locale }: { locale: SiteLocale }) {
                   <span>0{index + 1}</span>
                   <h3>{vacancy.title[locale]}</h3>
                   <p>{vacancy.summary[locale]}</p>
-                  <ArrowLink href={`${p("/contact")}#partnership`} inverse>{e.apply.cta[locale]}</ArrowLink>
+                  <a className="arrow-link arrow-link--inverse" href={vacancy.externalUrl} target="_blank" rel="noopener noreferrer">
+                    <span>{e.positions.viewRole[locale]}</span>
+                    <span className="arrow-link__icon" aria-hidden="true">↗</span>
+                  </a>
                 </article>
               ))}
+              <div className="positions__all">
+                <a className="arrow-link arrow-link--inverse" href={e.positions.allRolesUrl} target="_blank" rel="noopener noreferrer">
+                  <span>{e.positions.allRoles[locale]}</span>
+                  <span className="arrow-link__icon" aria-hidden="true">↗</span>
+                </a>
+              </div>
             </div>
           ) : (
             <div className="positions__grid" data-reveal>

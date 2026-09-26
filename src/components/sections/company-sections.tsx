@@ -10,7 +10,7 @@ type Surface = "paper" | "stone" | "ink" | "graphite";
 const isDark = (surface: Surface) => surface === "ink" || surface === "graphite";
 
 /* ------------------------------------------------------------------ */
-/* Organisation — the people behind the assets                          */
+/* Organisation — team and competencies                                 */
 /* ------------------------------------------------------------------ */
 
 const orgCopy = {
@@ -81,14 +81,14 @@ export function OrganisationSection({
 /* ------------------------------------------------------------------ */
 
 const historySectionCopy = {
-  kicker: { ro: "Parcurs", ru: "История", en: "History" },
-  title: { ro: "Trei decenii de experiență. O singură direcție.", ru: "Три десятилетия опыта. Одно направление.", en: "Three decades of experience. One direction." },
+  kicker: { ro: "Istoric", ru: "История", en: "History" },
+  title: { ro: "Trei decenii de experiență.", ru: "Три десятилетия опыта.", en: "Three decades of experience." },
   text: {
-    ro: "Moștenirea grupului din 1995, MEGAPARC din 2005, focusul imobiliar din 2020. Astăzi: investim, dezvoltăm, administrăm.",
-    ru: "Наследие группы с 1995 года, MEGAPARC с 2005-го, фокус на недвижимости с 2020-го. Сегодня: инвестируем, развиваем, управляем.",
-    en: "Group heritage since 1995, MEGAPARC since 2005, real-estate focus since 2020. Today: invest, develop, manage.",
+    ro: "Experiența grupului din 1995, MEGAPARC din 2005, focus pe imobiliare din 2020. Astăzi: investim, dezvoltăm, administrăm.",
+    ru: "Опыт группы с 1995 года, MEGAPARC с 2005 года, фокус на недвижимости с 2020 года. Сегодня: инвестируем, развиваем, управляем.",
+    en: "Group experience since 1995, MEGAPARC since 2005, a focus on real estate since 2020. Today: we invest, develop and manage.",
   },
-  cta: { ro: "Cine este MEGAPARC", ru: "Кто такая MEGAPARC", en: "Who MEGAPARC is" },
+  cta: { ro: "Despre MEGAPARC", ru: "О компании", en: "About MEGAPARC" },
 } satisfies Record<string, Localized>;
 
 export function HistorySection({
@@ -175,11 +175,6 @@ export function JourneysSection({
               </div>
               <div className="journey__body">
                 <p>{journey.lead[locale]}</p>
-                <ol className="journey__steps" aria-label={journeysCopy.route[locale]}>
-                  {journey.steps[locale].map((step) => (
-                    <li key={step}>{step}</li>
-                  ))}
-                </ol>
               </div>
               <span className="journey__cta">
                 <span className={`arrow-link${dark ? " arrow-link--inverse" : ""}`}>

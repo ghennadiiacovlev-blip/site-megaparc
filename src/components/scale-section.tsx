@@ -4,15 +4,15 @@ import { portfolioMetrics, scaleMetrics } from "@/lib/metrics";
 import { brand, type Localized, type SiteLocale } from "@/lib/site-data";
 
 const copy = {
-  title: { ro: "MEGAPARC la scară", ru: "Масштаб MEGAPARC", en: "MEGAPARC at scale" },
+  title: { ro: "Portofoliul în cifre", ru: "Портфель в цифрах", en: "The portfolio in numbers" },
   statement: {
-    ro: "Active reale, teren de dezvoltare și trei decenii de experiență.",
-    ru: "Реальные активы, земля под девелопмент и три десятилетия опыта.",
-    en: "Real assets, development land and three decades of experience.",
+    ro: "Obiecte în funcțiune, teren de dezvoltare și trei decenii de experiență.",
+    ru: "Действующие объекты, земля под развитие и три десятилетия опыта.",
+    en: "Operating properties, development land and three decades of experience.",
   },
   note: {
     ro: "Suprafețele sunt prezentate pe tipuri distincte și nu sunt însumate. Terenul pentru dezvoltare include amplasamentul Drochia Gateway.",
-    ru: "Площади показаны по отдельным категориям и не суммируются. Земля под девелопмент включает участок Drochia Gateway.",
+    ru: "Площади показаны по отдельным категориям и не суммируются. Земля под развитие включает участок Drochia Gateway.",
     en: "Areas are presented by type and are not added together. Development land includes the Drochia Gateway site.",
   },
 } satisfies Record<string, Localized>;

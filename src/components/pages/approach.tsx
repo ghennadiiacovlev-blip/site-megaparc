@@ -7,30 +7,35 @@ import { brandLayers } from "@/lib/brand";
 import { megaparc2030 } from "@/lib/strategy";
 import { localePath, type SiteLocale } from "@/lib/site-data";
 
+/**
+ * Our approach — 1 how we evaluate · where we invest · 2 what creates value ·
+ * 3–4 how we develop and manage · owner's mindset · 5 investment principles ·
+ * 6 long-term direction · key figures · ways to work together.
+ */
 const copy = {
   ro: {
     eyebrow: "Abordarea noastră",
-    title: ["Cum gândește", "MEGAPARC?"],
-    lead: "Imobiliarele nu sunt doar metri pătrați. Sunt capital. Această pagină explică filosofia, principiile, ciclul de creare a valorii și direcția strategică până în 2030.",
+    title: ["Cum lucrează", "MEGAPARC"],
+    lead: "Evaluăm obiectele înainte de a investi, creăm valoare la fiecare etapă și administrăm imobiliarele astfel încât să rămână căutate.",
     cta: "Vezi portofoliul",
-    breakLabel: "Disciplina capitalului",
-    principlesCta: "Vezi MEGAPARC 2030",
+    breakLabel: "Investiții echilibrate",
+    principlesCta: "Direcția pe termen lung",
   },
   ru: {
     eyebrow: "Наш подход",
-    title: ["Как мыслит", "MEGAPARC?"],
-    lead: "Недвижимость — не просто квадратные метры. Это капитал. Эта страница объясняет философию, принципы, цикл создания стоимости и стратегическое направление до 2030 года.",
+    title: ["Как работает", "MEGAPARC"],
+    lead: "Оцениваем объекты до инвестирования, создаём стоимость на каждом этапе и управляем недвижимостью так, чтобы она оставалась востребованной.",
     cta: "Смотреть портфель",
-    breakLabel: "Дисциплина капитала",
-    principlesCta: "Смотреть MEGAPARC 2030",
+    breakLabel: "Взвешенные инвестиции",
+    principlesCta: "Долгосрочное направление",
   },
   en: {
     eyebrow: "Our approach",
-    title: ["How does", "MEGAPARC think?"],
-    lead: "Real estate is not merely square metres. It is capital. This page explains the philosophy, the principles, the value-creation cycle and the strategic direction to 2030.",
+    title: ["How MEGAPARC", "works"],
+    lead: "We assess properties before investing, create value at every stage and manage real estate so that it stays in demand.",
     cta: "View the portfolio",
-    breakLabel: "Capital discipline",
-    principlesCta: "See MEGAPARC 2030",
+    breakLabel: "Considered investment",
+    principlesCta: "Long-term direction",
   },
 } as const;
 
@@ -57,15 +62,15 @@ export function ApproachPage({ locale }: { locale: SiteLocale }) {
         <span className="label label--red">{brandLayers.strategicIdea[locale]}</span>
       </PageHero>
 
-      <ManifestoSection locale={locale} no={no()} />
+      <ManifestoSection locale={locale} no={no()} surface="paper" />
       <MandateSection locale={locale} no={no()} surface="stone" counts={{ operating: portfolioAssets.length, projects: developmentProjects.length }} />
-      <PlatformSection locale={locale} no={no()} links={false} />
+      <ValueCycleSection locale={locale} no={no()} surface="paper" />
+      <PlatformSection locale={locale} no={no()} surface="stone" links={false} />
+      <MindsetSection locale={locale} no={no()} surface="paper" />
       <SignatureSection locale={locale} />
-      <ValueCycleSection locale={locale} no={no()} surface="stone" />
       <ImageBreak media={dacia.media!} alt={`${dacia.name} — ${dacia.positioning[locale]}`} statementLabel={c.breakLabel} statement={megaparc2030.pillars[3].idea![locale]} />
-      <PrinciplesSection locale={locale} no={no()} cta={{ href: "#megaparc-2030", label: c.principlesCta }} />
-      <MindsetSection locale={locale} no={no()} />
-      <Strategy2030Section locale={locale} no={no()} surface="graphite" />
+      <PrinciplesSection locale={locale} no={no()} surface="stone" cta={{ href: "#megaparc-2030", label: c.principlesCta }} />
+      <Strategy2030Section locale={locale} no={no()} surface="paper" />
       <CapitalSection locale={locale} no={no()} />
       <JourneysSection locale={locale} no={no()} surface="paper" />
 

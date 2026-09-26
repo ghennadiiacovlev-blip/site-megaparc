@@ -1,8 +1,8 @@
 import type { Localized, SiteLocale } from "@/lib/site-data";
 
 /**
- * Three primary client journeys and the contact enquiry paths.
- * Governance: docs/CLIENT_JOURNEYS.md.
+ * Ways to work with MEGAPARC and the contact enquiry paths.
+ * Editorial source language: Russian (OWNER_EDITORIAL_COPY_BRIEF.md).
  */
 
 export type JourneyKey = "find-space" | "submit-opportunity" | "discuss-partnership";
@@ -11,17 +11,13 @@ export type ClientJourney = {
   key: JourneyKey;
   no: string;
   title: Localized;
-  /** Who this path is for. */
   audience: Localized;
   lead: Localized;
-  /** Route steps, shown as the path a visitor follows. */
+  /** Kept for data completeness; not rendered as a navigation diagram. */
   steps: Record<SiteLocale, string[]>;
-  /** What MEGAPARC may consider / what the visitor gets. */
   scope: Record<SiteLocale, string[]>;
   cta: Localized;
-  /** Locale-neutral path; the contact page anchors carry the enquiry type. */
   path: string;
-  /** Contact anchor id. */
   anchor: string;
 };
 
@@ -29,56 +25,56 @@ export const clientJourneys: ClientJourney[] = [
   {
     key: "find-space",
     no: "01",
-    title: { ro: "Caut un spațiu", ru: "Ищу помещение", en: "Find a space" },
+    title: { ro: "Caut un spațiu", ru: "Найти помещение", en: "Find a space" },
     audience: {
-      ro: "Companii, branduri de retail, sedii corporative, directori de expansiune și de real estate.",
-      ru: "Компании, ритейл-бренды, корпоративные штаб-квартиры, директора по экспансии и недвижимости.",
-      en: "Corporate occupiers, retail brands, headquarters users, expansion and real estate directors.",
+      ro: "Companii, branduri de retail, sedii corporative.",
+      ru: "Компании, ритейл-бренды, штаб-квартиры.",
+      en: "Companies, retail brands, headquarters.",
     },
     lead: {
-      ro: "Active operaționale din portofoliul MEGAPARC, prezentate ca profil de activ: locație, clădire, logică de operare și date verificate.",
-      ru: "Операционные активы портфеля MEGAPARC, представленные как профиль объекта: локация, здание, логика эксплуатации и проверенные данные.",
-      en: "Operating assets in the MEGAPARC portfolio, presented as asset profiles: location, building, operating logic and verified facts.",
+      ro: "Vă propunem un obiect potrivit din portofoliul în funcțiune și discutăm condițiile direct.",
+      ru: "Подберём подходящий объект из действующего портфеля и обсудим условия напрямую.",
+      en: "We will find a suitable property in the operating portfolio and discuss terms directly.",
     },
     steps: {
-      ro: ["Acasă", "Portofoliu", "Activ", "Locație", "Date", "Contact"],
-      ru: ["Главная", "Портфель", "Объект", "Локация", "Данные", "Контакты"],
-      en: ["Home", "Portfolio", "Asset", "Location", "Facts", "Contact"],
+      ro: ["Portofoliu", "Obiect", "Contact"],
+      ru: ["Портфель", "Объект", "Контакт"],
+      en: ["Portfolio", "Property", "Contact"],
     },
     scope: {
-      ro: ["Sediu corporativ sau campus", "Retail urban pe prima linie", "Spații comerciale de proximitate", "Discuție directă cu proprietarul / administratorul"],
-      ru: ["Штаб-квартира или кампус", "Городской ритейл на первой линии", "Торговые помещения шаговой доступности", "Прямой диалог с собственником / управляющим"],
-      en: ["Headquarters or campus", "First-line urban retail", "Neighbourhood retail space", "A direct conversation with the owner / manager"],
+      ro: ["Birou sau sediu central", "Spațiu comercial pe prima linie", "Spațiu comercial în cartier"],
+      ru: ["Офис или штаб-квартира", "Торговое помещение первой линии", "Помещение в жилом районе"],
+      en: ["Office or headquarters", "First-line retail space", "Neighbourhood retail space"],
     },
-    cta: { ro: "Vezi activele disponibile", ru: "Смотреть доступные объекты", en: "View available assets" },
+    cta: { ro: "Vezi obiectele", ru: "Смотреть объекты", en: "View properties" },
     path: "/opportunities",
     anchor: "occupier",
   },
   {
     key: "submit-opportunity",
     no: "02",
-    title: { ro: "Propun o oportunitate", ru: "Предложить объект", en: "Submit an opportunity" },
+    title: { ro: "Propun un obiect", ru: "Предложить объект", en: "Submit a property" },
     audience: {
-      ro: "Proprietari, consultanți, dezvoltatori și parteneri, din orice geografie: clădiri, terenuri, proprietăți comerciale, amplasamente de dezvoltare sau active subperformante.",
-      ru: "Владельцы, консультанты, девелоперы и партнёры из любой географии: здания, участки, коммерческая недвижимость, площадки под развитие или недоиспользуемые активы.",
-      en: "Owners, advisers, developers and partners, from any geography: buildings, land, commercial property, development sites or underperforming assets.",
+      ro: "Proprietari, consultanți, dezvoltatori.",
+      ru: "Собственники, консультанты, девелоперы.",
+      en: "Owners, advisers, developers.",
     },
     lead: {
-      ro: "MEGAPARC poate analiza achiziții, repoziționări, dezvoltări, parteneriate sau oportunități comune, în Moldova sau pe alte piețe. Fiecare propunere este evaluată după logica sa economică; analiza nu implică o achiziție automată.",
-      ru: "MEGAPARC может рассматривать приобретение, репозиционирование, девелопмент, партнёрство или совместные возможности — в Молдове или на других рынках. Каждое предложение оценивается по экономической логике; рассмотрение не означает автоматической покупки.",
-      en: "MEGAPARC may consider acquisition, repositioning, development, partnership or a joint opportunity, in Moldova or in other markets. Every proposal is assessed on its economic logic; review does not imply automatic acquisition.",
+      ro: "Analizăm imobiliare generatoare de venit, terenuri, clădiri pentru reconcepere și proiecte de dezvoltare pe piețele internaționale.",
+      ru: "Рассматриваем доходную недвижимость, участки, здания под реконцепцию и проекты развития на международных рынках.",
+      en: "We consider income-producing property, land, buildings for repositioning and development projects across international markets.",
     },
     steps: {
-      ro: ["Propunere", "Evaluare inițială", "Analiză", "Discuție", "Decizie"],
-      ru: ["Предложение", "Первичная оценка", "Анализ", "Диалог", "Решение"],
-      en: ["Proposal", "Initial review", "Analysis", "Conversation", "Decision"],
+      ro: ["Propunere", "Evaluare", "Discuție", "Decizie"],
+      ru: ["Предложение", "Оценка", "Переговоры", "Решение"],
+      en: ["Proposal", "Assessment", "Discussion", "Decision"],
     },
     scope: {
-      ro: ["Imobiliare generatoare de venit", "Amplasamente de dezvoltare", "Oportunități de repoziționare", "Proiecte imobiliare strategice", "Parteneriate și joint ventures"],
-      ru: ["Доходная недвижимость", "Площадки под развитие", "Возможности репозиционирования", "Стратегические проекты недвижимости", "Партнёрства и совместные предприятия"],
-      en: ["Income-producing real estate", "Development sites", "Repositioning opportunities", "Strategic real-estate projects", "Partnership and joint-venture opportunities"],
+      ro: ["Imobiliare generatoare de venit", "Terenuri de dezvoltare", "Clădiri pentru reconcepere", "Proiecte de dezvoltare", "Proiecte comune"],
+      ru: ["Доходная недвижимость", "Площадки под развитие", "Здания под реконцепцию", "Проекты развития", "Совместные проекты"],
+      en: ["Income-producing property", "Development sites", "Buildings for repositioning", "Development projects", "Joint projects"],
     },
-    cta: { ro: "Propune o oportunitate", ru: "Предложить объект", en: "Submit an opportunity" },
+    cta: { ro: "Propune un obiect", ru: "Предложить объект", en: "Submit a property" },
     path: "/contact",
     anchor: "opportunity",
   },
@@ -87,24 +83,24 @@ export const clientJourneys: ClientJourney[] = [
     no: "03",
     title: { ro: "Discut un parteneriat", ru: "Обсудить партнёрство", en: "Discuss a partnership" },
     audience: {
-      ro: "Bănci, investitori, instituții financiare, parteneri strategici, dezvoltatori, arhitecți și contrapărți instituționale.",
-      ru: "Банки, инвесторы, финансовые институты, стратегические партнёры, девелоперы, архитекторы и институциональные контрагенты.",
-      en: "Banks, investors, financial institutions, strategic partners, developers, architects and institutional counterparties.",
+      ro: "Bănci, investitori, proprietari de terenuri, dezvoltatori, parteneri profesioniști.",
+      ru: "Банки, инвесторы, собственники земли, девелоперы, профессиональные партнёры.",
+      en: "Banks, investors, landowners, developers, professional partners.",
     },
     lead: {
-      ro: "Înainte de o discuție, strategia, scara, portofoliul, pipeline-ul de dezvoltare, capitalul la lucru și organizația MEGAPARC sunt prezentate public.",
-      ru: "До разговора стратегия, масштаб, портфель, девелоперский пайплайн, работающий капитал и организация MEGAPARC представлены публично.",
-      en: "Before a conversation, MEGAPARC's strategy, scale, portfolio, development pipeline, capital at work and organisation are presented publicly.",
+      ro: "Suntem deschiși la colaborare cu bănci, investitori, proprietari de terenuri, dezvoltatori și parteneri profesioniști.",
+      ru: "Открыты к сотрудничеству с банками, инвесторами, собственниками земли, девелоперами и профессиональными партнёрами.",
+      en: "We are open to working with banks, investors, landowners, developers and professional partners.",
     },
     steps: {
-      ro: ["Acasă", "Abordare", "Strategie", "Portofoliu", "Dezvoltare", "Capital", "Organizație", "Contact"],
-      ru: ["Главная", "Подход", "Стратегия", "Портфель", "Девелопмент", "Капитал", "Организация", "Контакты"],
-      en: ["Home", "Our approach", "Strategy", "Portfolio", "Development", "Capital", "Organisation", "Contact"],
+      ro: ["Abordare", "Portofoliu", "Contact"],
+      ru: ["Подход", "Портфель", "Контакт"],
+      en: ["Approach", "Portfolio", "Contact"],
     },
     scope: {
-      ro: ["Finanțare și parteneri de capital", "Joint venture și co-dezvoltare", "Parteneri de proiectare și execuție", "Contrapărți instituționale"],
-      ru: ["Финансирование и партнёры по капиталу", "Совместные предприятия и со-девелопмент", "Партнёры по проектированию и строительству", "Институциональные контрагенты"],
-      en: ["Financing and capital partners", "Joint ventures and co-development", "Design and delivery partners", "Institutional counterparties"],
+      ro: ["Finanțare", "Investiții comune", "Co-dezvoltare", "Parteneri de proiectare și construcție"],
+      ru: ["Финансирование", "Совместные инвестиции", "Со-девелопмент", "Проектные и строительные партнёры"],
+      en: ["Financing", "Joint investment", "Co-development", "Design and construction partners"],
     },
     cta: { ro: "Discută un parteneriat", ru: "Обсудить партнёрство", en: "Discuss a partnership" },
     path: "/contact",
@@ -113,16 +109,16 @@ export const clientJourneys: ClientJourney[] = [
 ];
 
 export const journeysCopy = {
-  kicker: { ro: "Lucrează cu MEGAPARC", ru: "Работать с MEGAPARC", en: "Work with MEGAPARC" } satisfies Localized,
-  title: { ro: "Trei drumuri. O singură platformă.", ru: "Три пути. Одна платформа.", en: "Three routes. One platform." } satisfies Localized,
+  kicker: { ro: "Colaborare", ru: "Сотрудничество", en: "Working with MEGAPARC" } satisfies Localized,
+  title: { ro: "Cum putem colabora", ru: "Чем мы можем быть полезны", en: "How we can work together" } satisfies Localized,
   text: {
-    ro: "Fiecare interlocutor ajunge la MEGAPARC cu o întrebare diferită. Site-ul răspunde la fiecare, fără să transforme compania într-un catalog.",
-    ru: "Каждый собеседник приходит в MEGAPARC с разным вопросом. Сайт отвечает на каждый из них, не превращая компанию в каталог.",
-    en: "Every counterparty comes to MEGAPARC with a different question. The site answers each one without turning the company into a catalogue.",
+    ro: "Dacă căutați un spațiu, doriți să propuneți un obiect sau să discutați un proiect comun, contactați-ne.",
+    ru: "Если вы ищете помещение, хотите предложить объект или обсудить совместный проект — свяжитесь с нами.",
+    en: "If you are looking for a space, want to offer a property or discuss a joint project, get in touch.",
   } satisfies Localized,
-  route: { ro: "Traseu", ru: "Маршрут", en: "Route" } satisfies Localized,
+  route: { ro: "Etape", ru: "Этапы", en: "Steps" } satisfies Localized,
   forWhom: { ro: "Pentru cine", ru: "Для кого", en: "For whom" } satisfies Localized,
-  scope: { ro: "Ce poate include", ru: "Что может включать", en: "What it can include" } satisfies Localized,
+  scope: { ro: "Ce poate include", ru: "Что рассматриваем", en: "What it can include" } satisfies Localized,
 };
 
 /* ------------------------------------------------------------------ */
@@ -130,13 +126,12 @@ export const journeysCopy = {
 /* ------------------------------------------------------------------ */
 
 export type EnquiryPath = {
-  key: JourneyKey;
+  key: JourneyKey | "careers";
   anchor: string;
   no: string;
   title: Localized;
   meta: Localized;
   text: Localized;
-  /** What to include in a first message. */
   include: Record<SiteLocale, string[]>;
 };
 
@@ -145,51 +140,68 @@ export const enquiryPaths: EnquiryPath[] = [
     key: "find-space",
     anchor: "occupier",
     no: "01",
-    title: { ro: "Corporate / Ocupant", ru: "Корпоративный / Арендатор", en: "Corporate / Occupier" },
-    meta: { ro: "Sediu · retail · spațiu comercial", ru: "Штаб-квартира · ритейл · торговое помещение", en: "Headquarters · retail · commercial space" },
+    title: { ro: "Închiriere / spațiu", ru: "Аренда / помещение", en: "Leasing / space" },
+    meta: { ro: "Birou · spațiu comercial", ru: "Офис · торговое помещение", en: "Office · retail space" },
     text: {
-      ro: "Pentru companii care caută un sediu, un spațiu de retail sau un activ din portofoliul MEGAPARC.",
-      ru: "Для компаний, которые ищут штаб-квартиру, торговое помещение или объект из портфеля MEGAPARC.",
-      en: "For companies looking for a headquarters, a retail space or an asset in the MEGAPARC portfolio.",
+      ro: "Pentru companiile care caută un spațiu în obiectele MEGAPARC.",
+      ru: "Для компаний, которые ищут помещение в действующих объектах MEGAPARC.",
+      en: "For companies looking for space in MEGAPARC's operating properties.",
     },
     include: {
-      ro: ["Activul sau tipul de spațiu care vă interesează", "Suprafața și orizontul de timp", "Compania și persoana de contact"],
-      ru: ["Интересующий объект или тип помещения", "Площадь и временной горизонт", "Компания и контактное лицо"],
-      en: ["The asset or type of space you are interested in", "Area and timing", "Company and contact person"],
+      ro: ["Obiectul sau tipul de spațiu care vă interesează", "Suprafața și termenele", "Compania și persoana de contact"],
+      ru: ["Какой объект или тип помещения вас интересует", "Площадь и сроки", "Компания и контактное лицо"],
+      en: ["The property or type of space you need", "Area and timing", "Company and contact person"],
     },
   },
   {
     key: "submit-opportunity",
     anchor: "opportunity",
     no: "02",
-    title: { ro: "Proprietate / Oportunitate", ru: "Объект / Возможность", en: "Property / Opportunity" },
-    meta: { ro: "Clădire · teren · activ subperformant · orice geografie", ru: "Здание · участок · недоиспользуемый актив · любая география", en: "Building · land · underperforming asset · any geography" },
+    title: { ro: "Propun un obiect", ru: "Предложить объект", en: "Submit a property" },
+    meta: { ro: "Clădire · teren · proiect", ru: "Здание · участок · проект", en: "Building · land · project" },
     text: {
-      ro: "Pentru proprietari, consultanți, dezvoltatori și parteneri care doresc să propună imobiliare generatoare de venit, un amplasament de dezvoltare, o repoziționare, un proiect strategic sau un parteneriat, în Moldova sau pe alte piețe.",
-      ru: "Для владельцев, консультантов, девелоперов и партнёров, которые хотят предложить доходную недвижимость, площадку под развитие, репозиционирование, стратегический проект или партнёрство — в Молдове или на других рынках.",
-      en: "For owners, advisers, developers and partners who wish to propose income-producing real estate, a development site, a repositioning, a strategic project or a partnership, in Moldova or in other markets.",
+      ro: "Pentru proprietari, consultanți și dezvoltatori care doresc să propună un obiect sau un proiect.",
+      ru: "Для собственников, консультантов и девелоперов, которые хотят предложить объект или проект.",
+      en: "For owners, advisers and developers who want to offer a property or a project.",
     },
     include: {
-      ro: ["Țara, orașul și tipul proprietății", "Suprafața și situația juridică, pe scurt", "Ce tip de colaborare aveți în vedere"],
-      ru: ["Страна, город и тип объекта", "Площадь и юридический статус, кратко", "Какой формат сотрудничества вы рассматриваете"],
-      en: ["Country, city and type of property", "Area and legal situation, in brief", "The kind of collaboration you have in mind"],
+      ro: ["Țara, orașul și tipul obiectului", "Suprafața și situația juridică", "Formatul de colaborare"],
+      ru: ["Страна, город и тип объекта", "Площадь и юридический статус", "Формат сотрудничества"],
+      en: ["Country, city and type of property", "Area and legal status", "The form of cooperation"],
     },
   },
   {
     key: "discuss-partnership",
     anchor: "partnership",
     no: "03",
-    title: { ro: "Parteneriat / Investiții", ru: "Партнёрство / Инвестиции", en: "Partnership / Investment" },
-    meta: { ro: "Capital · finanțare · co-dezvoltare · instituțional", ru: "Капитал · финансирование · со-девелопмент · институциональный", en: "Capital · financing · co-development · institutional" },
+    title: { ro: "Investiții și parteneriat", ru: "Инвестиции и партнёрство", en: "Investment and partnership" },
+    meta: { ro: "Finanțare · proiecte comune", ru: "Финансирование · совместные проекты", en: "Financing · joint projects" },
     text: {
-      ro: "Pentru bănci, investitori, parteneri de dezvoltare, arhitecți, contractori, presă și instituții.",
-      ru: "Для банков, инвесторов, партнёров по девелопменту, архитекторов, подрядчиков, прессы и институтов.",
-      en: "For banks, investors, development partners, architects, contractors, media and institutions.",
+      ro: "Pentru bănci, investitori, dezvoltatori și parteneri profesioniști.",
+      ru: "Для банков, инвесторов, девелоперов и профессиональных партнёров.",
+      en: "For banks, investors, developers and professional partners.",
     },
     include: {
-      ro: ["Instituția și rolul dumneavoastră", "Tema discuției", "Orizontul de timp"],
-      ru: ["Ваша организация и роль", "Тема разговора", "Временной горизонт"],
-      en: ["Your institution and role", "The subject of the conversation", "Timing"],
+      ro: ["Organizația și rolul dumneavoastră", "Subiectul discuției", "Termenele"],
+      ru: ["Организация и роль", "Тема обращения", "Сроки"],
+      en: ["Your organisation and role", "The subject", "Timing"],
+    },
+  },
+  {
+    key: "careers",
+    anchor: "careers",
+    no: "04",
+    title: { ro: "Carieră", ru: "Карьера", en: "Careers" },
+    meta: { ro: "Posturi · CV", ru: "Вакансии · резюме", en: "Vacancies · CV" },
+    text: {
+      ro: "Pentru specialiștii care doresc să lucreze la MEGAPARC. Posturile deschise sunt publicate pe Rabota.md.",
+      ru: "Для специалистов, которые хотят работать в MEGAPARC. Открытые вакансии опубликованы на Rabota.md.",
+      en: "For professionals who want to work at MEGAPARC. Open vacancies are published on Rabota.md.",
+    },
+    include: {
+      ro: ["Postul sau domeniul care vă interesează", "CV-ul"],
+      ru: ["Интересующая позиция или направление", "Резюме"],
+      en: ["The role or area you are interested in", "Your CV"],
     },
   },
 ];

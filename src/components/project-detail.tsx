@@ -11,7 +11,7 @@ const copy = {
   back: { ro: "Dezvoltare", ru: "Девелопмент", en: "Development" },
   intro: { ro: "Proiect", ru: "Проект", en: "Project" },
   facts: { ro: "Date cheie", ru: "Ключевые данные", en: "Key facts" },
-  position: { ro: "Poziția în sistemul de dezvoltare", ru: "Положение в системе девелопмента", en: "Position in the development system" },
+  position: { ro: "Etapa proiectului", ru: "Стадия проекта", en: "Project stage" },
   enquiry: { ro: "Solicitare", ru: "Запрос", en: "Enquiry" },
 } satisfies Record<string, Localized>;
 

@@ -6,24 +6,29 @@ import { ArrowLink, ArtImage, FactGrid, FactList, MediaPlaceholder, Note, Sectio
 import { getNextAsset, type PortfolioAsset } from "@/lib/assets";
 import { localePath, ui, type Localized, type SiteLocale } from "@/lib/site-data";
 
+/**
+ * Property page — editorial. Answers: what the property is, why the location
+ * matters, who it suits, what sets it apart, how it is organised and how it can
+ * adapt. No prices, no offer copy.
+ */
 const copy = {
   back: { ro: "Portofoliu", ru: "Портфель", en: "Portfolio" },
-  positioning: { ro: "Poziționare", ru: "Позиционирование", en: "Positioning" },
-  story: { ro: "Povestea activului", ru: "История актива", en: "Asset story" },
+  story: { ro: "Despre obiect", ru: "Об объекте", en: "About the property" },
+  audience: { ro: "Cui i se potrivește", ru: "Кому подходит", en: "Who it suits" },
   facts: { ro: "Date cheie", ru: "Ключевые данные", en: "Key facts" },
-  building: { ro: "Clădire / Spațiu", ru: "Здание / Пространство", en: "Building / Space" },
-  programme: { ro: "Program pe niveluri", ru: "Поэтажная программа", en: "Floor programme" },
-  logic: { ro: "Logica de operare", ru: "Логика эксплуатации", en: "Operating logic" },
-  character: { ro: "Caracterul activului", ru: "Характер актива", en: "Asset character" },
-  distinctive: { ro: "Ce îl face distinct", ru: "Что делает его особенным", en: "What makes it distinctive" },
-  relevance: { ro: "Cum rămâne relevant", ru: "Как он остаётся актуальным", en: "How it stays relevant" },
+  building: { ro: "Clădirea", ru: "Здание", en: "The building" },
+  programme: { ro: "Structura pe niveluri", ru: "Поэтажная структура", en: "Floor structure" },
+  logic: { ro: "Cum este organizat obiectul", ru: "Как организован объект", en: "How the property is organised" },
+  character: { ro: "Particularitățile obiectului", ru: "Особенности объекта", en: "Property features" },
+  distinctive: { ro: "Ce îl deosebește", ru: "Что отличает объект", en: "What sets it apart" },
+  relevance: { ro: "Potențial și adaptare", ru: "Потенциал и адаптация", en: "Potential and adaptation" },
   availability: { ro: "Disponibilitate", ru: "Доступность", en: "Availability" },
   availabilityNote: {
-    ro: "Condițiile comerciale și tehnice se discută direct și nu sunt publicate.",
-    ru: "Коммерческие и технические условия обсуждаются напрямую и не публикуются.",
-    en: "Commercial and technical conditions are discussed directly and are not published.",
+    ro: "Condițiile comerciale și tehnice se discută direct.",
+    ru: "Коммерческие и технические условия обсуждаются напрямую.",
+    en: "Commercial and technical terms are discussed directly.",
   },
-  enquiry: { ro: "Discută despre acest activ", ru: "Обсудить этот объект", en: "Discuss this asset" },
+  enquiry: { ro: "Discută despre obiect", ru: "Обсудить объект", en: "Discuss the property" },
   architecture: { ro: "Arhitectură", ru: "Архитектура", en: "Architecture" },
 } satisfies Record<string, Localized>;
 
@@ -36,6 +41,7 @@ export function AssetDetailPage({ locale, asset }: { locale: SiteLocale; asset: 
   const hasBuilding = Boolean(asset.building.text.en);
   const hasLogic = Boolean(asset.operatingLogic.text.en);
   const hasCharacter = Boolean(asset.character.en);
+  const features = asset.building.features.slice(0, 4);
   let section = 0;
   const no = () => String(++section).padStart(2, "0");
 
@@ -65,10 +71,17 @@ export function AssetDetailPage({ locale, asset }: { locale: SiteLocale; asset: 
               <dt>{ui.use[locale]}</dt>
               <dd>{asset.use[locale]}</dd>
             </div>
-            <div>
-              <dt>{ui.role[locale]}</dt>
-              <dd>{ui.portfolioLine[locale]}</dd>
-            </div>
+            {asset.availability ? (
+              <div>
+                <dt>{ui.availability[locale]}</dt>
+                <dd>{asset.availability.area[locale]}</dd>
+              </div>
+            ) : (
+              <div>
+                <dt>{ui.role[locale]}</dt>
+                <dd>{ui.portfolioLine[locale]}</dd>
+              </div>
+            )}
           </dl>
         </div>
       </section>
@@ -85,9 +98,10 @@ export function AssetDetailPage({ locale, asset }: { locale: SiteLocale; asset: 
         </div>
       </section>
 
-      <section className="asset-detail__story paper">
+      {/* The asset — story and who can use it */}
+      <section className="asset-detail__story white">
         <div className="shell">
-          <SectionIndex no={no()}>{copy.positioning[locale]}</SectionIndex>
+          <SectionIndex no={no()}>{copy.story[locale]}</SectionIndex>
           <div className="copy-grid" data-reveal>
             <div>
               <p className="asset-detail__narrative">{asset.narrative[locale]}</p>
@@ -95,24 +109,32 @@ export function AssetDetailPage({ locale, asset }: { locale: SiteLocale; asset: 
             </div>
             <div>
               <p className="lead">{asset.lead[locale]}</p>
-              <span className="label label--red">{copy.story[locale]}</span>
-              <div className="prose" style={{ marginTop: "1.2rem" }}>
+              <div className="prose">
                 {asset.story[locale].map((paragraph) => (
                   <p key={paragraph}>{paragraph}</p>
                 ))}
               </div>
+              {asset.audience[locale] ? (
+                <div className="asset-detail__audience">
+                  <span className="label label--red">{copy.audience[locale]}</span>
+                  <p>{asset.audience[locale]}</p>
+                </div>
+              ) : null}
               {asset.keyFacts.length ? null : <Note>{ui.onRequest[locale]}</Note>}
             </div>
           </div>
-          {asset.keyFacts.length ? (
-            <div className="asset-detail__facts" data-reveal>
-              <SectionIndex no={no()}>{copy.facts[locale]}</SectionIndex>
-              <FactGrid facts={asset.keyFacts} locale={locale} />
-              {asset.caveat ? <Note>{asset.caveat[locale]}</Note> : null}
-            </div>
-          ) : null}
         </div>
       </section>
+
+      {asset.keyFacts.length ? (
+        <section className="asset-detail__facts-band paper">
+          <div className="shell" data-reveal>
+            <SectionIndex no={no()}>{copy.facts[locale]}</SectionIndex>
+            <FactGrid facts={asset.keyFacts} locale={locale} />
+            {asset.caveat ? <Note>{asset.caveat[locale]}</Note> : null}
+          </div>
+        </section>
+      ) : null}
 
       {asset.media ? (
         <section className="asset-detail__band" aria-hidden="true">
@@ -139,28 +161,28 @@ export function AssetDetailPage({ locale, asset }: { locale: SiteLocale; asset: 
               <div>
                 <p className="lead">{asset.building.text[locale]}</p>
                 {asset.building.programme.length ? <FactList facts={asset.building.programme} locale={locale} /> : null}
+                {features.length ? (
+                  <ul className="asset-detail__features">
+                    {features.map((item) => (
+                      <li key={item.en}>{item[locale]}</li>
+                    ))}
+                  </ul>
+                ) : null}
               </div>
             </div>
-            {asset.building.features.length ? (
-              <ul className="characteristics" data-reveal>
-                {asset.building.features.map((item) => (
-                  <li key={item.en}>{item[locale]}</li>
-                ))}
-              </ul>
-            ) : null}
           </div>
         </section>
       ) : null}
 
       {hasLogic ? (
-        <section className="asset-detail__logic graphite">
+        <section className="asset-detail__logic white">
           <div className="shell">
-            <SectionIndex no={no()} inverse>{copy.logic[locale]}</SectionIndex>
+            <SectionIndex no={no()}>{copy.logic[locale]}</SectionIndex>
             <div className="logic__grid" data-reveal>
               <h2>{asset.narrative[locale]}</h2>
               <div>
                 <p className="logic__text">{asset.operatingLogic.text[locale]}</p>
-                <ul className="logic__points">
+                <ul className="logic__points logic__points--light">
                   {asset.operatingLogic.points.map((point) => (
                     <li key={point.en}>{point[locale]}</li>
                   ))}
@@ -211,7 +233,6 @@ export function AssetDetailPage({ locale, asset }: { locale: SiteLocale; asset: 
                 <Note>{copy.availabilityNote[locale]}</Note>
                 <div className="availability-band__actions">
                   <ArrowLink href={`${p("/contact")}#occupier`} strong>{ui.requestDetails[locale]}</ArrowLink>
-                  <ArrowLink href={`${p("/contact")}#occupier`}>{ui.contactUs[locale]}</ArrowLink>
                 </div>
               </div>
             </div>
@@ -240,4 +261,3 @@ export function AssetDetailPage({ locale, asset }: { locale: SiteLocale; asset: 
     </PageShell>
   );
 }
-

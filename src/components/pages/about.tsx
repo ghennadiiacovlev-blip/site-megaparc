@@ -9,59 +9,38 @@ import { brand, localePath, type SiteLocale } from "@/lib/site-data";
 const copy = {
   ro: {
     eyebrow: "Despre",
-    title: ["Cine este", "MEGAPARC?"],
-    lead: "O platformă integrată de investiții imobiliare cu baza în Republica Moldova, care analizează oportunități de investiții la nivel internațional, construită pe moștenirea antreprenorială a grupului din 1995 și fondată ca MEGAPARC în 2005.",
-    identityIndex: "Identitate",
-    identityTitle: "Trei straturi. O singură identitate.",
-    identityText: "Un brand emoțional, o filosofie de investiție și un model de afaceri, care lucrează împreună.",
-    layers: [
-      ["Ideea de brand", "Construim viitorul."],
-      ["Filosofia de investiție", "Imobiliare administrate ca capital"],
-      ["Modelul de afaceri", "Investim · Dezvoltăm · Administrăm · Creăm valoare"],
-      ["Poziționare", "Platformă integrată de investiții imobiliare"],
-      ["Geografie de investiții", "Moldova: baza operațională · Oportunități de investiții analizate la nivel internațional"],
-    ],
-    imageCaption: "Moscova 20 · activ operațional",
+    title: ["Despre", "MEGAPARC"],
+    lead: "MEGAPARC este o companie din domeniul imobiliar care investește, dezvoltă proiecte și administrează active. Compania a fost fondată în 2005 și se bazează pe experiența antreprenorială a grupului din 1995.",
+    todayIndex: "Astăzi",
+    todayTitle: "Astăzi MEGAPARC administrează obiecte în funcțiune, dezvoltă proiecte noi și analizează oportunități de investiții pe piețele internaționale.",
+    todayText: "Investiții, dezvoltare și administrare imobiliară, într-o singură companie.",
+    imageCaption: "Moscova 20 · obiect în funcțiune",
     missionIndex: "Scop · Misiune · Viziune",
-    responsibilityCta: "Cum gândim",
+    responsibilityCta: "Abordarea noastră",
     contactCta: "Discută un parteneriat",
   },
   ru: {
     eyebrow: "О компании",
-    title: ["Кто такая", "MEGAPARC?"],
-    lead: "Интегрированная платформа инвестиций в недвижимость с базой в Республике Молдова, рассматривающая инвестиционные возможности по всему миру, построенная на предпринимательском наследии группы с 1995 года и основанная как MEGAPARC в 2005 году.",
-    identityIndex: "Идентичность",
-    identityTitle: "Три слоя. Одна идентичность.",
-    identityText: "Эмоциональная идея бренда, инвестиционная философия и бизнес-модель, которые работают вместе.",
-    layers: [
-      ["Идея бренда", "Строим будущее."],
-      ["Инвестиционная философия", "Недвижимость, управляемая как капитал"],
-      ["Бизнес-модель", "Инвестируем · Развиваем · Управляем · Создаём стоимость"],
-      ["Позиционирование", "Интегрированная платформа инвестиций в недвижимость"],
-      ["География инвестиций", "Молдова: операционная база · Инвестиционные возможности рассматриваем по всему миру"],
-    ],
-    imageCaption: "Moscova 20 · операционный актив",
+    title: ["О компании", "MEGAPARC"],
+    lead: "MEGAPARC — компания в сфере недвижимости, которая инвестирует, развивает проекты и управляет активами. Компания основана в 2005 году и опирается на предпринимательский опыт группы с 1995 года.",
+    todayIndex: "Сегодня",
+    todayTitle: "Сегодня MEGAPARC управляет действующими объектами, развивает новые проекты и рассматривает инвестиционные возможности на международных рынках.",
+    todayText: "Инвестиции, девелопмент и управление недвижимостью — в одной компании.",
+    imageCaption: "Moscova 20 · действующий объект",
     missionIndex: "Цель · Миссия · Видение",
-    responsibilityCta: "Как мы мыслим",
+    responsibilityCta: "Наш подход",
     contactCta: "Обсудить партнёрство",
   },
   en: {
     eyebrow: "About",
-    title: ["Who is", "MEGAPARC?"],
-    lead: "An integrated real-estate investment platform based in the Republic of Moldova, evaluating investment opportunities worldwide, built on the group's entrepreneurial heritage since 1995 and established as MEGAPARC in 2005.",
-    identityIndex: "Identity",
-    identityTitle: "Three layers. One identity.",
-    identityText: "An emotional brand idea, an investment philosophy and a business model that work together.",
-    layers: [
-      ["Brand idea", "We build the future."],
-      ["Investment philosophy", "Real estate managed as capital"],
-      ["Business model", "Invest · Develop · Manage · Create value"],
-      ["Positioning", "Integrated real estate investment platform"],
-      ["Investment geography", "Moldova: operating base · Investment opportunities evaluated worldwide"],
-    ],
-    imageCaption: "Moscova 20 · operating asset",
+    title: ["About", "MEGAPARC"],
+    lead: "MEGAPARC is a real estate company that invests, develops projects and manages assets. The company was founded in 2005 and builds on the group's entrepreneurial experience since 1995.",
+    todayIndex: "Today",
+    todayTitle: "Today MEGAPARC manages operating properties, develops new projects and considers investment opportunities across international markets.",
+    todayText: "Investment, development and asset management, in one company.",
+    imageCaption: "Moscova 20 · operating property",
     missionIndex: "Purpose · Mission · Vision",
-    responsibilityCta: "How we think",
+    responsibilityCta: "Our approach",
     contactCta: "Discuss a partnership",
   },
 } as const;
@@ -89,18 +68,10 @@ export function AboutPage({ locale }: { locale: SiteLocale }) {
         <span className="label label--red" lang="en">{brand.since}</span>
       </PageHero>
 
-      <section className="pairs stone" id="identity">
+      <section className="pairs stone" id="today">
         <div className="shell">
-          <SectionIndex no={no()}>{c.identityIndex}</SectionIndex>
-          <SectionHead title={c.identityTitle} text={c.identityText} />
-          <dl className="fact-list" data-reveal>
-            {c.layers.map(([label, value]) => (
-              <div key={label}>
-                <dt>{label}</dt>
-                <dd>{value}</dd>
-              </div>
-            ))}
-          </dl>
+          <SectionIndex no={no()}>{c.todayIndex}</SectionIndex>
+          <SectionHead title={c.todayTitle} text={c.todayText} wide />
         </div>
       </section>
 
@@ -108,9 +79,9 @@ export function AboutPage({ locale }: { locale: SiteLocale }) {
 
       <ImageBreak media={image.media!} alt={`${image.name} — ${image.positioning[locale]}`} caption={c.imageCaption} />
 
-      <section className="pairs ink" id="mission">
+      <section className="pairs stone" id="mission">
         <div className="shell">
-          <SectionIndex no={no()} inverse>{c.missionIndex}</SectionIndex>
+          <SectionIndex no={no()}>{c.missionIndex}</SectionIndex>
           <SectionHead title={purpose.text[locale]} />
           <div className="pairs__grid">
             <article data-reveal>

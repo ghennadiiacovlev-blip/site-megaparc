@@ -1,7 +1,7 @@
 import type { Localized } from "@/lib/site-data";
 
 /**
- * CAPITAL AT WORK — OWNER approval-preview figures.
+ * Key figures — OWNER approval-preview values.
  *
  * OWNER override (2026-09-26): these four figures are authorised ONLY for the
  * founder / owner approval preview on GitHub Pages. They are temporary,
@@ -19,10 +19,8 @@ import type { Localized } from "@/lib/site-data";
 
 export type PublicFinancialMetric = {
   key: "portfolio-value" | "capital-invested" | "development-pipeline" | "contracted-rent";
-  /** Numeric value in EUR. */
   value: number;
   currency: "EUR";
-  /** Display string, e.g. "€25M+". Kept identical across locales as a brand device. */
   display: string;
   label: Localized;
   note: Localized;
@@ -36,7 +34,7 @@ export const publicFinancialMetrics: PublicFinancialMetric[] = [
     currency: "EUR",
     display: "€25M+",
     label: { ro: "Valoarea portofoliului", ru: "Стоимость портфеля", en: "Portfolio value" },
-    note: { ro: "Active operaționale și în dezvoltare", ru: "Операционные и девелоперские активы", en: "Operating and development assets" },
+    note: { ro: "Obiecte în funcțiune și în dezvoltare", ru: "Действующие объекты и проекты развития", en: "Operating properties and development projects" },
     temporary: true,
   },
   {
@@ -44,8 +42,8 @@ export const publicFinancialMetrics: PublicFinancialMetric[] = [
     value: 18_000_000,
     currency: "EUR",
     display: "€18M+",
-    label: { ro: "Capital investit", ru: "Инвестированный капитал", en: "Capital invested" },
-    note: { ro: "Achiziții, dezvoltare și îmbunătățiri de capital", ru: "Приобретения, девелопмент и капитальные улучшения", en: "Acquisitions, development and capital improvement" },
+    label: { ro: "Investiții realizate", ru: "Инвестировано", en: "Invested to date" },
+    note: { ro: "Achiziții, dezvoltare și modernizare", ru: "Приобретения, девелопмент и модернизация", en: "Acquisitions, development and renewal" },
     temporary: true,
   },
   {
@@ -53,8 +51,8 @@ export const publicFinancialMetrics: PublicFinancialMetric[] = [
     value: 12_000_000,
     currency: "EUR",
     display: "€12M+",
-    label: { ro: "Pipeline de dezvoltare", ru: "Девелоперский пайплайн", en: "Development pipeline" },
-    note: { ro: "Proiecte și concepte în evaluare", ru: "Проекты и концепции в оценке", en: "Projects and concepts under evaluation" },
+    label: { ro: "Proiecte în lucru", ru: "Проекты в работе", en: "Projects in progress" },
+    note: { ro: "Proiecte și concepte în evaluare", ru: "Проекты и концепции в проработке", en: "Projects and concepts under evaluation" },
     temporary: true,
   },
   {
@@ -62,13 +60,12 @@ export const publicFinancialMetrics: PublicFinancialMetric[] = [
     value: 2_400_000,
     currency: "EUR",
     display: "€2.4M+",
-    label: { ro: "Chirie anuală contractată", ru: "Годовая контрактная аренда", en: "Annual contracted rent" },
-    note: { ro: "Venit contractat din activele operaționale", ru: "Контрактный доход операционных активов", en: "Contracted income from operating assets" },
+    label: { ro: "Chirie contractată pe an", ru: "Арендная плата по договорам в год", en: "Contracted rent per year" },
+    note: { ro: "Venituri din chirii ale obiectelor în funcțiune", ru: "Арендные поступления действующих объектов", en: "Rental income from operating properties" },
     temporary: true,
   },
 ];
 
-/** Policy flags checked by the QA scripts; not rendered. */
 export const financialMetricsPolicy = {
   reviewOnly: true,
   authorisedBy: "OWNER override 2026-09-26",
@@ -76,19 +73,18 @@ export const financialMetricsPolicy = {
   register: "docs/OWNER_DATA_TO_REPLACE.md",
 } as const;
 
-/** True when at least one figure is still temporary — the site is not production-ready. */
 export const hasTemporaryFinancialMetrics = publicFinancialMetrics.some((metric) => metric.temporary);
 
 export const capitalCopy = {
-  kicker: { ro: "Capital la lucru", ru: "Капитал в работе", en: "Capital at work" } satisfies Localized,
+  kicker: { ro: "Cifre cheie", ru: "Ключевые показатели", en: "Key figures" } satisfies Localized,
   title: {
-    ro: "Capitalul se măsoară în active care lucrează.",
-    ru: "Капитал измеряется активами, которые работают.",
-    en: "Capital is measured in assets that work.",
+    ro: "Portofoliul în cifre.",
+    ru: "Портфель в цифрах.",
+    en: "The portfolio in numbers.",
   } satisfies Localized,
   text: {
-    ro: "Valoarea portofoliului, capitalul investit, pipeline-ul de dezvoltare și chiria contractată descriu scara platformei. Cifrele sunt prezentate rotunjit.",
-    ru: "Стоимость портфеля, инвестированный капитал, девелоперский пайплайн и контрактная аренда описывают масштаб платформы. Цифры представлены округлённо.",
-    en: "Portfolio value, capital invested, development pipeline and contracted rent describe the scale of the platform. Figures are presented rounded.",
+    ro: "Valoarea portofoliului, investițiile realizate, proiectele în lucru și chiria contractată, în valori rotunjite.",
+    ru: "Стоимость портфеля, вложенные средства, проекты в работе и арендная плата по договорам — в округлённых значениях.",
+    en: "Portfolio value, invested capital, projects in progress and contracted rent, in rounded figures.",
   } satisfies Localized,
 };

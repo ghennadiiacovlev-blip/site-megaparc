@@ -9,61 +9,58 @@ import { localePath, ui, type SiteLocale } from "@/lib/site-data";
 const copy = {
   ro: {
     eyebrow: "Dezvoltare",
-    title: ["Ce creăm", "în continuare?"],
-    lead: "Dezvoltarea este integrată în ciclul de investiție: de la amplasament, la produs, la activ operațional. Fiecare proiect trece prin aceleași etape disciplinate, fără a sări peste decizia de investiție.",
-    stagesIndex: "Sistemul de dezvoltare",
-    stagesText: "Șase etape. Fiecare proiect public este poziționat pe această scară, iar conceptele nu sunt prezentate niciodată ca arhitectură finalizată.",
-    positions: "Poziția proiectelor",
+    title: ["Dezvoltăm proiecte", "de la idee la realizare."],
+    lead: "Un proiect pornește de la un teren sau de la o clădire existentă și trece prin concept, evaluare economică, proiectare și construcție până la punerea în funcțiune.",
+    stagesIndex: "Etapele proiectului",
+    stagesText: "Șase etape. Fiecare proiect este arătat la etapa lui, iar conceptele nu sunt prezentate ca arhitectură finalizată.",
     pipelineIndex: "Proiecte și concepte",
     pipelineTitle: "Două proiecte. Două etape diferite.",
-    pipelineText: "VATRA este un amplasament în execuție, cu imagini reale. Drochia Gateway este un concept în evaluare, sub rezerva verificărilor urbanistice, inginerești și comerciale.",
+    pipelineText: "VATRA este un amplasament în lucru, cu imagini reale. Drochia Gateway este un concept aflat în verificare urbanistică, inginerească și comercială.",
     principlesIndex: "Cum dezvoltăm",
     principles: [
-      ["Utilizare înainte de formă", "Un proiect pornește de la felul în care va fi folosit și administrat, nu de la imagine."],
-      ["Execuție ca decizie de investiție", "Calitatea execuției determină costul de operare și relevanța activului pentru decenii."],
-      ["Activ, nu livrabil", "Finalizarea construcției este începutul fazei de operare sau al următoarei etape de investiție, conform strategiei de capital."],
+      ["Funcția înaintea formei", "Mai întâi decidem cum va fi folosit și întreținut obiectul, apoi cum arată."],
+      ["Controlul bugetului și al termenelor", "Calculăm economia înainte de a începe lucrările și ținem bugetul și graficul sub control la fiecare etapă."],
+      ["Calitate gândită pentru exploatare", "Calitatea construcției determină costurile de exploatare și cererea pentru obiect în anii următori."],
     ],
-    note: "Conceptele de dezvoltare sunt prezentate ca subiecte de discuție, sub rezerva verificărilor urbanistice, inginerești și comerciale.",
-    ctaA: "Propune un amplasament",
+    note: "Conceptele de dezvoltare sunt prezentate pentru discuție și sunt supuse verificărilor urbanistice, inginerești și comerciale.",
+    ctaA: "Propune un teren",
     ctaB: "Discută un parteneriat",
   },
   ru: {
     eyebrow: "Девелопмент",
-    title: ["Что мы создаём", "дальше?"],
-    lead: "Девелопмент интегрирован в инвестиционный цикл: от площадки — к продукту — к операционному активу. Каждый проект проходит одни и те же дисциплинированные этапы, не пропуская инвестиционное решение.",
-    stagesIndex: "Система девелопмента",
-    stagesText: "Шесть этапов. Каждый публичный проект позиционируется на этой шкале, а концепции никогда не представляются как завершённая архитектура.",
-    positions: "Положение проектов",
+    title: ["Развиваем проекты", "от идеи до реализации."],
+    lead: "Проект начинается с участка или существующего здания и проходит через концепцию, экономическую оценку, проектирование и строительство до ввода в эксплуатацию.",
+    stagesIndex: "Этапы проекта",
+    stagesText: "Шесть этапов. Каждый проект показан на своей стадии, а концепции не представляются как завершённая архитектура.",
     pipelineIndex: "Проекты и концепции",
-    pipelineTitle: "Два проекта. Два разных этапа.",
-    pipelineText: "VATRA — площадка в реализации с реальными снимками. Drochia Gateway — концепция в оценке, подлежащая градостроительной, инженерной и коммерческой проверке.",
+    pipelineTitle: "Два проекта. Две разные стадии.",
+    pipelineText: "VATRA — площадка в работе с реальными снимками. Drochia Gateway — концепция, которая проходит градостроительную, инженерную и коммерческую проверку.",
     principlesIndex: "Как мы развиваем",
     principles: [
-      ["Назначение прежде формы", "Проект начинается с того, как он будет использоваться и управляться, а не с картинки."],
-      ["Реализация как инвестиционное решение", "Качество строительства определяет эксплуатационные затраты и актуальность актива на десятилетия."],
-      ["Актив, а не результат стройки", "Завершение строительства — начало фазы эксплуатации или следующего инвестиционного этапа согласно стратегии капитала."],
+      ["Функция прежде формы", "Сначала решаем, как объект будет использоваться и обслуживаться, потом — как он выглядит."],
+      ["Контроль бюджета и сроков", "Считаем экономику до начала работ и держим бюджет и график под контролем на каждом этапе."],
+      ["Качество, рассчитанное на эксплуатацию", "Качество строительства определяет расходы на эксплуатацию и востребованность объекта на годы вперёд."],
     ],
-    note: "Концепции развития представлены как предмет для обсуждения и подлежат градостроительной, инженерной и коммерческой проверке.",
-    ctaA: "Предложить площадку",
+    note: "Концепции развития представлены для обсуждения и подлежат градостроительной, инженерной и коммерческой проверке.",
+    ctaA: "Предложить участок",
     ctaB: "Обсудить партнёрство",
   },
   en: {
     eyebrow: "Development",
-    title: ["What are we", "creating next?"],
-    lead: "Development is integrated into the investment cycle: from site, to product, to operating asset. Every project passes through the same disciplined stages, never skipping the investment decision.",
-    stagesIndex: "The development system",
-    stagesText: "Six stages. Every public project is positioned on this scale, and concepts are never presented as completed architecture.",
-    positions: "Project positions",
+    title: ["We take projects", "from idea to completion."],
+    lead: "A project starts from a site or an existing building and moves through concept, economic assessment, design and construction to commissioning.",
+    stagesIndex: "Project stages",
+    stagesText: "Six stages. Each project is shown at its own stage, and concepts are never presented as finished architecture.",
     pipelineIndex: "Projects and concepts",
     pipelineTitle: "Two projects. Two different stages.",
-    pipelineText: "VATRA is a site under delivery, with real imagery. Drochia Gateway is a concept under evaluation, subject to planning, engineering and commercial due diligence.",
+    pipelineText: "VATRA is a site under way, with real imagery. Drochia Gateway is a concept undergoing planning, engineering and commercial review.",
     principlesIndex: "How we develop",
     principles: [
-      ["Use before form", "A project starts from how it will be used and managed, not from its image."],
-      ["Delivery as an investment decision", "Build quality determines operating cost and the asset's relevance for decades."],
-      ["Asset, not deliverable", "Completion of construction is the beginning of the operating or next investment phase according to the capital strategy."],
+      ["Function before form", "First we decide how a building will be used and maintained, then how it looks."],
+      ["Budget and schedule control", "We run the numbers before work starts and keep budget and schedule under control at every stage."],
+      ["Quality built for operation", "Build quality determines operating costs and demand for the property in the years ahead."],
     ],
-    note: "Development concepts are presented for discussion and remain subject to planning, engineering and commercial due diligence.",
+    note: "Development concepts are presented for discussion and remain subject to planning, engineering and commercial review.",
     ctaA: "Submit a site",
     ctaB: "Discuss a partnership",
   },
@@ -73,7 +70,6 @@ export function DevelopmentIndexPage({ locale }: { locale: SiteLocale }) {
   const c = copy[locale];
   const [vatra] = developmentProjects;
   const p = (path: string) => localePath(locale, path);
-  const [first, ...restTitle] = developmentNarrative.title[locale].split(",");
 
   return (
     <PageShell locale={locale}>
@@ -94,9 +90,7 @@ export function DevelopmentIndexPage({ locale }: { locale: SiteLocale }) {
         <div className="shell">
           <SectionIndex no="02">{c.stagesIndex}</SectionIndex>
           <div className="section-head" data-reveal>
-            <h2 className="dev-stages__title">
-              {first},<b>{restTitle.join(",")}</b>
-            </h2>
+            <h2 className="dev-stages__title">{developmentNarrative.title[locale]}</h2>
             <div className="section-head__aside">
               <p>{c.stagesText}</p>
             </div>
@@ -176,9 +170,9 @@ export function DevelopmentIndexPage({ locale }: { locale: SiteLocale }) {
         </div>
       </section>
 
-      <section className="principles ink">
+      <section className="principles stone">
         <div className="shell">
-          <SectionIndex no="04" inverse>{c.principlesIndex}</SectionIndex>
+          <SectionIndex no="04">{c.principlesIndex}</SectionIndex>
           <div className="principles__grid principles__grid--3">
             {c.principles.map(([title, text], index) => (
               <article key={title} data-reveal>
@@ -189,8 +183,8 @@ export function DevelopmentIndexPage({ locale }: { locale: SiteLocale }) {
             ))}
           </div>
           <div className="principles__foot" data-reveal>
-            <ArrowLink href={`${p("/contact")}#opportunity`} inverse>{c.ctaA}</ArrowLink>
-            <ArrowLink href={`${p("/contact")}#partnership`} inverse>{c.ctaB}</ArrowLink>
+            <ArrowLink href={`${p("/contact")}#opportunity`}>{c.ctaA}</ArrowLink>
+            <ArrowLink href={`${p("/contact")}#partnership`}>{c.ctaB}</ArrowLink>
           </div>
         </div>
       </section>

@@ -3,14 +3,13 @@ import { getAsset, getProject } from "@/lib/assets";
 import { brand, isPreviewBuild, localePath, locales, type Localized, type SiteLocale } from "@/lib/site-data";
 
 /**
- * SEO metadata. This module must never import src/lib/public-financial-metrics.ts:
- * temporary review-only financial figures are excluded from titles,
- * descriptions, Open Graph and any structured data by construction.
+ * SEO metadata — plain, search-oriented and factual (editorial source: RU).
+ * This module must never import src/lib/public-financial-metrics.ts:
+ * temporary review-only figures stay out of titles, descriptions, Open Graph
+ * and structured data by construction.
  *
- * Robots policy:
- * - GitHub Pages OWNER approval preview (GITHUB_PAGES=true): noindex, nofollow.
- * - Production megaparc.md: index, follow — only after real data replacement
- *   and OWNER approval (docs/OWNER_DATA_TO_REPLACE.md).
+ * Robots: GitHub Pages OWNER preview (GITHUB_PAGES=true) is noindex, nofollow;
+ * production megaparc.md is index, follow only after OWNER approval.
  */
 
 export const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://megaparc.md").replace(/\/$/, "");
@@ -27,90 +26,88 @@ type PageCopy = { title: Localized; description: Localized };
 export const pageSeo = {
   home: {
     title: {
-      ro: "MEGAPARC — Investiții imobiliare, dezvoltare și administrarea activelor",
-      ru: "MEGAPARC — Инвестиции в недвижимость, девелопмент и управление активами",
-      en: "MEGAPARC — Real Estate Investment, Development & Asset Management",
+      ro: "MEGAPARC — investiții, dezvoltare și administrare imobiliară",
+      ru: "MEGAPARC — инвестиции, девелопмент и управление недвижимостью",
+      en: "MEGAPARC — real estate investment, development and asset management",
     },
     description: {
-      ro: "Investim în imobiliare, dezvoltăm și administrăm active. Moldova este baza noastră operațională; analizăm oportunități de investiții imobiliare la nivel internațional.",
-      ru: "Инвестируем в недвижимость, развиваем и управляем активами. Молдова — наша операционная база; инвестиционные возможности рассматриваем по всему миру.",
-      en: "We invest in real estate, develop and manage assets. Moldova is our operating base; we evaluate real-estate investment opportunities worldwide.",
+      ro: "MEGAPARC investește în imobiliare, dezvoltă proiecte și administrează obiecte comerciale. Analizează oportunități de investiții pe piețele internaționale.",
+      ru: "MEGAPARC инвестирует в недвижимость, развивает проекты и управляет коммерческими активами. Рассматривает инвестиционные возможности на международных рынках.",
+      en: "MEGAPARC invests in real estate, develops projects and manages commercial properties. It evaluates investment opportunities across international markets.",
     },
   },
   approach: {
-    title: { ro: "Abordarea noastră — Cum gândește MEGAPARC", ru: "Наш подход — Как мыслит MEGAPARC", en: "Our Approach — How MEGAPARC Thinks" },
+    title: { ro: "Abordarea noastră — cum lucrează MEGAPARC", ru: "Наш подход — как работает MEGAPARC", en: "Our approach — how MEGAPARC works" },
     description: {
-      ro: "Filosofie de investiții, unde investim, principii, ciclul de creare a valorii și direcția strategică MEGAPARC 2030.",
-      ru: "Инвестиционная философия, где мы инвестируем, принципы, цикл создания стоимости и стратегическое направление MEGAPARC 2030.",
-      en: "Investment philosophy, where we invest, principles, the value-creation cycle and the MEGAPARC 2030 strategic direction.",
+      ro: "Cum evaluăm obiectele, ce creează valoare, cum dezvoltăm și administrăm, principiile de investiții și direcția pe termen lung.",
+      ru: "Как мы оцениваем объекты, что создаёт стоимость, как развиваем и управляем недвижимостью, принципы инвестирования и долгосрочное направление.",
+      en: "How we evaluate properties, what creates value, how we develop and manage, our investment principles and long-term direction.",
     },
   },
   about: {
-    title: { ro: "Despre MEGAPARC — Platformă integrată de investiții imobiliare", ru: "О компании MEGAPARC — Интегрированная инвестиционная платформа", en: "About MEGAPARC — Integrated Real Estate Investment Platform" },
+    title: { ro: "Despre MEGAPARC", ru: "О компании MEGAPARC", en: "About MEGAPARC" },
     description: {
-      ro: "Cine este MEGAPARC: moștenirea grupului din 1995, compania fondată în 2005, focusul imobiliar din 2020, misiune, viziune și organizație.",
-      ru: "Кто такая MEGAPARC: наследие группы с 1995 года, компания, основанная в 2005-м, фокус на недвижимости с 2020-го, миссия, видение и организация.",
-      en: "Who MEGAPARC is: group heritage since 1995, the company established in 2005, the real-estate focus since 2020, mission, vision and organisation.",
+      ro: "MEGAPARC investește în imobiliare, dezvoltă proiecte și administrează obiecte. Fondată în 2005, pe experiența antreprenorială a grupului din 1995.",
+      ru: "MEGAPARC инвестирует в недвижимость, развивает проекты и управляет объектами. Основана в 2005 году, опирается на предпринимательский опыт группы с 1995 года.",
+      en: "MEGAPARC invests in real estate, develops projects and manages properties. Founded in 2005, building on the group's entrepreneurial experience since 1995.",
     },
   },
   portfolio: {
-    title: { ro: "Portofoliu — Active MEGAPARC", ru: "Портфель — Активы MEGAPARC", en: "Portfolio — MEGAPARC Assets" },
+    title: { ro: "Portofoliul imobiliar MEGAPARC", ru: "Портфель недвижимости MEGAPARC", en: "MEGAPARC real estate portfolio" },
     description: {
-      ro: "Portofoliul MEGAPARC în Chișinău: active operaționale Dacia 31, Moscova 9, Moscova 20, Creangă 78 și proiecte de dezvoltare.",
-      ru: "Портфель MEGAPARC в Кишинёве: операционные активы Dacia 31, Moscova 9, Moscova 20, Creangă 78 и девелоперские проекты.",
-      en: "The MEGAPARC portfolio in Chișinău: operating assets Dacia 31, Moscova 9, Moscova 20, Creangă 78 and development projects.",
+      ro: "Obiecte comerciale în funcțiune și proiecte de dezvoltare în Chișinău: Dacia 31, Moscova 9, Moscova 20, Creangă 78, VATRA, Drochia Gateway.",
+      ru: "Действующие коммерческие объекты и проекты развития в Кишинёве: Dacia 31, Moscova 9, Moscova 20, Creangă 78, VATRA, Drochia Gateway.",
+      en: "Operating commercial properties and development projects in Chișinău: Dacia 31, Moscova 9, Moscova 20, Creangă 78, VATRA, Drochia Gateway.",
     },
   },
   development: {
-    title: { ro: "Dezvoltare — Proiecte MEGAPARC", ru: "Девелопмент — Проекты MEGAPARC", en: "Development — MEGAPARC Projects" },
+    title: { ro: "Dezvoltare — proiecte MEGAPARC", ru: "Девелопмент — проекты MEGAPARC", en: "Development — MEGAPARC projects" },
     description: {
-      ro: "De la amplasament la produs, la activ operațional: VATRA și Drochia Gateway în sistemul de dezvoltare MEGAPARC.",
-      ru: "От площадки к продукту и операционному активу: VATRA и Drochia Gateway в системе девелопмента MEGAPARC.",
-      en: "From site to product to operating asset: VATRA and Drochia Gateway inside the MEGAPARC development system.",
+      ro: "Proiecte de dezvoltare MEGAPARC, de la teren la punerea în funcțiune: VATRA și Drochia Gateway.",
+      ru: "Проекты развития MEGAPARC — от участка до ввода в эксплуатацию: VATRA и Drochia Gateway.",
+      en: "MEGAPARC development projects, from site to commissioning: VATRA and Drochia Gateway.",
     },
   },
   opportunities: {
-    title: { ro: "Oportunități — Lucrează cu MEGAPARC", ru: "Возможности — Работать с MEGAPARC", en: "Opportunities — Work with MEGAPARC" },
+    title: { ro: "Colaborare cu MEGAPARC — închiriere, obiecte, parteneriat", ru: "Сотрудничество с MEGAPARC — аренда, объекты, партнёрство", en: "Working with MEGAPARC — leasing, properties, partnership" },
     description: {
-      ro: "Trei drumuri: caut un spațiu, propun o oportunitate din orice geografie, discut un parteneriat.",
-      ru: "Три пути: ищу помещение, предлагаю объект из любой географии, обсуждаю партнёрство.",
-      en: "Three routes: find a space, submit an opportunity from any geography, discuss a partnership.",
+      ro: "Închiriere de spații, propunerea de obiecte și parteneriat cu MEGAPARC.",
+      ru: "Аренда, предложение объектов и партнёрство с MEGAPARC.",
+      en: "Leasing, property proposals and partnership with MEGAPARC.",
     },
   },
   careers: {
     title: { ro: "Cariere — MEGAPARC", ru: "Карьера — MEGAPARC", en: "Careers — MEGAPARC" },
     description: {
-      ro: "Construim active. Construim valoare. Construiește cu noi.",
-      ru: "Создаём активы. Создаём стоимость. Создавайте вместе с нами.",
-      en: "Build assets. Build value. Build with us.",
+      ro: "Posturi deschise la MEGAPARC în investiții, dezvoltare, administrare imobiliară și exploatare.",
+      ru: "Открытые вакансии MEGAPARC в инвестициях, девелопменте, управлении недвижимостью и эксплуатации.",
+      en: "Open vacancies at MEGAPARC in investment, development, asset management and operations.",
     },
   },
   contact: {
     title: { ro: "Contact — MEGAPARC", ru: "Контакты — MEGAPARC", en: "Contact — MEGAPARC" },
     description: {
-      ro: "Corporate / ocupant, proprietate / oportunitate, parteneriat / investiții. Alege tipul discuției.",
-      ru: "Корпоративный / арендатор, объект / возможность, партнёрство / инвестиции. Выберите тему обращения.",
-      en: "Corporate / occupier, property / opportunity, partnership / investment. Choose the purpose of the conversation.",
+      ro: "Contactați MEGAPARC: închiriere, propunerea unui obiect, parteneriat sau carieră.",
+      ru: "Связаться с MEGAPARC: аренда, предложение объекта, партнёрство или карьера.",
+      en: "Contact MEGAPARC: leasing, a property proposal, partnership or careers.",
     },
   },
   brandSystem: {
-    title: { ro: "Brand System 2.0 — Revizuire internă", ru: "Brand System 2.0 — Внутренний обзор", en: "Brand System 2.0 — Internal Review" },
+    title: { ro: "Brand System 2.0 — revizuire internă", ru: "Brand System 2.0 — внутренний обзор", en: "Brand System 2.0 — internal review" },
     description: {
-      ro: "Pagină de revizuire internă a sistemului de brand MEGAPARC 2.0.",
-      ru: "Внутренняя страница обзора бренд-системы MEGAPARC 2.0.",
-      en: "Internal review page for the MEGAPARC Brand System 2.0.",
+      ro: "Pagină internă de revizuire a sistemului de brand MEGAPARC.",
+      ru: "Внутренняя страница обзора бренд-системы MEGAPARC.",
+      en: "Internal review page for the MEGAPARC brand system.",
     },
   },
 } satisfies Record<string, PageCopy>;
 
 export type PageId = keyof typeof pageSeo;
 
-/** Metadata URLs resolve against metadataBase (siteUrl), which already includes any Pages base path. */
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 const metaPath = (src: string) => (basePath && src.startsWith(basePath) ? src.slice(basePath.length) : src);
 const ogImage = "/assets/portfolio/dacia-31-wide.webp";
 
-/** Builds locale-aware metadata with canonical + hreflang alternates for a locale-neutral path. */
 export function buildMetadata(locale: SiteLocale, path: string, copy: PageCopy, options?: { noindex?: boolean }): Metadata {
   const languages: Record<string, string> = {};
   for (const l of locales) languages[hreflang[l]] = localePath(l, path);

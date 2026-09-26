@@ -2,11 +2,11 @@
 
 Public review source only. Private governance/source documents are not mirrored here.
 
-Source: ghennadiiacovlev-blip/megaparc-web@feature/home-art-direction-v3
-Source SHA: b1d455cccc0e86a76b0be872ddec0e16edf1d8b5
-Previous public candidate: 43be2a849517b02a82dc7855994a79766c95b1d4 (backup/pre-v3-owner-review-2026-09-26)
+Source: ghennadiiacovlev-blip/megaparc-web@feature/editorial-copy-v1
+Source SHA: 1036186a4ad68624b7cbdf25c0788dfc8544fd1f
+Previous public candidate: 2db3444 (backup/pre-editorial-owner-review-2026-09-26)
 
-OWNER approval preview only — noindex, nofollow. Not a production release.
+OWNER approval preview only — noindex, nofollow. Not a production release. Editorial copy candidate pending OWNER approval.
 
 Preview target:
 https://ghennadiiacovlev-blip.github.io/site-megaparc/

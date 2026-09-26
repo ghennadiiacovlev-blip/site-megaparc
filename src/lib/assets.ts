@@ -1,13 +1,14 @@
 import { publicAsset, type Localized, type SiteLocale } from "@/lib/site-data";
 
 /**
- * Public asset and project data — institutional asset profiles.
+ * Public asset and project data — editorial profiles.
  *
  * Commercial proposals are FACT, TECHNICAL and COMMERCIAL REFERENCE sources
  * only. Their structure and tenant-specific language are not reproduced here.
  * OWNER decision: NO PUBLIC RENTAL PRICES. No €/m², rent, asking price,
  * deposits, first/last month or payment terms are stored in this file.
  * Internal financial indicators are never stored here.
+ * Editorial source language: Russian (OWNER_EDITORIAL_COPY_BRIEF.md).
  * Governance: docs/ASSET_EDITORIAL_SYSTEM.md, docs/CLAUDE_CONTENT_REVIEW.md.
  */
 
@@ -54,13 +55,15 @@ export type PortfolioAsset = {
   status: Localized;
   /** Short positioning line used in lists and metadata. */
   positioning: Localized;
-  /** Positioning statement — the asset in one institutional sentence. */
+  /** The property in one plain sentence. */
   headline: Localized;
-  /** Core narrative line. */
+  /** Short editorial line. */
   narrative: Localized;
   use: Localized;
+  /** Who the property suits. */
+  audience: Localized;
   lead: Localized;
-  /** Asset story — what is this asset, why the location, how it can work. */
+  /** About the property — what it is, why the location, how it can work. */
   story: Record<SiteLocale, string[]>;
   keyFacts: Fact[];
   location: Localized;
@@ -75,7 +78,7 @@ export type PortfolioAsset = {
   caveat: Localized | null;
 };
 
-const operating: Localized = { ro: "Activ operațional", ru: "Операционный актив", en: "Operating asset" };
+const operating: Localized = { ro: "Obiect în funcțiune", ru: "Действующий объект", en: "Operating property" };
 
 function media(folder: string, base: string, position?: string): AssetMedia {
   return {
@@ -95,38 +98,43 @@ export const portfolioAssets: PortfolioAsset[] = [
     city: { ro: "Chișinău", ru: "Кишинёв", en: "Chișinău" },
     media: media("portfolio", "dacia-31", "50% 56%"),
     status: operating,
-    positioning: { ro: "Campus corporativ independent", ru: "Самостоятельный корпоративный кампус", en: "Stand-alone corporate campus" },
+    positioning: { ro: "Clădire de birouri independentă", ru: "Отдельное офисное здание", en: "Stand-alone office building" },
     headline: {
-      ro: "Un campus corporativ de sine stătător.",
-      ru: "Самостоятельный корпоративный кампус.",
-      en: "A stand-alone corporate campus.",
+      ro: "O clădire separată pentru o singură companie.",
+      ru: "Отдельное здание для одной компании.",
+      en: "A stand-alone building for one company.",
     },
     narrative: {
-      ro: "O clădire. Un singur mediu corporativ. Loc de creștere.",
-      ru: "Одно здание. Одна корпоративная среда. Пространство для роста.",
-      en: "One building. One corporate environment. Room to grow.",
+      ro: "O clădire. Toate departamentele companiei sub același acoperiș.",
+      ru: "Одно здание. Все подразделения компании под одной крышей.",
+      en: "One building. Every department of the company under one roof.",
     },
-    use: { ro: "Birouri · sediu · campus", ru: "Офисы · штаб-квартира · кампус", en: "Offices · headquarters · campus" },
+    use: { ro: "Birouri · sediu central", ru: "Офисы · штаб-квартира", en: "Offices · headquarters" },
+    audience: {
+      ro: "Companiilor care au nevoie de o clădire proprie pentru sediu: organizații din tehnologie, servicii sau administrație, cu mai multe departamente.",
+      ru: "Компаниям, которым нужно отдельное здание под собственный офис: технологические, сервисные и административные организации с несколькими подразделениями.",
+      en: "Companies that need a building of their own for their offices: technology, services or administrative organisations with several departments.",
+    },
     lead: {
-      ro: "Clădire independentă de 5.223 m² în Botanica, concepută pentru o singură organizație care vrea să-și controleze integral mediul de lucru: identitate, acces, planuri de etaj și infrastructură.",
-      ru: "Отдельно стоящее здание площадью 5 223 м² в секторе Ботаника для одной организации, которая хочет полностью контролировать свою рабочую среду: идентичность, доступ, поэтажные планы и инфраструктуру.",
-      en: "A 5,223 m² stand-alone building in Botanica, conceived for a single organisation that wants full control of its working environment: identity, access, floor plates and infrastructure.",
+      ro: "Clădire independentă de 5.223 m² în sectorul Botanica, pentru o singură organizație. Control unic al accesului, suprafețe mari, infrastructură inginerească existentă și o fațadă vizibilă.",
+      ru: "Отдельно стоящее здание площадью 5 223 м² в секторе Ботаника для одной организации. Единый контроль доступа, крупные площади, готовая инженерная инфраструктура и заметный фасад.",
+      en: "A 5,223 m² stand-alone building in Botanica for a single organisation. Single access control, large floor areas, existing building services and a prominent facade.",
     },
     story: {
       ro: [
-        "Dacia 31 nu este un etaj într-o clădire de birouri. Este o clădire întreagă, cu identitate proprie, într-un cartier care servește drept poartă a orașului dinspre aeroport.",
-        "Platourile mari, distribuite pe patru niveluri principale și un etaj tehnic, permit unei singure companii să-și organizeze echipele, zonele de suport și spațiile comune într-un singur mediu coerent, cu posibilitatea de a crește în timp în aceeași adresă.",
-        "Infrastructura clădirii există deja: utilități și instalații, tubulatură și distribuție a aerului, trasee de alimentare electrică și curenți slabi. Capacitățile exacte fac obiectul unui audit tehnic, ceea ce permite adaptarea la cerințele fiecărui utilizator.",
+        "Dacia 31 nu este un etaj într-un centru de afaceri, ci o clădire separată. Compania primește intrare proprie, control unic al accesului și o fațadă pe care își poate afișa numele.",
+        "Suprafețele mari, distribuite pe patru niveluri principale și un etaj tehnic, permit ca toate departamentele companiei să lucreze în același obiect și ca spațiul să fie reorganizat pe măsură ce compania crește.",
+        "Infrastructura inginerească a clădirii există deja: rețele și instalații, tubulatură de aer, trasee de alimentare electrică și curenți slabi. Capacitățile exacte se stabilesc printr-un audit tehnic și se adaptează la cerințele utilizatorului.",
       ],
       ru: [
-        "Dacia 31 — не этаж в офисном здании. Это целое здание с собственной идентичностью в районе, который служит въездом в город со стороны аэропорта.",
-        "Крупные этажные плиты на четырёх основных уровнях и техническом этаже позволяют одной компании организовать команды, вспомогательные зоны и общие пространства в единой среде, с возможностью расти со временем по тому же адресу.",
-        "Инфраструктура здания уже существует: инженерные сети и системы, воздуховоды и распределение воздуха, трассы электроснабжения и слаботочных систем. Точные мощности определяются техническим аудитом, что позволяет адаптировать здание под требования конкретного пользователя.",
+        "Dacia 31 — не этаж в бизнес-центре, а отдельное здание. Компания получает собственный вход, единый контроль доступа и фасад, на котором может разместить своё название.",
+        "Крупные площади на четырёх основных уровнях и техническом этаже позволяют разместить все подразделения компании в одном объекте и перестраивать пространство по мере роста.",
+        "Инженерная инфраструктура здания уже есть: сети и системы, воздуховоды, трассы электроснабжения и слаботочных систем. Точные мощности определяются техническим аудитом и адаптируются под требования пользователя.",
       ],
       en: [
-        "Dacia 31 is not a floor in an office building. It is an entire building with its own identity, in a district that serves as the city's gateway from the airport.",
-        "Large floor plates across four main levels and a technical floor allow a single company to organise its teams, support areas and shared spaces in one coherent environment, with room to grow at the same address over time.",
-        "The building's infrastructure already exists: utilities and building services, ductwork and air distribution, power and low-voltage cabling routes. Exact capacities are subject to a technical audit, which allows the building to be adapted to each occupier's requirements.",
+        "Dacia 31 is not a floor in a business centre. It is a separate building: the company gets its own entrance, single access control and a facade that can carry its name.",
+        "Large floor areas across four main levels and a technical floor allow every department of the company to work in one building and the space to be reorganised as the company grows.",
+        "The building's services are already in place: utilities and systems, ductwork, power and low-voltage cabling routes. Exact capacities are established by a technical audit and adapted to the occupier's requirements.",
       ],
     },
     keyFacts: [
@@ -136,22 +144,22 @@ export const portfolioAssets: PortfolioAsset[] = [
       { label: { ro: "Accese / circulații", ru: "Входы / коммуникации", en: "Entrances / circulation" }, value: { ro: "4+ posibilități", ru: "4+ варианта", en: "4+ possibilities" } },
     ],
     location: {
-      ro: "Botanica este poarta de intrare în Chișinău dinspre aeroport. Activul este ancorat de arterele Dacia, Traian și Decebal, cu o promenadă pietonală amplă și restaurante, cafenele și servicii în imediata apropiere.",
-      ru: "Ботаника — въезд в Кишинёв со стороны аэропорта. Объект расположен у магистралей Дачия, Траян и Дечебал, рядом с широкой пешеходной променадой, ресторанами, кафе и сервисами.",
-      en: "Botanica is the gateway into Chișinău from the airport. The asset is anchored by the Dacia, Traian and Decebal arteries, with a large pedestrian promenade and restaurants, cafés and services close by.",
+      ro: "Botanica este intrarea în Chișinău dinspre aeroport. Clădirea se află lângă arterele Dacia, Traian și Decebal, aproape de o alee pietonală largă, restaurante, cafenele și servicii.",
+      ru: "Ботаника — въезд в Кишинёв со стороны аэропорта. Здание расположено у магистралей Дачия, Траян и Дечебал, рядом с широкой пешеходной аллеей, ресторанами, кафе и сервисами.",
+      en: "Botanica is the entrance to Chișinău from the airport. The building sits by the Dacia, Traian and Decebal arteries, close to a wide pedestrian promenade, restaurants, cafés and services.",
     },
     connectivity: [
-      { ro: "Botanica, poarta de intrare în Chișinău dinspre aeroport", ru: "Ботаника — въезд в Кишинёв со стороны аэропорта", en: "Botanica, the gateway into Chișinău from the airport" },
+      { ro: "Botanica, intrarea în Chișinău dinspre aeroport", ru: "Ботаника — въезд в Кишинёв со стороны аэропорта", en: "Botanica, the entrance to Chișinău from the airport" },
       { ro: "Arterele urbane Dacia, Traian și Decebal", ru: "Городские магистрали Дачия, Траян и Дечебал", en: "Dacia, Traian and Decebal urban arteries" },
-      { ro: "Promenadă pietonală amplă", ru: "Широкая пешеходная променада", en: "Large pedestrian promenade" },
+      { ro: "Alee pietonală largă", ru: "Широкая пешеходная аллея", en: "Wide pedestrian promenade" },
       { ro: "Restaurante, cafenele și servicii în apropiere", ru: "Рестораны, кафе и сервисы рядом", en: "Restaurants, cafés and services nearby" },
     ],
     map: { address: "Bd. Dacia 31, Chișinău", query: "Bd. Dacia 31, Chișinău, Moldova" },
     building: {
       text: {
-        ro: "Zone open-plan și spații suport pe fiecare nivel, zone vitrate, platouri mari și mai multe posibilități de circulație și acces. Programul pe niveluri permite organizarea pe departamente sau pe funcții.",
-        ru: "Open-space и вспомогательные зоны на каждом уровне, остеклённые зоны, крупные этажные плиты и несколько вариантов коммуникаций и доступа. Поэтажная программа позволяет организацию по департаментам или функциям.",
-        en: "Open-plan and support areas on every level, glazed zones, large floor plates and several circulation and entrance possibilities. The floor programme allows organisation by department or by function.",
+        ro: "Pe fiecare nivel: zone de lucru deschise și spații auxiliare, zone vitrate, suprafețe mari și mai multe variante de intrare și circulație. Structura pe etaje permite organizarea departamentelor pe niveluri sau pe funcții.",
+        ru: "На каждом уровне — открытые рабочие зоны и вспомогательные помещения, остеклённые зоны, крупные площади и несколько вариантов входов и коммуникаций. Поэтажная структура позволяет разместить подразделения по этажам или по функциям.",
+        en: "On every level: open work areas and support rooms, glazed zones, large floor areas and several entrance and circulation options. The floor structure allows departments to be arranged by level or by function.",
       },
       programme: [
         { label: { ro: "Demisol", ru: "Цокольный этаж", en: "Lower ground floor" }, value: { ro: "1.041 m²", ru: "1 041 м²", en: "1,041 m²" } },
@@ -161,41 +169,41 @@ export const portfolioAssets: PortfolioAsset[] = [
         { label: { ro: "Etaj tehnic", ru: "Технический этаж", en: "Technical floor" }, value: { ro: "260 m²", ru: "260 м²", en: "260 m²" } },
       ],
       features: [
-        { ro: "Platouri mari, pe mai multe niveluri", ru: "Крупные этажные плиты на нескольких уровнях", en: "Large floor plates across multiple levels" },
-        { ro: "Zone open-plan, zone vitrate și spații suport", ru: "Open-space, остеклённые и вспомогательные зоны", en: "Open-plan, glazed and support areas" },
-        { ro: "4+ posibilități de circulație și acces", ru: "4+ варианта коммуникаций и входов", en: "4+ circulation and entrance possibilities" },
-        { ro: "Utilități și instalații ale clădirii existente", ru: "Существующие инженерные сети и системы здания", en: "Existing utilities and building services" },
+        { ro: "Suprafețe mari, pe mai multe niveluri", ru: "Крупные площади на нескольких уровнях", en: "Large floor areas across several levels" },
+        { ro: "Zone deschise, zone vitrate și spații auxiliare", ru: "Открытые, остеклённые и вспомогательные зоны", en: "Open, glazed and support areas" },
+        { ro: "4+ variante de circulație și acces", ru: "4+ варианта коммуникаций и входов", en: "4+ circulation and entrance options" },
+        { ro: "Rețele și instalații existente ale clădirii", ru: "Существующие инженерные сети и системы здания", en: "Existing utilities and building services" },
         { ro: "Tubulatură și distribuție a aerului existente", ru: "Существующие воздуховоды и распределение воздуха", en: "Existing ductwork and air distribution" },
         { ro: "Trasee de alimentare electrică și curenți slabi", ru: "Трассы электроснабжения и слаботочных систем", en: "Power and low-voltage cabling routes" },
       ],
     },
     operatingLogic: {
       text: {
-        ro: "Clădirea funcționează ca un singur organism: o companie, o identitate la fațadă, un control complet asupra accesului, securității și modului în care echipele se distribuie pe niveluri.",
-        ru: "Здание работает как единый организм: одна компания, одна идентичность на фасаде, полный контроль над доступом, безопасностью и распределением команд по уровням.",
-        en: "The building works as a single organism: one company, one identity on the facade, full control over access, security and how teams are distributed across levels.",
+        ro: "Clădirea funcționează ca un întreg: o singură companie, numele propriu pe fațadă, control unic al accesului și al securității, distribuție liberă a echipelor pe etaje.",
+        ru: "Здание работает как единое целое: одна компания, собственное название на фасаде, единый контроль доступа и безопасности, свободное распределение команд по этажам.",
+        en: "The building works as one whole: a single company, its own name on the facade, single control of access and security, teams arranged freely across the floors.",
       },
       points: [
-        { ro: "Sediu al unei singure companii sau campus integrat", ru: "Штаб-квартира одной компании или интегрированный кампус", en: "Single-company headquarters or integrated campus" },
-        { ro: "Identitate proprie și control asupra accesului", ru: "Собственная идентичность и контроль доступа", en: "Own identity and control of access" },
-        { ro: "Creștere în timp, în aceeași adresă", ru: "Рост со временем по тому же адресу", en: "Growth over time at the same address" },
+        { ro: "Sediul central al unei singure companii", ru: "Штаб-квартира одной компании", en: "Headquarters of a single company" },
+        { ro: "Numele propriu pe fațadă și control al accesului", ru: "Собственное название на фасаде и контроль доступа", en: "Own name on the facade and control of access" },
+        { ro: "Creștere în aceeași clădire, fără relocare", ru: "Рост в том же здании без переезда", en: "Growth in the same building, without relocating" },
       ],
     },
     character: {
-      ro: "Independența este caracterul activului: nu împarte holul, fațada sau adresa cu nimeni. Este o clădire care poate purta numele unei singure organizații.",
-      ru: "Характер актива — независимость: он не делит холл, фасад или адрес ни с кем. Это здание, которое может носить имя одной организации.",
-      en: "Independence is the asset's character: it shares no lobby, facade or address with anyone. It is a building that can carry the name of one organisation.",
+      ro: "Principalul avantaj este independența: clădirea nu împarte holul, fațada sau adresa cu alți chiriași. O singură organizație o poate ocupa în întregime.",
+      ru: "Главное преимущество — самостоятельность: здание не делит холл, фасад или адрес с другими арендаторами. Его может занять одна организация целиком.",
+      en: "The main advantage is independence: the building shares no lobby, facade or address with other tenants. One organisation can occupy it in full.",
     },
     relevance: {
-      ro: "Platourile mari și infrastructura existentă permit reconfigurări succesive fără a schimba clădirea; un activ care rămâne relevant pe măsură ce organizația se transformă.",
-      ru: "Крупные этажные плиты и существующая инфраструктура позволяют последовательные реконфигурации без изменения здания; актив остаётся актуальным по мере трансформации организации.",
-      en: "Large floor plates and existing infrastructure allow successive reconfiguration without changing the building; an asset that stays relevant as the organisation transforms.",
+      ro: "Suprafețele mari și infrastructura existentă permit reorganizarea spațiului fără a modifica clădirea, pe măsură ce structura companiei se schimbă.",
+      ru: "Крупные площади и готовая инженерная инфраструктура позволяют перестраивать пространство без изменения здания — по мере того как меняется структура компании.",
+      en: "Large floor areas and existing services allow the space to be reorganised without altering the building as the company's structure changes.",
     },
     availability: {
       headline: {
-        ro: "Întreaga proprietate este disponibilă de la 1 ianuarie 2027 pentru sediul unei singure companii sau un campus corporativ integrat.",
-        ru: "Вся недвижимость доступна с 1 января 2027 года — для штаб-квартиры одной компании или интегрированного корпоративного кампуса.",
-        en: "The whole property is available from 1 January 2027 for a single-company headquarters or an integrated corporate campus.",
+        ro: "Întreaga clădire este disponibilă de la 1 ianuarie 2027 pentru sediul unei singure companii.",
+        ru: "Всё здание доступно с 1 января 2027 года для размещения одной компании.",
+        en: "The whole building is available from 1 January 2027 for a single company's headquarters.",
       },
       area: { ro: "5.223 m²", ru: "5 223 м²", en: "5,223 m²" },
       from: { ro: "1 ianuarie 2027", ru: "1 января 2027", en: "1 January 2027" },
@@ -213,38 +221,43 @@ export const portfolioAssets: PortfolioAsset[] = [
     city: { ro: "Chișinău", ru: "Кишинёв", en: "Chișinău" },
     media: media("portfolio", "moscova-9", "50% 50%"),
     status: operating,
-    positioning: { ro: "Adresă independentă de retail urban", ru: "Самостоятельный городской ритейл-адрес", en: "Independent urban retail address" },
+    positioning: { ro: "Obiect comercial independent", ru: "Отдельно стоящий торговый объект", en: "Stand-alone retail building" },
     headline: {
-      ro: "O adresă independentă de retail urban.",
-      ru: "Самостоятельный городской ритейл-адрес.",
-      en: "An independent urban retail address.",
+      ro: "Un obiect comercial independent pe prima linie a bulevardului.",
+      ru: "Отдельно стоящий торговый объект на первой линии бульвара.",
+      en: "A stand-alone retail building on the boulevard's first line.",
     },
     narrative: {
-      ro: "Fațadă, intrare, semnalistică și format: un brand își poate contura propria identitate.",
-      ru: "Фасад, вход, вывеска и формат: бренд может сформировать собственную идентичность.",
-      en: "Facade, entrance, signage and format: a brand can shape its own identity.",
+      ro: "Fațadă proprie, firmă proprie, intrare proprie.",
+      ru: "Собственный фасад, собственная вывеска, собственный вход.",
+      en: "Its own facade, its own signage, its own entrance.",
     },
-    use: { ro: "Retail · format independent", ru: "Ритейл · отдельно стоящий формат", en: "Retail · stand-alone format" },
+    use: { ro: "Comerț · format independent", ru: "Торговля · отдельно стоящий формат", en: "Retail · stand-alone format" },
+    audience: {
+      ro: "Brandurilor de retail care preferă o adresă proprie pe bulevard în locul unui spațiu într-un centru comercial: magazin flagship, showroom sau comerț specializat.",
+      ru: "Ритейл-брендам, которым нужен собственный адрес на бульваре вместо места в торговом центре: флагманский магазин, шоурум или специализированная торговля.",
+      en: "Retail brands that want their own boulevard address instead of a unit in a shopping centre: a flagship store, a showroom or specialist retail.",
+    },
     lead: {
-      ro: "Spațiu de retail de 1.289,93 m² pe bulevardul Moscova, în afara centrelor comerciale, cu front lung, două intrări pentru clienți și flux de marfă separat.",
-      ru: "Торговое помещение площадью 1 289,93 м² на бульваре Москова, вне торговых центров, с протяжённым фасадом, двумя входами для покупателей и отдельным товарным потоком.",
-      en: "A 1,289.93 m² retail property on Moscova Boulevard, outside shopping centres, with a long frontage, two customer entrances and separate goods flow.",
+      ro: "Spațiu comercial de 1.289,93 m² pe bulevardul Moscova, în afara centrelor comerciale: fațadă lungă, două intrări pentru clienți și zonă separată de descărcare.",
+      ru: "Торговое помещение площадью 1 289,93 м² на бульваре Москова, вне торговых центров: протяжённый фасад, два входа для покупателей и отдельная зона разгрузки.",
+      en: "A 1,289.93 m² retail property on Moscova Boulevard, outside shopping centres: a long frontage, two customer entrances and a separate unloading zone.",
     },
     story: {
       ro: [
-        "Într-un centru comercial, un brand închiriază un spațiu. La Moscova 9, un brand primește o adresă: formatul independent îi permite să-și contureze identitatea fațadei, experiența intrării, semnalistica, parcursul clientului și configurația de operare, în cadrul tehnic și juridic convenit.",
-        "Sala principală de vânzare de 737,07 m² este completată de o zonă de descărcare cu rampă și de spații suport pentru logistică, stoc, birou și pază. Fluxul de marfă este separat de fluxul clienților, astfel încât operarea nu intră în conflict cu experiența de cumpărare.",
-        "Bulevardul aduce trafic auto și pietonal constant, parcare de-a lungul arterei și un bazin rezidențial dens. Vizibilitatea de prima linie transformă clădirea într-un suport de brand, nu doar într-un spațiu.",
+        "Într-un centru comercial, un brand închiriază un spațiu. La Moscova 9, brandul primește o clădire separată: fațadă și firmă proprii, intrare proprie și propria organizare a sălii de vânzare, în cadrul tehnic și juridic convenit.",
+        "Sala principală de vânzare de 737,07 m² este completată de o zonă de descărcare cu rampă și de spații pentru stoc, logistică, birou și pază. Marfa și clienții circulă pe trasee diferite.",
+        "Bulevardul aduce un flux constant de mașini și pietoni, parcare de-a lungul drumului și un cartier rezidențial dens în jur. Fațada lungă de pe prima linie se vede bine din stradă.",
       ],
       ru: [
-        "В торговом центре бренд арендует помещение. На Moscova 9 бренд получает адрес: отдельно стоящий формат позволяет ему сформировать идентичность фасада, опыт входа, вывеску, путь покупателя и операционную конфигурацию — в рамках согласованных технических и юридических условий.",
-        "Основной торговый зал площадью 737,07 м² дополнен зоной разгрузки с рампой и вспомогательными помещениями для логистики, склада, офиса и охраны. Товарный поток отделён от потока покупателей, так что эксплуатация не конфликтует с опытом покупки.",
-        "Бульвар обеспечивает постоянный автомобильный и пешеходный трафик, парковку вдоль магистрали и плотный жилой массив. Видимость первой линии превращает здание в носитель бренда, а не просто в помещение.",
+        "В торговом центре бренд арендует секцию. На Moscova 9 бренд получает отдельное здание: собственное оформление фасада и вывески, свой вход и свою организацию торгового зала — в рамках согласованных технических и юридических условий.",
+        "Основной торговый зал площадью 737,07 м² дополнен зоной разгрузки с рампой и помещениями для склада, логистики, офиса и охраны. Товары и покупатели движутся по разным маршрутам.",
+        "Бульвар даёт постоянный поток автомобилей и пешеходов, парковку вдоль дороги и плотный жилой район вокруг. Протяжённый фасад на первой линии хорошо виден с улицы.",
       ],
       en: [
-        "In a shopping centre a brand rents a unit. At Moscova 9 a brand gets an address: the independent format allows it to shape its own facade identity, entrance experience, signage, customer journey and operating configuration, subject to the agreed technical and legal framework.",
-        "The main sales floor of 737.07 m² is complemented by an unloading zone with ramp and support areas for logistics, stock, office and security. Goods flow is separated from customer flow, so operations never conflict with the shopping experience.",
-        "The boulevard brings steady automobile and pedestrian traffic, parking along the avenue and a dense residential catchment. First-line visibility turns the building into a brand carrier, not just a space.",
+        "In a shopping centre a brand rents a unit. At Moscova 9 the brand gets a separate building: its own facade and signage, its own entrance and its own layout of the sales floor, within the agreed technical and legal framework.",
+        "The main sales floor of 737.07 m² is complemented by an unloading zone with a ramp and rooms for stock, logistics, office and security. Goods and customers move along different routes.",
+        "The boulevard brings a steady flow of cars and pedestrians, parking along the road and a dense residential district around it. The long first-line frontage is clearly visible from the street.",
       ],
     },
     keyFacts: [
@@ -254,53 +267,53 @@ export const portfolioAssets: PortfolioAsset[] = [
       { label: { ro: "Intrări clienți", ru: "Входы для покупателей", en: "Customer entrances" }, value: { ro: "2, dinspre bulevard", ru: "2, с бульвара", en: "2, from the boulevard" } },
     ],
     location: {
-      ro: "Sectorul Rîșcani, pe bulevardul Moscova: trafic auto și pietonal constant, parcare de-a lungul bulevardului și o zonă rezidențială densă. Fațada lungă asigură vizibilitate puternică de prima linie.",
-      ru: "Сектор Рышкань, бульвар Москова: постоянный автомобильный и пешеходный поток, парковка вдоль бульвара и плотная жилая застройка. Протяжённый фасад обеспечивает сильную видимость первой линии.",
-      en: "Rîșcani district, on Moscova Boulevard: steady automobile and pedestrian traffic, parking along the avenue and a dense residential catchment. The long frontage gives strong first-line visibility.",
+      ro: "Sectorul Rîșcani, bulevardul Moscova: flux constant de mașini și pietoni, parcare de-a lungul bulevardului și un cartier rezidențial dens. Fațada lungă se vede bine de pe prima linie.",
+      ru: "Сектор Рышкань, бульвар Москова: постоянный автомобильный и пешеходный поток, парковка вдоль бульвара и плотный жилой район. Протяжённый фасад хорошо виден с первой линии.",
+      en: "Rîșcani district, Moscova Boulevard: a steady flow of cars and pedestrians, parking along the boulevard and a dense residential district. The long frontage is clearly visible from the first line.",
     },
     connectivity: [
       { ro: "Rîșcani, front la bulevardul Moscova", ru: "Рышкань, фасад на бульвар Москова", en: "Rîșcani, frontage on Moscova Boulevard" },
-      { ro: "Trafic auto și pietonal constant", ru: "Постоянный автомобильный и пешеходный трафик", en: "Steady automobile and pedestrian traffic" },
-      { ro: "Parcare de-a lungul bulevardului", ru: "Парковка вдоль бульвара", en: "Parking along the avenue" },
-      { ro: "Bazin rezidențial dens", ru: "Плотный жилой массив", en: "Dense residential catchment" },
+      { ro: "Flux constant de mașini și pietoni", ru: "Постоянный автомобильный и пешеходный поток", en: "Steady flow of cars and pedestrians" },
+      { ro: "Parcare de-a lungul bulevardului", ru: "Парковка вдоль бульвара", en: "Parking along the boulevard" },
+      { ro: "Cartier rezidențial dens", ru: "Плотный жилой район", en: "Dense residential district" },
     ],
     map: { address: "Bd. Moscova 9, Chișinău", query: "Bd. Moscova 9, Chișinău, Moldova" },
     building: {
       text: {
-        ro: "Format independent, în afara centrelor comerciale. Sala principală de vânzare, zona de descărcare cu rampă și spațiile suport formează un singur circuit operațional.",
-        ru: "Отдельно стоящий формат вне торговых центров. Основной торговый зал, зона разгрузки с рампой и вспомогательные помещения образуют единый операционный контур.",
-        en: "A stand-alone format outside shopping centres. The main sales floor, the loading zone with ramp and the support spaces form one operating circuit.",
+        ro: "Clădire independentă, în afara centrelor comerciale. Sala principală de vânzare, zona de descărcare cu rampă și spațiile auxiliare formează un singur circuit de lucru.",
+        ru: "Отдельно стоящее здание вне торговых центров. Основной торговый зал, зона разгрузки с рампой и вспомогательные помещения образуют единый рабочий контур.",
+        en: "A stand-alone building outside shopping centres. The main sales floor, the unloading zone with ramp and the support rooms form one working circuit.",
       },
       programme: [],
       features: [
-        { ro: "Front lung la bulevard, vizibilitate de prima linie", ru: "Протяжённый фасад на бульвар, видимость первой линии", en: "Long boulevard frontage, first-line visibility" },
+        { ro: "Fațadă lungă la bulevard, vizibilă de pe prima linie", ru: "Протяжённый фасад на бульвар, видимость с первой линии", en: "Long boulevard frontage, visible from the first line" },
         { ro: "Două intrări pentru clienți", ru: "Два входа для покупателей", en: "Two customer entrances" },
-        { ro: "Zonă de descărcare cu rampă", ru: "Зона разгрузки с рампой", en: "Loading zone with ramp" },
-        { ro: "Spații suport: logistică, stoc, birou, pază", ru: "Вспомогательные помещения: логистика, склад, офис, охрана", en: "Support spaces: logistics, stock, office, security" },
-        { ro: "Parcare de-a lungul bulevardului", ru: "Парковка вдоль бульвара", en: "Parking along the avenue" },
+        { ro: "Zonă de descărcare cu rampă", ru: "Зона разгрузки с рампой", en: "Unloading zone with ramp" },
+        { ro: "Spații auxiliare: logistică, stoc, birou, pază", ru: "Вспомогательные помещения: логистика, склад, офис, охрана", en: "Support rooms: logistics, stock, office, security" },
+        { ro: "Parcare de-a lungul bulevardului", ru: "Парковка вдоль бульвара", en: "Parking along the boulevard" },
       ],
     },
     operatingLogic: {
       text: {
-        ro: "Fluxul clienților intră dinspre bulevard; fluxul de marfă intră prin rampă. Cele două nu se intersectează, iar brandul își poate configura formatul, programul și parcursul în magazin, în cadrul convenit.",
-        ru: "Поток покупателей входит с бульвара; товарный поток — через рампу. Они не пересекаются, а бренд может настроить формат, режим работы и путь по магазину в рамках согласованных условий.",
-        en: "Customer flow enters from the boulevard; goods flow enters via the ramp. The two never cross, and the brand can configure its format, hours and in-store journey within the agreed framework.",
+        ro: "Clienții intră dinspre bulevard, marfa intră prin rampă. Fluxurile nu se intersectează, iar brandul își stabilește formatul, programul și organizarea sălii în cadrul condițiilor convenite.",
+        ru: "Покупатели входят с бульвара, товары поступают через рампу. Потоки не пересекаются, а бренд определяет формат, режим работы и организацию зала в рамках согласованных условий.",
+        en: "Customers enter from the boulevard, goods arrive via the ramp. The flows never cross, and the brand sets its format, hours and floor layout within the agreed conditions.",
       },
       points: [
-        { ro: "Flux clienți separat de flux marfă", ru: "Поток покупателей отделён от товарного", en: "Customer flow separate from goods flow" },
+        { ro: "Fluxul clienților separat de fluxul de marfă", ru: "Поток покупателей отделён от товарного", en: "Customer flow separate from goods flow" },
         { ro: "Închiriere integrală sau a unei părți convenite", ru: "Аренда целиком или согласованной частью", en: "Lease as a whole or as an agreed part" },
-        { ro: "Format definit de brand: flagship, showroom, retail specializat", ru: "Формат задаёт бренд: флагман, шоурум, специализированный ритейл", en: "Format set by the brand: flagship, showroom, specialist retail" },
+        { ro: "Formatul îl stabilește brandul: flagship, showroom, comerț specializat", ru: "Формат задаёт бренд: флагман, шоурум, специализированная торговля", en: "Format set by the brand: flagship, showroom, specialist retail" },
       ],
     },
     character: {
-      ro: "Independența față de centrele comerciale este caracterul activului: un brand își poate contura identitatea fațadei, experiența intrării, semnalistica, parcursul clientului și configurația de operare, în cadrul tehnic și juridic convenit.",
-      ru: "Характер актива — независимость от торговых центров: бренд может сформировать идентичность фасада, опыт входа, вывеску, путь покупателя и операционную конфигурацию в рамках согласованных технических и юридических условий.",
-      en: "Independence from shopping centres is the asset's character: a brand can shape its own facade identity, entrance experience, signage, customer journey and operating configuration, subject to the agreed technical and legal framework.",
+      ro: "Principalul avantaj este independența față de centrele comerciale: brandul își amenajează fațada și firma, își organizează intrarea și sala de vânzare, în cadrul tehnic și juridic convenit.",
+      ru: "Главное преимущество — независимость от торговых центров: бренд сам оформляет фасад и вывеску, организует вход и торговый зал в рамках согласованных технических и юридических условий.",
+      en: "The main advantage is independence from shopping centres: the brand designs its own facade and signage and organises its entrance and sales floor within the agreed technical and legal framework.",
     },
     relevance: {
-      ro: "O adresă pe bulevard, cu circuit operațional propriu, rămâne relevantă indiferent de formatul de retail care o ocupă.",
-      ru: "Адрес на бульваре с собственным операционным контуром остаётся актуальным независимо от занимающего его ритейл-формата.",
-      en: "A boulevard address with its own operating circuit stays relevant whatever retail format occupies it.",
+      ro: "O clădire separată pe prima linie a bulevardului rămâne căutată indiferent de formatul comercial.",
+      ru: "Отдельное здание на первой линии бульвара остаётся востребованным при любом торговом формате.",
+      en: "A separate building on the boulevard's first line stays in demand whatever the retail format.",
     },
     availability: {
       headline: {
@@ -319,38 +332,43 @@ export const portfolioAssets: PortfolioAsset[] = [
     city: { ro: "Chișinău", ru: "Кишинёв", en: "Chișinău" },
     media: media("portfolio", "moscova-20", "50% 48%"),
     status: operating,
-    positioning: { ro: "Retail de proximitate pe prima linie", ru: "Ритейл шаговой доступности на первой линии", en: "First-line neighbourhood retail" },
+    positioning: { ro: "Spațiu comercial pe prima linie", ru: "Торговое помещение первой линии", en: "First-line retail space" },
     headline: {
-      ro: "Un activ de retail de proximitate construit în jurul fluxului zilnic.",
-      ru: "Ритейл-актив шаговой доступности, построенный вокруг ежедневного потока.",
-      en: "A neighbourhood retail asset built around daily flow.",
+      ro: "Spațiu comercial pe prima linie, la un colț de bulevard.",
+      ru: "Торговое помещение первой линии на углу бульвара.",
+      en: "A first-line retail space on a boulevard corner.",
     },
     narrative: {
-      ro: "Prima linie, un colț de bulevard, aproximativ 5.000 de pietoni pe zi.",
-      ru: "Первая линия, угол бульвара, около 5 000 пешеходов в день.",
-      en: "First line, a boulevard corner, around 5,000 pedestrians a day.",
+      ro: "Colțul pe care cartierul îl traversează în fiecare zi.",
+      ru: "Угол, который район проходит каждый день.",
+      en: "The corner the neighbourhood passes every day.",
     },
-    use: { ro: "Retail · servicii · prima linie", ru: "Ритейл · услуги · первая линия", en: "Retail · services · first line" },
+    use: { ro: "Comerț · servicii · prima linie", ru: "Торговля · услуги · первая линия", en: "Retail · services · first line" },
+    audience: {
+      ro: "Retailului alimentar, operatorilor de servicii, farmaciilor și showroom-urilor care lucrează cu fluxul zilnic al locuitorilor din cartier.",
+      ru: "Продуктовому ритейлу, сервисным операторам, аптекам и шоурумам, которые работают на ежедневном потоке жителей района.",
+      en: "Food retailers, service operators, pharmacies and showrooms that work with the daily flow of the neighbourhood's residents.",
+    },
     lead: {
-      ro: "Spațiu comercial de 625,7 m² la intersecția bulevardului Moscova cu strada Matei Basarab, cu front panoramic, intrare pentru clienți și acces separat de serviciu.",
-      ru: "Торговое помещение площадью 625,7 м² на пересечении бульвара Москова и улицы Матей Басараб, с панорамным фасадом, входом для покупателей и отдельным служебным доступом.",
-      en: "A 625.7 m² commercial property at the corner of Moscova Boulevard and Matei Basarab Street, with a panoramic frontage, a customer entrance and separate service access.",
+      ro: "Spațiu comercial de 625,7 m² la intersecția bulevardului Moscova cu strada Matei Basarab: poziție de colț, fațadă panoramică, intrare pentru clienți și acces separat de serviciu.",
+      ru: "Торговое помещение площадью 625,7 м² на пересечении бульвара Москова и улицы Матей Басараб: угловое расположение, панорамный фасад, вход для покупателей и отдельный служебный доступ.",
+      en: "A 625.7 m² retail space at the corner of Moscova Boulevard and Matei Basarab Street: a corner position, a panoramic frontage, a customer entrance and separate service access.",
     },
     story: {
       ro: [
-        "Moscova 20 stă la un colț pe care cartierul îl traversează zilnic: transport public în apropiere, blocuri rezidențiale dense, servicii comerciale în jur și parcare dedicată. Fluxul pietonal estimat este de aproximativ 5.000 de persoane pe zi.",
-        "Frontul panoramic transformă fațada într-o vitrină continuă. Intrarea clienților și accesul separat de serviciu, cu rampă, țin operarea în afara parcursului de cumpărare.",
-        "Organizarea pe parter și demisol, cu 458,86 m² suprafață netă de vânzare și o terasă, permite formate diferite: retail alimentar, servicii, showroom sau retail specializat, toate construite în jurul aceluiași flux zilnic.",
+        "Moscova 20 se află la un colț pe care locuitorii cartierului îl traversează zilnic: transport public în apropiere, blocuri dense, magazine și servicii, parcare dedicată. Fluxul pietonal estimat este de aproximativ 5.000 de persoane pe zi.",
+        "Fațada panoramică transformă spațiul într-o vitrină continuă. Intrarea pentru clienți și accesul separat de serviciu, cu rampă, despart aprovizionarea de clienți.",
+        "Spațiul ocupă parterul și demisolul: 458,86 m² suprafață netă de vânzare și o terasă. Se potrivește pentru retail alimentar, servicii, showroom sau comerț specializat.",
       ],
       ru: [
-        "Moscova 20 стоит на углу, который район пересекает ежедневно: общественный транспорт рядом, плотная жилая застройка, торговая инфраструктура вокруг и выделенная парковка. Оценочный пешеходный поток — около 5 000 человек в день.",
-        "Панорамный фасад превращает витрину в непрерывную. Вход для покупателей и отдельный служебный доступ с рампой выводят эксплуатацию за пределы покупательского маршрута.",
-        "Организация на первом и цокольном этажах с чистой торговой площадью 458,86 м² и террасой допускает разные форматы: продуктовый ритейл, услуги, шоурум или специализированный ритейл — всё вокруг одного ежедневного потока.",
+        "Moscova 20 стоит на углу, через который жители района проходят ежедневно: рядом общественный транспорт, плотная жилая застройка, магазины и сервисы, выделенная парковка. Оценочный пешеходный поток — около 5 000 человек в день.",
+        "Панорамный фасад превращает помещение в сплошную витрину. Вход для покупателей и отдельный служебный доступ с рампой разводят обслуживание и покупателей.",
+        "Помещение занимает первый и цокольный этажи: чистая торговая площадь 458,86 м² и терраса. Подходит для продуктового ритейла, услуг, шоурума или специализированной торговли.",
       ],
       en: [
-        "Moscova 20 stands on a corner the neighbourhood crosses every day: public transport close by, dense residential blocks, commercial amenities around and dedicated parking. Estimated pedestrian flow is around 5,000 people a day.",
-        "The panoramic frontage turns the facade into a continuous shop window. The customer entrance and the separate service access with ramp keep operations out of the shopping journey.",
-        "Ground and lower-ground organisation, with 458.86 m² of net sales area and a terrace, supports different formats: food retail, services, showroom or specialist retail, all built around the same daily flow.",
+        "Moscova 20 stands on a corner the neighbourhood's residents cross every day: public transport close by, dense housing, shops and services, dedicated parking. Estimated pedestrian flow is around 5,000 people a day.",
+        "The panoramic frontage turns the space into a continuous shop window. The customer entrance and the separate service access with ramp keep deliveries and customers apart.",
+        "The space occupies the ground and lower-ground floors: 458.86 m² of net sales area and a terrace. It suits food retail, services, a showroom or specialist retail.",
       ],
     },
     keyFacts: [
@@ -360,22 +378,22 @@ export const portfolioAssets: PortfolioAsset[] = [
       { label: { ro: "Putere electrică (aprox.)", ru: "Электрическая мощность (ок.)", en: "Electrical power (approx.)" }, value: { ro: "cca. 50 kVA", ru: "около 50 кВА", en: "approx. 50 kVA" } },
     ],
     location: {
-      ro: "Sectorul Rîșcani, la intersecția bulevardului Moscova cu strada Matei Basarab: transport public în apropiere, zonă rezidențială densă, servicii comerciale în jur și parcare dedicată.",
-      ru: "Сектор Рышкань, пересечение бульвара Москова и улицы Матей Басараб: общественный транспорт рядом, плотная жилая застройка, торговая инфраструктура вокруг и выделенная парковка.",
-      en: "Rîșcani district, at the intersection of Moscova Boulevard and Matei Basarab Street: public transport close by, a dense residential catchment, commercial amenities around and dedicated parking.",
+      ro: "Sectorul Rîșcani, intersecția bulevardului Moscova cu strada Matei Basarab: transport public în apropiere, zonă rezidențială densă, magazine și servicii în jur, parcare dedicată.",
+      ru: "Сектор Рышкань, пересечение бульвара Москова и улицы Матей Басараб: общественный транспорт рядом, плотная жилая застройка, магазины и сервисы вокруг, выделенная парковка.",
+      en: "Rîșcani district, at the corner of Moscova Boulevard and Matei Basarab Street: public transport close by, dense housing, shops and services around, dedicated parking.",
     },
     connectivity: [
       { ro: "Intersecția bd. Moscova cu str. Matei Basarab", ru: "Пересечение бул. Москова и ул. Матей Басараб", en: "Corner of Moscova Boulevard and Matei Basarab Street" },
       { ro: "Poziție pe prima linie", ru: "Положение на первой линии", en: "First-line position" },
       { ro: "Transport public în apropiere", ru: "Общественный транспорт рядом", en: "Public transport close by" },
-      { ro: "Context rezidențial dens și parcare", ru: "Плотная жилая среда и парковка", en: "Dense residential context and parking" },
+      { ro: "Cartier rezidențial dens și parcare", ru: "Плотная жилая застройка и парковка", en: "Dense housing and parking" },
     ],
     map: { address: "Bd. Moscova 20, Chișinău", query: "Bd. Moscova 20, Chișinău, Moldova" },
     building: {
       text: {
-        ro: "Parter și demisol, terasă, front panoramic. Trasee HVAC, utilități și curenți slabi existente; putere electrică disponibilă de aproximativ 50 kVA.",
-        ru: "Первый и цокольный этажи, терраса, панорамный фасад. Существующие трассы HVAC, инженерных сетей и слаботочных систем; доступная мощность около 50 кВА.",
-        en: "Ground and lower ground, terrace, panoramic frontage. Existing HVAC, utility and low-voltage routes; available electrical power of approximately 50 kVA.",
+        ro: "Parter și demisol, terasă, fațadă panoramică. Trasee existente de ventilație, utilități și curenți slabi; putere electrică disponibilă de aproximativ 50 kVA.",
+        ru: "Первый и цокольный этажи, терраса, панорамный фасад. Существующие трассы вентиляции, инженерных сетей и слаботочных систем; доступная электрическая мощность около 50 кВА.",
+        en: "Ground and lower-ground floors, terrace, panoramic frontage. Existing ventilation, utility and low-voltage routes; available electrical power of approximately 50 kVA.",
       },
       programme: [
         { label: { ro: "Parter", ru: "Первый этаж", en: "Ground floor" }, value: { ro: "240,96 m² · vânzare 195,46 m²", ru: "240,96 м² · торговая 195,46 м²", en: "240.96 m² · sales 195.46 m²" } },
@@ -384,40 +402,40 @@ export const portfolioAssets: PortfolioAsset[] = [
         { label: { ro: "Înălțime utilă", ru: "Высота помещений", en: "Ceiling height" }, value: { ro: "parter cca. 2,64 m · demisol cca. 2,67 m", ru: "1-й этаж ок. 2,64 м · цоколь ок. 2,67 м", en: "ground approx. 2.64 m · lower ground approx. 2.67 m" } },
       ],
       features: [
-        { ro: "Front panoramic cu potențial de branding", ru: "Панорамный фасад с потенциалом брендинга", en: "Panoramic frontage with branding potential" },
+        { ro: "Fațadă panoramică cu loc pentru firmă", ru: "Панорамный фасад с местом для вывески", en: "Panoramic frontage with room for signage" },
         { ro: "Intrare pentru clienți și acces separat de serviciu cu rampă", ru: "Вход для покупателей и отдельный служебный доступ с рампой", en: "Customer entrance and separate service access with ramp" },
-        { ro: "Organizare pe parter și demisol", ru: "Организация на первом и цокольном этажах", en: "Ground and lower-ground organisation" },
+        { ro: "Parter și demisol", ru: "Первый и цокольный этажи", en: "Ground and lower-ground floors" },
         { ro: "Terasă", ru: "Терраса", en: "Terrace" },
-        { ro: "Trasee HVAC, utilități și curenți slabi", ru: "Трассы HVAC, инженерных сетей и слаботочных систем", en: "HVAC, utility and low-voltage routes" },
+        { ro: "Trasee de ventilație, utilități și curenți slabi", ru: "Трассы вентиляции, инженерных сетей и слаботочных систем", en: "Ventilation, utility and low-voltage routes" },
       ],
     },
     operatingLogic: {
       text: {
-        ro: "Activul este construit în jurul fluxului zilnic al cartierului. Clienții intră de pe colț; marfa intră prin rampă; terasa extinde spațiul spre stradă.",
-        ru: "Актив построен вокруг ежедневного потока района. Покупатели входят с угла; товар — через рампу; терраса расширяет пространство к улице.",
-        en: "The asset is built around the neighbourhood's daily flow. Customers enter from the corner; goods enter via the ramp; the terrace extends the space towards the street.",
+        ro: "Spațiul lucrează cu fluxul zilnic al cartierului: clienții intră de la colț, marfa intră prin rampă, terasa se deschide spre stradă.",
+        ru: "Помещение работает на ежедневном потоке района: покупатели входят с угла, товары поступают через рампу, терраса выходит на улицу.",
+        en: "The space works with the neighbourhood's daily flow: customers enter from the corner, goods arrive via the ramp, the terrace opens onto the street.",
       },
       points: [
-        { ro: "Retail alimentar, servicii, showroom sau retail specializat", ru: "Продуктовый ритейл, услуги, шоурум или специализированный ритейл", en: "Food retail, services, showroom or specialist retail" },
-        { ro: "Flux de marfă separat de fluxul clienților", ru: "Товарный поток отделён от потока покупателей", en: "Goods flow separate from customer flow" },
-        { ro: "Pregătit pentru ocupare și adaptare la brand", ru: "Готов к заселению и адаптации под бренд", en: "Ready for occupation and brand adaptation" },
+        { ro: "Retail alimentar, servicii, showroom sau comerț specializat", ru: "Продуктовый ритейл, услуги, шоурум или специализированная торговля", en: "Food retail, services, showroom or specialist retail" },
+        { ro: "Fluxul de marfă separat de cel al clienților", ru: "Товарный поток отделён от покупательского", en: "Goods flow separate from customer flow" },
+        { ro: "Pregătit pentru ocupare și amenajare în identitatea brandului", ru: "Готово к заселению и оформлению под бренд", en: "Ready for occupation and brand fit-out" },
       ],
     },
     character: {
-      ro: "Un colț de cartier cu vitrină continuă: activul aparține ritmului zilnic al străzii, nu unui centru comercial.",
-      ru: "Угол района с непрерывной витриной: актив принадлежит ежедневному ритму улицы, а не торговому центру.",
-      en: "A neighbourhood corner with a continuous shop window: the asset belongs to the daily rhythm of the street, not to a shopping centre.",
+      ro: "Un spațiu de colț cu vitrină continuă: trăiește în ritmul străzii, nu al unui centru comercial.",
+      ru: "Угловое помещение со сплошной витриной: оно живёт ритмом улицы, а не торгового центра.",
+      en: "A corner space with a continuous shop window: it lives to the rhythm of the street, not of a shopping centre.",
     },
     relevance: {
-      ro: "Fluxul zilnic și poziția de colț rămân valoroase indiferent de format; activul se adaptează la ce are nevoie cartierul.",
-      ru: "Ежедневный поток и угловое положение сохраняют ценность независимо от формата; актив адаптируется к потребностям района.",
-      en: "Daily flow and the corner position stay valuable whatever the format; the asset adapts to what the neighbourhood needs.",
+      ro: "Fluxul zilnic și poziția de colț își păstrează valoarea indiferent de format. Spațiul poate fi adaptat la ceea ce are nevoie cartierul.",
+      ru: "Ежедневный поток и угловое расположение сохраняют ценность при любом формате. Помещение можно адаптировать под то, что нужно району.",
+      en: "The daily flow and the corner position keep their value whatever the format. The space can be adapted to what the neighbourhood needs.",
     },
     availability: {
       headline: {
-        ro: "Disponibil din 17 august 2026, pregătit pentru ocupare și adaptare la brand.",
-        ru: "Доступен с 17 августа 2026 года, готов к заселению и адаптации под бренд.",
-        en: "Available from 17 August 2026, ready for occupation and brand adaptation.",
+        ro: "Disponibil din 17 august 2026, pregătit pentru ocupare și amenajare în identitatea brandului.",
+        ru: "Доступно с 17 августа 2026 года, готово к заселению и оформлению под бренд.",
+        en: "Available from 17 August 2026, ready for occupation and brand fit-out.",
       },
       area: { ro: "625,7 m²", ru: "625,7 м²", en: "625.7 m²" },
       from: { ro: "17 august 2026", ru: "17 августа 2026", en: "17 August 2026" },
@@ -435,19 +453,20 @@ export const portfolioAssets: PortfolioAsset[] = [
     city: { ro: "Chișinău", ru: "Кишинёв", en: "Chișinău" },
     media: null,
     status: operating,
-    positioning: { ro: "Activ operațional", ru: "Операционный актив", en: "Operating asset" },
-    headline: { ro: "Un activ operațional în Chișinău.", ru: "Операционный актив в Кишинёве.", en: "An operating asset in Chișinău." },
-    narrative: { ro: "Profil public în pregătire.", ru: "Публичный профиль готовится.", en: "Public profile in preparation." },
+    positioning: operating,
+    headline: { ro: "Un obiect în funcțiune în Chișinău.", ru: "Действующий объект в Кишинёве.", en: "An operating property in Chișinău." },
+    narrative: { ro: "Informațiile publice vor fi completate.", ru: "Публичная информация будет дополнена.", en: "Public information will be added." },
     use: { ro: "Comercial", ru: "Коммерческий", en: "Commercial" },
+    audience: { ro: "", ru: "", en: "" },
     lead: {
-      ro: "Activ operațional prezentat în portofoliul MEGAPARC, în Chișinău. Profilul public detaliat va fi completat după aprobarea datelor și a fotografiei.",
-      ru: "Операционный актив, представленный в портфеле MEGAPARC, в Кишинёве. Подробный публичный профиль будет дополнен после утверждения данных и фотографии.",
-      en: "An operating asset presented within the MEGAPARC portfolio, in Chișinău. The detailed public profile will be completed once the underlying data and photography are approved.",
+      ro: "Obiect în funcțiune din portofoliul MEGAPARC, în Chișinău. Informațiile publice detaliate vor fi publicate după aprobarea datelor și a fotografiilor.",
+      ru: "Действующий объект в портфеле MEGAPARC в Кишинёве. Подробная публичная информация будет опубликована после утверждения данных и фотографий.",
+      en: "An operating property in the MEGAPARC portfolio, in Chișinău. Detailed public information will be published once the data and photography are approved.",
     },
     story: {
-      ro: ["Creangă 78 este prezentat în portofoliul MEGAPARC ca activ operațional. Informațiile despre localizare, clădire și utilizare vor fi publicate pe măsură ce sunt aprobate."],
-      ru: ["Creangă 78 представлен в портфеле MEGAPARC как операционный актив. Информация о расположении, здании и назначении будет опубликована по мере утверждения."],
-      en: ["Creangă 78 is presented within the MEGAPARC portfolio as an operating asset. Information on location, building and use will be published as it is approved."],
+      ro: ["Creangă 78 face parte din portofoliul MEGAPARC ca obiect în funcțiune. Datele despre localizare, clădire și destinație vor fi publicate pe măsură ce sunt aprobate."],
+      ru: ["Creangă 78 входит в портфель MEGAPARC как действующий объект. Сведения о расположении, здании и назначении будут опубликованы по мере утверждения."],
+      en: ["Creangă 78 is part of the MEGAPARC portfolio as an operating property. Details on location, building and use will be published as they are approved."],
     },
     keyFacts: [],
     location: {
@@ -494,7 +513,7 @@ export type DevelopmentProject = {
   media: AssetMedia | null;
   status: Localized;
   kind: Localized;
-  /** Stage in the development narrative (index into strategy.developmentNarrative.stages). */
+  /** Stage in the development process (index into strategy.developmentNarrative.stages). */
   stage: number;
   headline: Localized;
   lead: Localized;
@@ -515,34 +534,34 @@ export const developmentProjects: DevelopmentProject[] = [
     connectivity: [],
     location: null,
     media: media("development", "vatra", "50% 62%"),
-    status: { ro: "Proiect în dezvoltare", ru: "Проект в стадии девелопмента", en: "Development project" },
+    status: { ro: "Proiect în dezvoltare", ru: "Проект в стадии развития", en: "Project in development" },
     kind: { ro: "Dezvoltare", ru: "Девелопмент", en: "Development" },
     stage: 4,
-    headline: { ro: "Un amplasament în lucru.", ru: "Площадка в работе.", en: "A site at work." },
+    headline: { ro: "Un amplasament în lucru.", ru: "Площадка в работе.", en: "A site under way." },
     lead: {
-      ro: "Proiect de dezvoltare MEGAPARC, prezentat cu imaginile reale ale amplasamentului și cu etapele aprobate pentru comunicare publică.",
-      ru: "Девелоперский проект MEGAPARC, представленный с реальными снимками площадки и этапами, утверждёнными для публичной коммуникации.",
-      en: "A MEGAPARC development project, presented with real site imagery and the stages approved for public communication.",
+      ro: "Proiect MEGAPARC în stadiu de dezvoltare. Pagina prezintă materiale reale de pe amplasament și doar informații aprobate pentru publicare.",
+      ru: "Проект MEGAPARC в стадии развития. На странице показаны реальные материалы площадки и только утверждённая для публикации информация.",
+      en: "A MEGAPARC project in development. This page shows real site material and only information approved for publication.",
     },
     intro: {
-      ro: "VATRA este privit de la început prin prisma utilizării și a valorii pe termen lung. Dezvoltarea nu se încheie la recepție: din acel moment, activul intră în faza de operare sau în următoarea etapă de investiție, conform strategiei de capital aprobate.",
-      ru: "VATRA с самого начала рассматривается через призму использования и долгосрочной стоимости. Девелопмент не заканчивается вводом в эксплуатацию: с этого момента актив переходит в фазу эксплуатации или в следующий инвестиционный этап в соответствии с утверждённой стратегией капитала.",
-      en: "VATRA is viewed from the outset through use and long-term value. Development does not end at handover: from that point, the asset enters its operating or next investment phase according to the approved capital strategy.",
+      ro: "VATRA este privit de la început din perspectiva utilizării și a valorii pe termen lung. Dezvoltarea nu se încheie la punerea în funcțiune: după aceea, obiectul intră în faza de exploatare sau în următoarea etapă de investiție, conform strategiei de capital aprobate.",
+      ru: "VATRA с самого начала рассматривается с точки зрения использования и долгосрочной стоимости. Девелопмент не заканчивается вводом в эксплуатацию: после него объект переходит в фазу эксплуатации или в следующий инвестиционный этап согласно утверждённой стратегии капитала.",
+      en: "VATRA is viewed from the outset in terms of use and long-term value. Development does not end at commissioning: after it, the property enters its operating or next investment phase according to the approved capital strategy.",
     },
     facts: [],
     sections: [
       {
-        title: { ro: "De la amplasament la activ", ru: "От площадки к активу", en: "From site to asset" },
+        title: { ro: "De la amplasament la obiect", ru: "От площадки к объекту", en: "From site to building" },
         text: {
-          ro: "Etapele proiectului urmează același ciclu de proprietate: concept, planificare, execuție și utilizare pe termen lung.",
-          ru: "Этапы проекта следуют единому циклу владения: концепция, планирование, реализация и долгосрочное использование.",
-          en: "The project stages follow the same ownership cycle: concept, planning, delivery and long-term use.",
+          ro: "Etapele proiectului: concept, planificare, execuție și utilizare pe termen lung.",
+          ru: "Этапы проекта: концепция, планирование, реализация и долгосрочное использование.",
+          en: "The project stages: concept, planning, delivery and long-term use.",
         },
         items: [
-          { ro: "Concept — definirea utilizării, a scării și a economiei proiectului", ru: "Концепция — определение назначения, масштаба и экономики проекта", en: "Concept — defining use, scale and the economics of the project" },
-          { ro: "Planificare — proiectare, autorizare și pregătirea execuției", ru: "Планирование — проектирование, разрешения и подготовка к реализации", en: "Planning — design, permitting and preparation for delivery" },
-          { ro: "Execuție — construcție, control al calității și al costului", ru: "Реализация — строительство, контроль качества и затрат", en: "Delivery — construction, quality and cost control" },
-          { ro: "Operare — faza de operare sau următoarea etapă de investiție, conform strategiei de capital aprobate", ru: "Эксплуатация — фаза эксплуатации или следующий инвестиционный этап в соответствии с утверждённой стратегией капитала", en: "Operation — the operating or next investment phase according to the approved capital strategy" },
+          { ro: "Concept — destinația, scara și economia proiectului", ru: "Концепция — назначение, масштаб и экономика проекта", en: "Concept — the use, the scale and the economics of the project" },
+          { ro: "Planificare — proiectare, autorizații și pregătirea construcției", ru: "Планирование — проектирование, разрешения и подготовка к строительству", en: "Planning — design, permits and preparation for construction" },
+          { ro: "Execuție — construcție, controlul calității și al costurilor", ru: "Реализация — строительство, контроль качества и затрат", en: "Delivery — construction, quality and cost control" },
+          { ro: "Exploatare — faza de exploatare sau următoarea etapă de investiție, conform strategiei de capital aprobate", ru: "Эксплуатация — фаза эксплуатации или следующий инвестиционный этап согласно утверждённой стратегии капитала", en: "Operation — the operating or next investment phase according to the approved capital strategy" },
         ],
       },
     ],
@@ -551,7 +570,7 @@ export const developmentProjects: DevelopmentProject[] = [
       ru: "Изображения показывают реальное состояние площадки. Итоговая архитектура не публикуется до утверждения.",
       en: "Imagery shows the real state of the site. Final architecture is not shown publicly before approval.",
     },
-    statement: { ro: "Construim pentru utilizarea de mâine.", ru: "Строим для завтрашнего использования.", en: "We build for tomorrow's use." },
+    statement: { ro: "Construim pentru o exploatare îndelungată.", ru: "Строим для долгой эксплуатации.", en: "We build for long-term use." },
   },
   {
     slug: "drochia-gateway",
@@ -559,30 +578,30 @@ export const developmentProjects: DevelopmentProject[] = [
     place: { ro: "Drochia", ru: "Дрокия", en: "Drochia" },
     map: { address: "Bd. Independenței 65, Drochia", query: "Bd. Independenței 65, Drochia, Moldova" },
     location: {
-      ro: "Amplasament la intrarea în oraș, cu vizibilitate de poartă și expunere directă la traficul care se apropie de Drochia.",
-      ru: "Участок на въезде в город, с «въездной» видимостью и прямой экспозицией к транспорту, приближающемуся к Дрокии.",
-      en: "A city-edge site with gateway visibility and direct exposure to traffic approaching Drochia.",
+      ro: "Teren la intrarea în oraș: vizibil de pe drum și orientat spre traficul care intră în Drochia.",
+      ru: "Участок на въезде в город: хорошо виден с дороги и обращён к транспорту, въезжающему в Дрокию.",
+      en: "A site at the entrance to the town: clearly visible from the road and facing the traffic entering Drochia.",
     },
     connectivity: [
       { ro: "Două fronturi stradale", ru: "Два фронта к дорогам", en: "Two road fronts" },
-      { ro: "Vizibilitate de poartă la marginea orașului", ru: "Въездная видимость на границе города", en: "Gateway / city-edge visibility" },
-      { ro: "Expunere directă la traficul care intră în oraș", ru: "Прямая экспозиция к въезжающему трафику", en: "Direct exposure to approaching traffic" },
-      { ro: "Potențial de accese separate pentru clienți și marfă", ru: "Возможность раздельных подъездов для покупателей и грузов", en: "Potential for separate customer and freight access" },
+      { ro: "Vizibilitate la intrarea în oraș", ru: "Видимость на въезде в город", en: "Visibility at the entrance to the town" },
+      { ro: "Orientat spre traficul care intră în oraș", ru: "Обращён к въезжающему транспорту", en: "Facing the incoming traffic" },
+      { ro: "Posibilitatea unor accese separate pentru clienți și marfă", ru: "Возможность раздельных подъездов для покупателей и грузов", en: "Potential for separate customer and freight access" },
     ],
     media: null,
     status: { ro: "Concept de dezvoltare", ru: "Концепция развития", en: "Development concept" },
-    kind: { ro: "Amplasament strategic de dezvoltare", ru: "Стратегическая площадка под развитие", en: "Strategic development site" },
+    kind: { ro: "Teren de dezvoltare", ru: "Площадка под развитие", en: "Development site" },
     stage: 2,
-    headline: { ro: "Un amplasament strategic de dezvoltare.", ru: "Стратегическая площадка под развитие.", en: "A strategic development site." },
+    headline: { ro: "Un teren de dezvoltare la intrarea în oraș.", ru: "Участок под развитие на въезде в город.", en: "A development site at the entrance to the town." },
     lead: {
-      ro: "Teren de 2,0 ha (20.000 m²) pe bd. Independenței 65, Drochia, cu două fronturi stradale și vizibilitate de poartă a orașului.",
-      ru: "Участок площадью 2,0 га (20 000 м²) на бул. Индепенденцей 65, Дрокия, с двумя фронтами к дорогам и «въездной» видимостью.",
-      en: "A 2.0 ha (20,000 m²) site at Bd. Independenței 65, Drochia, with two road fronts and city-gateway visibility.",
+      ro: "Teren de 2,0 ha în Drochia, analizat pentru dezvoltare comercială, logistică sau mixtă.",
+      ru: "Участок площадью 2,0 га в Дрокии, рассматриваемый для коммерческого, логистического или смешанного развития.",
+      en: "A 2.0 ha site in Drochia, under consideration for commercial, logistics or mixed-use development.",
     },
     intro: {
-      ro: "Terenul beneficiază de expunere directă la traficul care intră în oraș și permite accesuri separate pentru clienți și pentru marfă. MEGAPARC evaluează concepte de retail, logistică și hibrid pentru acest amplasament.",
-      ru: "Участок имеет прямую экспозицию к въезжающему в город трафику и позволяет организовать раздельные подъезды для покупателей и грузов. MEGAPARC рассматривает концепции ритейла, логистики и гибридного формата для этой площадки.",
-      en: "The site has direct exposure to approaching traffic and allows separate customer and freight access. MEGAPARC is evaluating retail, logistics and hybrid concepts for the location.",
+      ro: "Terenul de pe bd. Independenței 65 (20.000 m²) are două fronturi stradale și se vede bine de pe drumul care intră în oraș. Sunt posibile accese separate pentru clienți și pentru transportul de marfă. MEGAPARC analizează concepte de format comercial, logistic și mixt.",
+      ru: "Участок на бул. Индепенденцей 65 (20 000 м²) имеет два фронта к дорогам и хорошо виден с трассы на въезде в город. Возможны раздельные подъезды для покупателей и грузового транспорта. MEGAPARC рассматривает концепции торгового, логистического и смешанного формата.",
+      en: "The site at Bd. Independenței 65 (20,000 m²) has two road fronts and is clearly visible from the road into the town. Separate access for customers and freight is possible. MEGAPARC is considering retail, logistics and mixed-use concepts.",
     },
     facts: [
       { label: { ro: "Suprafața terenului", ru: "Площадь участка", en: "Site area" }, value: { ro: "2,0 ha · 20.000 m²", ru: "2,0 га · 20 000 м²", en: "2.0 ha · 20,000 m²" } },
@@ -592,25 +611,25 @@ export const developmentProjects: DevelopmentProject[] = [
     ],
     sections: [
       {
-        title: { ro: "Concepte în evaluare", ru: "Концепции в оценке", en: "Concepts under evaluation" },
+        title: { ro: "Concepte analizate", ru: "Рассматриваемые концепции", en: "Concepts under consideration" },
         text: {
-          ro: "Trei direcții sunt evaluate în paralel. Alegerea depinde de verificările urbanistice, inginerești și comerciale, nu de imagine.",
-          ru: "Три направления оцениваются параллельно. Выбор зависит от градостроительной, инженерной и коммерческой проверки, а не от картинки.",
-          en: "Three directions are being evaluated in parallel. The choice depends on planning, engineering and commercial due diligence, not on imagery.",
+          ro: "Trei direcții sunt evaluate în paralel. Alegerea depinde de verificările urbanistice, inginerești și comerciale.",
+          ru: "Три направления оцениваются параллельно. Выбор зависит от градостроительной, инженерной и коммерческой проверки.",
+          en: "Three directions are being assessed in parallel. The choice depends on planning, engineering and commercial review.",
         },
         items: [
-          { ro: "Retail park — retail de proximitate și materiale de construcție pentru regiune", ru: "Ритейл-парк — ритейл шаговой доступности и стройматериалы для региона", en: "Retail park — proximity retail and building materials for the region" },
+          { ro: "Retail park — comerț de proximitate și materiale de construcție pentru regiune", ru: "Ритейл-парк — торговля шаговой доступности и строительные материалы для региона", en: "Retail park — local retail and building materials for the region" },
           { ro: "Logistică — distribuție, lanț frigorific, hub regional", ru: "Логистика — дистрибуция, холодовая цепь, региональный хаб", en: "Logistics — distribution, cold chain, regional hub" },
-          { ro: "Hub hibrid — retail în față, logistică în spate, pe același amplasament", ru: "Гибридный хаб — ритейл спереди, логистика сзади, на одной площадке", en: "Hybrid hub — retail at the front, logistics at the rear, on one site" },
+          { ro: "Format mixt — comerț în față, logistică în spate, pe același teren", ru: "Смешанный формат — торговля спереди, логистика сзади, на одной площадке", en: "Mixed format — retail at the front, logistics at the rear, on one site" },
         ],
       },
     ],
     disclaimer: {
-      ro: "Concept în discuție. Sub rezerva verificărilor urbanistice, inginerești și comerciale (due diligence).",
-      ru: "Концепция для обсуждения. Подлежит градостроительной, инженерной и коммерческой проверке (due diligence).",
-      en: "Concept for discussion. Subject to planning, engineering and commercial due diligence.",
+      ro: "Concept. Parametrii sunt supuși verificărilor urbanistice, inginerești și comerciale.",
+      ru: "Концепция. Параметры подлежат градостроительной, инженерной и коммерческой проверке.",
+      en: "Concept. Parameters are subject to planning, engineering and commercial review.",
     },
-    statement: { ro: "Poarta orașului, gândită ca activ.", ru: "Въезд в город, задуманный как актив.", en: "A city gateway, conceived as an asset." },
+    statement: { ro: "Un teren la intrarea în oraș, cu potențial de dezvoltare.", ru: "Участок на въезде в город с потенциалом развития.", en: "A site at the entrance to the town, with development potential." },
   },
 ];
 
@@ -619,6 +638,5 @@ export function getProject(slug: string) {
 }
 
 export function getNextProject(slug: ProjectSlug) {
-  const index = developmentProjects.findIndex((project) => project.slug === slug);
-  return developmentProjects[(index + 1) % developmentProjects.length];
+  return developmentProjects[(developmentProjects.findIndex((project) => project.slug === slug) + 1) % developmentProjects.length];
 }
