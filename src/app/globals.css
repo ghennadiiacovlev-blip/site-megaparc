@@ -1970,3 +1970,8 @@ p, li, dd, dt { overflow-wrap: break-word; word-break: normal; hyphens: manual; 
 .asset-detail__story .copy-grid h2 { max-width: 12ch; }
 :lang(ru) .asset-detail__story .copy-grid h2, :lang(ro) .asset-detail__story .copy-grid h2 { font-size: clamp(2.2rem, 3.8vw, 4.4rem); max-width: 14ch; }
 @media (max-width: 720px) { :lang(ru) .asset-detail__story .copy-grid h2, :lang(ro) .asset-detail__story .copy-grid h2 { font-size: clamp(2rem, 9vw, 3rem); } }
+
+/* 9. Signature block below 1100px: the unscoped two-column rule above must
+      not override the single-column layout, otherwise the words column
+      collapses to 0 and the caption is drawn over the words. */
+@media (max-width: 1100px) { .signature__grid { grid-template-columns: minmax(0, 1fr); } }
