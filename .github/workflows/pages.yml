@@ -24,9 +24,10 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
+      # No static_site_generator injection: next.config.ts already sets output, basePath, trailingSlash
+      # and unoptimized images for GITHUB_PAGES=true. The injected config dropped trailingSlash and
+      # exported approach.html instead of approach/index.html, breaking every trailing-slash link.
       - uses: actions/configure-pages@v5
-        with:
-          static_site_generator: next
       - name: Build static export
         env:
           GITHUB_PAGES: "true"
