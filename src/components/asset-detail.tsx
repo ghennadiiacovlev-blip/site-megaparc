@@ -18,7 +18,8 @@ const copy = {
   facts: { ro: "Date cheie", ru: "Ключевые данные", en: "Key facts" },
   building: { ro: "Clădirea", ru: "Здание", en: "The building" },
   programme: { ro: "Structura pe niveluri", ru: "Поэтажная структура", en: "Floor structure" },
-  logic: { ro: "Cum este organizat obiectul", ru: "Как организован объект", en: "How the property is organised" },
+  logic: { ro: "Exploatare", ru: "Эксплуатация", en: "Operation" },
+  logicTitle: { ro: "Cum este organizat obiectul.", ru: "Как организован объект.", en: "How the property is organised." },
   character: { ro: "Particularitățile obiectului", ru: "Особенности объекта", en: "Property features" },
   distinctive: { ro: "Ce îl deosebește", ru: "Что отличает объект", en: "What sets it apart" },
   relevance: { ro: "Potențial și adaptare", ru: "Потенциал и адаптация", en: "Potential and adaptation" },
@@ -103,10 +104,7 @@ export function AssetDetailPage({ locale, asset }: { locale: SiteLocale; asset: 
         <div className="shell">
           <SectionIndex no={no()}>{copy.story[locale]}</SectionIndex>
           <div className="copy-grid" data-reveal>
-            <div>
-              <p className="asset-detail__narrative">{asset.narrative[locale]}</p>
-              <h2>{asset.headline[locale]}</h2>
-            </div>
+            <h2>{asset.narrative[locale]}</h2>
             <div>
               <p className="lead">{asset.lead[locale]}</p>
               <div className="prose">
@@ -179,7 +177,7 @@ export function AssetDetailPage({ locale, asset }: { locale: SiteLocale; asset: 
           <div className="shell">
             <SectionIndex no={no()}>{copy.logic[locale]}</SectionIndex>
             <div className="logic__grid" data-reveal>
-              <h2>{asset.narrative[locale]}</h2>
+              <h2>{copy.logicTitle[locale]}</h2>
               <div>
                 <p className="logic__text">{asset.operatingLogic.text[locale]}</p>
                 <ul className="logic__points logic__points--light">

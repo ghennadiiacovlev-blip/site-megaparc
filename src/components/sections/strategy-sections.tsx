@@ -26,9 +26,20 @@ const philosophyCopy = {
   cta: { ro: "Abordarea noastră", ru: "Наш подход", en: "Our approach" },
 } satisfies Record<string, Localized>;
 
-export function PhilosophySection({ locale, no, id }: { locale: SiteLocale; no: string; id?: string }) {
-  const title = philosophy.title[locale];
+/** "First sentence. Second sentence." → first line + italic second line; a single sentence renders as is. */
+function splitTitle(title: string) {
   const [first, ...rest] = title.split(". ");
+  if (!rest.length) return <>{title}</>;
+  return (
+    <>
+      {first}.
+      <br />
+      <em>{rest.join(". ")}</em>
+    </>
+  );
+}
+
+export function PhilosophySection({ locale, no, id }: { locale: SiteLocale; no: string; id?: string }) {
   return (
     <section className="philosophy paper" id={id}>
       <div className="shell">
@@ -38,11 +49,7 @@ export function PhilosophySection({ locale, no, id }: { locale: SiteLocale; no: 
             <p className="philosophy__kicker">{brandLayers.statement[locale]}</p>
             <p className="philosophy__idea">{brandLayers.strategicIdea[locale]}</p>
           </div>
-          <h2>
-            {first}.
-            <br />
-            <em>{rest.join(". ")}</em>
-          </h2>
+          <h2>{splitTitle(philosophy.title[locale])}</h2>
           <div className="philosophy__copy">
             <div className="prose">
               <p>{philosophy.paragraphs[locale][1]}</p>
@@ -65,18 +72,12 @@ export function PhilosophySection({ locale, no, id }: { locale: SiteLocale; no: 
 
 /** Full philosophy manifesto (Our Approach). */
 export function ManifestoSection({ locale, no, surface = "ink" }: { locale: SiteLocale; no: string; surface?: Surface }) {
-  const title = philosophy.title[locale];
-  const [first, ...rest] = title.split(". ");
   return (
     <section className={`manifesto ${surface}`} id="philosophy">
       <div className="shell">
         <SectionIndex no={no} inverse={isDark(surface)}>{philosophy.kicker[locale]}</SectionIndex>
         <div className="manifesto__grid" data-reveal>
-          <h2 className="manifesto__title">
-            {first}.
-            <br />
-            <em>{rest.join(". ")}</em>
-          </h2>
+          <h2 className="manifesto__title">{splitTitle(philosophy.title[locale])}</h2>
           <div className="manifesto__text">
             {philosophy.paragraphs[locale].map((paragraph) => (
               <p key={paragraph}>{paragraph}</p>
@@ -314,21 +315,13 @@ export function Strategy2030Section({ locale, no, surface = "ink" }: { locale: S
             <p className="strategy__intro">{megaparc2030.intro[locale]}</p>
           </div>
         </div>
-        <ol className="pillars">
+        <ol className="pillars pillars--compact">
           {megaparc2030.pillars.map((pillar) => (
             <li key={pillar.no} className="pillar" data-reveal>
               <span className="pillar__no">{pillar.no}</span>
-              <div>
-                <h3>{pillar.title[locale]}</h3>
-                {pillar.idea ? <span className="pillar__idea">{pillar.idea[locale]}</span> : null}
-              </div>
+              <h3>{pillar.title[locale]}</h3>
               <div className="pillar__body">
                 <p>{pillar.text[locale]}</p>
-                <ul className={`pillar__points${pillar.no === "02" ? " pillar__points--flow" : ""}`}>
-                  {pillar.points[locale].map((point) => (
-                    <li key={point}>{point}</li>
-                  ))}
-                </ul>
               </div>
             </li>
           ))}

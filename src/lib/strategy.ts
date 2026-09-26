@@ -310,9 +310,9 @@ export const megaparc2030 = {
       title: { ro: "Proiecte de dezvoltare", ru: "Проекты развития", en: "Development projects" },
       text: { ro: "Un proces clar, de la teren până la punerea în funcțiune.", ru: "Понятный процесс от участка до ввода в эксплуатацию.", en: "A clear process from site to commissioning." },
       points: {
-        ro: ["Teren", "Concept", "Evaluare economică", "Proiectare", "Construcție", "Punere în funcțiune"],
-        ru: ["Участок", "Концепция", "Экономическая оценка", "Проектирование", "Строительство", "Ввод в эксплуатацию"],
-        en: ["Site", "Concept", "Economic assessment", "Design", "Construction", "Commissioning"],
+        ro: ["Analiză", "Concept", "Evaluare economică", "Proiectare", "Realizare", "Punere în funcțiune"],
+        ru: ["Анализ", "Концепция", "Экономическая оценка", "Проектирование", "Реализация", "Ввод в эксплуатацию"],
+        en: ["Analysis", "Concept", "Economic assessment", "Design", "Delivery", "Commissioning"],
       },
     },
     {
@@ -374,14 +374,14 @@ export const megaparc2030 = {
 /* ------------------------------------------------------------------ */
 
 export const developmentNarrative = {
-  title: { ro: "Dezvoltăm proiecte de la idee la realizare.", ru: "Развиваем проекты от идеи до реализации.", en: "We take projects from idea to completion." } satisfies Localized,
+  title: { ro: "Dezvoltăm imobiliare de la idee la obiect în funcțiune.", ru: "Развиваем недвижимость от идеи до работающего объекта.", en: "We take real estate from idea to a working building." } satisfies Localized,
   stages: [
-    { no: "01", title: { ro: "Teren / obiect", ru: "Участок / объект", en: "Site / building" }, text: { ro: "Teren sau clădire existentă, cu o logică urbană clară.", ru: "Земля или существующее здание с понятной городской логикой.", en: "Land or an existing building with a clear urban logic." } },
+    { no: "01", title: { ro: "Analiză", ru: "Анализ", en: "Analysis" }, text: { ro: "Teren sau clădire existentă: evaluăm locația, destinația și posibilitățile.", ru: "Участок или существующее здание: оцениваем локацию, назначение и возможности.", en: "A site or an existing building: we assess the location, the use and the possibilities." } },
     { no: "02", title: { ro: "Concept", ru: "Концепция", en: "Concept" }, text: { ro: "Stabilim destinația, scara și formatul.", ru: "Определяем назначение, масштаб и формат.", en: "We define the use, the scale and the format." } },
     { no: "03", title: { ro: "Evaluare economică", ru: "Экономическая оценка", en: "Economic assessment" }, text: { ro: "Calculăm economia proiectului și verificăm condițiile urbanistice și juridice.", ru: "Считаем экономику, проверяем градостроительные и юридические условия.", en: "We run the numbers and check planning and legal conditions." } },
     { no: "04", title: { ro: "Proiectare", ru: "Проектирование", en: "Design" }, text: { ro: "Proiectăm pentru exploatare, nu doar pentru predare.", ru: "Проектируем с расчётом на эксплуатацию, а не только на сдачу.", en: "We design for operation, not just for handover." } },
-    { no: "05", title: { ro: "Construcție", ru: "Строительство", en: "Construction" }, text: { ro: "Controlăm bugetul, termenele și calitatea.", ru: "Контролируем бюджет, сроки и качество.", en: "We control budget, schedule and quality." } },
-    { no: "06", title: { ro: "Punere în funcțiune", ru: "Ввод в эксплуатацию", en: "Commissioning" }, text: { ro: "Obiectul începe să funcționeze: închiriere, întreținere, deciziile următoare.", ru: "Объект начинает работать: аренда, обслуживание, дальнейшие решения.", en: "The building starts working: leasing, maintenance, next decisions." } },
+    { no: "05", title: { ro: "Realizare", ru: "Реализация", en: "Delivery" }, text: { ro: "Construim și controlăm bugetul, termenele și calitatea.", ru: "Строим и контролируем бюджет, сроки и качество.", en: "We build and control budget, schedule and quality." } },
+    { no: "06", title: { ro: "Punere în funcțiune", ru: "Ввод / эксплуатация", en: "Commissioning / operation" }, text: { ro: "Obiectul începe să funcționeze: închiriere, întreținere, deciziile următoare.", ru: "Объект начинает работать: аренда, обслуживание, дальнейшие решения.", en: "The building starts working: leasing, maintenance, next decisions." } },
   ] as Numbered[],
 };
 

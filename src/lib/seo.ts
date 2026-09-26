@@ -39,9 +39,9 @@ export const pageSeo = {
   approach: {
     title: { ro: "Abordarea noastră — cum lucrează MEGAPARC", ru: "Наш подход — как работает MEGAPARC", en: "Our approach — how MEGAPARC works" },
     description: {
-      ro: "Cum evaluăm obiectele, ce creează valoare, cum dezvoltăm și administrăm, principiile de investiții și direcția pe termen lung.",
-      ru: "Как мы оцениваем объекты, что создаёт стоимость, как развиваем и управляем недвижимостью, принципы инвестирования и долгосрочное направление.",
-      en: "How we evaluate properties, what creates value, how we develop and manage, our investment principles and long-term direction.",
+      ro: "Cum evaluăm un obiect, unde analizăm investiții, cum creăm valoare, cum dezvoltăm și administrăm imobiliare și ce principii urmăm.",
+      ru: "Как мы оцениваем объект, где рассматриваем инвестиции, как создаём стоимость, как развиваем и управляем недвижимостью и какие принципы используем.",
+      en: "How we assess a property, where we consider investments, how we create value, how we develop and manage real estate and which principles we follow.",
     },
   },
   about: {

@@ -10,7 +10,7 @@ const copy = {
   ro: {
     eyebrow: "Colaborare",
     title: ["Oportunități", "de colaborare"],
-    lead: "Dacă căutați un spațiu, doriți să propuneți un obiect sau să discutați un proiect comun, contactați-ne.",
+    lead: "Există trei motive principale pentru a contacta MEGAPARC: căutați un spațiu, aveți un obiect de propus sau doriți să discutați o investiție sau un parteneriat.",
     availableIndex: "Spații disponibile",
     availableNote: "Suprafețele și datele de disponibilitate sunt confirmate. Condițiile comerciale și tehnice se discută direct și nu se publică.",
     considerLabel: "Ce analizăm",
@@ -21,7 +21,7 @@ const copy = {
   ru: {
     eyebrow: "Сотрудничество",
     title: ["Возможности", "для сотрудничества"],
-    lead: "Если вы ищете помещение, хотите предложить объект или обсудить совместный проект — свяжитесь с нами.",
+    lead: "Есть три основные причины связаться с MEGAPARC: вы ищете помещение, хотите предложить объект или обсудить инвестиции и партнёрство.",
     availableIndex: "Доступные площади",
     availableNote: "Площади и даты доступности подтверждены. Коммерческие и технические условия обсуждаются напрямую и не публикуются.",
     considerLabel: "Что рассматриваем",
@@ -32,7 +32,7 @@ const copy = {
   en: {
     eyebrow: "Working with MEGAPARC",
     title: ["Opportunities", "to work together"],
-    lead: "If you are looking for a space, want to offer a property or discuss a joint project, get in touch.",
+    lead: "There are three main reasons to contact MEGAPARC: you are looking for a space, you have a property to offer, or you want to discuss investment and partnership.",
     availableIndex: "Available space",
     availableNote: "Areas and availability dates are confirmed. Commercial and technical terms are discussed directly and are not published.",
     considerLabel: "What we consider",
@@ -63,17 +63,17 @@ export function OpportunitiesPage({ locale }: { locale: SiteLocale }) {
       >
         <nav className="portfolio__categories" aria-label={journeysCopy.kicker[locale]}>
           {clientJourneys.map((journey) => (
-            <a key={journey.key} href={`#${journey.key}`}>{journey.no} {journey.title[locale]}</a>
+            <a key={journey.key} href={`#${journey.key}`}>{journey.no} {journey.scenario[locale]}</a>
           ))}
         </nav>
       </PageHero>
 
       <section className="pathway paper" id={findSpace.key}>
         <div className="shell">
-          <SectionIndex no="02">{findSpace.no} · {findSpace.title[locale]}</SectionIndex>
+          <SectionIndex no="02">{findSpace.no} · {findSpace.scenario[locale]}</SectionIndex>
           <div className="pathway__grid" data-reveal>
             <div>
-              <h2 className="pathway__title">{findSpace.title[locale]}</h2>
+              <h2 className="pathway__title">{findSpace.scenario[locale]}</h2>
               <p className="pathway__audience">{findSpace.audience[locale]}</p>
             </div>
             <div className="pathway__body">
@@ -107,10 +107,10 @@ export function OpportunitiesPage({ locale }: { locale: SiteLocale }) {
 
       <section className="pathway stone" id={submit.key}>
         <div className="shell">
-          <SectionIndex no="03">{submit.no} · {submit.title[locale]}</SectionIndex>
+          <SectionIndex no="03">{submit.no} · {submit.scenario[locale]}</SectionIndex>
           <div className="pathway__grid" data-reveal>
             <div>
-              <h2 className="pathway__title">{submit.title[locale]}</h2>
+              <h2 className="pathway__title">{submit.scenario[locale]}</h2>
               <p className="pathway__audience">{submit.audience[locale]}</p>
             </div>
             <div className="pathway__body">
@@ -131,10 +131,10 @@ export function OpportunitiesPage({ locale }: { locale: SiteLocale }) {
 
       <section className="pathway ink" id={partnership.key}>
         <div className="shell">
-          <SectionIndex no="04" inverse>{partnership.no} · {partnership.title[locale]}</SectionIndex>
+          <SectionIndex no="04" inverse>{partnership.no} · {partnership.scenario[locale]}</SectionIndex>
           <div className="pathway__grid" data-reveal>
             <div>
-              <h2 className="pathway__title">{partnership.title[locale]}</h2>
+              <h2 className="pathway__title">{partnership.scenario[locale]}</h2>
               <p className="pathway__audience">{partnership.audience[locale]}</p>
             </div>
             <div className="pathway__body">

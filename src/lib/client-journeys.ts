@@ -11,6 +11,8 @@ export type ClientJourney = {
   key: JourneyKey;
   no: string;
   title: Localized;
+  /** Heading on the Opportunities page: the visitor's situation in plain words. */
+  scenario: Localized;
   audience: Localized;
   lead: Localized;
   /** Kept for data completeness; not rendered as a navigation diagram. */
@@ -26,6 +28,7 @@ export const clientJourneys: ClientJourney[] = [
     key: "find-space",
     no: "01",
     title: { ro: "Caut un spațiu", ru: "Найти помещение", en: "Find a space" },
+    scenario: { ro: "Caut un spațiu", ru: "Ищу помещение", en: "I am looking for a space" },
     audience: {
       ro: "Companii, branduri de retail, sedii corporative.",
       ru: "Компании, ритейл-бренды, штаб-квартиры.",
@@ -54,6 +57,7 @@ export const clientJourneys: ClientJourney[] = [
     key: "submit-opportunity",
     no: "02",
     title: { ro: "Propun un obiect", ru: "Предложить объект", en: "Submit a property" },
+    scenario: { ro: "Propun un obiect", ru: "Предлагаю объект", en: "I have a property to offer" },
     audience: {
       ro: "Proprietari, consultanți, dezvoltatori.",
       ru: "Собственники, консультанты, девелоперы.",
@@ -82,6 +86,7 @@ export const clientJourneys: ClientJourney[] = [
     key: "discuss-partnership",
     no: "03",
     title: { ro: "Discut un parteneriat", ru: "Обсудить партнёрство", en: "Discuss a partnership" },
+    scenario: { ro: "Investiții și parteneriat", ru: "Инвестиции и партнёрство", en: "Investment and partnership" },
     audience: {
       ro: "Bănci, investitori, proprietari de terenuri, dezvoltatori, parteneri profesioniști.",
       ru: "Банки, инвесторы, собственники земли, девелоперы, профессиональные партнёры.",

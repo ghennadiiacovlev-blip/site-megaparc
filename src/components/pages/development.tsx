@@ -9,10 +9,11 @@ import { localePath, ui, type SiteLocale } from "@/lib/site-data";
 const copy = {
   ro: {
     eyebrow: "Dezvoltare",
-    title: ["Dezvoltăm proiecte", "de la idee la realizare."],
-    lead: "Un proiect pornește de la un teren sau de la o clădire existentă și trece prin concept, evaluare economică, proiectare și construcție până la punerea în funcțiune.",
+    title: ["Dezvoltăm imobiliare", "de la idee la obiect în funcțiune."],
+    lead: "Un proiect pornește de la un teren sau de la o clădire existentă și trece prin analiză, concept, evaluare economică, proiectare și realizare până la punerea în funcțiune.",
     stagesIndex: "Etapele proiectului",
-    stagesText: "Șase etape. Fiecare proiect este arătat la etapa lui, iar conceptele nu sunt prezentate ca arhitectură finalizată.",
+    stagesTitle: "Șase etape.",
+    stagesText: "Fiecare proiect este arătat la etapa lui, iar conceptele nu sunt prezentate ca arhitectură finalizată.",
     pipelineIndex: "Proiecte și concepte",
     pipelineTitle: "Două proiecte. Două etape diferite.",
     pipelineText: "VATRA este un amplasament în lucru, cu imagini reale. Drochia Gateway este un concept aflat în verificare urbanistică, inginerească și comercială.",
@@ -28,10 +29,11 @@ const copy = {
   },
   ru: {
     eyebrow: "Девелопмент",
-    title: ["Развиваем проекты", "от идеи до реализации."],
-    lead: "Проект начинается с участка или существующего здания и проходит через концепцию, экономическую оценку, проектирование и строительство до ввода в эксплуатацию.",
+    title: ["Развиваем недвижимость", "от идеи до работающего объекта."],
+    lead: "Проект начинается с участка или существующего здания и проходит через анализ, концепцию, экономическую оценку, проектирование и реализацию до ввода в эксплуатацию.",
     stagesIndex: "Этапы проекта",
-    stagesText: "Шесть этапов. Каждый проект показан на своей стадии, а концепции не представляются как завершённая архитектура.",
+    stagesTitle: "Шесть этапов.",
+    stagesText: "Каждый проект показан на своей стадии, а концепции не представляются как завершённая архитектура.",
     pipelineIndex: "Проекты и концепции",
     pipelineTitle: "Два проекта. Две разные стадии.",
     pipelineText: "VATRA — площадка в работе с реальными снимками. Drochia Gateway — концепция, которая проходит градостроительную, инженерную и коммерческую проверку.",
@@ -47,10 +49,11 @@ const copy = {
   },
   en: {
     eyebrow: "Development",
-    title: ["We take projects", "from idea to completion."],
-    lead: "A project starts from a site or an existing building and moves through concept, economic assessment, design and construction to commissioning.",
+    title: ["We take real estate", "from idea to a working building."],
+    lead: "A project starts from a site or an existing building and moves through analysis, concept, economic assessment, design and delivery to commissioning.",
     stagesIndex: "Project stages",
-    stagesText: "Six stages. Each project is shown at its own stage, and concepts are never presented as finished architecture.",
+    stagesTitle: "Six stages.",
+    stagesText: "Each project is shown at its own stage, and concepts are never presented as finished architecture.",
     pipelineIndex: "Projects and concepts",
     pipelineTitle: "Two projects. Two different stages.",
     pipelineText: "VATRA is a site under way, with real imagery. Drochia Gateway is a concept undergoing planning, engineering and commercial review.",
@@ -89,8 +92,8 @@ export function DevelopmentIndexPage({ locale }: { locale: SiteLocale }) {
       <section className="dev-stages stone" id="stages">
         <div className="shell">
           <SectionIndex no="02">{c.stagesIndex}</SectionIndex>
-          <div className="section-head" data-reveal>
-            <h2 className="dev-stages__title">{developmentNarrative.title[locale]}</h2>
+          <div className="section-head section-head--wide" data-reveal>
+            <h2>{c.stagesTitle}</h2>
             <div className="section-head__aside">
               <p>{c.stagesText}</p>
             </div>

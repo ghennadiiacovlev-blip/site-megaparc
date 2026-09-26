@@ -12,8 +12,8 @@ const copy = {
     title: ["Despre", "MEGAPARC"],
     lead: "MEGAPARC este o companie din domeniul imobiliar care investește, dezvoltă proiecte și administrează active. Compania a fost fondată în 2005 și se bazează pe experiența antreprenorială a grupului din 1995.",
     todayIndex: "Astăzi",
-    todayTitle: "Astăzi MEGAPARC administrează obiecte în funcțiune, dezvoltă proiecte noi și analizează oportunități de investiții pe piețele internaționale.",
-    todayText: "Investiții, dezvoltare și administrare imobiliară, într-o singură companie.",
+    todayTitle: "Investiții, dezvoltare și administrare imobiliară.",
+    todayText: "Astăzi MEGAPARC administrează obiecte în funcțiune, dezvoltă proiecte noi și analizează oportunități de investiții la nivel internațional.",
     imageCaption: "Moscova 20 · obiect în funcțiune",
     missionIndex: "Scop · Misiune · Viziune",
     responsibilityCta: "Abordarea noastră",
@@ -24,8 +24,8 @@ const copy = {
     title: ["О компании", "MEGAPARC"],
     lead: "MEGAPARC — компания в сфере недвижимости, которая инвестирует, развивает проекты и управляет активами. Компания основана в 2005 году и опирается на предпринимательский опыт группы с 1995 года.",
     todayIndex: "Сегодня",
-    todayTitle: "Сегодня MEGAPARC управляет действующими объектами, развивает новые проекты и рассматривает инвестиционные возможности на международных рынках.",
-    todayText: "Инвестиции, девелопмент и управление недвижимостью — в одной компании.",
+    todayTitle: "Инвестиции, девелопмент и управление недвижимостью.",
+    todayText: "Сегодня MEGAPARC управляет действующими объектами, развивает новые проекты и рассматривает инвестиционные возможности по всему миру.",
     imageCaption: "Moscova 20 · действующий объект",
     missionIndex: "Цель · Миссия · Видение",
     responsibilityCta: "Наш подход",
@@ -36,8 +36,8 @@ const copy = {
     title: ["About", "MEGAPARC"],
     lead: "MEGAPARC is a real estate company that invests, develops projects and manages assets. The company was founded in 2005 and builds on the group's entrepreneurial experience since 1995.",
     todayIndex: "Today",
-    todayTitle: "Today MEGAPARC manages operating properties, develops new projects and considers investment opportunities across international markets.",
-    todayText: "Investment, development and asset management, in one company.",
+    todayTitle: "Investment, development and asset management.",
+    todayText: "Today MEGAPARC manages operating properties, develops new projects and considers investment opportunities worldwide.",
     imageCaption: "Moscova 20 · operating property",
     missionIndex: "Purpose · Mission · Vision",
     responsibilityCta: "Our approach",
@@ -71,7 +71,7 @@ export function AboutPage({ locale }: { locale: SiteLocale }) {
       <section className="pairs stone" id="today">
         <div className="shell">
           <SectionIndex no={no()}>{c.todayIndex}</SectionIndex>
-          <SectionHead title={c.todayTitle} text={c.todayText} wide />
+          <SectionHead title={c.todayTitle} text={c.todayText} />
         </div>
       </section>
 

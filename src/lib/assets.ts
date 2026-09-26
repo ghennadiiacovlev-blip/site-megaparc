@@ -339,9 +339,9 @@ export const portfolioAssets: PortfolioAsset[] = [
       en: "A first-line retail space on a boulevard corner.",
     },
     narrative: {
-      ro: "Colțul pe care cartierul îl traversează în fiecare zi.",
-      ru: "Угол, который район проходит каждый день.",
-      en: "The corner the neighbourhood passes every day.",
+      ro: "Vitrină de colț, flux zilnic al cartierului.",
+      ru: "Угловая витрина и ежедневный поток района.",
+      en: "A corner shop window and the neighbourhood's daily flow.",
     },
     use: { ro: "Comerț · servicii · prima linie", ru: "Торговля · услуги · первая линия", en: "Retail · services · first line" },
     audience: {
@@ -422,9 +422,9 @@ export const portfolioAssets: PortfolioAsset[] = [
       ],
     },
     character: {
-      ro: "Un spațiu de colț cu vitrină continuă: trăiește în ritmul străzii, nu al unui centru comercial.",
-      ru: "Угловое помещение со сплошной витриной: оно живёт ритмом улицы, а не торгового центра.",
-      en: "A corner space with a continuous shop window: it lives to the rhythm of the street, not of a shopping centre.",
+      ro: "Spațiu de colț pe prima linie, cu vitrină continuă pe două străzi, intrare de la colț, acces separat de serviciu, terasă și parcare în apropiere.",
+      ru: "Угловое помещение первой линии со сплошной витриной на две улицы, входом с угла, отдельным служебным доступом, террасой и парковкой рядом.",
+      en: "A first-line corner space with a continuous shop window on two streets, an entrance from the corner, separate service access, a terrace and parking close by.",
     },
     relevance: {
       ro: "Fluxul zilnic și poziția de colț își păstrează valoarea indiferent de format. Spațiul poate fi adaptat la ceea ce are nevoie cartierul.",
@@ -544,9 +544,9 @@ export const developmentProjects: DevelopmentProject[] = [
       en: "A MEGAPARC project in development. This page shows real site material and only information approved for publication.",
     },
     intro: {
-      ro: "VATRA este privit de la început din perspectiva utilizării și a valorii pe termen lung. Dezvoltarea nu se încheie la punerea în funcțiune: după aceea, obiectul intră în faza de exploatare sau în următoarea etapă de investiție, conform strategiei de capital aprobate.",
-      ru: "VATRA с самого начала рассматривается с точки зрения использования и долгосрочной стоимости. Девелопмент не заканчивается вводом в эксплуатацию: после него объект переходит в фазу эксплуатации или в следующий инвестиционный этап согласно утверждённой стратегии капитала.",
-      en: "VATRA is viewed from the outset in terms of use and long-term value. Development does not end at commissioning: after it, the property enters its operating or next investment phase according to the approved capital strategy.",
+      ro: "VATRA este privit de la început din perspectiva utilizării și a valorii pe termen lung. Dezvoltarea nu se încheie la punerea în funcțiune: după aceea, obiectul intră în faza de exploatare sau în următoarea etapă de investiție, prin decizia MEGAPARC.",
+      ru: "VATRA с самого начала рассматривается с точки зрения использования и долгосрочной стоимости. Девелопмент не заканчивается вводом в эксплуатацию: после него объект переходит в фазу эксплуатации или в следующий инвестиционный этап — по решению MEGAPARC.",
+      en: "VATRA is viewed from the outset in terms of use and long-term value. Development does not end at commissioning: after it, the property enters its operating or next investment phase, as MEGAPARC decides.",
     },
     facts: [],
     sections: [
@@ -561,7 +561,7 @@ export const developmentProjects: DevelopmentProject[] = [
           { ro: "Concept — destinația, scara și economia proiectului", ru: "Концепция — назначение, масштаб и экономика проекта", en: "Concept — the use, the scale and the economics of the project" },
           { ro: "Planificare — proiectare, autorizații și pregătirea construcției", ru: "Планирование — проектирование, разрешения и подготовка к строительству", en: "Planning — design, permits and preparation for construction" },
           { ro: "Execuție — construcție, controlul calității și al costurilor", ru: "Реализация — строительство, контроль качества и затрат", en: "Delivery — construction, quality and cost control" },
-          { ro: "Exploatare — faza de exploatare sau următoarea etapă de investiție, conform strategiei de capital aprobate", ru: "Эксплуатация — фаза эксплуатации или следующий инвестиционный этап согласно утверждённой стратегии капитала", en: "Operation — the operating or next investment phase according to the approved capital strategy" },
+          { ro: "Exploatare — faza de exploatare sau următoarea etapă de investiție, prin decizia MEGAPARC", ru: "Эксплуатация — фаза эксплуатации или следующий инвестиционный этап по решению MEGAPARC", en: "Operation — the operating or next investment phase, as MEGAPARC decides" },
         ],
       },
     ],

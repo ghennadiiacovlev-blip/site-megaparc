@@ -1546,7 +1546,7 @@ section:hover .section-index::after, .is-revealed .section-index::after { transf
 /* ------------------------------------------------------------------
    Locale-aware type refinements — Cyrillic uppercase runs are wider
    ------------------------------------------------------------------ */
-.cycle__stage h3, .platform-row h3, .dev-stages__list h3, .principles__grid h3, .mandate__field h3 { overflow-wrap: anywhere; }
+.cycle__stage h3, .platform-row h3, .dev-stages__list h3, .principles__grid h3, .mandate__field h3 { overflow-wrap: normal; }
 :lang(ru) .cycle__stage h3 { font-size: clamp(1rem, 1.55vw, 1.8rem); letter-spacing: -.03em; }
 :lang(ru) .signature__words { font-size: clamp(2.4rem, 8.2vw, 10rem); }
 :lang(ru) .platform-row h3 { font-size: clamp(1.6rem, 2.9vw, 3.3rem); }
@@ -1870,3 +1870,103 @@ section:hover .section-index::after, .is-revealed .section-index::after { transf
 }
 .hero4__foot > div:last-child { display: flex; }
 .hero4 h1 { max-width: 20ch; }
+
+
+/* ==================================================================
+   OWNER polish v5 — 2026-09-26
+   Word-break policy, image statements, mobile hero, signature fallback,
+   RU heading sizes, feature card overflow, compact 2030, About history.
+   ================================================================== */
+
+/* 1. No mid-word breaks in headings anywhere. Body copy may only break a
+      word that cannot fit on a line at all (long URLs). */
+h1, h2, h3, h4, .cycle__stage h3, .platform-row h3, .dev-stages__list h3, .principles__grid h3, .mandate__field h3 {
+  overflow-wrap: normal; word-break: normal; hyphens: manual;
+}
+p, li, dd, dt { overflow-wrap: break-word; word-break: normal; hyphens: manual; }
+.pillar__points li, .dev__rail li, .mandate__criteria li { overflow-wrap: normal; }
+
+/* Cyrillic and Romanian run wider: size the grid headings so the longest
+   word of each grid fits its column at every width. */
+:lang(ru) .principles__grid h3, :lang(ro) .principles__grid h3 { font-size: clamp(1.25rem, 1.5vw, 1.8rem); letter-spacing: -.04em; }
+:lang(ru) .dev-stages__list h3, :lang(ro) .dev-stages__list h3 { font-size: clamp(.95rem, 1.2vw, 1.3rem); letter-spacing: -.03em; }
+:lang(ru) .mandate__field h3, :lang(ro) .mandate__field h3 { font-size: clamp(2.4rem, 5vw, 5.6rem); }
+:lang(ru) .cycle__stage h3 { letter-spacing: -.03em; }
+@media (max-width: 720px) {
+  :lang(ru) .mandate__field h3, :lang(ro) .mandate__field h3 { font-size: clamp(2rem, 9.4vw, 3.2rem); }
+  .principles__grid h3, :lang(ru) .principles__grid h3, :lang(ro) .principles__grid h3 { font-size: 1.45rem; }
+  .dev-stages__list h3, :lang(ru) .dev-stages__list h3, :lang(ro) .dev-stages__list h3 { font-size: .95rem; }
+  .mandate__title { font-size: clamp(2rem, 9.4vw, 3.2rem); }
+}
+
+/* 2. Image statements and captions live inside the shell, never wider than
+      the viewport, and the display size is tuned per script. */
+.image-break__statement, .image-break__caption { left: 0; right: 0; width: var(--shell); margin-inline: auto; transform: none; max-width: 100%; }
+.image-break__statement p { max-width: 14ch; font-size: clamp(2.6rem, 6.4vw, 7.2rem); overflow-wrap: normal; }
+:lang(ru) .image-break__statement p, :lang(ro) .image-break__statement p { max-width: 16ch; font-size: clamp(2.2rem, 5.4vw, 6rem); }
+@media (max-width: 720px) {
+  .image-break__statement { bottom: 2.4rem; }
+  .image-break__statement p { max-width: 100%; font-size: clamp(1.9rem, 8.6vw, 2.8rem); }
+  :lang(ru) .image-break__statement p, :lang(ro) .image-break__statement p { font-size: clamp(1.7rem, 7.6vw, 2.5rem); }
+  .image-break__caption { flex-wrap: wrap; gap: .4rem 1rem; }
+}
+
+/* 3. Feature project card (Development): every child stays inside the
+      viewport; the eyebrow wraps instead of running off the edge. */
+.feature-project__content > * { max-width: 100%; }
+.feature-project__content .eyebrow { display: block; white-space: normal; line-height: 1.5; }
+.feature-project__content p { max-width: min(32rem, 100%); }
+@media (max-width: 720px) {
+  .feature-project__content { padding: 3rem 0; }
+  .feature-project__content h2 { font-size: clamp(3.6rem, 19vw, 6rem); }
+}
+
+/* 4. Signature block: the words are always visible. The reveal is only a
+      delay on motion-ready pages, and a timed fallback lifts it regardless. */
+.signature__words span i { transform: none; }
+.motion-ready .signature:not(.is-revealed) .signature__words span i { transform: translateY(110%); animation: signature-fallback 0s 2.4s forwards; }
+@keyframes signature-fallback { to { transform: none; } }
+.signature__words span { overflow: visible; }
+.motion-ready .signature:not(.is-revealed) .signature__words span { overflow: hidden; }
+
+/* 5. Mobile home hero: statement, business line, lead and CTA first, then a
+      compact three-frame composition. */
+@media (max-width: 720px) {
+  .hero4 { padding: 1.4rem 0 3.4rem; }
+  .hero4 .shell { display: grid; }
+  .hero4__top { padding-bottom: 1.2rem; gap: 1rem; }
+  .hero4 h1 { max-width: 12ch; font-size: clamp(2.05rem, 9.2vw, 2.8rem); line-height: .95; }
+  .hero4__foot { order: 2; grid-template-columns: 1fr; gap: .9rem; margin-top: 0; padding: 1rem 0 0; border-top: 1px solid var(--line-strong); }
+  .hero4__foot > div:last-child { display: grid; gap: .6rem; }
+  .hero4__lead { font-size: 1rem; max-width: 30rem; }
+  .hero4__actions { margin-top: .2rem; gap: .8rem 1.6rem; }
+  .hero4__montage { order: 3; margin-top: 1.8rem; grid-template-columns: 1fr 1fr; grid-template-rows: auto auto; gap: .6rem; }
+  .hero4__frame--a { grid-column: 1 / -1; grid-row: 1; aspect-ratio: 16 / 10; }
+  .hero4__frame--b, .hero4__frame--c { aspect-ratio: 4 / 3; }
+}
+@media (min-width: 721px) and (max-width: 1100px) {
+  .hero4__foot { grid-template-columns: 1fr; gap: 1rem; }
+  .hero4__foot > div:last-child { display: grid; gap: .6rem; }
+}
+
+/* 6. MEGAPARC 2030 as a compact editorial list. */
+.pillars--compact .pillar { grid-template-columns: 3rem minmax(0, .9fr) minmax(0, 1.1fr); gap: 1.2rem 2rem; padding: 1.5rem 0; }
+.pillars--compact .pillar h3 { font-size: clamp(1.3rem, 2vw, 2.1rem); }
+.pillars--compact .pillar__body p { color: rgba(255, 255, 255, .7); font-size: .98rem; max-width: 34rem; }
+.paper .pillars--compact .pillar__body p, .stone .pillars--compact .pillar__body p { color: var(--muted); }
+.pillars--compact .pillar:hover { padding-left: 0; }
+@media (max-width: 720px) {
+  .pillars--compact .pillar { grid-template-columns: 2.4rem minmax(0, 1fr); }
+  .pillars--compact .pillar__body { grid-column: 2; }
+}
+
+/* 7. About: secondary history is quieter than the four anchors. */
+.history-band__supporting { gap: 1.2rem 2rem; margin-top: 1.6rem; padding-top: 1rem; opacity: .78; }
+.history-band__supporting li strong { font-size: .95rem; }
+.history-band__supporting li p { font-size: .82rem; }
+@media (max-width: 720px) { .history-band__supporting { grid-template-columns: 1fr; } }
+
+/* 8. Asset story: the narrative line is the heading; no duplicate headline. */
+.asset-detail__story .copy-grid h2 { max-width: 12ch; }
+:lang(ru) .asset-detail__story .copy-grid h2, :lang(ro) .asset-detail__story .copy-grid h2 { font-size: clamp(2.2rem, 3.8vw, 4.4rem); max-width: 14ch; }
+@media (max-width: 720px) { :lang(ru) .asset-detail__story .copy-grid h2, :lang(ro) .asset-detail__story .copy-grid h2 { font-size: clamp(2rem, 9vw, 3rem); } }
