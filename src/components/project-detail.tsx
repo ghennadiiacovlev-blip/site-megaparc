@@ -2,19 +2,21 @@ import Image from "next/image";
 import Link from "next/link";
 import { LocationSection } from "@/components/location-section";
 import { PageShell } from "@/components/page-shell";
-import { ArrowLink, FactGrid, MediaPlaceholder, Note, SectionIndex } from "@/components/primitives";
+import { ArrowLink, ArtImage, FactGrid, MediaPlaceholder, Note, SectionIndex } from "@/components/primitives";
 import { getNextProject, type DevelopmentProject } from "@/lib/assets";
-import { brand, localePath, ui, type SiteLocale } from "@/lib/site-data";
+import { developmentNarrative } from "@/lib/strategy";
+import { brand, localePath, ui, type Localized, type SiteLocale } from "@/lib/site-data";
 
 const copy = {
-  ro: { back: "Dezvoltare", introIndex: "Proiect", factsIndex: "Date cheie", enquiryIndex: "Solicitare" },
-  ru: { back: "Девелопмент", introIndex: "Проект", factsIndex: "Ключевые данные", enquiryIndex: "Запрос" },
-  en: { back: "Development", introIndex: "Project", factsIndex: "Key facts", enquiryIndex: "Enquiry" },
-} as const;
+  back: { ro: "Dezvoltare", ru: "Девелопмент", en: "Development" },
+  intro: { ro: "Proiect", ru: "Проект", en: "Project" },
+  facts: { ro: "Date cheie", ru: "Ключевые данные", en: "Key facts" },
+  position: { ro: "Poziția în sistemul de dezvoltare", ru: "Положение в системе девелопмента", en: "Position in the development system" },
+  enquiry: { ro: "Solicitare", ru: "Запрос", en: "Enquiry" },
+} satisfies Record<string, Localized>;
 
-/** Development project / concept page. Image-led when photography exists, typographic otherwise. */
+/** Development project / concept page. Image-led when real site imagery exists, typographic otherwise. */
 export function ProjectDetailPage({ locale, project }: { locale: SiteLocale; project: DevelopmentProject }) {
-  const c = copy[locale];
   const next = getNextProject(project.slug);
   const p = (path: string) => localePath(locale, path);
   let section = 0;
@@ -22,29 +24,19 @@ export function ProjectDetailPage({ locale, project }: { locale: SiteLocale; pro
 
   return (
     <PageShell locale={locale} mainClassName="project">
-      <section className={`project-hero${project.image ? "" : " project-hero--typographic"}`}>
-        {project.image ? (
-          <div className="project-hero__media" aria-hidden="true">
-            <Image
-              src={project.image}
-              alt=""
-              fill
-              priority
-              fetchPriority="high"
-              sizes="100vw"
-              className="project-hero__image"
-              data-depth="28"
-              style={{ objectPosition: "50% 62%" }}
-            />
-            <div className="project-hero__veil" />
-          </div>
-        ) : (
-          <div className="project-hero__media" aria-hidden="true">
+      <section className={`project-hero${project.media ? "" : " project-hero--typographic"}`}>
+        <div className="project-hero__media" aria-hidden="true">
+          {project.media ? (
+            <>
+              <ArtImage media={project.media} alt="" priority depth={28} className="project-hero__image" />
+              <div className="project-hero__veil" />
+            </>
+          ) : (
             <MediaPlaceholder title={project.place[locale]} note={project.status[locale]} compact />
-          </div>
-        )}
+          )}
+        </div>
         <div className="shell project-hero__top">
-          <Link href={p("/development")} className="back-link back-link--light">← {c.back}</Link>
+          <Link href={p("/development")} className="back-link back-link--light">← {copy.back[locale]}</Link>
           <span>{project.kind[locale]} / {project.place[locale]}</span>
         </div>
         <div className="shell project-hero__copy" data-reveal>
@@ -56,10 +48,10 @@ export function ProjectDetailPage({ locale, project }: { locale: SiteLocale; pro
 
       <section className="project-intro paper">
         <div className="shell">
-          <SectionIndex no={no()}>{c.introIndex}</SectionIndex>
+          <SectionIndex no={no()}>{copy.intro[locale]}</SectionIndex>
           <div className="copy-grid" data-reveal>
             <h2>
-              {project.name}
+              {project.headline[locale]}
               <br />
               <span className="muted-ink">{project.place[locale]}</span>
             </h2>
@@ -70,23 +62,31 @@ export function ProjectDetailPage({ locale, project }: { locale: SiteLocale; pro
           </div>
           {project.facts.length ? (
             <div className="asset-detail__facts" data-reveal>
-              <SectionIndex no={no()}>{c.factsIndex}</SectionIndex>
+              <SectionIndex no={no()}>{copy.facts[locale]}</SectionIndex>
               <FactGrid facts={project.facts} locale={locale} />
             </div>
           ) : null}
         </div>
       </section>
 
+      <section className="dev-stages stone">
+        <div className="shell">
+          <SectionIndex no={no()}>{copy.position[locale]}</SectionIndex>
+          <ol className="dev-stages__list">
+            {developmentNarrative.stages.map((stage, index) => (
+              <li key={stage.no} className={index === project.stage ? "is-current" : undefined} data-reveal>
+                <span>{stage.no}</span>
+                <h3>{stage.title[locale]}</h3>
+                <p>{stage.text[locale]}</p>
+                {index === project.stage ? <span className="label label--red">{project.name}</span> : null}
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
       {project.location ? (
-        <LocationSection
-          locale={locale}
-          no={no()}
-          place={project.place[locale]}
-          area={project.map ? project.map.address : project.place[locale]}
-          text={project.location[locale]}
-          points={project.connectivity}
-          map={project.map}
-        />
+        <LocationSection locale={locale} no={no()} place={project.place[locale]} area={project.map ? project.map.address : project.place[locale]} text={project.location[locale]} points={project.connectivity} map={project.map} />
       ) : null}
 
       {project.sections.map((block, index) => (
@@ -119,23 +119,16 @@ export function ProjectDetailPage({ locale, project }: { locale: SiteLocale; pro
         </section>
       ))}
 
-      {project.image ? (
+      {project.media ? (
         <section className="vatra-depth" aria-label={project.statement[locale]}>
           <div className="vatra-depth__media">
-            <Image
-              src={project.image}
-              alt=""
-              fill
-              sizes="100vw"
-              className="vatra-depth__image"
-              data-depth="30"
-              style={{ objectPosition: "50% 82%" }}
-            />
+            <Image src={project.media.src} alt="" fill sizes="100vw" className="vatra-depth__image" data-depth="30" style={{ objectPosition: "50% 82%" }} />
             <div className="vatra-depth__veil" />
           </div>
           <div className="shell vatra-depth__content" data-reveal>
             <span className="label label--light">{brand.name} · {project.name}</span>
             <p>{project.statement[locale]}</p>
+            {project.disclaimer ? <Note light>{project.disclaimer[locale]}</Note> : null}
           </div>
         </section>
       ) : (
@@ -150,11 +143,11 @@ export function ProjectDetailPage({ locale, project }: { locale: SiteLocale; pro
 
       <section className="enquiry paper enquiry--paper">
         <div className="shell">
-          <SectionIndex no={no()}>{c.enquiryIndex}</SectionIndex>
+          <SectionIndex no={no()}>{copy.enquiry[locale]}</SectionIndex>
           <div className="enquiry__grid" data-reveal>
             <h2>{project.name}</h2>
             <div className="enquiry__actions">
-              <ArrowLink href={p("/contact")}>{ui.discussProject[locale]}</ArrowLink>
+              <ArrowLink href={`${p("/contact")}#partnership`} strong>{ui.discussProject[locale]}</ArrowLink>
               <ArrowLink href={p("/development")}>{ui.backToDevelopment[locale]}</ArrowLink>
             </div>
           </div>

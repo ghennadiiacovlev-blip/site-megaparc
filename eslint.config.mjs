@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // QA scratch: headless Chrome profiles and screenshots (gitignored).
+    ".qa/**",
   ]),
 ]);
 

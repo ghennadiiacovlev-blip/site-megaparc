@@ -1,46 +1,64 @@
 import Image from "next/image";
 import Link from "next/link";
 import { PageShell } from "@/components/page-shell";
-import { ArrowLink, MediaPlaceholder, PageHero, SectionIndex } from "@/components/primitives";
-import { developmentProjects, portfolioAssets } from "@/lib/assets";
+import { ArrowLink, MediaPlaceholder, PageHero, SectionHead, SectionIndex } from "@/components/primitives";
+import { availableAssets, developmentProjects, portfolioAssets } from "@/lib/assets";
 import { localePath, ui, type SiteLocale } from "@/lib/site-data";
 
 const copy = {
   ro: {
-    eyebrow: "Active deținute / administrate",
-    title: ["Portofoliu.", "Active reale."],
-    lead: "Activele prezentate sunt deținute sau administrate de MEGAPARC. Portofoliul public separă activele operaționale de proiectele în dezvoltare și de disponibilitățile comerciale.",
+    eyebrow: "Portofoliu",
+    title: ["Ce capital", "lucrează deja?"],
+    lead: "Portofoliul MEGAPARC este prezentat ca un portofoliu instituțional curatoriat, nu ca o piață: active operaționale, proiecte de dezvoltare și modurile de a lucra cu platforma.",
+    categories: ["Active operaționale", "Dezvoltare", "Oportunități"],
     operatingIndex: "Active operaționale",
+    operatingTitle: "Patru active. O singură perspectivă de proprietar.",
+    operatingText: "Fiecare activ răspunde la aceleași întrebări: ce este, de ce contează locația, cum poate funcționa, ce îl face distinct și cum rămâne relevant în timp.",
     developmentIndex: "Dezvoltare",
     developmentTitle: ["Proiecte gândite", "ca active."],
     developmentText: "Proiectele și conceptele de dezvoltare sunt prezentate numai cu materiale și date aprobate pentru comunicare publică.",
-    closingIndex: "Disponibilități",
-    closing: "Spațiile disponibile pentru închiriere sunt prezentate separat de portofoliul instituțional.",
-    closingCta: "Vezi disponibilitățile",
+    developmentCta: "Vezi Dezvoltare",
+    opportunitiesIndex: "Oportunități",
+    opportunitiesTitle: "Un activ disponibil este o discuție, nu un anunț.",
+    opportunitiesText: "Activele cu disponibilitate confirmată, propunerile de proprietăți și parteneriatele sunt prezentate pe pagina Oportunități.",
+    opportunitiesCta: "Lucrează cu MEGAPARC",
+    available: "active cu disponibilitate confirmată",
   },
   ru: {
-    eyebrow: "Активы во владении / управлении",
-    title: ["Портфель.", "Реальные активы."],
-    lead: "Представленные активы находятся во владении или управлении MEGAPARC. Публичный портфель разделяет операционные активы, девелоперские проекты и коммерческие предложения.",
+    eyebrow: "Портфель",
+    title: ["Какой капитал", "уже работает?"],
+    lead: "Портфель MEGAPARC представлен как курируемый институциональный портфель, а не как маркетплейс: операционные активы, девелоперские проекты и способы работать с платформой.",
+    categories: ["Операционные активы", "Девелопмент", "Возможности"],
     operatingIndex: "Операционные активы",
+    operatingTitle: "Четыре актива. Одна позиция собственника.",
+    operatingText: "Каждый актив отвечает на одни и те же вопросы: что это, почему важна локация, как он может работать, что делает его особенным и как он остаётся актуальным во времени.",
     developmentIndex: "Девелопмент",
     developmentTitle: ["Проекты, задуманные", "как активы."],
     developmentText: "Девелоперские проекты и концепции представлены только с материалами и данными, утверждёнными для публичной коммуникации.",
-    closingIndex: "Предложения",
-    closing: "Помещения, доступные для аренды, представлены отдельно от институционального портфеля.",
-    closingCta: "Смотреть предложения",
+    developmentCta: "Смотреть девелопмент",
+    opportunitiesIndex: "Возможности",
+    opportunitiesTitle: "Доступный актив — это разговор, а не объявление.",
+    opportunitiesText: "Активы с подтверждённой доступностью, предложения объектов и партнёрства представлены на странице Возможности.",
+    opportunitiesCta: "Работать с MEGAPARC",
+    available: "актива с подтверждённой доступностью",
   },
   en: {
-    eyebrow: "Owned / managed assets",
-    title: ["Portfolio.", "Real assets."],
-    lead: "The assets shown are owned or managed by MEGAPARC. The public portfolio separates operating assets from development projects and commercial availability.",
+    eyebrow: "Portfolio",
+    title: ["What capital", "is already at work?"],
+    lead: "The MEGAPARC portfolio is presented as a curated institutional portfolio, not a marketplace: operating assets, development projects and the ways to work with the platform.",
+    categories: ["Operating assets", "Development", "Opportunities"],
     operatingIndex: "Operating assets",
+    operatingTitle: "Four assets. One owner's perspective.",
+    operatingText: "Every asset answers the same questions: what it is, why the location matters, how it can work, what makes it distinctive and how it stays relevant over time.",
     developmentIndex: "Development",
     developmentTitle: ["Projects conceived", "as assets."],
     developmentText: "Development projects and concepts are presented only with material and data approved for public communication.",
-    closingIndex: "Availability",
-    closing: "Spaces available for lease are presented separately from the institutional portfolio.",
-    closingCta: "View availability",
+    developmentCta: "View Development",
+    opportunitiesIndex: "Opportunities",
+    opportunitiesTitle: "An available asset is a conversation, not a listing.",
+    opportunitiesText: "Assets with confirmed availability, property proposals and partnerships are presented on the Opportunities page.",
+    opportunitiesCta: "Work with MEGAPARC",
+    available: "assets with confirmed availability",
   },
 } as const;
 
@@ -51,7 +69,7 @@ export function PortfolioIndexPage({ locale }: { locale: SiteLocale }) {
   return (
     <PageShell locale={locale}>
       <PageHero
-        index="02"
+        index="01"
         eyebrow={c.eyebrow}
         title={
           <>
@@ -61,42 +79,44 @@ export function PortfolioIndexPage({ locale }: { locale: SiteLocale }) {
           </>
         }
         lead={c.lead}
-      />
+      >
+        <nav className="portfolio__categories" aria-label={c.eyebrow}>
+          <a href="#operating" className="is-active">{c.categories[0]}<b>{String(portfolioAssets.length).padStart(2, "0")}</b></a>
+          <a href="#development">{c.categories[1]}<b>{String(developmentProjects.length).padStart(2, "0")}</b></a>
+          <Link href={p("/opportunities")}>{c.categories[2]}<b>{String(availableAssets.length).padStart(2, "0")}</b></Link>
+        </nav>
+      </PageHero>
 
-      <section className="portfolio-index paper">
+      <section className="portfolio-index paper" id="operating">
         <div className="shell">
-          <SectionIndex no="03">{c.operatingIndex}</SectionIndex>
+          <SectionIndex no="02">{c.operatingIndex}</SectionIndex>
+          <SectionHead title={c.operatingTitle} text={c.operatingText} />
           <div className="portfolio-index__grid">
             {portfolioAssets.map((asset, index) => (
-              <Link
-                key={asset.slug}
-                href={p(`/portfolio/${asset.slug}`)}
-                className={`portfolio-index__card portfolio-index__card--${index + 1}`}
-                data-reveal
-              >
+              <Link key={asset.slug} href={p(`/portfolio/${asset.slug}`)} className={`portfolio-index__card portfolio-index__card--${index + 1}`} data-reveal>
                 <div className="portfolio-index__visual">
-                  {asset.image ? (
+                  {asset.media ? (
                     <Image
-                      src={asset.imageSmall ?? asset.image}
-                      alt={`${asset.name} — MEGAPARC`}
+                      src={index === 0 ? asset.media.src : asset.media.card}
+                      alt={`${asset.name} — ${asset.positioning[locale]}`}
                       fill
                       priority={index === 0}
                       sizes={index === 0 ? "(max-width: 720px) 92vw, 62vw" : "(max-width: 720px) 92vw, 42vw"}
-                      style={{ objectPosition: asset.imagePosition ?? "center" }}
+                      style={{ objectPosition: asset.media.position ?? "center" }}
                       className="portfolio-index__image"
                       data-depth="16"
                     />
                   ) : (
                     <MediaPlaceholder title={asset.name} note={ui.photoPending[locale]} compact />
                   )}
-                  <span className="portfolio-index__line" aria-hidden="true" />
+                  <span className="asset-media__line" aria-hidden="true" />
                 </div>
                 <div className="portfolio-index__caption">
                   <div>
                     <span>0{index + 1}</span>
                     <div>
                       <h2>{asset.name}</h2>
-                      <span className="portfolio-index__positioning">{asset.positioning[locale]}</span>
+                      <span className="portfolio-index__positioning">{asset.headline[locale]}</span>
                     </div>
                   </div>
                   <div>
@@ -111,31 +131,26 @@ export function PortfolioIndexPage({ locale }: { locale: SiteLocale }) {
         </div>
       </section>
 
-      <section className="portfolio-development ink">
+      <section className="portfolio-development ink" id="development">
         <div className="shell">
-          <SectionIndex no="04" inverse>{c.developmentIndex}</SectionIndex>
+          <SectionIndex no="03" inverse>{c.developmentIndex}</SectionIndex>
           <div className="portfolio-development__heading" data-reveal>
             <h2>
               {c.developmentTitle[0]}
               <br />
               {c.developmentTitle[1]}
             </h2>
-            <p>{c.developmentText}</p>
+            <div className="section-head__aside">
+              <p>{c.developmentText}</p>
+              <ArrowLink href={p("/development")} inverse>{c.developmentCta}</ArrowLink>
+            </div>
           </div>
           <div className="pipeline">
             {developmentProjects.map((project, index) => (
               <Link key={project.slug} href={p(`/development/${project.slug}`)} className="pipeline__card" data-reveal>
                 <div className="pipeline__visual">
-                  {project.image ? (
-                    <Image
-                      src={project.imageSmall ?? project.image}
-                      alt={`${project.name} — MEGAPARC`}
-                      fill
-                      sizes="(max-width: 720px) 92vw, 46vw"
-                      className="pipeline__image"
-                      data-depth="18"
-                      style={{ objectPosition: "50% 62%" }}
-                    />
+                  {project.media ? (
+                    <Image src={project.media.card} alt={`${project.name} — ${project.status[locale]}`} fill sizes="(max-width: 720px) 92vw, 46vw" className="pipeline__image" data-depth="18" style={{ objectPosition: "50% 60%" }} />
                   ) : (
                     <MediaPlaceholder title={project.name} note={project.status[locale]} compact />
                   )}
@@ -157,12 +172,13 @@ export function PortfolioIndexPage({ locale }: { locale: SiteLocale }) {
         </div>
       </section>
 
-      <section className="closing paper">
+      <section className="closing stone" id="opportunities">
         <div className="shell closing__grid" data-reveal>
-          <span className="label label--red">05 / {c.closingIndex}</span>
+          <span className="label label--red">04 / {c.opportunitiesIndex}</span>
           <div>
-            <p className="closing__statement">{c.closing}</p>
-            <ArrowLink href={p("/opportunities")}>{c.closingCta}</ArrowLink>
+            <p className="closing__statement">{c.opportunitiesTitle}</p>
+            <p className="note" style={{ marginBottom: "2rem" }}>{c.opportunitiesText} {String(availableAssets.length).padStart(2, "0")} {c.available}.</p>
+            <ArrowLink href={p("/opportunities")}>{c.opportunitiesCta}</ArrowLink>
           </div>
         </div>
       </section>

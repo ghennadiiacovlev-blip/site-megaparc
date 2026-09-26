@@ -2,83 +2,40 @@ import Image from "next/image";
 import Link from "next/link";
 import { LocationSection } from "@/components/location-section";
 import { PageShell } from "@/components/page-shell";
-import { ArrowLink, FactGrid, FactList, MediaPlaceholder, Note, SectionIndex } from "@/components/primitives";
+import { ArrowLink, ArtImage, FactGrid, FactList, MediaPlaceholder, Note, SectionIndex } from "@/components/primitives";
 import { getNextAsset, type PortfolioAsset } from "@/lib/assets";
-import { localePath, ui, type SiteLocale } from "@/lib/site-data";
+import { localePath, ui, type Localized, type SiteLocale } from "@/lib/site-data";
 
 const copy = {
-  ro: {
-    back: "Portofoliu",
-    eyebrow: "MEGAPARC / Activ operațional",
-    architecture: "Arhitectură",
-    locationIndex: "Localizare și poziționare",
-    profileIndex: "Profilul activului",
-    factsIndex: "Date cheie",
-    programmeIndex: "Program pe niveluri",
-    characteristicsIndex: "Caracteristici",
-    approachIndex: "Abordarea MEGAPARC",
-    approachLead: "Activul este administrat cu perspectiva proprietarului: calitate fizică, utilizare relevantă și valoare pe termen lung.",
-    steps: [
-      ["Înțelegem activul", "Locație, utilizare, structură și context urban."],
-      ["Protejăm calitatea", "Întreținere, investiții și standard fizic pe termen lung."],
-      ["Administrăm utilizarea", "Leasing, operare și relația cu utilizatorii ca decizie de investiție."],
-      ["Construim relevanță", "Adaptăm activul înainte ca utilizarea să devină învechită."],
-    ],
-    availabilityIndex: "Oportunitate comercială",
-    availabilityTitle: "Disponibil în prezent",
-    enquiryIndex: "Solicitare",
+  back: { ro: "Portofoliu", ru: "Портфель", en: "Portfolio" },
+  positioning: { ro: "Poziționare", ru: "Позиционирование", en: "Positioning" },
+  story: { ro: "Povestea activului", ru: "История актива", en: "Asset story" },
+  facts: { ro: "Date cheie", ru: "Ключевые данные", en: "Key facts" },
+  building: { ro: "Clădire / Spațiu", ru: "Здание / Пространство", en: "Building / Space" },
+  programme: { ro: "Program pe niveluri", ru: "Поэтажная программа", en: "Floor programme" },
+  logic: { ro: "Logica de operare", ru: "Логика эксплуатации", en: "Operating logic" },
+  character: { ro: "Caracterul activului", ru: "Характер актива", en: "Asset character" },
+  distinctive: { ro: "Ce îl face distinct", ru: "Что делает его особенным", en: "What makes it distinctive" },
+  relevance: { ro: "Cum rămâne relevant", ru: "Как он остаётся актуальным", en: "How it stays relevant" },
+  availability: { ro: "Disponibilitate", ru: "Доступность", en: "Availability" },
+  availabilityNote: {
+    ro: "Condițiile comerciale și tehnice se discută direct și nu sunt publicate.",
+    ru: "Коммерческие и технические условия обсуждаются напрямую и не публикуются.",
+    en: "Commercial and technical conditions are discussed directly and are not published.",
   },
-  ru: {
-    back: "Портфель",
-    eyebrow: "MEGAPARC / Операционный актив",
-    architecture: "Архитектура",
-    locationIndex: "Расположение и позиционирование",
-    profileIndex: "Профиль объекта",
-    factsIndex: "Ключевые данные",
-    programmeIndex: "Поэтажная программа",
-    characteristicsIndex: "Характеристики",
-    approachIndex: "Подход MEGAPARC",
-    approachLead: "Актив управляется с позиции собственника: физическое качество, востребованное назначение и долгосрочная стоимость.",
-    steps: [
-      ["Понимаем актив", "Расположение, назначение, конструкция и городской контекст."],
-      ["Сохраняем качество", "Обслуживание, инвестиции и физический стандарт на долгий срок."],
-      ["Управляем использованием", "Аренда, эксплуатация и отношения с арендаторами как инвестиционное решение."],
-      ["Формируем актуальность", "Адаптируем актив до того, как его использование устареет."],
-    ],
-    availabilityIndex: "Коммерческое предложение",
-    availabilityTitle: "Доступно сейчас",
-    enquiryIndex: "Запрос",
-  },
-  en: {
-    back: "Portfolio",
-    eyebrow: "MEGAPARC / Operating asset",
-    architecture: "Architecture",
-    locationIndex: "Location and positioning",
-    profileIndex: "Asset profile",
-    factsIndex: "Key facts",
-    programmeIndex: "Floor programme",
-    characteristicsIndex: "Characteristics",
-    approachIndex: "MEGAPARC approach",
-    approachLead: "The asset is managed with an owner's perspective: physical quality, relevant use and long-term value.",
-    steps: [
-      ["Understand the asset", "Location, use, structure and urban context."],
-      ["Protect quality", "Maintenance, capital expenditure and physical standard over the long term."],
-      ["Manage use", "Leasing, operations and the occupier relationship as an investment decision."],
-      ["Build relevance", "We adapt the asset before its use becomes outdated."],
-    ],
-    availabilityIndex: "Commercial opportunity",
-    availabilityTitle: "Currently available",
-    enquiryIndex: "Enquiry",
-  },
-} as const;
+  enquiry: { ro: "Discută despre acest activ", ru: "Обсудить этот объект", en: "Discuss this asset" },
+  architecture: { ro: "Arhitectură", ru: "Архитектура", en: "Architecture" },
+} satisfies Record<string, Localized>;
 
 const country = { ro: "Republica Moldova", ru: "Республика Молдова", en: "Republic of Moldova" } as const;
 
 export function AssetDetailPage({ locale, asset }: { locale: SiteLocale; asset: PortfolioAsset }) {
-  const c = copy[locale];
   const next = getNextAsset(asset.slug);
   const p = (path: string) => localePath(locale, path);
   const place = asset.district.en === asset.city.en ? asset.city[locale] : `${asset.district[locale]} · ${asset.city[locale]}`;
+  const hasBuilding = Boolean(asset.building.text.en);
+  const hasLogic = Boolean(asset.operatingLogic.text.en);
+  const hasCharacter = Boolean(asset.character.en);
   let section = 0;
   const no = () => String(++section).padStart(2, "0");
 
@@ -87,13 +44,13 @@ export function AssetDetailPage({ locale, asset }: { locale: SiteLocale; asset: 
       <section className="asset-detail__identity paper">
         <div className="shell">
           <div className="asset-detail__top">
-            <Link href={p("/portfolio")} className="back-link">← {c.back}</Link>
-            <span>{asset.status[locale]}</span>
+            <Link href={p("/portfolio")} className="back-link">← {copy.back[locale]}</Link>
+            <span>{ui.portfolioLine[locale]} · {asset.status[locale]}</span>
           </div>
           <div className="asset-detail__title" data-reveal>
             <p className="eyebrow eyebrow--red">{place.toUpperCase()}</p>
             <h1>{asset.name}</h1>
-            <p className="asset-detail__positioning">{asset.positioning[locale]}</p>
+            <p className="asset-detail__positioning">{asset.headline[locale]}</p>
           </div>
           <dl className="asset-detail__meta" data-reveal>
             <div>
@@ -110,52 +67,58 @@ export function AssetDetailPage({ locale, asset }: { locale: SiteLocale; asset: 
             </div>
             <div>
               <dt>{ui.role[locale]}</dt>
-              <dd>{ui.ownedManaged[locale]}</dd>
+              <dd>{ui.portfolioLine[locale]}</dd>
             </div>
           </dl>
         </div>
       </section>
 
-      <section className="asset-detail__visual" data-reveal aria-label={c.architecture}>
-        {asset.image ? (
-          <Image
-            src={asset.image}
-            alt={`${asset.name} — MEGAPARC`}
-            fill
-            priority
-            fetchPriority="high"
-            sizes="100vw"
-            style={{ objectPosition: asset.imagePosition ?? "center" }}
-            className="asset-detail__image"
-            data-depth="22"
-          />
+      <section className="asset-detail__visual" data-reveal aria-label={copy.architecture[locale]}>
+        {asset.media ? (
+          <ArtImage media={asset.media} alt={`${asset.name} — ${asset.headline[locale]}`} priority depth={22} />
         ) : (
           <MediaPlaceholder title={ui.photoPending[locale]} note={`${asset.name} · ${asset.city[locale]}`} compact />
         )}
         <div className="asset-detail__visual-label">
-          <span>{c.architecture}</span>
+          <span>{copy.architecture[locale]}</span>
           <span>{asset.name} · {asset.city[locale]}</span>
         </div>
       </section>
 
-      <section className="asset-detail__profile paper">
+      <section className="asset-detail__story paper">
         <div className="shell">
-          <SectionIndex no={no()}>{c.profileIndex}</SectionIndex>
+          <SectionIndex no={no()}>{copy.positioning[locale]}</SectionIndex>
           <div className="copy-grid" data-reveal>
-            <h2>{asset.positioning[locale]}</h2>
             <div>
-              <p className="lead">{asset.intro[locale]}</p>
-              {asset.facts.length ? null : <Note>{ui.onRequest[locale]}</Note>}
+              <p className="asset-detail__narrative">{asset.narrative[locale]}</p>
+              <h2>{asset.headline[locale]}</h2>
+            </div>
+            <div>
+              <p className="lead">{asset.lead[locale]}</p>
+              <span className="label label--red">{copy.story[locale]}</span>
+              <div className="prose" style={{ marginTop: "1.2rem" }}>
+                {asset.story[locale].map((paragraph) => (
+                  <p key={paragraph}>{paragraph}</p>
+                ))}
+              </div>
+              {asset.keyFacts.length ? null : <Note>{ui.onRequest[locale]}</Note>}
             </div>
           </div>
-          {asset.facts.length ? (
+          {asset.keyFacts.length ? (
             <div className="asset-detail__facts" data-reveal>
-              <SectionIndex no={no()}>{c.factsIndex}</SectionIndex>
-              <FactGrid facts={asset.facts} locale={locale} />
+              <SectionIndex no={no()}>{copy.facts[locale]}</SectionIndex>
+              <FactGrid facts={asset.keyFacts} locale={locale} />
+              {asset.caveat ? <Note>{asset.caveat[locale]}</Note> : null}
             </div>
           ) : null}
         </div>
       </section>
+
+      {asset.media ? (
+        <section className="asset-detail__band" aria-hidden="true">
+          <Image src={asset.media.wide} alt="" fill sizes="100vw" data-depth="18" style={{ objectPosition: "50% 50%" }} />
+        </section>
+      ) : null}
 
       <LocationSection
         locale={locale}
@@ -167,20 +130,20 @@ export function AssetDetailPage({ locale, asset }: { locale: SiteLocale; asset: 
         map={asset.map}
       />
 
-      {asset.programme.length || asset.characteristics.length ? (
-        <section className="asset-detail__architecture ink">
+      {hasBuilding ? (
+        <section className="asset-detail__building stone">
           <div className="shell">
-            <SectionIndex no={no()} inverse>{c.architecture}</SectionIndex>
+            <SectionIndex no={no()}>{copy.building[locale]}</SectionIndex>
             <div className="copy-grid" data-reveal>
-              <h2>{asset.programme.length ? c.programmeIndex : c.characteristicsIndex}</h2>
+              <h2>{asset.building.programme.length ? copy.programme[locale] : copy.building[locale]}</h2>
               <div>
-                <p className="lead">{asset.architecture[locale]}</p>
-                {asset.programme.length ? <FactList facts={asset.programme} locale={locale} light /> : null}
+                <p className="lead">{asset.building.text[locale]}</p>
+                {asset.building.programme.length ? <FactList facts={asset.building.programme} locale={locale} /> : null}
               </div>
             </div>
-            {asset.characteristics.length ? (
+            {asset.building.features.length ? (
               <ul className="characteristics" data-reveal>
-                {asset.characteristics.map((item) => (
+                {asset.building.features.map((item) => (
                   <li key={item.en}>{item[locale]}</li>
                 ))}
               </ul>
@@ -189,54 +152,54 @@ export function AssetDetailPage({ locale, asset }: { locale: SiteLocale; asset: 
         </section>
       ) : null}
 
-      {asset.image ? (
-        <section className="asset-detail__band" aria-hidden="true">
-          <Image
-            src={asset.image}
-            alt=""
-            fill
-            sizes="100vw"
-            className="asset-detail__band-image"
-            data-depth="18"
-            style={{ objectPosition: "56% 44%" }}
-          />
+      {hasLogic ? (
+        <section className="asset-detail__logic graphite">
+          <div className="shell">
+            <SectionIndex no={no()} inverse>{copy.logic[locale]}</SectionIndex>
+            <div className="logic__grid" data-reveal>
+              <h2>{asset.narrative[locale]}</h2>
+              <div>
+                <p className="logic__text">{asset.operatingLogic.text[locale]}</p>
+                <ul className="logic__points">
+                  {asset.operatingLogic.points.map((point) => (
+                    <li key={point.en}>{point[locale]}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
         </section>
       ) : null}
 
-      <section className="approach paper approach--paper">
-        <div className="shell">
-          <SectionIndex no={no()}>{c.approachIndex}</SectionIndex>
-          <p className="approach__lead" data-reveal>{c.approachLead}</p>
-          <div className="approach__grid">
-            {c.steps.map(([title, text], index) => (
-              <article key={title} data-reveal>
-                <span>0{index + 1}</span>
-                <h3>{title}</h3>
-                <p>{text}</p>
-              </article>
-            ))}
+      {hasCharacter ? (
+        <section className="character paper">
+          <div className="shell">
+            <SectionIndex no={no()}>{copy.character[locale]}</SectionIndex>
+            <div className="character__grid">
+              <div data-reveal>
+                <h3>{copy.distinctive[locale]}</h3>
+                <p>{asset.character[locale]}</p>
+              </div>
+              <div data-reveal>
+                <h3>{copy.relevance[locale]}</h3>
+                <p>{asset.relevance[locale]}</p>
+              </div>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      ) : null}
 
       {asset.availability ? (
-        <section className="offer ink" id="availability">
+        <section className="availability-band stone" id="availability">
           <div className="shell">
-            <SectionIndex no={no()} inverse>{c.availabilityIndex}</SectionIndex>
-            <div className="offer__grid" data-reveal>
+            <SectionIndex no={no()}>{copy.availability[locale]}</SectionIndex>
+            <div className="availability-band__grid" data-reveal>
+              <h2>{asset.availability.headline[locale]}</h2>
               <div>
-                <p className="eyebrow eyebrow--red">{c.availabilityTitle}</p>
-                <h2>{asset.availability.headline[locale]}</h2>
-              </div>
-              <div>
-                <dl className="offer__facts">
+                <dl className="availability-band__facts">
                   <div>
                     <dt>{ui.totalArea[locale]}</dt>
                     <dd>{asset.availability.area[locale]}</dd>
-                  </div>
-                  <div>
-                    <dt>{ui.askingRent[locale]}</dt>
-                    <dd>{asset.availability.rent[locale]}</dd>
                   </div>
                   {asset.availability.from ? (
                     <div>
@@ -245,22 +208,25 @@ export function AssetDetailPage({ locale, asset }: { locale: SiteLocale; asset: 
                     </div>
                   ) : null}
                 </dl>
-                <Note light>{asset.availability.terms[locale]}</Note>
-                <ArrowLink href={p("/contact")} inverse>{ui.enquire[locale]}</ArrowLink>
+                <Note>{copy.availabilityNote[locale]}</Note>
+                <div className="availability-band__actions">
+                  <ArrowLink href={`${p("/contact")}#occupier`} strong>{ui.requestDetails[locale]}</ArrowLink>
+                  <ArrowLink href={`${p("/contact")}#occupier`}>{ui.contactUs[locale]}</ArrowLink>
+                </div>
               </div>
             </div>
           </div>
         </section>
       ) : null}
 
-      <section className={`enquiry ${asset.availability ? "paper enquiry--paper" : "ink"}`}>
+      <section className="enquiry ink">
         <div className="shell">
-          <SectionIndex no={no()} inverse={!asset.availability}>{c.enquiryIndex}</SectionIndex>
+          <SectionIndex no={no()} inverse>{copy.enquiry[locale]}</SectionIndex>
           <div className="enquiry__grid" data-reveal>
             <h2>{asset.name}</h2>
             <div className="enquiry__actions">
-              <ArrowLink href={p("/contact")} inverse={!asset.availability}>{ui.discussAsset[locale]}</ArrowLink>
-              <ArrowLink href={p("/opportunities")} inverse={!asset.availability}>{ui.viewAvailability[locale]}</ArrowLink>
+              <ArrowLink href={`${p("/contact")}#occupier`} inverse strong>{ui.discussAsset[locale]}</ArrowLink>
+              <ArrowLink href={p("/opportunities")} inverse>{ui.viewOpportunities[locale]}</ArrowLink>
             </div>
           </div>
           <Link href={p(`/portfolio/${next.slug}`)} className="next-asset" data-reveal>
@@ -274,3 +240,4 @@ export function AssetDetailPage({ locale, asset }: { locale: SiteLocale; asset: 
     </PageShell>
   );
 }
+

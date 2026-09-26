@@ -15,7 +15,9 @@ export function LanguageSwitcher({
   locale: SiteLocale;
   variant?: "header" | "mobile" | "footer";
 }) {
-  const { path } = neutralPath(usePathname());
+  const { path: current } = neutralPath(usePathname());
+  // Review-only routes exist in Romanian only; other editions fall back to their home page.
+  const path = current === "/brand-system" ? "/" : current;
 
   return (
     <nav className={`languages languages--${variant}`} aria-label={ui.languages[locale]}>

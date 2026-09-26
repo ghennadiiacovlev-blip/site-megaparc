@@ -7,20 +7,14 @@ import { SiteNav } from "@/components/site-nav";
 import { brand, ui, type SiteLocale } from "@/lib/site-data";
 
 /**
- * Full-screen premium navigation for tablet and phone.
- * Large typography, RO · RU · EN with clear current state, Escape to close,
- * closes automatically on route change, locks page scroll while open.
+ * Full-screen navigation for tablet and phone.
+ * Large typography, secondary corporate routes, RO · RU · EN with clear
+ * current state, Escape to close, closes on route change, locks scroll.
  */
 export function MobileMenu({ locale }: { locale: SiteLocale }) {
   const pathname = usePathname();
-  // The menu is open only for the path it was opened on, so navigation closes it without an effect.
   const [openOn, setOpenOn] = useState<string | null>(null);
   const open = openOn === pathname;
-  const setOpen = (value: boolean | ((current: boolean) => boolean)) =>
-    setOpenOn((current) => {
-      const next = typeof value === "function" ? value(current === pathname) : value;
-      return next ? pathname : null;
-    });
   const panelId = useId();
 
   useEffect(() => {
@@ -44,7 +38,7 @@ export function MobileMenu({ locale }: { locale: SiteLocale }) {
         aria-expanded={open}
         aria-controls={panelId}
         aria-label={open ? ui.closeMenu[locale] : ui.openMenu[locale]}
-        onClick={() => setOpen((value) => !value)}
+        onClick={() => setOpenOn((current) => (current === pathname ? null : pathname))}
       >
         <span className="mobile-menu__label">{open ? ui.closeMenu[locale] : ui.menu[locale]}</span>
         <span className="mobile-menu__icon" aria-hidden="true">
@@ -55,7 +49,10 @@ export function MobileMenu({ locale }: { locale: SiteLocale }) {
 
       <div id={panelId} className="mobile-menu__panel" hidden={!open}>
         <div className="mobile-menu__inner">
-          <SiteNav locale={locale} variant="mobile" />
+          <div>
+            <SiteNav locale={locale} variant="mobile" />
+            <SiteNav locale={locale} variant="secondary-mobile" secondary />
+          </div>
           <div className="mobile-menu__foot">
             <span className="label">{ui.languages[locale]}</span>
             <LanguageSwitcher locale={locale} variant="mobile" />

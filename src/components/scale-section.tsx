@@ -6,9 +6,9 @@ import { brand, type Localized, type SiteLocale } from "@/lib/site-data";
 const copy = {
   title: { ro: "MEGAPARC la scară", ru: "Масштаб MEGAPARC", en: "MEGAPARC at scale" },
   statement: {
-    ro: "Active imobiliare construite și administrate cu perspectivă pe termen lung.",
-    ru: "Недвижимость, которой мы управляем с долгосрочным инвестиционным подходом.",
-    en: "Real estate built and managed with a long-term ownership perspective.",
+    ro: "Active reale, teren de dezvoltare și trei decenii de experiență.",
+    ru: "Реальные активы, земля под девелопмент и три десятилетия опыта.",
+    en: "Real assets, development land and three decades of experience.",
   },
   note: {
     ro: "Suprafețele sunt prezentate pe tipuri distincte și nu sunt însumate. Terenul pentru dezvoltare include amplasamentul Drochia Gateway.",
@@ -18,10 +18,10 @@ const copy = {
 } satisfies Record<string, Localized>;
 
 /** Editorial institutional-scale band. Renders only metrics that are not null. */
-export function ScaleSection({ locale, no }: { locale: SiteLocale; no: string }) {
+export function ScaleSection({ locale, no, surface = "paper" }: { locale: SiteLocale; no: string; surface?: "paper" | "stone" }) {
   const metrics = scaleMetrics();
   return (
-    <section className="scale paper" aria-label={copy.title[locale]}>
+    <section className={`scale ${surface}`} id="scale" aria-label={copy.title[locale]}>
       <div className="shell">
         <SectionIndex no={no}>{copy.title[locale]}</SectionIndex>
         <div className="scale__heading" data-reveal>
