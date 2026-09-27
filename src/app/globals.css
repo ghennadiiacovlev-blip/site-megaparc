@@ -1134,3 +1134,6 @@ section:hover .section-index::after, .is-revealed .section-index::after { transf
 /* Numbers: five metrics share the width; the value never runs into the next cell. */
 .numbers dd { white-space: normal; }
 @media (min-width: 900px) { .numbers dd { font-size: clamp(2.2rem, 3vw, 3.6rem); } .numbers--small dd { font-size: clamp(1.8rem, 2.2vw, 2.6rem); } }
+
+/* Live QA: fact-grid values (asset / project pages) keep whole words at every width. */
+.fact-grid dd { overflow-wrap: normal; font-size: clamp(1.25rem, 1.7vw, 2rem); letter-spacing: -.03em; }
