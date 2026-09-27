@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { PageShell } from "@/components/page-shell";
 import { Button, Head, Hero, Intro, Quote, Section, Story, TextLink } from "@/components/ui";
 import { developmentProjects, portfolioAssets } from "@/lib/assets";
@@ -80,7 +81,7 @@ export function PortfolioIndexPage({ locale }: { locale: SiteLocale }) {
         <ul className="chips">
           <li><a href="#operating">{c.categories[0]}<b>{pad(portfolioAssets.length)}</b></a></li>
           <li><a href="#development">{c.categories[1]}<b>{pad(developmentProjects.length)}</b></a></li>
-          <li><a href={p("/opportunities")}>{c.categories[2]}<b>{pad(availableAssets.length)}</b></a></li>
+          <li><Link href={p("/opportunities")}>{c.categories[2]}<b>{pad(availableAssets.length)}</b></Link></li>
         </ul>
       </Intro>
 

@@ -4,7 +4,7 @@ Public review source only. Private governance/source documents, briefs, QA repor
 
 Source repository: ghennadiiacovlev-blip/megaparc-web
 Source branch: feature/yellowtree-art-direction-v1
-Source SHA: 926213fc506ce17b2d9c1f5594bb63b65203ea3f
+Source SHA: 4f8f380362568229b24bf613f15e09b6d039e93a
 Deployment date: 2026-09-27
 Previous public candidate: 0f82132 (Art Direction v6); 30906a5 kept on backup/pre-yellowtree-art-direction-v6-2026-09-27 (owner polish v5)
 
