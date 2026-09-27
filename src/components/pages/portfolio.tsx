@@ -1,10 +1,16 @@
 import Image from "next/image";
 import Link from "next/link";
+import { ClosingFrame, Movement, Opening, PropertyList, PropertyRow, Statement } from "@/components/editorial";
 import { PageShell } from "@/components/page-shell";
-import { ArrowLink, MediaPlaceholder, PageHero, SectionHead, SectionIndex } from "@/components/primitives";
+import { ArrowLink } from "@/components/primitives";
 import { availableAssets, developmentProjects, portfolioAssets } from "@/lib/assets";
 import { localePath, ui, type SiteLocale } from "@/lib/site-data";
 
+/**
+ * PORTFOLIO — premium real-estate stories, not a catalogue.
+ * Moscova 9 large (62 %), Moscova 20 vertical, Dacia 31 as a wide
+ * architectural strip, Creangă 78 as a typographic row; development as rows.
+ */
 const copy = {
   ro: {
     eyebrow: "Portofoliu",
@@ -15,14 +21,14 @@ const copy = {
     operatingTitle: "Activele MEGAPARC",
     operatingText: "Patru obiecte în funcțiune în Chișinău: o clădire de birouri, spații comerciale și un obiect ale cărui informații publice vor fi completate.",
     developmentIndex: "Proiecte de dezvoltare",
-    developmentTitle: ["Dezvoltăm proiecte", "de la idee la realizare."],
+    developmentTitle: "Dezvoltăm proiecte de la idee la realizare.",
     developmentText: "Proiectele și conceptele sunt prezentate numai cu materiale și date aprobate pentru publicare.",
     developmentCta: "Vezi Dezvoltare",
+    concept: "Concept în evaluare",
     opportunitiesIndex: "Spații disponibile și noi oportunități",
     opportunitiesTitle: "Spații disponibile, propuneri de obiecte și parteneriat.",
-    opportunitiesText: "Condițiile se discută direct.",
+    opportunitiesText: (n: string) => `Condițiile se discută direct. ${n} obiecte cu disponibilitate confirmată.`,
     opportunitiesCta: "Colaborare",
-    available: "obiecte cu disponibilitate confirmată",
   },
   ru: {
     eyebrow: "Портфель",
@@ -33,14 +39,14 @@ const copy = {
     operatingTitle: "Активы MEGAPARC",
     operatingText: "Четыре действующих объекта в Кишинёве: офисное здание, торговые помещения и объект, информация о котором будет дополнена.",
     developmentIndex: "Проекты развития",
-    developmentTitle: ["Развиваем проекты", "от идеи до реализации."],
+    developmentTitle: "Развиваем проекты от идеи до реализации.",
     developmentText: "Проекты и концепции представлены только с утверждёнными для публикации материалами и данными.",
     developmentCta: "Смотреть девелопмент",
+    concept: "Концепция на стадии оценки",
     opportunitiesIndex: "Доступные площади и новые возможности",
     opportunitiesTitle: "Доступные площади, предложение объектов и партнёрство.",
-    opportunitiesText: "Условия обсуждаются напрямую.",
+    opportunitiesText: (n: string) => `Условия обсуждаются напрямую. ${n} объекта с подтверждённой доступностью.`,
     opportunitiesCta: "Сотрудничество",
-    available: "объекта с подтверждённой доступностью",
   },
   en: {
     eyebrow: "Portfolio",
@@ -51,137 +57,114 @@ const copy = {
     operatingTitle: "MEGAPARC assets",
     operatingText: "Four operating properties in Chișinău: an office building, retail spaces and a property whose public information will be added.",
     developmentIndex: "Development projects",
-    developmentTitle: ["We take projects", "from idea to completion."],
+    developmentTitle: "We take projects from idea to completion.",
     developmentText: "Projects and concepts are presented only with material and data approved for publication.",
     developmentCta: "View Development",
+    concept: "Concept under evaluation",
     opportunitiesIndex: "Available space and new opportunities",
     opportunitiesTitle: "Available space, property proposals and partnership.",
-    opportunitiesText: "Terms are discussed directly.",
+    opportunitiesText: (n: string) => `Terms are discussed directly. ${n} properties with confirmed availability.`,
     opportunitiesCta: "Work with us",
-    available: "properties with confirmed availability",
   },
 } as const;
 
 export function PortfolioIndexPage({ locale }: { locale: SiteLocale }) {
   const c = copy[locale];
   const p = (path: string) => localePath(locale, path);
+  const [dacia, moscova9, moscova20, creanga] = portfolioAssets;
+  const pad = (n: number) => String(n).padStart(2, "0");
 
   return (
     <PageShell locale={locale}>
-      <PageHero
-        index="01"
-        eyebrow={c.eyebrow}
-        title={
-          <>
-            {c.title[0]}
-            <br />
-            <span className="muted-ink">{c.title[1]}</span>
-          </>
-        }
-        lead={c.lead}
-      >
-        <nav className="portfolio__categories" aria-label={c.eyebrow}>
-          <a href="#operating" className="is-active">{c.categories[0]}<b>{String(portfolioAssets.length).padStart(2, "0")}</b></a>
-          <a href="#development">{c.categories[1]}<b>{String(developmentProjects.length).padStart(2, "0")}</b></a>
-          <Link href={p("/opportunities")}>{c.categories[2]}<b>{String(availableAssets.length).padStart(2, "0")}</b></Link>
+      <Opening eyebrow={c.eyebrow} title={<>{c.title[0]} <span className="muted-ink">{c.title[1]}</span></>} lead={c.lead}>
+        <nav className="anchors" aria-label={c.eyebrow}>
+          <a href="#operating">{c.categories[0]}<b>{pad(portfolioAssets.length)}</b></a>
+          <a href="#development">{c.categories[1]}<b>{pad(developmentProjects.length)}</b></a>
+          <Link href={p("/opportunities")}>{c.categories[2]}<b>{pad(availableAssets.length)}</b></Link>
         </nav>
-      </PageHero>
+      </Opening>
 
-      <section className="portfolio-index paper" id="operating">
+      {/* Operating — three stories + one typographic row */}
+      <Movement tone="white" id="operating">
         <div className="shell">
-          <SectionIndex no="02">{c.operatingIndex}</SectionIndex>
-          <SectionHead title={c.operatingTitle} text={c.operatingText} />
-          <div className="portfolio-index__grid">
-            {portfolioAssets.map((asset, index) => (
-              <Link key={asset.slug} href={p(`/portfolio/${asset.slug}`)} className={`portfolio-index__card portfolio-index__card--${index + 1}`} data-reveal>
-                <div className="portfolio-index__visual">
-                  {asset.media ? (
-                    <Image
-                      src={index === 0 ? asset.media.src : asset.media.card}
-                      alt={`${asset.name} — ${asset.positioning[locale]}`}
-                      fill
-                      priority={index === 0}
-                      sizes={index === 0 ? "(max-width: 720px) 92vw, 62vw" : "(max-width: 720px) 92vw, 42vw"}
-                      style={{ objectPosition: asset.media.position ?? "center" }}
-                      className="portfolio-index__image"
-                      data-depth="16"
-                    />
-                  ) : (
-                    <MediaPlaceholder title={asset.name} note={ui.photoPending[locale]} compact />
-                  )}
-                  <span className="asset-media__line" aria-hidden="true" />
-                </div>
-                <div className="portfolio-index__caption">
-                  <div>
-                    <span>0{index + 1}</span>
-                    <div>
-                      <h2>{asset.name}</h2>
-                      <span className="portfolio-index__positioning">{asset.headline[locale]}</span>
-                    </div>
-                  </div>
-                  <div>
-                    <span>{asset.district.en === asset.city.en ? asset.city[locale] : `${asset.district[locale]} · ${asset.city[locale]}`}</span>
-                    {asset.availability ? <span>{ui.availability[locale]} · {asset.availability.area[locale]}</span> : null}
-                    <span className="portfolio-index__cta">{ui.exploreAsset[locale]} ↗</span>
-                  </div>
-                </div>
+          <Statement no="02" kicker={c.operatingIndex} title={c.operatingTitle} text={c.operatingText} />
+          <div className="stories stories--index">
+            {[
+              { asset: moscova9, src: moscova9.media!.src, cls: "stories__item--main", sizes: "(max-width: 900px) 100vw, 62vw", priority: true },
+              { asset: moscova20, src: moscova20.media!.mobile, cls: "stories__item--tall", sizes: "(max-width: 900px) 100vw, 34vw", priority: false },
+              { asset: dacia, src: dacia.media!.wide, cls: "stories__item--strip", sizes: "100vw", priority: false },
+            ].map(({ asset, src, cls, sizes, priority }) => (
+              <Link key={asset.slug} href={p(`/portfolio/${asset.slug}`)} className={`stories__item ${cls}`} data-reveal>
+                <span className="stories__visual">
+                  <Image src={src} alt={`${asset.name} — ${asset.positioning[locale]}`} fill priority={priority} sizes={sizes} style={{ objectPosition: asset.media!.position }} data-depth="12" />
+                  <i className="stories__line" aria-hidden="true" />
+                </span>
+                <span className="stories__caption">
+                  <span className="stories__name">{asset.name}</span>
+                  <span className="stories__meta">
+                    {asset.district[locale]} · {asset.city[locale]} · {asset.positioning[locale]}
+                    {asset.availability ? ` · ${ui.availability[locale]} ${asset.availability.area[locale]}` : ""}
+                  </span>
+                  <span className="stories__text">{asset.headline[locale]}</span>
+                  <i className="stories__arrow" aria-hidden="true">↗</i>
+                </span>
               </Link>
             ))}
           </div>
+          <PropertyList>
+            <PropertyRow
+              href={p(`/portfolio/${creanga.slug}`)}
+              index="04"
+              placeholder={ui.photoPending[locale]}
+              name={creanga.name}
+              place={creanga.city[locale]}
+              kind={creanga.status[locale]}
+              line={creanga.headline[locale]}
+              meta={ui.onRequest[locale]}
+              cta={ui.exploreAsset[locale]}
+            />
+          </PropertyList>
         </div>
-      </section>
+      </Movement>
 
-      <section className="portfolio-development ink" id="development">
+      {/* Development — rows on black */}
+      <Movement tone="ink" id="development">
         <div className="shell">
-          <SectionIndex no="03" inverse>{c.developmentIndex}</SectionIndex>
-          <div className="portfolio-development__heading" data-reveal>
-            <h2>
-              {c.developmentTitle[0]}
-              <br />
-              {c.developmentTitle[1]}
-            </h2>
-            <div className="section-head__aside">
-              <p>{c.developmentText}</p>
-              <ArrowLink href={p("/development")} inverse>{c.developmentCta}</ArrowLink>
-            </div>
-          </div>
-          <div className="pipeline">
+          <Statement no="03" kicker={c.developmentIndex} title={c.developmentTitle} text={c.developmentText} inverse>
+            <ArrowLink href={p("/development")} inverse>{c.developmentCta}</ArrowLink>
+          </Statement>
+          <PropertyList inverse>
             {developmentProjects.map((project, index) => (
-              <Link key={project.slug} href={p(`/development/${project.slug}`)} className="pipeline__card" data-reveal>
-                <div className="pipeline__visual">
-                  {project.media ? (
-                    <Image src={project.media.card} alt={`${project.name} — ${project.status[locale]}`} fill sizes="(max-width: 720px) 92vw, 46vw" className="pipeline__image" data-depth="18" style={{ objectPosition: "50% 60%" }} />
-                  ) : (
-                    <MediaPlaceholder title={project.name} note={project.status[locale]} compact />
-                  )}
-                  <span className="asset-media__line" aria-hidden="true" />
-                </div>
-                <div className="pipeline__caption">
-                  <div>
-                    <span className="pipeline__no">0{index + 1}</span>
-                    <h3>{project.name}</h3>
-                  </div>
-                  <div>
-                    <span>{project.status[locale]}</span>
-                    <span>{project.place[locale]}</span>
-                  </div>
-                </div>
-              </Link>
+              <PropertyRow
+                key={project.slug}
+                inverse
+                href={p(`/development/${project.slug}`)}
+                index={pad(index + 1)}
+                image={project.media ? { src: project.media.card, alt: "", position: "50% 60%" } : undefined}
+                placeholder={c.concept}
+                name={project.name}
+                place={project.place[locale]}
+                kind={project.media ? project.kind[locale] : c.concept}
+                line={project.headline[locale]}
+                meta={project.status[locale]}
+                cta={ui.exploreProject[locale]}
+              />
             ))}
-          </div>
+          </PropertyList>
         </div>
-      </section>
+      </Movement>
 
-      <section className="closing stone" id="opportunities">
-        <div className="shell closing__grid" data-reveal>
-          <span className="label label--red">04 / {c.opportunitiesIndex}</span>
-          <div>
-            <p className="closing__statement">{c.opportunitiesTitle}</p>
-            <p className="note" style={{ marginBottom: "2rem" }}>{c.opportunitiesText} {String(availableAssets.length).padStart(2, "0")} {c.available}.</p>
-            <ArrowLink href={p("/opportunities")}>{c.opportunitiesCta}</ArrowLink>
-          </div>
-        </div>
-      </section>
+      <ClosingFrame
+        id="opportunities"
+        tone="stone"
+        kicker={c.opportunitiesIndex}
+        title={c.opportunitiesTitle}
+        text={c.opportunitiesText(pad(availableAssets.length))}
+        links={[
+          { href: p("/opportunities"), label: c.opportunitiesCta, strong: true },
+          { href: `${p("/contact")}#occupier`, label: ui.requestDetails[locale] },
+        ]}
+      />
     </PageShell>
   );
 }

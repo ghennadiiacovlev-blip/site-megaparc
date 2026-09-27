@@ -1,22 +1,30 @@
-import Image from "next/image";
-import Link from "next/link";
+import { ClosingFrame, Index, Movement, Opening, RowList, Split, Statement, Timeline } from "@/components/editorial";
 import { PageShell } from "@/components/page-shell";
-import { ArrowLink, MediaPlaceholder, Note, PageHero, SectionHead, SectionIndex } from "@/components/primitives";
+import { ArrowLink, Note } from "@/components/primitives";
 import { developmentProjects } from "@/lib/assets";
 import { developmentNarrative } from "@/lib/strategy";
 import { localePath, ui, type SiteLocale } from "@/lib/site-data";
 
+/**
+ * DEVELOPMENT — a real development story.
+ * Full-bleed VATRA under the title → VATRA split (photo + stage + short
+ * text) → thin architectural timeline with project markers → Drochia
+ * Gateway clearly separated as CONCEPT UNDER EVALUATION → three principles →
+ * closing.
+ */
 const copy = {
   ro: {
     eyebrow: "Dezvoltare",
     title: ["Dezvoltăm imobiliare", "de la idee la obiect în funcțiune."],
     lead: "Un proiect pornește de la un teren sau de la o clădire existentă și trece prin analiză, concept, evaluare economică, proiectare și realizare până la punerea în funcțiune.",
+    heroCaption: "VATRA · vedere aeriană a amplasamentului",
+    projectIndex: "Proiect în dezvoltare",
     stagesIndex: "Etapele proiectului",
     stagesTitle: "Șase etape.",
     stagesText: "Fiecare proiect este arătat la etapa lui, iar conceptele nu sunt prezentate ca arhitectură finalizată.",
-    pipelineIndex: "Proiecte și concepte",
-    pipelineTitle: "Două proiecte. Două etape diferite.",
-    pipelineText: "VATRA este un amplasament în lucru, cu imagini reale. Drochia Gateway este un concept aflat în verificare urbanistică, inginerească și comercială.",
+    conceptLabel: "Concept în evaluare",
+    conceptIndex: "Concept",
+    conceptCta: "Vezi conceptul",
     principlesIndex: "Cum dezvoltăm",
     principles: [
       ["Funcția înaintea formei", "Mai întâi decidem cum va fi folosit și întreținut obiectul, apoi cum arată."],
@@ -24,6 +32,7 @@ const copy = {
       ["Calitate gândită pentru exploatare", "Calitatea construcției determină costurile de exploatare și cererea pentru obiect în anii următori."],
     ],
     note: "Conceptele de dezvoltare sunt prezentate pentru discuție și sunt supuse verificărilor urbanistice, inginerești și comerciale.",
+    closingTitle: "Aveți un teren sau un proiect?",
     ctaA: "Propune un teren",
     ctaB: "Discută un parteneriat",
   },
@@ -31,12 +40,14 @@ const copy = {
     eyebrow: "Девелопмент",
     title: ["Развиваем недвижимость", "от идеи до работающего объекта."],
     lead: "Проект начинается с участка или существующего здания и проходит через анализ, концепцию, экономическую оценку, проектирование и реализацию до ввода в эксплуатацию.",
+    heroCaption: "VATRA · площадка с воздуха",
+    projectIndex: "Проект в стадии развития",
     stagesIndex: "Этапы проекта",
     stagesTitle: "Шесть этапов.",
     stagesText: "Каждый проект показан на своей стадии, а концепции не представляются как завершённая архитектура.",
-    pipelineIndex: "Проекты и концепции",
-    pipelineTitle: "Два проекта. Две разные стадии.",
-    pipelineText: "VATRA — площадка в работе с реальными снимками. Drochia Gateway — концепция, которая проходит градостроительную, инженерную и коммерческую проверку.",
+    conceptLabel: "Концепция на стадии оценки",
+    conceptIndex: "Концепция",
+    conceptCta: "Смотреть концепцию",
     principlesIndex: "Как мы развиваем",
     principles: [
       ["Функция прежде формы", "Сначала решаем, как объект будет использоваться и обслуживаться, потом — как он выглядит."],
@@ -44,6 +55,7 @@ const copy = {
       ["Качество, рассчитанное на эксплуатацию", "Качество строительства определяет расходы на эксплуатацию и востребованность объекта на годы вперёд."],
     ],
     note: "Концепции развития представлены для обсуждения и подлежат градостроительной, инженерной и коммерческой проверке.",
+    closingTitle: "У вас есть участок или проект?",
     ctaA: "Предложить участок",
     ctaB: "Обсудить партнёрство",
   },
@@ -51,12 +63,14 @@ const copy = {
     eyebrow: "Development",
     title: ["We take real estate", "from idea to a working building."],
     lead: "A project starts from a site or an existing building and moves through analysis, concept, economic assessment, design and delivery to commissioning.",
+    heroCaption: "VATRA · aerial view of the site",
+    projectIndex: "Project in development",
     stagesIndex: "Project stages",
     stagesTitle: "Six stages.",
     stagesText: "Each project is shown at its own stage, and concepts are never presented as finished architecture.",
-    pipelineIndex: "Projects and concepts",
-    pipelineTitle: "Two projects. Two different stages.",
-    pipelineText: "VATRA is a site under way, with real imagery. Drochia Gateway is a concept undergoing planning, engineering and commercial review.",
+    conceptLabel: "Concept under evaluation",
+    conceptIndex: "Concept",
+    conceptCta: "View the concept",
     principlesIndex: "How we develop",
     principles: [
       ["Function before form", "First we decide how a building will be used and maintained, then how it looks."],
@@ -64,6 +78,7 @@ const copy = {
       ["Quality built for operation", "Build quality determines operating costs and demand for the property in the years ahead."],
     ],
     note: "Development concepts are presented for discussion and remain subject to planning, engineering and commercial review.",
+    closingTitle: "Do you have a site or a project?",
     ctaA: "Submit a site",
     ctaB: "Discuss a partnership",
   },
@@ -71,126 +86,89 @@ const copy = {
 
 export function DevelopmentIndexPage({ locale }: { locale: SiteLocale }) {
   const c = copy[locale];
-  const [vatra] = developmentProjects;
+  const [vatra, drochia] = developmentProjects;
   const p = (path: string) => localePath(locale, path);
+  const stageOf = (i: number) => developmentNarrative.stages[i];
 
   return (
     <PageShell locale={locale}>
-      <PageHero
-        index="01"
+      <Opening
         eyebrow={c.eyebrow}
-        title={
-          <>
-            {c.title[0]}
-            <br />
-            <span className="muted-ink">{c.title[1]}</span>
-          </>
-        }
+        title={<>{c.title[0]} <span className="muted-ink">{c.title[1]}</span></>}
         lead={c.lead}
+        media={{ src: vatra.media!.wide, alt: `${vatra.name} — ${vatra.status[locale]}`, position: vatra.media!.position }}
+        caption={c.heroCaption}
       />
 
-      <section className="dev-stages stone" id="stages">
+      {/* VATRA — photo + stage + short text */}
+      <Movement tone="white" id="vatra">
+        <Split media={{ src: vatra.media!.mobile, alt: `${vatra.name} — ${vatra.place[locale]}` }} ratio="4 / 5" href={p(`/development/${vatra.slug}`)} caption={`${vatra.name} · ${vatra.place[locale]}`}>
+          <Index no="02">{c.projectIndex}</Index>
+          <h2 className="split__title split__title--display">{vatra.name}</h2>
+          <p className="split__kicker">{ui.stage[locale]} {stageOf(vatra.stage).no} · {stageOf(vatra.stage).title[locale]}</p>
+          <p className="split__text">{vatra.headline[locale]} {vatra.lead[locale]}</p>
+          <dl className="split__facts">
+            <div><dt>{ui.status[locale]}</dt><dd>{vatra.status[locale]}</dd></div>
+            <div><dt>{ui.location[locale]}</dt><dd>{vatra.place[locale]}</dd></div>
+          </dl>
+          <ArrowLink href={p(`/development/${vatra.slug}`)} strong>{ui.exploreProject[locale]}</ArrowLink>
+        </Split>
+      </Movement>
+
+      {/* Six stages — thin timeline with project markers */}
+      <Movement tone="stone" id="stages">
         <div className="shell">
-          <SectionIndex no="02">{c.stagesIndex}</SectionIndex>
-          <div className="section-head section-head--wide" data-reveal>
-            <h2>{c.stagesTitle}</h2>
-            <div className="section-head__aside">
-              <p>{c.stagesText}</p>
+          <Statement no="03" kicker={c.stagesIndex} title={c.stagesTitle} text={c.stagesText} size="md" />
+          <Timeline
+            label={c.stagesIndex}
+            items={developmentNarrative.stages.map((stage, index) => {
+              const here = developmentProjects.filter((project) => project.stage === index);
+              return { key: stage.no, mark: stage.no, title: stage.title[locale], text: stage.text[locale], current: here.length > 0, tag: here.map((project) => project.name).join(" · ") || undefined };
+            })}
+          />
+        </div>
+      </Movement>
+
+      {/* Drochia Gateway — concept, clearly separated */}
+      <Movement tone="ink" id="concept">
+        <div className="shell concept" data-reveal>
+          <div className="concept__head">
+            <Index no="04" inverse>{c.conceptIndex}</Index>
+            <span className="concept__tag">{c.conceptLabel}</span>
+          </div>
+          <div className="concept__grid">
+            <div>
+              <h2 className="concept__name">{drochia.name}</h2>
+              <p className="concept__place">{drochia.place[locale]} · {drochia.kind[locale]}</p>
+            </div>
+            <div className="concept__body">
+              <p className="concept__lead">{drochia.headline[locale]} {drochia.lead[locale]}</p>
+              <dl className="split__facts split__facts--inverse">
+                <div><dt>{ui.status[locale]}</dt><dd>{drochia.status[locale]}</dd></div>
+                <div><dt>{ui.stage[locale]}</dt><dd>{stageOf(drochia.stage).no} · {stageOf(drochia.stage).title[locale]}</dd></div>
+              </dl>
+              <Note light>{c.note}</Note>
+              <ArrowLink href={p(`/development/${drochia.slug}`)} inverse>{c.conceptCta}</ArrowLink>
             </div>
           </div>
-          <ol className="dev-stages__list">
-            {developmentNarrative.stages.map((stage, index) => {
-              const here = developmentProjects.filter((project) => project.stage === index);
-              return (
-                <li key={stage.no} className={here.length ? "is-current" : undefined} data-reveal>
-                  <span>{stage.no}</span>
-                  <h3>{stage.title[locale]}</h3>
-                  <p>{stage.text[locale]}</p>
-                  {here.map((project) => (
-                    <span key={project.slug} className="label label--red">{project.name}</span>
-                  ))}
-                </li>
-              );
-            })}
-          </ol>
-          <div className="dev-stages__projects" data-reveal>
-            {developmentProjects.map((project) => (
-              <Link key={project.slug} href={p(`/development/${project.slug}`)} className="dev-stages__project">
-                <span>{project.name} · {project.place[locale]}</span>
-                <span>{ui.stage[locale]} {developmentNarrative.stages[project.stage].no} · {developmentNarrative.stages[project.stage].title[locale]}</span>
-              </Link>
-            ))}
-          </div>
         </div>
-      </section>
+      </Movement>
 
-      <Link href={p(`/development/${vatra.slug}`)} className="feature-project ink" data-reveal>
-        <div className="feature-project__media">
-          <Image src={vatra.media!.src} alt={`${vatra.name} — ${vatra.status[locale]}`} fill priority sizes="100vw" className="feature-project__image" data-depth="24" style={{ objectPosition: vatra.media!.position }} />
-          <div className="feature-project__veil" />
-        </div>
-        <div className="shell feature-project__content">
-          <span className="eyebrow eyebrow--red">{vatra.status[locale]} · {vatra.place[locale]}</span>
-          <h2>{vatra.name}</h2>
-          <p>{vatra.lead[locale]}</p>
-          <span className="arrow-link arrow-link--inverse">
-            <span>{ui.exploreProject[locale]}</span>
-            <span className="arrow-link__icon" aria-hidden="true">↗</span>
-          </span>
-        </div>
-      </Link>
-
-      <section className="pipeline-section paper">
+      {/* How we develop — three principles */}
+      <Movement tone="paper" id="principles">
         <div className="shell">
-          <SectionIndex no="03">{c.pipelineIndex}</SectionIndex>
-          <SectionHead title={c.pipelineTitle} text={c.pipelineText} />
-          <div className="pipeline pipeline--paper">
-            {developmentProjects.map((project, index) => (
-              <Link key={project.slug} href={p(`/development/${project.slug}`)} className="pipeline__card" data-reveal>
-                <div className="pipeline__visual">
-                  {project.media ? (
-                    <Image src={project.media.card} alt={`${project.name} — ${project.status[locale]}`} fill sizes="(max-width: 720px) 92vw, 46vw" className="pipeline__image" data-depth="18" style={{ objectPosition: "50% 60%" }} />
-                  ) : (
-                    <MediaPlaceholder title={project.name} note={project.status[locale]} compact />
-                  )}
-                  <span className="asset-media__line" aria-hidden="true" />
-                </div>
-                <div className="pipeline__caption">
-                  <div>
-                    <span className="pipeline__no">0{index + 1}</span>
-                    <h3>{project.name}</h3>
-                  </div>
-                  <div>
-                    <span>{project.status[locale]}</span>
-                    <span>{ui.stage[locale]} {developmentNarrative.stages[project.stage].no}</span>
-                  </div>
-                </div>
-                <p className="pipeline__lead">{project.headline[locale]} {project.lead[locale]}</p>
-              </Link>
-            ))}
-          </div>
-          <Note>{c.note}</Note>
+          <Statement no="05" kicker={c.principlesIndex} title={c.principles[0][0] + "."} size="md" />
+          <RowList large rows={c.principles.map(([title, text], i) => ({ key: title, no: `0${i + 1}`, title, text }))} />
         </div>
-      </section>
+      </Movement>
 
-      <section className="principles stone">
-        <div className="shell">
-          <SectionIndex no="04">{c.principlesIndex}</SectionIndex>
-          <div className="principles__grid principles__grid--3">
-            {c.principles.map(([title, text], index) => (
-              <article key={title} data-reveal>
-                <span>0{index + 1}</span>
-                <h3>{title}</h3>
-                <p>{text}</p>
-              </article>
-            ))}
-          </div>
-          <div className="principles__foot" data-reveal>
-            <ArrowLink href={`${p("/contact")}#opportunity`}>{c.ctaA}</ArrowLink>
-            <ArrowLink href={`${p("/contact")}#partnership`}>{c.ctaB}</ArrowLink>
-          </div>
-        </div>
-      </section>
+      <ClosingFrame
+        title={c.closingTitle}
+        links={[
+          { href: `${p("/contact")}#opportunity`, label: c.ctaA, strong: true },
+          { href: `${p("/contact")}#partnership`, label: c.ctaB },
+        ]}
+      />
     </PageShell>
   );
 }
