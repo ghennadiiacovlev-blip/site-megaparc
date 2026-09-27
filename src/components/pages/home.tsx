@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { CompanyFacts } from "@/components/company-facts";
 import { PageShell } from "@/components/page-shell";
 import { ArtImage } from "@/components/primitives";
 import { Button, Head, Hero, Icon, Intro, Kicker, Section, Split, TextLink } from "@/components/ui";
@@ -17,9 +18,11 @@ import { brand, localePath, publicAsset, ui, type SiteLocale } from "@/lib/site-
  *     they are never named, captioned or linked as MEGAPARC properties;
  *   - Selected portfolio and Development use the real MEGAPARC photographs.
  *
- * Structure: hero · intro · what we do (three cards) · selected portfolio
- * (three property cards) · development (VATRA, real) · where we invest (brand
- * band) · work with us (three journeys) · closing (brand band + contact).
+ * Structure: hero · intro · what we do (three cards) · company facts (dark
+ * fact board: 1995 · 2005 · 2020, verified scale, model signature) · selected
+ * portfolio (three property cards) · development (VATRA, real) · where we
+ * invest (brand band) · work with us (three journeys) · closing (brand band +
+ * contact).
  */
 
 function brandMedia(key: string, position?: string): AssetMedia {
@@ -190,6 +193,9 @@ export function HomePage({ locale }: { locale: SiteLocale }) {
           </ol>
         </div>
       </Section>
+
+      {/* 03b COMPANY FACTS — black / graphite / burgundy / red fact board */}
+      <CompanyFacts locale={locale} />
 
       {/* 04 SELECTED PORTFOLIO — real MEGAPARC photographs, clear property cards */}
       <Section id="portofoliu">
