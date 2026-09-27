@@ -2647,3 +2647,8 @@ a.trio__item:hover .trio__cta { gap: 1.2rem; }
 .film__veil { background: linear-gradient(180deg, rgba(8, 9, 11, .3), rgba(8, 9, 11, .12) 32%, rgba(8, 9, 11, .84)); }
 .chero__title span:nth-child(2) { color: rgba(255, 255, 255, .8); }
 .row__items li.row__items-label { padding: .4rem 0 .5rem; font-size: var(--t-label); }
+
+/* Live QA 2026-09-27: fact labels never break mid-word; the floating facts
+   panel stacks label over value on phones. */
+.imgfacts__panel dt, .split__facts dt, .deflist dt, .figure__label, .counts dt, .prow__meta, .stories__meta, .tl__scope { overflow-wrap: normal; }
+@media (max-width: 720px) { .imgfacts__panel dl > div { grid-template-columns: minmax(0, 1fr); gap: .2rem; } }
