@@ -1,10 +1,9 @@
-import { Bleed, ClosingFrame, Index, Moment, Movement, Opening, RowList, Statement, Timeline } from "@/components/editorial";
 import { PageShell } from "@/components/page-shell";
-import { ArrowLink } from "@/components/primitives";
+import { Band, Button, Head, Hero, Quote, Rows, Section, Stages, TextLink } from "@/components/ui";
 import { developmentProjects, portfolioAssets } from "@/lib/assets";
-import { brandLayers, signatureWords } from "@/lib/brand";
-import { cycleOutcomes, investmentMandate, investmentPrinciples, megaparc2030, ownerMindset, philosophy, valueCycle, valueCycleCopy } from "@/lib/strategy";
-import { brand, localePath, type SiteLocale } from "@/lib/site-data";
+import { brandLayers } from "@/lib/brand";
+import { cycleOutcomes, investmentMandate, investmentPrinciples, megaparc2030, philosophy, valueCycle, valueCycleCopy } from "@/lib/strategy";
+import { localePath, type SiteLocale } from "@/lib/site-data";
 
 /**
  * OUR APPROACH — the most sophisticated section of the site.
@@ -64,151 +63,107 @@ const copy = {
 export function ApproachPage({ locale }: { locale: SiteLocale }) {
   const c = copy[locale];
   const p = (path: string) => localePath(locale, path);
-  const dacia = portfolioAssets[0];
+  const [dacia, moscova9] = portfolioAssets;
   const m = investmentMandate;
   const [first, ...rest] = philosophy.paragraphs[locale];
 
   return (
     <PageShell locale={locale}>
-      <Opening eyebrow={c.eyebrow} title={<>{c.title[0]} <span className="muted-ink">{c.title[1]}</span></>} lead={c.lead}>
-        <span className="label label--red">{brandLayers.strategicIdea[locale]}</span>
-      </Opening>
+      <Hero size="page" media={{ src: dacia.media!.wide, alt: `${dacia.name} — ${dacia.positioning[locale]}`, position: dacia.media!.position }} title={<>{c.title[0]} {c.title[1]}</>} line={c.eyebrow} />
 
-      {/* 02 Oversized statement — how we evaluate */}
-      <Movement tone="white" id="philosophy">
-        <div className="shell">
-          <Statement no="02" kicker={philosophy.kicker[locale]} title={philosophy.title[locale]} size="xl">
-            <p className="stmt__emphasis">{first}</p>
+      {/* 01 HOW WE EVALUATE REAL ESTATE */}
+      <Section id="philosophy">
+        <div className="shell intro" data-reveal>
+          <p className="kicker">01 · {philosophy.kicker[locale]}</p>
+          <div className="intro__body">
+            <h2 className="statement">{philosophy.title[locale]}</h2>
+            <p className="intro__text intro__text--strong">{first}</p>
             {rest.map((paragraph) => (
-              <p key={paragraph}>{paragraph}</p>
+              <p key={paragraph} className="intro__text">{paragraph}</p>
             ))}
-          </Statement>
-          <ol className="lenses" data-reveal aria-label={c.lensesIndex}>
-            {philosophy.lenses[locale].map((lens, index) => (
-              <li key={lens}>
-                <span>0{index + 1}</span>
-                <strong>{lens}</strong>
-              </li>
-            ))}
-          </ol>
+            <ul className="chips" aria-label={c.lensesIndex}>
+              {philosophy.lenses[locale].map((lens, index) => (
+                <li key={lens}><span>0{index + 1}</span>{lens}</li>
+              ))}
+            </ul>
+          </div>
         </div>
-      </Movement>
+      </Section>
 
-      {/* 03 Architectural image break */}
-      <Bleed media={{ src: dacia.media!.wide, alt: `${dacia.name} — ${dacia.positioning[locale]}`, position: dacia.media!.position }} label={c.breakLabel} statement={megaparc2030.pillars[3].idea![locale]} />
+      {/* 02 LARGE IMAGE */}
+      <Band media={{ src: moscova9.media!.wide, alt: `${moscova9.name} — ${moscova9.positioning[locale]}`, position: moscova9.media!.position }} statement={megaparc2030.pillars[3].idea![locale]} caption={c.breakLabel} />
 
-      {/* 04 The investment process — horizontal sequence */}
-      <Movement tone="paper" id="cycle">
+      {/* 03 PRINCIPLES */}
+      <Section tone="paper" id="principles">
         <div className="shell">
-          <Statement no="03" kicker={valueCycleCopy.kicker[locale]} title={valueCycleCopy.title[locale]} text={valueCycleCopy.text[locale]} size="md" />
-          <Timeline label={c.processIndex} items={valueCycle.map((stage) => ({ key: stage.key, mark: stage.no, title: stage.title[locale], text: stage.text[locale] }))} />
+          <Head kicker={`03 · ${c.principlesIndex}`} title={c.principlesTitle} />
+          <Rows large rows={investmentPrinciples.map((principle) => ({ key: principle.no, no: principle.no, title: principle.title[locale], text: principle.text[locale] }))} />
+        </div>
+      </Section>
+
+      {/* 04 HOW VALUE IS CREATED */}
+      <Section id="cycle">
+        <div className="shell">
+          <Head kicker={`04 · ${valueCycleCopy.kicker[locale]}`} title={valueCycleCopy.title[locale]} text={valueCycleCopy.text[locale]} />
+          <Stages label={c.processIndex} items={valueCycle.map((stage) => ({ key: stage.key, no: stage.no, title: stage.title[locale], text: stage.text[locale] }))} />
           <p className="outcomes" data-reveal>
-            <span className="outcomes__label">{valueCycleCopy.outcomesLabel[locale]}</span>
+            <span className="kicker">{valueCycleCopy.outcomesLabel[locale]}</span>
             {cycleOutcomes[locale].map((outcome) => (
               <span key={outcome}>{outcome}</span>
             ))}
           </p>
         </div>
-      </Movement>
+      </Section>
 
-      {/* 05 Where we invest */}
-      <Movement tone="stone" id="mandate">
+      {/* 05 WHERE WE INVEST */}
+      <Section tone="ink" id="mandate">
         <div className="shell">
-          <Statement
-            no="04"
-            kicker={m.kicker[locale]}
-            title={<>{m.statement[locale][0]} <span className="accent">{m.statement[locale][1]}</span></>}
-            text={m.text[locale]}
-            size="lg"
-          />
-          <div className="pair pair--fields" data-reveal>
-            <article>
-              <span className="idx idx--plain"><span>{m.base.role[locale]}</span></span>
+          <Head kicker={`05 · ${m.kicker[locale]}`} title={<>{m.statement[locale][0]} <span className="accent">{m.statement[locale][1]}</span></>} text={m.text[locale]} />
+          <div className="fields" data-reveal>
+            <div>
+              <span className="kicker kicker--light">{m.base.role[locale]}</span>
               <h3>{m.base.title[locale]}</h3>
-              <dl className="counts">
-                <div><dd>{String(portfolioAssets.length).padStart(2, "0")}</dd><dt>{c.counts[0]}</dt></div>
-                <div><dd>{String(developmentProjects.length).padStart(2, "0")}</dd><dt>{c.counts[1]}</dt></div>
-              </dl>
-              <ul className="dash-list">
+              <p className="fields__counts"><b>{String(portfolioAssets.length).padStart(2, "0")}</b> {c.counts[0]} · <b>{String(developmentProjects.length).padStart(2, "0")}</b> {c.counts[1]}</p>
+              <ul className="list list--plain">
                 {m.base.points[locale].map((point) => (
                   <li key={point}>{point}</li>
                 ))}
               </ul>
-            </article>
-            <article>
-              <span className="idx idx--plain"><span className="idx__no">{m.global.role[locale]}</span></span>
+            </div>
+            <div>
+              <span className="kicker kicker--light">{m.global.role[locale]}</span>
               <h3>{m.global.title[locale]}</h3>
-              <ul className="dash-list dash-list--large">
+              <ul className="list list--plain">
                 {m.global.points[locale].map((point) => (
                   <li key={point}>{point}</li>
                 ))}
               </ul>
-              <ArrowLink href={`${p("/contact")}#opportunity`} strong>{m.cta[locale]}</ArrowLink>
-            </article>
-          </div>
-          <p className="criteria" data-reveal>
-            <span className="criteria__label">{m.criteria.label[locale]}</span>
-            {m.criteria.points[locale].map((point) => (
-              <span key={point}>{point}</span>
-            ))}
-            <span className="criteria__note">{m.note[locale]}</span>
-          </p>
-        </div>
-      </Movement>
-
-      {/* 06 Five principles — editorial rows */}
-      <Movement tone="white" id="principles">
-        <div className="shell">
-          <Statement no="05" kicker={c.principlesIndex} title={c.principlesTitle} size="md" />
-          <RowList large rows={investmentPrinciples.map((principle) => ({ key: principle.no, no: principle.no, title: principle.title[locale], text: principle.text[locale] }))} />
-        </div>
-      </Movement>
-
-      {/* 07 Owner's mindset — black */}
-      <Movement tone="ink" id="mindset">
-        <div className="shell">
-          <Statement no="06" kicker={ownerMindset.title[locale]} title={ownerMindset.statement[locale]} size="xl" inverse>
-            <span className="idx idx--plain idx--inverse"><span>{c.mindsetLabel}</span></span>
-            <ul className="dash-list dash-list--inverse">
-              {ownerMindset.traits[locale].map((trait) => (
-                <li key={trait}>{trait}</li>
-              ))}
-            </ul>
-          </Statement>
-        </div>
-      </Movement>
-
-      {/* 08 Signature red moment */}
-      <Moment large words={signatureWords[locale]} label={brand.since} text={c.signatureText} />
-
-      {/* 09 MEGAPARC 2030 — compact */}
-      <Movement tone="paper" id="megaparc-2030">
-        <div className="shell">
-          <div className="y2030" data-reveal>
-            <div>
-              <Index no="07">{megaparc2030.name}</Index>
-              <span className="y2030__year" aria-hidden="true">20<b>30</b></span>
-            </div>
-            <div>
-              <h2 className="y2030__title">{megaparc2030.subtitle[locale]}</h2>
-              <p className="y2030__intro">{megaparc2030.intro[locale]}</p>
+              <Button href={`${p("/contact")}#opportunity`} variant="light">{m.cta[locale]}</Button>
             </div>
           </div>
-          <RowList rows={megaparc2030.pillars.map((pillar) => ({ key: pillar.no, no: pillar.no, title: pillar.title[locale], text: pillar.text[locale] }))} />
-          <p className="equation" data-reveal>
-            <b>{megaparc2030.equation[locale].split(" = ")[0]}</b> = {megaparc2030.equation[locale].split(" = ")[1]}
-          </p>
+          <p className="note note--light">{m.criteria.label[locale]}: {m.criteria.points[locale].join(" · ")}. {m.note[locale]}</p>
         </div>
-      </Movement>
+      </Section>
 
-      <ClosingFrame
-        kicker={brandLayers.model[locale]}
-        title={brandLayers.statement[locale]}
-        links={[
-          { href: p("/portfolio"), label: c.cta },
-          { href: `${p("/contact")}#opportunity`, label: c.ctaB, strong: true },
-        ]}
-      />
+      {/* 06 MEGAPARC 2030 — compact */}
+      <Section tone="paper" id="megaparc-2030">
+        <div className="shell y2030" data-reveal>
+          <div>
+            <p className="kicker">06 · {megaparc2030.name}</p>
+            <span className="y2030__year" aria-hidden="true">20<b>30</b></span>
+          </div>
+          <div>
+            <h2 className="h2">{megaparc2030.subtitle[locale]}</h2>
+            <p className="intro__text">{megaparc2030.intro[locale]}</p>
+          </div>
+        </div>
+        <div className="shell">
+          <Rows rows={megaparc2030.pillars.map((pillar) => ({ key: pillar.no, no: pillar.no, title: pillar.title[locale], text: pillar.text[locale] }))} />
+          <p className="equation" data-reveal><b>{megaparc2030.equation[locale].split(" = ")[0]}</b> = {megaparc2030.equation[locale].split(" = ")[1]}</p>
+        </div>
+      </Section>
+
+      <Quote tone="ink" kicker={brandLayers.model[locale]} statement={brandLayers.statement[locale]} action={<><Button href={`${p("/contact")}#opportunity`} variant="light">{c.ctaB}</Button><TextLink href={p("/portfolio")} className="tlink--light">{c.cta}</TextLink></>} />
     </PageShell>
   );
 }

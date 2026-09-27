@@ -7,9 +7,9 @@ import { SiteNav } from "@/components/site-nav";
 import { brand, ui, type SiteLocale } from "@/lib/site-data";
 
 /**
- * Full-screen navigation for tablet and phone.
- * Large typography, secondary corporate routes, RO · RU · EN with clear
- * current state, Escape to close, closes on route change, locks scroll.
+ * Phone / tablet navigation: a single menu button in the header opens a
+ * full-screen panel with the routes, the corporate routes and RO · RU · EN.
+ * Escape closes, route change closes, body scroll is locked while open.
  */
 export function MobileMenu({ locale }: { locale: SiteLocale }) {
   const pathname = usePathname();
@@ -31,32 +31,30 @@ export function MobileMenu({ locale }: { locale: SiteLocale }) {
   }, [open]);
 
   return (
-    <div className={`mobile-menu${open ? " is-open" : ""}`}>
+    <div className={`menu${open ? " is-open" : ""}`}>
       <button
         type="button"
-        className="mobile-menu__trigger"
+        className="menu__button"
         aria-expanded={open}
         aria-controls={panelId}
         aria-label={open ? ui.closeMenu[locale] : ui.openMenu[locale]}
         onClick={() => setOpenOn((current) => (current === pathname ? null : pathname))}
       >
-        <span className="mobile-menu__label">{open ? ui.closeMenu[locale] : ui.menu[locale]}</span>
-        <span className="mobile-menu__icon" aria-hidden="true">
+        <span className="menu__icon" aria-hidden="true">
           <i />
           <i />
         </span>
       </button>
 
-      <div id={panelId} className="mobile-menu__panel" hidden={!open}>
-        <div className="mobile-menu__inner">
+      <div id={panelId} className="menu__panel" hidden={!open}>
+        <div className="shell menu__inner">
           <div>
             <SiteNav locale={locale} variant="mobile" />
             <SiteNav locale={locale} variant="secondary-mobile" secondary />
           </div>
-          <div className="mobile-menu__foot">
-            <span className="label">{ui.languages[locale]}</span>
+          <div className="menu__foot">
             <LanguageSwitcher locale={locale} variant="mobile" />
-            <span className="mobile-menu__positioning">{brand.positioning}</span>
+            <span className="menu__positioning" lang="en">{brand.positioning}</span>
           </div>
         </div>
       </div>

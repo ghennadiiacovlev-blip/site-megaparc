@@ -1,6 +1,5 @@
-import { Bleed, Movement, Opening, RowList, Statement } from "@/components/editorial";
 import { PageShell } from "@/components/page-shell";
-import { ArrowLink, Note } from "@/components/primitives";
+import { Facts, Head, Hero, Intro, Quote, Section, TextLink } from "@/components/ui";
 import { portfolioAssets } from "@/lib/assets";
 import { enquiryPaths } from "@/lib/client-journeys";
 import { brand, localePath, type SiteLocale } from "@/lib/site-data";
@@ -65,68 +64,54 @@ const copy = {
 export function ContactPage({ locale }: { locale: SiteLocale }) {
   const c = copy[locale];
   const image = portfolioAssets[1];
+  const tones = ["tile--ink", "tile--paper", "tile--paper", "tile--ink"];
 
   return (
     <PageShell locale={locale}>
-      <Opening eyebrow={c.eyebrow} title={<>{c.title[0]} <em>{c.title[1]}</em></>} lead={c.lead}>
-        <nav className="anchors" aria-label={c.pathsIndex}>
+      <Hero size="page" media={{ src: image.media!.wide, alt: `${image.name} — ${image.positioning[locale]}`, position: image.media!.position }} title={<>{c.title[0]} {c.title[1]}</>} line={c.eyebrow} />
+      <Intro kicker={c.pathsIndex} statement={c.lead}>
+        <ul className="chips">
           {enquiryPaths.map((path) => (
-            <a key={path.key} href={`#${path.anchor}`}>{path.title[locale]}<b>{path.no}</b></a>
+            <li key={path.key}><a href={`#${path.anchor}`}>{path.title[locale]}<b>{path.no}</b></a></li>
           ))}
-        </nav>
-      </Opening>
+        </ul>
+      </Intro>
 
-      {/* Subjects — editorial rows on black */}
-      <Movement tone="ink" id="subjects">
-        <div className="shell">
-          <Statement no="02" kicker={c.pathsIndex} title={c.pathsIndex} size="md" inverse />
-          <RowList
-            large
-            inverse
-            headingLevel="h2"
-            rows={enquiryPaths.map((path) => ({
-              key: path.key,
-              id: path.anchor,
-              no: path.no,
-              title: path.title[locale],
-              meta: path.meta[locale],
-              text: path.text[locale],
-              items: path.include[locale],
-              itemsLabel: c.includeLabel,
-            }))}
-          />
+      {/* SUBJECTS — four tiles */}
+      <Section flush id="subjects" label={c.pathsIndex}>
+        <div className="tiles">
+          {enquiryPaths.map((path, index) => (
+            <article key={path.key} id={path.anchor} className={`tile ${tones[index]}`} data-reveal>
+              <span className="tile__no">{path.no}</span>
+              <h2 className="tile__title">{path.title[locale]}</h2>
+              <span className="tile__meta">{path.meta[locale]}</span>
+              <p>{path.text[locale]}</p>
+              <span className="kicker">{c.includeLabel}</span>
+              <ul className="list list--plain">
+                {path.include[locale].map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </article>
+          ))}
         </div>
-      </Movement>
+      </Section>
 
-      {/* Details */}
-      <Movement tone="paper" id="details">
-        <div className="shell">
-          <Statement no="03" kicker={c.detailsIndex} title={brand.name} size="lg">
-            <dl className="deflist">
-              <div>
-                <dt>{c.company}</dt>
-                <dd>{c.companyValue}</dd>
-              </div>
-              <div>
-                <dt>{c.office}</dt>
-                <dd>{c.officeValue}</dd>
-              </div>
-              <div id="careers-details">
-                <dt>{c.careers}</dt>
-                <dd>
-                  {c.careersValue}
-                  <div className="deflist__action">
-                    <ArrowLink href={localePath(locale, "/careers")}>{c.careersCta}</ArrowLink>
-                  </div>
-                </dd>
-              </div>
-            </dl>
-            <Note>{c.note}</Note>
-          </Statement>
+      {/* DETAILS */}
+      <Section tone="paper" id="details">
+        <div className="shell details" data-reveal>
+          <Head kicker={c.detailsIndex} title={brand.name} />
+          <div>
+            <Facts items={[{ label: c.company, value: c.companyValue }, { label: c.office, value: c.officeValue }, { label: c.careers, value: c.careersValue }]} />
+            <div className="sec__actions">
+              <TextLink href={localePath(locale, "/careers")}>{c.careersCta}</TextLink>
+            </div>
+            <p className="note">{c.note}</p>
+          </div>
         </div>
-      </Movement>
+      </Section>
 
-      <Bleed media={{ src: image.media!.wide, alt: `${image.name} — ${image.positioning[locale]}`, position: image.media!.position }} label={c.breakLabel} statement={c.breakStatement} />
+      <Quote tone="ink" kicker={c.breakLabel} statement={c.breakStatement} />
     </PageShell>
   );
 }

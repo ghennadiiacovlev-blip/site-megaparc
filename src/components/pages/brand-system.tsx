@@ -1,80 +1,54 @@
 import Image from "next/image";
-import { Figures, Moment, Movement, Opening, PropertyList, PropertyRow, Statement, Timeline } from "@/components/editorial";
 import { PageShell } from "@/components/page-shell";
-import { ArrowLink } from "@/components/primitives";
+import { Button, Facts, Head, Intro, Quote, Rows, Section, TextLink } from "@/components/ui";
 import { portfolioAssets } from "@/lib/assets";
 import { brandColours, brandEssence, brandLayers, glyphSample, graphicDevices, signatureWords, typeScale } from "@/lib/brand";
 import { employerBrand } from "@/lib/careers";
-import { historyAnchors, historyCopy } from "@/lib/strategy";
 import { brand, localePath, type SiteLocale } from "@/lib/site-data";
 
 /**
- * Internal brand-system review route (/brand-system). Not in navigation,
- * noindex, and to be excluded from production unless the OWNER approves.
- * Romanian labels; brand devices stay in their original language.
- * Demonstrates the Art Direction v6 editorial components with live data.
+ * BRAND SYSTEM 2.0 — internal OWNER / founder review page (RO only, noindex).
+ * Colour register, type scale, glyph coverage, signature, graphic devices,
+ * photography crops and the CTA system as implemented in the benchmark rebuild.
  */
-const toc = [
-  ["essence", "Esență"],
-  ["positioning", "Poziționare"],
-  ["colour", "Culoare"],
-  ["type", "Tipografie"],
-  ["signature", "Roșu-semnătură"],
-  ["figures", "Cifre"],
-  ["rows", "Rânduri editoriale"],
-  ["timeline", "Cronologie"],
-  ["careers", "Cariere"],
-  ["photo", "Fotografie"],
-  ["cta", "Sistem CTA"],
-];
-
 export function BrandSystemPage({ locale }: { locale: SiteLocale }) {
-  const dacia = portfolioAssets[0];
   const photos = portfolioAssets.filter((asset) => asset.media);
 
   return (
     <PageShell locale={locale}>
-      <Opening eyebrow="Brand System 2.0 · revizuire internă" title={<>MEGAPARC <span className="muted-ink">Brand Book 2.0</span></>} lead="Pagină de revizuire pentru OWNER / fondator. Nu face parte din navigația publică și este exclusă de la indexare.">
-        <nav className="anchors" aria-label="Cuprins">
-          {toc.map(([id, label]) => (
-            <a key={id} href={`#${id}`}>{label}</a>
-          ))}
-        </nav>
-      </Opening>
+      <Intro tone="paper" kicker="Brand System 2.0 · revizuire internă" statement={<>{brand.name} Brand Book 2.0</>} text="Pagină de revizuire pentru OWNER / fondator. Nu face parte din navigația publică și este exclusă de la indexare." />
 
-      <Movement tone="paper" id="essence" tight>
+      <Section id="essence" tight>
         <div className="shell">
-          <Statement no="02" kicker={brandEssence.title[locale]} title={brandEssence.text[locale]} size="md" wide />
-          <p className="criteria" data-reveal>
+          <Head kicker={brandEssence.title[locale]} title={brandEssence.text[locale]} />
+          <p className="outcomes" data-reveal>
             {brandEssence.words[locale].map((word) => (
               <span key={word}>{word}</span>
             ))}
           </p>
         </div>
-      </Movement>
+      </Section>
 
-      <Movement tone="stone" id="positioning" tight>
-        <div className="shell">
-          <Statement no="03" kicker="Poziționare · trei straturi" title={brandLayers.statement[locale]} size="md">
-            <dl className="deflist">
-              <div><dt>Brand idea</dt><dd>{brandLayers.statement[locale]} · WE BUILD THE FUTURE</dd></div>
-              <div><dt>Investment philosophy</dt><dd>{brandLayers.strategicIdea[locale]} · REAL ESTATE MANAGED AS CAPITAL</dd></div>
-              <div><dt>Business model</dt><dd>{brandLayers.model[locale]}</dd></div>
-              <div><dt>Positioning</dt><dd>{brandLayers.platform[locale]}</dd></div>
-              <div><dt>Capabilities</dt><dd>{brand.positioning}</dd></div>
-              <div><dt>Heritage</dt><dd>{brand.since} · 2005 MEGAPARC · 2020 Strategic Real Estate Focus</dd></div>
-            </dl>
-          </Statement>
+      <Section tone="paper" id="positioning" tight>
+        <div className="shell details" data-reveal>
+          <Head kicker="Poziționare · trei straturi" title={brandLayers.statement[locale]} />
+          <Facts
+            items={[
+              { label: "Brand idea", value: `${brandLayers.statement[locale]} · WE BUILD THE FUTURE` },
+              { label: "Investment philosophy", value: `${brandLayers.strategicIdea[locale]} · REAL ESTATE MANAGED AS CAPITAL` },
+              { label: "Business model", value: brandLayers.model[locale] },
+              { label: "Positioning", value: brandLayers.platform[locale] },
+              { label: "Capabilities", value: brand.positioning },
+              { label: "Heritage", value: `${brand.since} · 2005 MEGAPARC · 2020 Strategic Real Estate Focus` },
+            ]}
+          />
         </div>
-      </Movement>
+      </Section>
 
-      <Movement tone="paper" id="colour" tight>
+      <Section id="colour" tight>
         <div className="shell">
-          <Statement no="04" kicker="Sistemul de culoare 2.0" title="Alb arhitectural, carbon, roșu-semnătură." size="md" />
-          <p className="bs__note">
-            Roșul de bază este valoarea provizorie derivată din referința logo (JPG). Confirmarea finală se face pe SVG-ul de producție. Culorile marcate PROPOSED sunt propuneri Brand Book 2.0, nu valori din Brand Guidelines 2025. Fără gradienturi decorative de brand.
-          </p>
-          <div className="bs__grid">
+          <Head kicker="Sistemul de culoare 2.0" title="Alb arhitectural, carbon, roșu-semnătură." text="Roșul de bază este valoarea provizorie derivată din referința logo (JPG). Confirmarea finală se face pe SVG-ul de producție. Culorile marcate PROPOSED sunt propuneri Brand Book 2.0. Fără gradienturi decorative de brand." />
+          <div className="bs__grid" data-reveal>
             {brandColours.map((colour) => (
               <div key={colour.token} className="bs__swatch">
                 <i style={{ background: colour.hex }} />
@@ -86,12 +60,12 @@ export function BrandSystemPage({ locale }: { locale: SiteLocale }) {
             ))}
           </div>
         </div>
-      </Movement>
+      </Section>
 
-      <Movement tone="paper" id="type" tight>
+      <Section tone="paper" id="type" tight>
         <div className="shell">
-          <Statement no="05" kicker="Tipografie · Canva Sans → Geist Sans → Arial → Helvetica → sans-serif" title="Cinci niveluri: display, titlu, afirmație, text, etichetă." size="md" />
-          <div className="bs__type">
+          <Head kicker="Tipografie · Canva Sans · Geist Sans · Arial · Helvetica · sans-serif" title="Cinci niveluri: display, titlu, afirmație, text, etichetă." />
+          <div className="bs__type" data-reveal>
             {typeScale.map((style) => (
               <div key={style.token}>
                 <span>{style.name}<small>{style.token} · {style.use[locale]}</small></span>
@@ -105,57 +79,16 @@ export function BrandSystemPage({ locale }: { locale: SiteLocale }) {
             <p lang="en">{glyphSample.en}</p>
           </div>
         </div>
-      </Movement>
+      </Section>
 
-      <div id="signature"><Moment large words={signatureWords[locale]} label={brand.since} text={brandLayers.model[locale]} /></div>
+      <Quote tone="ink" id="signature" kicker={brand.since} statement={signatureWords[locale].join(" ")} text={brandLayers.model[locale]} />
 
-      <Movement tone="ink" id="figures">
+      <Section id="devices" tight>
         <div className="shell">
-          <Statement no="06" kicker="Cifre ca obiect tipografic" title="Cifre mari, tabulare, cu unitate discretă." size="md" inverse />
-          <Figures
-            inverse
-            items={[
-              { key: "a", value: <>20.000<b>+</b><small>m²</small></>, label: "Teren pentru dezvoltare", note: "2,0 ha" },
-              { key: "b", value: "04", label: "Obiecte în funcțiune" },
-              { key: "c", value: "02", label: "Proiecte de dezvoltare" },
-              { key: "d", value: "1995", label: "MEGAPARC · since" },
-            ]}
-          />
-        </div>
-      </Movement>
-
-      <Movement tone="white" id="rows">
-        <div className="shell">
-          <Statement no="07" kicker="Rânduri editoriale · Property Row" title="Un limbaj de rânduri, nu un catalog de carduri." size="md" />
-          <PropertyList>
-            {photos.slice(0, 2).map((asset, i) => (
-              <PropertyRow key={asset.slug} href={localePath(locale, `/portfolio/${asset.slug}`)} index={`0${i + 1}`} image={{ src: asset.media!.card, alt: "", position: asset.media!.position }} name={asset.name} place={asset.district[locale]} kind={asset.positioning[locale]} line={asset.headline[locale]} cta="Vezi obiectul" />
-            ))}
-          </PropertyList>
-        </div>
-      </Movement>
-
-      <Movement tone="stone" id="timeline">
-        <div className="shell">
-          <Statement no="08" kicker="Cronologie · Large Years" title="1995 · 2005 · 2020 · astăzi ca ancore tipografice." size="md" />
-          <Timeline large items={historyAnchors.map((a) => ({ key: a.year, mark: a.year === "today" ? historyCopy.today[locale] : a.year, scope: a.scope === "group" ? historyCopy.group[locale] : "MEGAPARC", title: a.title[locale], current: a.year === "today" }))} />
-        </div>
-      </Movement>
-
-      <Movement tone="ink" id="careers">
-        <div className="shell">
-          <Statement no="09" kicker="Employer brand" title={employerBrand.direction[locale].join(" ")} size="xl" inverse>
-            <ArrowLink href={localePath(locale, "/careers")} inverse>Vezi Cariere</ArrowLink>
-          </Statement>
-        </div>
-      </Movement>
-
-      <Movement tone="paper" id="photo">
-        <div className="shell">
-          <Statement no="10" kicker="Fotografie · decupaje contextuale" title="Decupaje cinematice, orizont corect, fără decorare." size="md" />
-          <div className="bs__devices">
+          <Head kicker="Fotografie · decupaje contextuale" title="Decupaje cinematice, orizont corect, fără decorare." />
+          <div className="bs__devices" data-reveal>
             {photos.map((asset) => (
-              <article key={asset.slug} data-reveal>
+              <article key={asset.slug}>
                 <div style={{ position: "relative", aspectRatio: "21 / 9", overflow: "hidden", background: "var(--graphite)" }}>
                   <Image src={asset.media!.wide} alt={asset.name} fill sizes="25vw" style={{ objectFit: "cover" }} />
                 </div>
@@ -164,28 +97,21 @@ export function BrandSystemPage({ locale }: { locale: SiteLocale }) {
               </article>
             ))}
           </div>
-          <div className="bs__devices" style={{ marginTop: "3rem" }}>
-            {graphicDevices.map((device) => (
-              <article key={device.name}>
-                <strong>{device.name}</strong>
-                <p>{device.text[locale]}</p>
-              </article>
-            ))}
-          </div>
+          <Rows rows={graphicDevices.map((device, i) => ({ key: device.name, no: `0${i + 1}`, title: device.name, text: device.text[locale] }))} />
         </div>
-      </Movement>
+      </Section>
 
-      <Movement tone="paper" id="cta" tight>
+      <Section tone="paper" id="cta" tight>
         <div className="shell">
-          <Statement no="11" kicker="Sistem CTA" title={dacia.name} size="md">
-            <div className="split__list">
-              <ArrowLink href={localePath(locale, "/contact")}>Solicită detalii</ArrowLink>
-              <ArrowLink href={localePath(locale, "/contact")} strong>Discută despre acest activ</ArrowLink>
-              <span className="label">Mișcare: reveal lent, linie roșie, count-up, depth ±20px · prefers-reduced-motion respectat</span>
-            </div>
-          </Statement>
+          <Head kicker="Sistem CTA" title="Buton compact, link text cu săgeată SVG." text="Mișcare: reveal lent, count-up, depth ±16px · prefers-reduced-motion respectat. Săgețile sunt SVG cu stroke currentColor, niciodată glife Unicode." />
+          <div className="sec__actions" data-reveal>
+            <Button href={localePath(locale, "/contact")}>Discută despre acest activ</Button>
+            <Button href={localePath(locale, "/contact")} variant="ghost">Solicită detalii</Button>
+            <TextLink href={localePath(locale, "/portfolio")}>Vezi portofoliul</TextLink>
+          </div>
+          <p className="note">{employerBrand.direction[locale].join(" ")}</p>
         </div>
-      </Movement>
+      </Section>
     </PageShell>
   );
 }

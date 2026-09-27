@@ -1,8 +1,7 @@
-import { ClosingFrame, Index, Movement, Opening, PropertyList, PropertyRow, Split, Statement } from "@/components/editorial";
 import { PageShell } from "@/components/page-shell";
-import { ArrowLink, Note } from "@/components/primitives";
-import { availableAssets } from "@/lib/assets";
-import { clientJourneys, journeysCopy } from "@/lib/client-journeys";
+import { Button, Head, Hero, Intro, Kicker, Quote, Section, Split, Story, TextLink } from "@/components/ui";
+import { portfolioAssets } from "@/lib/assets";
+import { clientJourneys } from "@/lib/client-journeys";
 import { investmentMandate } from "@/lib/strategy";
 import { localePath, publicAsset, ui, type SiteLocale } from "@/lib/site-data";
 
@@ -54,85 +53,80 @@ export function OpportunitiesPage({ locale }: { locale: SiteLocale }) {
   const c = copy[locale];
   const p = (path: string) => localePath(locale, path);
   const [findSpace, submit, partnership] = clientJourneys;
+  const availableAssets = portfolioAssets.filter((asset) => asset.availability && asset.media);
 
   return (
     <PageShell locale={locale}>
-      <Opening eyebrow={c.eyebrow} title={<>{c.title[0]} <span className="muted-ink">{c.title[1]}</span></>} lead={c.lead}>
-        <nav className="anchors" aria-label={journeysCopy.kicker[locale]}>
+      <Hero size="page" media={{ src: publicAsset("/assets/home/hero-land.webp"), alt: c.submitAlt, position: "50% 60%" }} title={<>{c.title[0]} {c.title[1]}</>} line={c.eyebrow} />
+      <Intro kicker={c.eyebrow} statement={c.lead}>
+        <ul className="chips">
           {clientJourneys.map((journey) => (
-            <a key={journey.key} href={`#${journey.key}`}>{journey.scenario[locale]}<b>{journey.no}</b></a>
+            <li key={journey.key}><a href={`#${journey.key}`}>{journey.scenario[locale]}<b>{journey.no}</b></a></li>
           ))}
-        </nav>
-      </Opening>
+        </ul>
+      </Intro>
 
-      {/* 01 I am looking for a space — property rows */}
-      <Movement tone="white" id={findSpace.key}>
+      {/* 01 I AM LOOKING FOR A SPACE */}
+      <Section id={findSpace.key}>
         <div className="shell">
-          <Statement no={findSpace.no} kicker={findSpace.scenario[locale]} title={findSpace.scenario[locale]} text={findSpace.lead[locale]} size="lg">
-            <ul className="dash-list">
-              {findSpace.scope[locale].map((item) => (
-                <li key={item}>{item}</li>
-              ))}
-            </ul>
-          </Statement>
-          <Index>{c.availableIndex}</Index>
-          <PropertyList>
-            {availableAssets.map((asset, index) => (
-              <PropertyRow
+          <Head kicker={`${findSpace.no} · ${findSpace.scenario[locale]}`} title={findSpace.lead[locale]} text={findSpace.scope[locale].join(" · ")} />
+          <Kicker>{c.availableIndex}</Kicker>
+          <div className="stories stories--list">
+            {availableAssets.map((asset) => (
+              <Story
                 key={asset.slug}
+                layout="row"
                 href={p(`/portfolio/${asset.slug}`)}
-                index={`0${index + 1}`}
-                image={asset.media ? { src: asset.media.card, alt: "", position: asset.media.position } : undefined}
+                media={{ src: asset.media!.card, alt: `${asset.name} — ${asset.positioning[locale]}`, position: asset.media!.position }}
                 name={asset.name}
-                place={asset.district[locale]}
-                kind={asset.positioning[locale]}
+                meta={[asset.district[locale], asset.positioning[locale], `${asset.availability!.area[locale]}${asset.availability!.from ? ` · ${ui.availableFrom[locale]} ${asset.availability!.from[locale]}` : ""}`]}
                 line={asset.headline[locale]}
-                meta={`${asset.availability!.area[locale]}${asset.availability!.from ? ` · ${ui.availableFrom[locale]} ${asset.availability!.from[locale]}` : ""}`}
                 cta={ui.exploreAsset[locale]}
               />
             ))}
-          </PropertyList>
-          <div className="mv__foot mv__foot--split" data-reveal>
-            <Note>{c.availableNote}</Note>
-            <ArrowLink href={`${p("/contact")}#${findSpace.anchor}`} strong>{ui.requestDetails[locale]}</ArrowLink>
+          </div>
+          <div className="sec__foot sec__foot--split" data-reveal>
+            <p className="note">{c.availableNote}</p>
+            <Button href={`${p("/contact")}#${findSpace.anchor}`}>{ui.requestDetails[locale]}</Button>
           </div>
         </div>
-      </Movement>
+      </Section>
 
-      {/* 02 I have a property to offer — image split */}
-      <Movement tone="stone" id={submit.key}>
-        <Split media={{ src: publicAsset("/assets/home/focus-income.webp"), alt: c.submitAlt }} ratio="4 / 5" align="start">
-          <Index no={submit.no}>{submit.scenario[locale]}</Index>
-          <h2 className="split__title">{submit.scenario[locale]}</h2>
-          <p className="split__text">{submit.lead[locale]}</p>
-          <p className="split__kicker">{investmentMandate.expression[locale]} {investmentMandate.note[locale]}</p>
-          <span className="idx idx--plain"><span className="idx__no">{c.considerLabel}</span></span>
-          <ul className="dash-list">
-            {submit.scope[locale].map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ul>
-          <ArrowLink href={`${p("/contact")}#${submit.anchor}`} strong>{submit.cta[locale]}</ArrowLink>
-        </Split>
-      </Movement>
+      {/* 02 I HAVE A PROPERTY TO OFFER */}
+      <Split media={{ src: publicAsset("/assets/home/focus-income.webp"), alt: c.submitAlt }} tone="paper" id={submit.key} ratio="4 / 5">
+        <Kicker>{submit.no} · {submit.scenario[locale]}</Kicker>
+        <h2 className="h2">{submit.lead[locale]}</h2>
+        <p>{investmentMandate.expression[locale]} {investmentMandate.note[locale]}</p>
+        <p className="meta">{c.considerLabel}</p>
+        <ul className="list list--plain">
+          {submit.scope[locale].map((item) => (
+            <li key={item}>{item}</li>
+          ))}
+        </ul>
+        <Button href={`${p("/contact")}#${submit.anchor}`}>{submit.cta[locale]}</Button>
+      </Split>
 
-      {/* 03 Investment and partnership — black statement */}
-      <Movement tone="ink" id={partnership.key}>
-        <div className="shell">
-          <Statement no={partnership.no} kicker={partnership.scenario[locale]} title={partnership.lead[locale]} size="xl" inverse>
-            <p>{partnership.audience[locale]}</p>
-            <span className="idx idx--plain idx--inverse"><span className="idx__no">{c.partnerLabel}</span></span>
-            <ul className="dash-list dash-list--inverse">
+      {/* 03 INVESTMENT AND PARTNERSHIP */}
+      <Section tone="ink" id={partnership.key}>
+        <div className="shell fields" data-reveal>
+          <div>
+            <Kicker className="kicker--light">{partnership.no} · {partnership.scenario[locale]}</Kicker>
+            <h2 className="h2">{partnership.lead[locale]}</h2>
+            <p className="intro__text">{partnership.audience[locale]}</p>
+          </div>
+          <div>
+            <span className="kicker kicker--light">{c.partnerLabel}</span>
+            <ul className="list list--plain">
               {partnership.scope[locale].map((item) => (
                 <li key={item}>{item}</li>
               ))}
             </ul>
-            <ArrowLink href={`${p("/contact")}#${partnership.anchor}`} inverse strong>{partnership.cta[locale]}</ArrowLink>
-          </Statement>
+            <Button href={`${p("/contact")}#${partnership.anchor}`} variant="light">{partnership.cta[locale]}</Button>
+          </div>
         </div>
-      </Movement>
+      </Section>
 
-      <ClosingFrame tone="paper" kicker={c.closingCta} title={c.closing} links={[{ href: p("/contact"), label: ui.contactUs[locale], strong: true }]} />
+      <Quote tone="paper" kicker={c.closingCta} statement={c.closing} action={<><Button href={p("/contact")}>{ui.contactUs[locale]}</Button><TextLink href={p("/portfolio")}>{ui.viewPortfolio[locale]}</TextLink></>} />
     </PageShell>
   );
 }

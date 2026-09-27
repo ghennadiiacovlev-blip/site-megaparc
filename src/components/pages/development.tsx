@@ -1,6 +1,5 @@
-import { ClosingFrame, Index, Movement, Opening, RowList, Split, Statement, Timeline } from "@/components/editorial";
 import { PageShell } from "@/components/page-shell";
-import { ArrowLink, Note } from "@/components/primitives";
+import { Button, Facts, Head, Hero, Kicker, Quote, Rows, Section, Split, Stages, TextLink } from "@/components/ui";
 import { developmentProjects } from "@/lib/assets";
 import { developmentNarrative } from "@/lib/strategy";
 import { localePath, ui, type SiteLocale } from "@/lib/site-data";
@@ -86,89 +85,66 @@ const copy = {
 
 export function DevelopmentIndexPage({ locale }: { locale: SiteLocale }) {
   const c = copy[locale];
-  const [vatra, drochia] = developmentProjects;
   const p = (path: string) => localePath(locale, path);
+  const [vatra, drochia] = developmentProjects;
   const stageOf = (i: number) => developmentNarrative.stages[i];
 
   return (
     <PageShell locale={locale}>
-      <Opening
-        eyebrow={c.eyebrow}
-        title={<>{c.title[0]} <span className="muted-ink">{c.title[1]}</span></>}
-        lead={c.lead}
-        media={{ src: vatra.media!.wide, alt: `${vatra.name} — ${vatra.status[locale]}`, position: vatra.media!.position }}
-        caption={c.heroCaption}
-      />
+      <Hero size="page" media={{ src: vatra.media!.wide, alt: `${vatra.name} — ${vatra.status[locale]}`, position: vatra.media!.position }} title={<>{c.title[0]} {c.title[1]}</>} line={c.eyebrow} caption={c.heroCaption} />
 
-      {/* VATRA — photo + stage + short text */}
-      <Movement tone="white" id="vatra">
-        <Split media={{ src: vatra.media!.mobile, alt: `${vatra.name} — ${vatra.place[locale]}` }} ratio="4 / 5" href={p(`/development/${vatra.slug}`)} caption={`${vatra.name} · ${vatra.place[locale]}`}>
-          <Index no="02">{c.projectIndex}</Index>
-          <h2 className="split__title split__title--display">{vatra.name}</h2>
-          <p className="split__kicker">{ui.stage[locale]} {stageOf(vatra.stage).no} · {stageOf(vatra.stage).title[locale]}</p>
-          <p className="split__text">{vatra.headline[locale]} {vatra.lead[locale]}</p>
-          <dl className="split__facts">
-            <div><dt>{ui.status[locale]}</dt><dd>{vatra.status[locale]}</dd></div>
-            <div><dt>{ui.location[locale]}</dt><dd>{vatra.place[locale]}</dd></div>
-          </dl>
-          <ArrowLink href={p(`/development/${vatra.slug}`)} strong>{ui.exploreProject[locale]}</ArrowLink>
-        </Split>
-      </Movement>
+      {/* VATRA — the development story */}
+      <Split media={{ src: vatra.media!.mobile, alt: `${vatra.name} — ${vatra.place[locale]}` }} href={p(`/development/${vatra.slug}`)} ratio="4 / 5" id="vatra" caption={`${vatra.name} · ${vatra.place[locale]}`}>
+        <Kicker>{c.projectIndex}</Kicker>
+        <h2 className="h2 h2--display">{vatra.name}</h2>
+        <p>{vatra.headline[locale]} {vatra.lead[locale]}</p>
+        <Facts items={[{ label: ui.status[locale], value: vatra.status[locale] }, { label: ui.location[locale], value: vatra.place[locale] }, { label: ui.stage[locale], value: `${stageOf(vatra.stage).no} · ${stageOf(vatra.stage).title[locale]}` }]} />
+        <Button href={p(`/development/${vatra.slug}`)}>{ui.exploreProject[locale]}</Button>
+      </Split>
 
-      {/* Six stages — thin timeline with project markers */}
-      <Movement tone="stone" id="stages">
+      {/* SIX STAGES — minimal indicator */}
+      <Section tone="paper" id="stages">
         <div className="shell">
-          <Statement no="03" kicker={c.stagesIndex} title={c.stagesTitle} text={c.stagesText} size="md" />
-          <Timeline
+          <Head kicker={c.stagesIndex} title={c.stagesTitle} text={c.stagesText} />
+          <Stages
             label={c.stagesIndex}
             items={developmentNarrative.stages.map((stage, index) => {
               const here = developmentProjects.filter((project) => project.stage === index);
-              return { key: stage.no, mark: stage.no, title: stage.title[locale], text: stage.text[locale], current: here.length > 0, tag: here.map((project) => project.name).join(" · ") || undefined };
+              return { key: stage.no, no: stage.no, title: stage.title[locale], current: here.length > 0, tag: here.map((project) => project.name).join(" · ") || undefined };
             })}
           />
         </div>
-      </Movement>
+      </Section>
 
-      {/* Drochia Gateway — concept, clearly separated */}
-      <Movement tone="ink" id="concept">
+      {/* DROCHIA GATEWAY — concept under evaluation, visually secondary */}
+      <Section tone="ink" id="concept">
         <div className="shell concept" data-reveal>
-          <div className="concept__head">
-            <Index no="04" inverse>{c.conceptIndex}</Index>
-            <span className="concept__tag">{c.conceptLabel}</span>
-          </div>
+          <span className="concept__tag">{c.conceptLabel}</span>
           <div className="concept__grid">
             <div>
-              <h2 className="concept__name">{drochia.name}</h2>
-              <p className="concept__place">{drochia.place[locale]} · {drochia.kind[locale]}</p>
+              <Kicker className="kicker--light">{c.conceptIndex}</Kicker>
+              <h2 className="h2">{drochia.name}</h2>
+              <p className="meta meta--light">{drochia.place[locale]} · {drochia.kind[locale]}</p>
             </div>
             <div className="concept__body">
-              <p className="concept__lead">{drochia.headline[locale]} {drochia.lead[locale]}</p>
-              <dl className="split__facts split__facts--inverse">
-                <div><dt>{ui.status[locale]}</dt><dd>{drochia.status[locale]}</dd></div>
-                <div><dt>{ui.stage[locale]}</dt><dd>{stageOf(drochia.stage).no} · {stageOf(drochia.stage).title[locale]}</dd></div>
-              </dl>
-              <Note light>{c.note}</Note>
-              <ArrowLink href={p(`/development/${drochia.slug}`)} inverse>{c.conceptCta}</ArrowLink>
+              <p>{drochia.headline[locale]} {drochia.lead[locale]}</p>
+              <Facts className="facts--light" items={[{ label: ui.status[locale], value: drochia.status[locale] }, { label: ui.stage[locale], value: `${stageOf(drochia.stage).no} · ${stageOf(drochia.stage).title[locale]}` }]} />
+              <p className="note note--light">{c.note}</p>
+              <TextLink href={p(`/development/${drochia.slug}`)} className="tlink--light">{c.conceptCta}</TextLink>
             </div>
           </div>
         </div>
-      </Movement>
+      </Section>
 
-      {/* How we develop — three principles */}
-      <Movement tone="paper" id="principles">
+      {/* HOW WE DEVELOP */}
+      <Section id="principles">
         <div className="shell">
-          <Statement no="05" kicker={c.principlesIndex} title={c.principles[0][0] + "."} size="md" />
-          <RowList large rows={c.principles.map(([title, text], i) => ({ key: title, no: `0${i + 1}`, title, text }))} />
+          <Head kicker={c.principlesIndex} title={c.principles[0][0] + "."} />
+          <Rows large rows={c.principles.map(([title, text], i) => ({ key: title, no: `0${i + 1}`, title, text }))} />
         </div>
-      </Movement>
+      </Section>
 
-      <ClosingFrame
-        title={c.closingTitle}
-        links={[
-          { href: `${p("/contact")}#opportunity`, label: c.ctaA, strong: true },
-          { href: `${p("/contact")}#partnership`, label: c.ctaB },
-        ]}
-      />
+      <Quote tone="graphite" statement={c.closingTitle} action={<><Button href={`${p("/contact")}#opportunity`} variant="light">{c.ctaA}</Button><TextLink href={`${p("/contact")}#partnership`} className="tlink--light">{c.ctaB}</TextLink></>} />
     </PageShell>
   );
 }

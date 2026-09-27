@@ -1,4 +1,5 @@
 import { SectionIndex } from "@/components/primitives";
+import { Icon } from "@/components/ui";
 import { googleDirectionsUrl, googleMapsUrl, type MapLocation } from "@/lib/assets";
 import type { Localized, SiteLocale } from "@/lib/site-data";
 
@@ -54,12 +55,12 @@ export function LocationSection({
                 <span className="location__address">{map.address}</span>
                 <a className="location__cta" href={googleMapsUrl(map)} target="_blank" rel="noopener noreferrer">
                   <span>{copy.open[locale]}</span>
-                  <span className="location__cta-icon" aria-hidden="true">↗</span>
+                  <span className="location__cta-icon"><Icon name="up-right" /></span>
                   <span className="sr-only"> ({copy.newTab[locale]})</span>
                 </a>
                 <a className="location__cta" href={googleDirectionsUrl(map)} target="_blank" rel="noopener noreferrer">
                   <span>{copy.route[locale]}</span>
-                  <span className="location__cta-icon" aria-hidden="true">↗</span>
+                  <span className="location__cta-icon"><Icon name="up-right" /></span>
                   <span className="sr-only"> ({copy.newTab[locale]})</span>
                 </a>
               </div>

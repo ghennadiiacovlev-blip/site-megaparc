@@ -1,9 +1,6 @@
-import Image from "next/image";
-import Link from "next/link";
-import { ClosingFrame, Movement, Opening, PropertyList, PropertyRow, Statement } from "@/components/editorial";
 import { PageShell } from "@/components/page-shell";
-import { ArrowLink } from "@/components/primitives";
-import { availableAssets, developmentProjects, portfolioAssets } from "@/lib/assets";
+import { Button, Head, Hero, Intro, Quote, Section, Story, TextLink } from "@/components/ui";
+import { developmentProjects, portfolioAssets } from "@/lib/assets";
 import { localePath, ui, type SiteLocale } from "@/lib/site-data";
 
 /**
@@ -72,99 +69,59 @@ export function PortfolioIndexPage({ locale }: { locale: SiteLocale }) {
   const c = copy[locale];
   const p = (path: string) => localePath(locale, path);
   const [dacia, moscova9, moscova20, creanga] = portfolioAssets;
+  const availableAssets = portfolioAssets.filter((asset) => asset.availability);
   const pad = (n: number) => String(n).padStart(2, "0");
+  const meta = (asset: typeof dacia) => [asset.district[locale], asset.city[locale], asset.positioning[locale], asset.availability ? `${ui.availability[locale]} ${asset.availability.area[locale]}` : ""];
 
   return (
     <PageShell locale={locale}>
-      <Opening eyebrow={c.eyebrow} title={<>{c.title[0]} <span className="muted-ink">{c.title[1]}</span></>} lead={c.lead}>
-        <nav className="anchors" aria-label={c.eyebrow}>
-          <a href="#operating">{c.categories[0]}<b>{pad(portfolioAssets.length)}</b></a>
-          <a href="#development">{c.categories[1]}<b>{pad(developmentProjects.length)}</b></a>
-          <Link href={p("/opportunities")}>{c.categories[2]}<b>{pad(availableAssets.length)}</b></Link>
-        </nav>
-      </Opening>
+      <Hero size="page" media={{ src: moscova9.media!.wide, alt: `${moscova9.name} — ${moscova9.positioning[locale]}`, position: moscova9.media!.position }} title={<>{c.title[0]} {c.title[1]}</>} line={c.eyebrow} />
+      <Intro kicker={c.eyebrow} statement={c.lead}>
+        <ul className="chips">
+          <li><a href="#operating">{c.categories[0]}<b>{pad(portfolioAssets.length)}</b></a></li>
+          <li><a href="#development">{c.categories[1]}<b>{pad(developmentProjects.length)}</b></a></li>
+          <li><a href={p("/opportunities")}>{c.categories[2]}<b>{pad(availableAssets.length)}</b></a></li>
+        </ul>
+      </Intro>
 
-      {/* Operating — three stories + one typographic row */}
-      <Movement tone="white" id="operating">
+      {/* OPERATING — four editorial stories */}
+      <Section id="operating">
         <div className="shell">
-          <Statement no="02" kicker={c.operatingIndex} title={c.operatingTitle} text={c.operatingText} />
-          <div className="stories stories--index">
-            {[
-              { asset: moscova9, src: moscova9.media!.src, cls: "stories__item--main", sizes: "(max-width: 900px) 100vw, 62vw", priority: true },
-              { asset: moscova20, src: moscova20.media!.mobile, cls: "stories__item--tall", sizes: "(max-width: 900px) 100vw, 34vw", priority: false },
-              { asset: dacia, src: dacia.media!.wide, cls: "stories__item--strip", sizes: "100vw", priority: false },
-            ].map(({ asset, src, cls, sizes, priority }) => (
-              <Link key={asset.slug} href={p(`/portfolio/${asset.slug}`)} className={`stories__item ${cls}`} data-reveal>
-                <span className="stories__visual">
-                  <Image src={src} alt={`${asset.name} — ${asset.positioning[locale]}`} fill priority={priority} sizes={sizes} style={{ objectPosition: asset.media!.position }} data-depth="12" />
-                  <i className="stories__line" aria-hidden="true" />
-                </span>
-                <span className="stories__caption">
-                  <span className="stories__name">{asset.name}</span>
-                  <span className="stories__meta">
-                    {asset.district[locale]} · {asset.city[locale]} · {asset.positioning[locale]}
-                    {asset.availability ? ` · ${ui.availability[locale]} ${asset.availability.area[locale]}` : ""}
-                  </span>
-                  <span className="stories__text">{asset.headline[locale]}</span>
-                  <i className="stories__arrow" aria-hidden="true">↗</i>
-                </span>
-              </Link>
-            ))}
+          <Head kicker={c.operatingIndex} title={c.operatingTitle} text={c.operatingText} />
+          <div className="stories">
+            <Story layout="wide" href={p(`/portfolio/${moscova9.slug}`)} media={{ src: moscova9.media!.wide, alt: `${moscova9.name} — ${moscova9.positioning[locale]}`, position: moscova9.media!.position, priority: true }} name={moscova9.name} meta={meta(moscova9)} line={moscova9.headline[locale]} cta={ui.exploreAsset[locale]} />
+            <Story layout="right" href={p(`/portfolio/${moscova20.slug}`)} media={{ src: moscova20.media!.mobile, alt: `${moscova20.name} — ${moscova20.positioning[locale]}`, position: moscova20.media!.position }} name={moscova20.name} meta={meta(moscova20)} line={moscova20.headline[locale]} cta={ui.exploreAsset[locale]} />
+            <Story layout="left" href={p(`/portfolio/${dacia.slug}`)} media={{ src: dacia.media!.card, alt: `${dacia.name} — ${dacia.positioning[locale]}`, position: dacia.media!.position }} name={dacia.name} meta={meta(dacia)} line={dacia.headline[locale]} cta={ui.exploreAsset[locale]} />
+            <Story layout="row" href={p(`/portfolio/${creanga.slug}`)} placeholder={ui.photoPending[locale]} name={creanga.name} meta={[creanga.city[locale], creanga.status[locale], ui.onRequest[locale]]} line={creanga.headline[locale]} cta={ui.exploreAsset[locale]} />
           </div>
-          <PropertyList>
-            <PropertyRow
-              href={p(`/portfolio/${creanga.slug}`)}
-              index="04"
-              placeholder={ui.photoPending[locale]}
-              name={creanga.name}
-              place={creanga.city[locale]}
-              kind={creanga.status[locale]}
-              line={creanga.headline[locale]}
-              meta={ui.onRequest[locale]}
-              cta={ui.exploreAsset[locale]}
-            />
-          </PropertyList>
         </div>
-      </Movement>
+      </Section>
 
-      {/* Development — rows on black */}
-      <Movement tone="ink" id="development">
+      {/* DEVELOPMENT — VATRA large, concept secondary */}
+      <Section tone="ink" id="development">
         <div className="shell">
-          <Statement no="03" kicker={c.developmentIndex} title={c.developmentTitle} text={c.developmentText} inverse>
-            <ArrowLink href={p("/development")} inverse>{c.developmentCta}</ArrowLink>
-          </Statement>
-          <PropertyList inverse>
-            {developmentProjects.map((project, index) => (
-              <PropertyRow
+          <Head kicker={c.developmentIndex} title={c.developmentTitle} text={c.developmentText}>
+            <TextLink href={p("/development")} className="tlink--light">{c.developmentCta}</TextLink>
+          </Head>
+          <div className="stories">
+            {developmentProjects.map((project) => (
+              <Story
                 key={project.slug}
-                inverse
+                layout={project.media ? "wide" : "row"}
                 href={p(`/development/${project.slug}`)}
-                index={pad(index + 1)}
-                image={project.media ? { src: project.media.card, alt: "", position: "50% 60%" } : undefined}
+                media={project.media ? { src: project.media.wide, alt: `${project.name} — ${project.status[locale]}`, position: project.media.position } : undefined}
                 placeholder={c.concept}
                 name={project.name}
-                place={project.place[locale]}
-                kind={project.media ? project.kind[locale] : c.concept}
+                meta={[project.place[locale], project.media ? project.kind[locale] : c.concept, project.status[locale]]}
                 line={project.headline[locale]}
-                meta={project.status[locale]}
                 cta={ui.exploreProject[locale]}
               />
             ))}
-          </PropertyList>
+          </div>
         </div>
-      </Movement>
+      </Section>
 
-      <ClosingFrame
-        id="opportunities"
-        tone="stone"
-        kicker={c.opportunitiesIndex}
-        title={c.opportunitiesTitle}
-        text={c.opportunitiesText(pad(availableAssets.length))}
-        links={[
-          { href: p("/opportunities"), label: c.opportunitiesCta, strong: true },
-          { href: `${p("/contact")}#occupier`, label: ui.requestDetails[locale] },
-        ]}
-      />
+      <Quote tone="paper" id="opportunities" kicker={c.opportunitiesIndex} statement={c.opportunitiesTitle} text={c.opportunitiesText(pad(availableAssets.length))} action={<><Button href={p("/opportunities")}>{c.opportunitiesCta}</Button><TextLink href={`${p("/contact")}#occupier`}>{ui.requestDetails[locale]}</TextLink></>} />
     </PageShell>
   );
 }

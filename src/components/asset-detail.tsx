@@ -3,6 +3,7 @@ import Link from "next/link";
 import { LocationSection } from "@/components/location-section";
 import { PageShell } from "@/components/page-shell";
 import { ArrowLink, ArtImage, FactGrid, FactList, MediaPlaceholder, Note, SectionIndex } from "@/components/primitives";
+import { Icon } from "@/components/ui";
 import { getNextAsset, type PortfolioAsset } from "@/lib/assets";
 import { localePath, ui, type Localized, type SiteLocale } from "@/lib/site-data";
 
@@ -51,7 +52,7 @@ export function AssetDetailPage({ locale, asset }: { locale: SiteLocale; asset: 
       <section className="asset-detail__identity paper">
         <div className="shell">
           <div className="asset-detail__top">
-            <Link href={p("/portfolio")} className="back-link">← {copy.back[locale]}</Link>
+            <Link href={p("/portfolio")} className="back-link"><Icon name="left" /> {copy.back[locale]}</Link>
             <span>{ui.portfolioLine[locale]} · {asset.status[locale]}</span>
           </div>
           <div className="asset-detail__title" data-reveal>
@@ -252,7 +253,7 @@ export function AssetDetailPage({ locale, asset }: { locale: SiteLocale; asset: 
             <span className="label">{ui.nextAsset[locale]}</span>
             <span className="next-asset__name">{next.name}</span>
             <span className="next-asset__meta">{next.positioning[locale]} · {next.city[locale]}</span>
-            <span className="next-asset__arrow" aria-hidden="true">↗</span>
+            <span className="next-asset__arrow"><Icon name="arrow" size={18} /></span>
           </Link>
         </div>
       </section>

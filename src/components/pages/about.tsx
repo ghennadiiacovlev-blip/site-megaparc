@@ -1,9 +1,9 @@
-import Link from "next/link";
-import { ClosingFrame, Movement, Opening, RowList, Statement, Timeline } from "@/components/editorial";
 import { PageShell } from "@/components/page-shell";
-import { ArrowLink } from "@/components/primitives";
+import { Button, Head, Hero, Intro, Quote, Rows, Section, TextLink, Years } from "@/components/ui";
 import { portfolioAssets } from "@/lib/assets";
 import { brandLayers } from "@/lib/brand";
+import { portfolioMetrics, scaleMetrics } from "@/lib/metrics";
+import { capitalCopy, publicFinancialMetrics } from "@/lib/public-financial-metrics";
 import { capabilities, historyAnchors, historyCopy, mission, purpose, responsibility, vision } from "@/lib/strategy";
 import { organisationAreas, peopleCopy } from "@/lib/team";
 import { brand, localePath, type SiteLocale } from "@/lib/site-data";
@@ -76,31 +76,27 @@ const copy = {
   },
 } as const;
 
+function formatNumber(value: number, locale: SiteLocale, pad = 0) {
+  const s = new Intl.NumberFormat(locale === "en" ? "en-GB" : locale === "ru" ? "ru-RU" : "ro-RO").format(value);
+  return pad ? s.padStart(pad, "0") : s;
+}
+
 export function AboutPage({ locale }: { locale: SiteLocale }) {
   const c = copy[locale];
   const p = (path: string) => localePath(locale, path);
-  const image = portfolioAssets.find((asset) => asset.slug === "moscova-20")!;
+  const image = portfolioAssets[2];
 
   return (
     <PageShell locale={locale}>
-      {/* 01 Who we are + 02 large architectural image */}
-      <Opening
-        eyebrow={c.eyebrow}
-        title={<>{c.title[0]} <span className="muted-ink">{c.title[1]}</span></>}
-        lead={c.lead}
-        media={{ src: image.media!.wide, alt: `${image.name} — ${image.positioning[locale]}`, position: image.media!.position }}
-        caption={c.imageCaption}
-      >
-        <span className="label label--red" lang="en">{brand.since}</span>
-      </Opening>
+      {/* INTRO — full-width architecture with the page title */}
+      <Hero size="page" media={{ src: image.media!.wide, alt: `${image.name} — ${image.positioning[locale]}`, position: image.media!.position }} title={<>{c.title[0]} {c.title[1]}</>} line={c.eyebrow} caption={c.imageCaption} />
+      <Intro kicker={`${brand.name} · ${brand.since}`} statement={c.lead} />
 
-      {/* 03 1995 / 2005 / 2020 / today — large horizontal timeline */}
-      <Movement tone="paper" id="history">
+      {/* 1995 · 2005 · 2020 · TODAY */}
+      <Section tone="paper" id="history">
         <div className="shell">
-          <Statement no="02" kicker={c.historyIndex} title={c.historyTitle} size="md" />
-          <Timeline
-            large
-            label={c.historyTitle}
+          <Head kicker={c.historyIndex} title={c.historyTitle} />
+          <Years
             items={historyAnchors.map((anchor) => ({
               key: anchor.year,
               mark: anchor.year === "today" ? historyCopy.today[locale] : anchor.year,
@@ -110,86 +106,77 @@ export function AboutPage({ locale }: { locale: SiteLocale }) {
               current: anchor.year === "today",
             }))}
           />
-          <ul className="tl__supporting" data-reveal>
-            {historyCopy.supporting.map((item) => (
-              <li key={item.year}>
-                <span>{item.year} · {historyCopy.group[locale]}</span>
-                <strong>{item.title[locale]}</strong>
-                <p>{item.text[locale]}</p>
-              </li>
-            ))}
-          </ul>
         </div>
-      </Movement>
+      </Section>
 
-      {/* 04 What we do today — statement + trio */}
-      <Movement tone="stone" id="today">
+      {/* IN NUMBERS — verified scale + review-only capital figures */}
+      <Section tone="ink" id="numbers" label={brand.name}>
         <div className="shell">
-          <Statement no="03" kicker={c.todayIndex} title={c.todayTitle} text={c.todayText} size="xl" />
-          <ol className="trio" data-reveal>
-            {capabilities.map((capability, index) => (
-              <li key={capability.no}>
-                <Link href={p(c.links[index][0])} className="trio__item">
-                  <span className="trio__no">{capability.no}</span>
-                  <span className="trio__title">{capability.title[locale]}</span>
-                  <span className="trio__text">{capability.text[locale]}</span>
-                  <span className="trio__cta">{c.links[index][1]}<i aria-hidden="true">↗</i></span>
-                </Link>
-              </li>
+          <Head kicker={brand.name} title={c.todayTitle} />
+          <dl className="numbers" data-reveal>
+            {scaleMetrics().map((metric) => (
+              <div key={metric.key}>
+                <dd>
+                  {formatNumber(metric.value, locale, metric.pad)}
+                  {metric.plus ? <b>+</b> : null}
+                  {metric.unit ? <small>{metric.unit[locale]}</small> : null}
+                </dd>
+                <dt>{metric.label[locale]}</dt>
+              </div>
             ))}
-          </ol>
+            <div>
+              <dd>{portfolioMetrics.heritageSince}</dd>
+              <dt>{historyCopy.group[locale]}</dt>
+            </div>
+          </dl>
+          <p className="kicker kicker--light numbers__kicker">{capitalCopy.kicker[locale]}</p>
+          <dl className="numbers numbers--small" data-reveal>
+            {publicFinancialMetrics.map((metric) => (
+              <div key={metric.key} data-temporary={metric.temporary ? "true" : undefined}>
+                <dd>{metric.display}</dd>
+                <dt>{metric.label[locale]}</dt>
+              </div>
+            ))}
+          </dl>
         </div>
-      </Movement>
+      </Section>
 
-      {/* 05 Purpose · Mission · Vision — statement + pair */}
-      <Movement tone="white" id="mission">
+      {/* WHAT WE DO */}
+      <Section id="today">
         <div className="shell">
-          <Statement no="04" kicker={c.missionIndex} title={purpose.text[locale]} size="xl" wide />
-          <div className="pair" data-reveal>
-            <article>
-              <h3>{mission.title[locale]}</h3>
-              <p>{mission.text[locale]}</p>
-            </article>
-            <article>
-              <h3>{vision.title[locale]}</h3>
-              <p>{vision.text[locale]}</p>
-            </article>
+          <Head kicker={c.todayIndex} title={c.todayText} />
+          <Rows large rows={capabilities.map((capability, index) => ({ key: capability.no, no: capability.no, title: capability.title[locale], text: capability.text[locale], href: p(c.links[index][0]), cta: c.links[index][1] }))} />
+        </div>
+      </Section>
+
+      {/* PURPOSE · MISSION · VISION */}
+      <Intro tone="paper" id="mission" kicker={c.missionIndex} statement={purpose.text[locale]}>
+        <div className="pair">
+          <div>
+            <span className="kicker">{mission.title[locale]}</span>
+            <p>{mission.text[locale]}</p>
+          </div>
+          <div>
+            <span className="kicker">{vision.title[locale]}</span>
+            <p>{vision.text[locale]}</p>
           </div>
         </div>
-      </Movement>
+      </Intro>
 
-      {/* 06 Organisation / people */}
-      <Movement tone="paper" id="organisation">
+      {/* PEOPLE / ORGANISATION */}
+      <Section id="organisation">
         <div className="shell">
-          <Statement no="05" kicker={peopleCopy.kicker[locale]} title={peopleCopy.title[locale]} text={peopleCopy.text[locale]} size="md" />
-          <RowList
-            large
-            rows={organisationAreas.map((area) => ({
-              key: area.key,
-              no: area.no,
-              title: area.title[locale],
-              text: area.lead[locale],
-              items: area.responsibilities[locale],
-            }))}
-          />
-          <div className="mv__foot mv__foot--split" data-reveal>
+          <Head kicker={peopleCopy.kicker[locale]} title={peopleCopy.title[locale]} text={peopleCopy.text[locale]} />
+          <Rows rows={organisationAreas.map((area) => ({ key: area.key, no: area.no, title: area.title[locale], text: area.lead[locale] }))} />
+          <div className="sec__foot sec__foot--split" data-reveal>
             <p className="note">{peopleCopy.placeholderNote[locale]}</p>
-            <ArrowLink href={p("/careers")}>{c.careers}</ArrowLink>
+            <TextLink href={p("/careers")}>{c.careers}</TextLink>
           </div>
         </div>
-      </Movement>
+      </Section>
 
-      {/* 07 Closing statement */}
-      <ClosingFrame
-        id="responsibility"
-        kicker={responsibility.title[locale]}
-        title={responsibility.text[locale]}
-        links={[
-          { href: p("/approach"), label: c.responsibilityCta },
-          { href: `${p("/contact")}#partnership`, label: c.contactCta, strong: true },
-        ]}
-        note={brandLayers.model[locale]}
-      />
+      {/* STRONG CLOSING */}
+      <Quote tone="ink" id="responsibility" kicker={responsibility.title[locale]} statement={responsibility.text[locale]} text={brandLayers.model[locale]} action={<><Button href={`${p("/contact")}#partnership`} variant="light">{c.contactCta}</Button><TextLink href={p("/approach")} className="tlink--light">{c.responsibilityCta}</TextLink></>} />
     </PageShell>
   );
 }

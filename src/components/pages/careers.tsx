@@ -1,13 +1,12 @@
 import { existsSync } from "node:fs";
 import { join } from "node:path";
 import { CareersFilm } from "@/components/careers-film";
-import { Bleed, ClosingFrame, Index, Movement, PropertyList, PropertyRow, RowList, Statement, Timeline } from "@/components/editorial";
 import { PageShell } from "@/components/page-shell";
-import { ArrowLink, Note } from "@/components/primitives";
+import { Band, Button, Head, Hero, Intro, Quote, Rows, Section, TextLink } from "@/components/ui";
 import { portfolioAssets } from "@/lib/assets";
 import { employerBrand, openVacancies } from "@/lib/careers";
 import { organisationAreas } from "@/lib/team";
-import { brand, localePath, publicAsset, type SiteLocale } from "@/lib/site-data";
+import { localePath, publicAsset, type SiteLocale } from "@/lib/site-data";
 
 /**
  * CAREERS — PEOPLE · REAL PROJECTS · ARCHITECTURE · RESPONSIBILITY · GROWTH.
@@ -65,99 +64,68 @@ export function CareersPage({ locale }: { locale: SiteLocale }) {
 
   return (
     <PageShell locale={locale}>
-      {/* 01 Video-first hero */}
-      <section className="chero" id="careers-hero">
+      {/* CINEMATIC HERO — brand film when supplied, poster until then */}
+      <Hero
+        id="careers-hero"
+        media={{ src: publicAsset(POSTER), alt: c.heroAlt }}
+        title={<>{c.heroLine[0]}<br />{c.heroLine[1]}</>}
+        line={e.kicker[locale]}
+        action={<Button href="#positions" variant="light">{e.positions.kicker[locale]}</Button>}
+        caption={film ? c.heroNote : undefined}
+      >
         <CareersFilm src={film} poster={publicAsset(POSTER)} alt={c.heroAlt} />
-        <div className="shell chero__copy" data-reveal>
-          <p className="chero__brand"><span>{brand.name}</span><i aria-hidden="true" /><span>{e.kicker[locale]}</span></p>
-          <h1 className="chero__title">
-            <span>{c.heroLine[0]}</span>
-            <span>{c.heroLine[1]}</span>
-          </h1>
-          <div className="chero__actions">
-            <ArrowLink href="#positions" inverse strong>{e.positions.kicker[locale]}</ArrowLink>
-          </div>
-        </div>
-        <span className="chero__note" aria-hidden="true">{c.heroNote}</span>
-      </section>
+      </Hero>
 
-      {/* 02 Why — statement + trio */}
-      <Movement tone="white" id="why">
+      {/* PEOPLE STATEMENT */}
+      <Intro id="why" kicker={c.reasonsIndex} statement={e.why.title[locale]} text={e.lead[locale]} />
+
+      {/* REAL ARCHITECTURE */}
+      <Band media={{ src: dacia.media!.wide, alt: `${dacia.name} — ${dacia.positioning[locale]}`, position: dacia.media!.position }} caption={c.breakCaption} height="short" />
+
+      {/* WHY MEGAPARC — three reasons */}
+      <Section tone="paper">
         <div className="shell">
-          <Statement no="02" kicker={c.reasonsIndex} title={e.why.title[locale]} text={e.lead[locale]} size="xl" />
-          <ol className="trio trio--static" data-reveal>
-            {e.why.points.map((point, index) => (
-              <li key={point.title.en}>
-                <span className="trio__item">
-                  <span className="trio__no">0{index + 1}</span>
-                  <span className="trio__title">{point.title[locale]}</span>
-                  <span className="trio__text">{point.text[locale]}</span>
-                </span>
-              </li>
-            ))}
-          </ol>
+          <Rows large rows={e.why.points.map((point, index) => ({ key: point.title.en, no: `0${index + 1}`, title: point.title[locale], text: point.text[locale] }))} />
         </div>
-      </Movement>
+      </Section>
 
-      {/* 03 How we work — horizontal sequence */}
-      <Movement tone="stone" id="how">
+      {/* HOW WE WORK — dark movement */}
+      <Section tone="graphite" id="how">
         <div className="shell">
-          <Index no="03">{c.howIndex}</Index>
-          <Timeline label={c.howIndex} items={e.how.themes.map((theme, i) => ({ key: theme.title.en, mark: `0${i + 1}`, title: theme.title[locale], text: theme.text[locale] }))} />
+          <Head kicker={c.howIndex} title={e.how.themes[4].title[locale] + "."} />
+          <Rows rows={e.how.themes.map((theme, i) => ({ key: theme.title.en, no: `0${i + 1}`, title: theme.title[locale], text: theme.text[locale] }))} />
         </div>
-      </Movement>
+      </Section>
 
-      {/* 04 Architecture — real projects */}
-      <Bleed media={{ src: dacia.media!.wide, alt: `${dacia.name} — ${dacia.positioning[locale]}`, position: dacia.media!.position }} caption={c.breakCaption} meta={brand.positioning} height="short" />
-
-      {/* 05 Areas */}
-      <Movement tone="paper" id="areas">
+      {/* AREAS */}
+      <Section id="areas">
         <div className="shell">
-          <Statement no="04" kicker={c.areasIndex} title={e.areas.title[locale]} size="md" />
-          <RowList large rows={organisationAreas.map((area) => ({ key: area.key, no: area.no, title: area.title[locale], text: area.lead[locale], items: area.responsibilities[locale] }))} />
+          <Head kicker={c.areasIndex} title={e.areas.title[locale]} />
+          <Rows rows={organisationAreas.map((area) => ({ key: area.key, no: area.no, title: area.title[locale], text: area.lead[locale], items: area.responsibilities[locale] }))} />
         </div>
-      </Movement>
+      </Section>
 
-      {/* 06 Open vacancies — verified Rabota.md roles */}
-      <Movement tone="ink" id="positions">
+      {/* OPEN VACANCIES — verified Rabota.md roles */}
+      <Section tone="paper" id="positions">
         <div className="shell">
-          <Statement no="05" kicker={e.positions.kicker[locale]} title={<>{String(openVacancies.length).padStart(2, "0")} <span className="muted-light">{e.positions.kicker[locale].toLowerCase()}</span></>} text={e.positions.sourceNote[locale]} size="md" inverse />
+          <Head kicker={e.positions.kicker[locale]} title={<>{String(openVacancies.length).padStart(2, "0")} <span className="muted">{e.positions.kicker[locale].toLowerCase()}</span></>} text={e.positions.sourceNote[locale]} />
           {openVacancies.length ? (
             <>
-              <PropertyList inverse>
-                {openVacancies.map((vacancy, index) => (
-                  <PropertyRow
-                    key={vacancy.slug}
-                    inverse
-                    compact
-                    external
-                    href={vacancy.externalUrl}
-                    index={String(index + 1).padStart(2, "0")}
-                    name={vacancy.title[locale]}
-                    place={vacancy.location[locale]}
-                    line={vacancy.summary[locale]}
-                    cta={c.rolesCta}
-                  />
-                ))}
-              </PropertyList>
-              <div className="mv__foot" data-reveal>
-                <a className="arrow-link arrow-link--inverse" href={e.positions.allRolesUrl} target="_blank" rel="noopener noreferrer">
-                  <span>{e.positions.allRoles[locale]}</span>
-                  <span className="arrow-link__icon" aria-hidden="true">↗</span>
-                </a>
+              <Rows large rows={openVacancies.map((vacancy, index) => ({ key: vacancy.slug, no: String(index + 1).padStart(2, "0"), title: vacancy.title[locale], meta: vacancy.location[locale], text: vacancy.summary[locale], href: vacancy.externalUrl, cta: c.rolesCta, external: true }))} />
+              <div className="sec__foot" data-reveal>
+                <TextLink href={e.positions.allRolesUrl} external>{e.positions.allRoles[locale]}</TextLink>
               </div>
             </>
           ) : (
             <div data-reveal>
-              <h2 className="stmt__title">{e.positions.emptyTitle[locale]}</h2>
-              <Note light>{e.positions.emptyText[locale]}</Note>
+              <h3 className="h2">{e.positions.emptyTitle[locale]}</h3>
+              <p className="note">{e.positions.emptyText[locale]}</p>
             </div>
           )}
         </div>
-      </Movement>
+      </Section>
 
-      {/* 07 Apply */}
-      <ClosingFrame id="apply" tone="paper" kicker={e.apply.kicker[locale]} title={e.apply.title[locale]} text={e.apply.text[locale]} links={[{ href: `${p("/contact")}#careers`, label: e.apply.cta[locale], strong: true }]} />
+      <Quote tone="ink" id="apply" kicker={e.apply.kicker[locale]} statement={e.apply.title[locale]} text={e.apply.text[locale]} action={<Button href={`${p("/contact")}#careers`} variant="light">{e.apply.cta[locale]}</Button>} />
     </PageShell>
   );
 }

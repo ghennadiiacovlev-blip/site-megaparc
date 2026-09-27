@@ -4,47 +4,27 @@ import { MobileMenu } from "@/components/mobile-menu";
 import { SiteNav } from "@/components/site-nav";
 import { brand, localePath, ui, type SiteLocale } from "@/lib/site-data";
 
-export function Brand({
-  locale,
-  href,
-  light = false,
-}: {
-  locale: SiteLocale;
-  href?: string;
-  light?: boolean;
-}) {
+export function Brand({ locale, href, light = false }: { locale: SiteLocale; href?: string; light?: boolean }) {
   return (
-    <Link
-      className={`brand${light ? " brand--light" : ""}`}
-      href={href ?? localePath(locale, "/")}
-      aria-label={`${brand.name} — ${ui.home[locale]}`}
-    >
+    <Link className={`brand${light ? " brand--light" : ""}`} href={href ?? localePath(locale, "/")} aria-label={`${brand.name} — ${ui.home[locale]}`}>
       <span className="brand__name">{brand.wordmark}</span>
       <span className="brand__rule" aria-hidden="true" />
-      <span className="brand__tag">{brand.tagline[locale]}</span>
     </Link>
   );
 }
 
 /**
- * One header for the whole site.
- * `overlay` sits over the homepage hero and darkens on scroll;
- * `solid` is the sticky paper header used on interior routes.
- * RO · RU · EN are always visible and always active.
+ * Compact sticky header: wordmark left, menu right.
+ * Phone: 72px, logo + menu button only (languages live inside the menu).
+ * Desktop: 88px, uppercase navigation right, RO · RU · EN at the far edge.
  */
-export function SiteHeader({
-  locale,
-  variant = "solid",
-}: {
-  locale: SiteLocale;
-  variant?: "overlay" | "solid";
-}) {
+export function SiteHeader({ locale }: { locale: SiteLocale; variant?: "overlay" | "solid" }) {
   return (
-    <header className={`site-header site-header--${variant}`}>
-      <div className="shell site-header__inner">
-        <Brand locale={locale} light={variant === "overlay"} />
-        <SiteNav locale={locale} />
-        <div className="site-header__tools">
+    <header className="hdr">
+      <div className="shell hdr__inner">
+        <Brand locale={locale} />
+        <div className="hdr__right">
+          <SiteNav locale={locale} />
           <LanguageSwitcher locale={locale} />
           <MobileMenu locale={locale} />
         </div>

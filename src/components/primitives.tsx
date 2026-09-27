@@ -1,10 +1,11 @@
 import Image, { getImageProps } from "next/image";
+import { Icon } from "@/components/ui";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import type { AssetMedia, Fact } from "@/lib/assets";
 import type { SiteLocale } from "@/lib/site-data";
 
-/** Text-led call to action: `Label ↗`. `strong` renders the boxed variant. */
+/** Text-led call to action with an SVG arrow. `strong` renders the pill variant. */
 export function ArrowLink({
   href,
   children,
@@ -22,7 +23,7 @@ export function ArrowLink({
   return (
     <Link className={classes} href={href}>
       <span>{children}</span>
-      <span className="arrow-link__icon" aria-hidden="true">↗</span>
+      <Icon name="arrow" className="arrow-link__icon" />
     </Link>
   );
 }

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { LocationSection } from "@/components/location-section";
 import { PageShell } from "@/components/page-shell";
 import { ArrowLink, ArtImage, FactGrid, MediaPlaceholder, Note, SectionIndex } from "@/components/primitives";
+import { Icon } from "@/components/ui";
 import { getNextProject, type DevelopmentProject } from "@/lib/assets";
 import { developmentNarrative } from "@/lib/strategy";
 import { brand, localePath, ui, type Localized, type SiteLocale } from "@/lib/site-data";
@@ -36,7 +37,7 @@ export function ProjectDetailPage({ locale, project }: { locale: SiteLocale; pro
           )}
         </div>
         <div className="shell project-hero__top">
-          <Link href={p("/development")} className="back-link back-link--light">← {copy.back[locale]}</Link>
+          <Link href={p("/development")} className="back-link back-link--light"><Icon name="left" /> {copy.back[locale]}</Link>
           <span>{project.kind[locale]} / {project.place[locale]}</span>
         </div>
         <div className="shell project-hero__copy" data-reveal>
@@ -155,7 +156,7 @@ export function ProjectDetailPage({ locale, project }: { locale: SiteLocale; pro
             <span className="label">{ui.nextProject[locale]}</span>
             <span className="next-asset__name">{next.name}</span>
             <span className="next-asset__meta">{next.status[locale]} · {next.place[locale]}</span>
-            <span className="next-asset__arrow" aria-hidden="true">↗</span>
+            <span className="next-asset__arrow"><Icon name="arrow" size={18} /></span>
           </Link>
         </div>
       </section>

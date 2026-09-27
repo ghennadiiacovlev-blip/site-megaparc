@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Icon } from "@/components/ui";
 import Link from "next/link";
 import { RootDocument } from "@/components/root-document";
 import { brand, localePath, locales, ui } from "@/lib/site-data";
@@ -31,7 +32,7 @@ export default function GlobalNotFound() {
             {locales.map((locale) => (
               <Link key={locale} className="arrow-link arrow-link--inverse" href={localePath(locale, "/")} lang={locale} hrefLang={locale}>
                 <span>{ui.back404[locale]}</span>
-                <span className="arrow-link__icon" aria-hidden="true">↗</span>
+                <Icon name="arrow" className="arrow-link__icon" />
               </Link>
             ))}
           </div>
