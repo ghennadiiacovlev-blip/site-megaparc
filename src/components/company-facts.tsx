@@ -7,60 +7,88 @@ import { historyAnchors, historyCopy } from "@/lib/strategy";
 import { brand, localePath, type SiteLocale } from "@/lib/site-data";
 
 /**
- * COMPANY FACTS — dark fact board on Home (2026-09-27).
+ * COMPANY FACTS — editorial fact board on Home (final visual pass 2026-09-27).
  *
- * Seven cards in black / graphite / burgundy / MEGAPARC red:
- *   1995 · 2005 · 2020 (the fixed public chronology from `historyAnchors`),
- *   the verified scale counts from `scaleMetrics()` (operating properties,
- *   development projects, development land) and one red field carrying the
- *   business-model signature. A closing strip names the categories we work
- *   with and links to About.
+ * Asymmetric twelve-column board, annual-report tone:
+ *   row 1  1995 group heritage (burgundy, six columns, the dominant fact) ·
+ *          2005 MEGAPARC established (black) · 2020 real-estate focus (graphite)
+ *   row 2  04 operating properties (black) · 02 development projects (graphite) ·
+ *          20 000+ m² development land (deep graphite, six columns)
+ *   row 3  the one red field of the page: Invest · Develop · Manage · Create value
+ * plus a "we work with" sequence and a link to About.
  *
- * Factual rules: every year, count and area comes from the shared data
- * modules; nothing is typed into JSX. "30+ years" / "20+ years" are derived
- * from the approved 1995 (group heritage) and 2005 (MEGAPARC established)
- * anchors, rounded down to a multiple of five so the line stays true for
- * years. The review-only financial figures are intentionally NOT shown here.
+ * Factual rules: every year, count and area comes from the shared data modules;
+ * nothing numeric is typed into JSX. "30+ years" / "20+ years" are derived from
+ * the approved 1995 (group heritage) and 2005 (MEGAPARC established) anchors,
+ * rounded down to a multiple of five. Descriptors are shortened from the
+ * approved chronology texts. The review-only financial figures are NOT shown.
  */
 
 const copy = {
   ro: {
     id: "fapte",
     kicker: "MEGAPARC în fapte",
-    title: "O companie construită pe experiența grupului din 1995.",
-    text: "Investiții, dezvoltare și administrare imobiliară: obiecte în funcțiune în Chișinău, proiecte în lucru și o abordare de proprietar pe termen lung.",
+    title: (group: number, mp: number, focus: string) => [
+      `${group}+ ani de experiență antreprenorială.`,
+      `${mp}+ ani MEGAPARC.`,
+      `Imobiliarele — focus strategic din ${focus}.`,
+    ],
     years: (n: number) => `${n}+ ani`,
+    heritageText: "Retail, investiții, producție, servicii financiare.",
+    establishedText: "Achiziția și modernizarea obiectelor comerciale.",
+    focusText: "Administrarea obiectelor, dezvoltare, mediu urban.",
     portfolio: "Portofoliu",
     development: "Dezvoltare",
+    operatingTitle: "obiecte în funcțiune",
+    projectsTitle: "proiecte de dezvoltare",
+    landTitle: "teren pentru dezvoltare",
     model: "Modelul nostru",
     with: "Lucrăm cu",
-    partners: ["chiriași", "proprietari de obiecte", "bănci", "investitori", "dezvoltatori", "parteneri profesioniști"],
+    partners: ["chiriași", "proprietari", "bănci", "investitori", "dezvoltatori", "parteneri"],
     cta: "Despre MEGAPARC",
   },
   ru: {
     id: "fakty",
     kicker: "MEGAPARC в фактах",
-    title: "Компания, выросшая из опыта группы с 1995 года.",
-    text: "Инвестиции, девелопмент и управление недвижимостью: действующие объекты в Кишинёве, проекты в работе и долгосрочный подход собственника.",
+    title: (group: number, mp: number, focus: string) => [
+      `${group}+ лет предпринимательского опыта.`,
+      `${mp}+ лет MEGAPARC.`,
+      `Недвижимость — стратегический фокус с ${focus} года.`,
+    ],
     years: (n: number) => `${n}+ лет`,
+    heritageText: "Розница, инвестиции, производство, финансовые услуги.",
+    establishedText: "Покупка и модернизация коммерческих объектов.",
+    focusText: "Управление объектами, девелопмент, городская среда.",
     portfolio: "Портфель",
     development: "Девелопмент",
+    operatingTitle: "действующих объекта",
+    projectsTitle: "проекта развития",
+    landTitle: "земля под развитие",
     model: "Наша модель",
     with: "Работаем с",
-    partners: ["арендаторами", "собственниками объектов", "банками", "инвесторами", "девелоперами", "профессиональными партнёрами"],
+    partners: ["арендаторами", "собственниками", "банками", "инвесторами", "девелоперами", "партнёрами"],
     cta: "О компании",
   },
   en: {
     id: "facts",
     kicker: "MEGAPARC in facts",
-    title: "A company built on the group's experience since 1995.",
-    text: "Real estate investment, development and asset management: operating properties in Chișinău, projects under way and a long-term owner's approach.",
+    title: (group: number, mp: number, focus: string) => [
+      `${group}+ years of entrepreneurial experience.`,
+      `${mp}+ years of MEGAPARC.`,
+      `Real estate as the strategic focus since ${focus}.`,
+    ],
     years: (n: number) => `${n}+ years`,
+    heritageText: "Retail, investment, manufacturing, financial services.",
+    establishedText: "Acquiring and modernising commercial properties.",
+    focusText: "Property management, development, urban renewal.",
     portfolio: "Portfolio",
     development: "Development",
+    operatingTitle: "operating properties",
+    projectsTitle: "development projects",
+    landTitle: "development land",
     model: "Our model",
     with: "We work with",
-    partners: ["tenants", "property owners", "banks", "investors", "developers", "professional partners"],
+    partners: ["tenants", "owners", "banks", "investors", "developers", "partners"],
     cta: "About MEGAPARC",
   },
 } as const;
@@ -81,77 +109,103 @@ export function CompanyFacts({ locale }: { locale: SiteLocale }) {
   const city = portfolioAssets[0]?.city[locale];
   const projectNames = developmentProjects.map((project) => project.name).join(" · ");
   const landProject = developmentProjects.find((project) => project.slug === "drochia-gateway")?.name;
+  const groupYears = yearsSince(heritage.year);
+  const megaparcYears = yearsSince(established.year);
+  const titleLines = c.title(groupYears, megaparcYears, focus.year);
 
   return (
     <Section tone="ink" id={c.id} className="keyfacts" label={c.kicker}>
       <div className="shell">
-        <Head kicker={c.kicker} title={c.title} text={c.text} />
+        <Head
+          kicker={c.kicker}
+          title={
+            <>
+              {titleLines[0]}
+              <br />
+              {titleLines[1]}
+              <br />
+              {titleLines[2]}
+            </>
+          }
+        />
 
         <ul className="kf">
-          {/* 1995 — group heritage */}
-          <li className="kf__card kf__card--burgundy kf__card--lead" data-reveal>
-            <span className="kf__scope">{historyCopy.group[locale]} · {c.years(yearsSince(heritage.year))}</span>
-            <span className="kf__value">{heritage.year}</span>
-            <span className="kf__title">{heritage.title[locale]}</span>
-            <p className="kf__text">{heritage.text[locale]}</p>
+          {/* ROW 1 — 1995 group heritage: the dominant fact */}
+          <li className="kf__card kf__card--burgundy kf__card--heritage kf__card--wide" data-reveal>
+            <span className="kf__scope">{historyCopy.group[locale]} · {c.years(groupYears)}</span>
+            <span className="kf__value kf__value--xl">{heritage.year}</span>
+            <div className="kf__body">
+              <span className="kf__title">{heritage.title[locale]}</span>
+              <p className="kf__text">{c.heritageText}</p>
+            </div>
           </li>
 
           {/* 2005 — MEGAPARC established */}
-          <li className="kf__card kf__card--ink" data-reveal>
-            <span className="kf__scope">{brand.name} · {c.years(yearsSince(established.year))}</span>
-            <span className="kf__value kf__value--red">{established.year}</span>
-            <span className="kf__title">{established.title[locale]}</span>
-            <p className="kf__text">{established.text[locale]}</p>
+          <li className="kf__card kf__card--black kf__card--est" data-reveal>
+            <span className="kf__scope">{brand.name}<span className="kf__scope-extra"> · {c.years(megaparcYears)}</span></span>
+            <span className="kf__value kf__value--lg kf__value--red">{established.year}</span>
+            <div className="kf__body">
+              <span className="kf__title">{established.title[locale]}</span>
+              <p className="kf__text">{c.establishedText}</p>
+            </div>
           </li>
 
-          {/* 2020 — strategic real-estate focus */}
-          <li className="kf__card kf__card--graphite" data-reveal>
+          {/* 2020 — strategic real-estate focus: a transition, not a hero */}
+          <li className="kf__card kf__card--graphite kf__card--focus" data-reveal>
             <span className="kf__scope">{brand.name}</span>
-            <span className="kf__value">{focus.year}</span>
-            <span className="kf__title">{focus.title[locale]}</span>
-            <p className="kf__text">{focus.text[locale]}</p>
+            <span className="kf__value kf__value--lg">{focus.year}</span>
+            <div className="kf__body">
+              <span className="kf__title">{focus.title[locale]}</span>
+              <p className="kf__text">{c.focusText}</p>
+            </div>
           </li>
 
-          {/* Verified scale — counts come from the asset registers */}
+          {/* ROW 2 — verified scale from the asset registers */}
           {operating ? (
-            <li className="kf__card kf__card--graphite" data-reveal>
+            <li className="kf__card kf__card--black kf__card--count" data-reveal>
               <span className="kf__scope">{c.portfolio}</span>
-              <span className="kf__value"><CountUp value={operating.value} locale={locale} pad={operating.pad} /></span>
-              <span className="kf__title">{operating.label[locale]}</span>
-              <p className="kf__text">{city}</p>
+              <span className="kf__value kf__value--lg"><CountUp value={operating.value} locale={locale} pad={operating.pad} /></span>
+              <div className="kf__body">
+                <span className="kf__title kf__title--caps">{c.operatingTitle}</span>
+                <p className="kf__text">{city}</p>
+              </div>
             </li>
           ) : null}
 
           {projects ? (
-            <li className="kf__card kf__card--ink" data-reveal>
+            <li className="kf__card kf__card--graphite kf__card--count" data-reveal>
               <span className="kf__scope">{c.development}</span>
-              <span className="kf__value"><CountUp value={projects.value} locale={locale} pad={projects.pad} /></span>
-              <span className="kf__title">{projects.label[locale]}</span>
-              <p className="kf__text">{projectNames}</p>
+              <span className="kf__value kf__value--lg"><CountUp value={projects.value} locale={locale} pad={projects.pad} /></span>
+              <div className="kf__body">
+                <span className="kf__title kf__title--caps">{c.projectsTitle}</span>
+                <p className="kf__text">{projectNames}</p>
+              </div>
             </li>
           ) : null}
 
           {land ? (
-            <li className="kf__card kf__card--graphite kf__card--wide" data-reveal>
+            <li className="kf__card kf__card--deep kf__card--land kf__card--wide" data-reveal>
               <span className="kf__scope">{c.development}</span>
-              <span className="kf__value">
+              <span className="kf__value kf__value--land">
                 <CountUp value={land.value} locale={locale} />
                 {land.plus ? <b>+</b> : null}
                 {land.unit ? <small>{land.unit[locale]}</small> : null}
               </span>
-              <span className="kf__title">{land.label[locale]}</span>
-              <p className="kf__text">{[land.secondary?.[locale], landProject].filter(Boolean).join(" · ")}</p>
+              <div className="kf__body">
+                <span className="kf__title kf__title--caps">{c.landTitle}</span>
+                <p className="kf__text">{[land.secondary?.[locale], landProject].filter(Boolean).join(" · ")}</p>
+              </div>
             </li>
           ) : null}
 
-          {/* The one red field on the page — business-model signature */}
-          <li className="kf__card kf__card--red kf__card--wide" data-reveal>
+          {/* ROW 3 — the one red field on the page: business-model signature */}
+          <li className="kf__card kf__card--red kf__card--model" data-reveal>
             <span className="kf__scope">{c.model}</span>
-            <span className="kf__words" aria-label={signatureWords[locale].join(" ")}>
+            <p className="kf__words" aria-label={signatureWords[locale].join(" ")}>
               {signatureWords[locale].map((word) => (
                 <span key={word}>{word}</span>
               ))}
-            </span>
+            </p>
           </li>
         </ul>
 
