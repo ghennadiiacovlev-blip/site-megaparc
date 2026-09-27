@@ -1274,16 +1274,16 @@ section:hover .section-index::after, .is-revealed .section-index::after { transf
 }
 @media (min-width: 900px) {
   .kf { grid-template-columns: repeat(12, minmax(0, 1fr)); gap: .75rem; }
-  .kf__card { grid-column: span 3; min-height: 14.5rem; padding: 1.9rem 1.8rem 2rem; gap: .5rem; }
+  /* Count cards are narrowest between 900 and 1279px: the figure scales with the viewport so "20 000+ m²" never exceeds its card. */
+  .kf__card { grid-column: span 3; min-height: 14.5rem; padding: clamp(1.4rem, 1.8vw, 1.9rem) clamp(1.3rem, 1.75vw, 1.8rem) clamp(1.5rem, 1.9vw, 2rem); gap: .5rem; }
   .kf__card:nth-child(-n + 3) { grid-column: span 4; min-height: 17.5rem; }
-  .kf__value { font-size: 3.4rem; }
+  .kf__value { font-size: clamp(2.2rem, 3.8vw, 3.6rem); }
   .kf__card:nth-child(-n + 3) .kf__value, .kf__card--lead .kf__value { font-size: 4.8rem; }
   .kf__title { font-size: 1.15rem; }
   .kf__words { font-size: 1.5rem; }
   .kf__foot { margin-top: 2.2rem; padding-top: 1.5rem; gap: .8rem 1.6rem; }
 }
 @media (min-width: 1280px) {
-  .kf__value { font-size: 3.6rem; }
   .kf__card:nth-child(-n + 3) .kf__value, .kf__card--lead .kf__value { font-size: 5.4rem; }
   .kf__card:nth-child(-n + 3) { min-height: 19rem; }
 }
