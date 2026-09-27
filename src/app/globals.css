@@ -1207,7 +1207,9 @@ section:hover .section-index::after, .is-revealed .section-index::after { transf
 @media (min-width: 900px) { .band--brand { height: 46vw; min-height: 32rem; } .band--brand .band__statement { bottom: 4rem; gap: 1.1rem; } }
 
 /* Split extras — development links */
-.split__list { display: grid; gap: .4rem; }
+.split__list { display: grid; gap: .4rem; width: 100%; min-width: 0; }
+.split__list li { min-width: 0; max-width: 100%; }
+.split__list .tlink { width: auto; }
 .split__copy .split__list .tlink { margin-top: 0; }
 .sec__note { display: flex; flex-wrap: wrap; align-items: center; gap: .8rem 1.6rem; margin-top: 2.2rem; padding-top: 1.4rem; border-top: 1px solid var(--line); }
 
