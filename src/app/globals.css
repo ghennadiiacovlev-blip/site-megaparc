@@ -1308,12 +1308,17 @@ html.hx-solid .site--overlay .hdr, body.menu-open .site--overlay .hdr { backgrou
 
 /* Chapter grid: aside (year · label · title) + reading column. */
 .hx-grid { display: grid; gap: 2rem; }
-.hx-aside { display: grid; align-content: start; gap: 1.1rem; min-width: 0; }
+.hx-aside { display: grid; grid-template-columns: minmax(0, 1fr); align-content: start; gap: 1.1rem; min-width: 0; }
 .hx-main { min-width: 0; }
-@media (min-width: 768px) { .hx-grid { grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); column-gap: clamp(2rem, 4vw, 4rem); } }
+@media (min-width: 768px) {
+  .hx-grid { grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); column-gap: clamp(2rem, 4vw, 4rem); }
+  /* The narrow 768–1023 aside: chapter titles scale with it so long Russian words never outgrow the column. */
+  .hx-aside .hx-title { font-size: clamp(1.6rem, 3.2vw, 2.5rem); }
+}
 @media (min-width: 1024px) {
   .hx-grid { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); column-gap: clamp(3rem, 6vw, 7rem); }
   .hx-aside--sticky { position: sticky; top: calc(var(--header-h) + 2.5rem); align-self: start; }
+  .hx-aside .hx-title { font-size: var(--t-h2); }
 }
 
 /* Reading column. */
@@ -1348,8 +1353,8 @@ html.hx-solid .site--overlay .hdr, body.menu-open .site--overlay .hdr { backgrou
 .hx-year__dash { display: block; margin: .05em 0 .1em; color: var(--red); font-size: .5em; line-height: 1; }
 .hx-ch--ink .hx-year:not(.hx-year--red), .hx-ch--graphite .hx-year:not(.hx-year--red) { color: white; }
 @media (min-width: 768px) {
-  .hx-year { font-size: clamp(5rem, 11vw, 7rem); }
-  .hx-year--lg { font-size: clamp(4.6rem, 10vw, 6.6rem); }
+  .hx-year { font-size: clamp(4.2rem, 9vw, 6.2rem); }
+  .hx-year--lg { font-size: clamp(4rem, 8.4vw, 5.8rem); }
   .hx-year--md { font-size: clamp(3rem, 6vw, 5.2rem); }
   .hx-year--stack { font-size: clamp(3.4rem, 7vw, 5.6rem); }
 }
