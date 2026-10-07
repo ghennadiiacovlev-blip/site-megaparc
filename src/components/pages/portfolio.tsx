@@ -1,128 +1,248 @@
 import Link from "next/link";
+import type { CSSProperties } from "react";
+import { CollectionFilter } from "@/components/collection-filter";
+import { ConceptImage, DemoMark, Ledger, Opening } from "@/components/experience";
 import { PageShell } from "@/components/page-shell";
-import { Button, Head, Hero, Intro, Quote, Section, Story, TextLink } from "@/components/ui";
-import { developmentProjects, portfolioAssets } from "@/lib/assets";
-import { localePath, ui, type SiteLocale } from "@/lib/site-data";
+import { ArtImage } from "@/components/primitives";
+import { Button, Icon, TextLink } from "@/components/ui";
+import { assetProfiles, creangaProfile, drochiaProfile, portfolioFigures, tenantFit, vatraProfile, type AssetCategory } from "@/data/demo-content";
+import { businessTypes } from "@/data/journeys";
+import { developmentProjects, portfolioAssets, type PortfolioAsset } from "@/lib/assets";
+import { localePath, type SiteLocale } from "@/lib/site-data";
 
 /**
- * PORTFOLIO — premium real-estate stories, not a catalogue.
- * Moscova 9 large (62 %), Moscova 20 vertical, Dacia 31 as a wide
- * architectural strip, Creangă 78 as a typographic row; development as rows.
+ * PORTFOLIO — a curated collection, architecture first (2026-10-07).
+ * Every property leads with a reason to care, then who it suits, then two
+ * numbers. Four scales: Moscova 9 as a wide frame, Dacia 31 as a split,
+ * Moscova 20 compact and offset, Creangă 78 flipped with its labelled concept
+ * image. A quiet filter (office / retail / mixed) sits above the collection.
  */
 const copy = {
   ro: {
-    eyebrow: "Portofoliu",
-    title: ["Portofoliul imobiliar", "MEGAPARC"],
-    lead: "Obiecte comerciale în funcțiune și proiecte de dezvoltare în Chișinău. Fiecare obiect este prezentat cu descriere, date cheie și informații despre spațiile disponibile, fără publicarea condițiilor comerciale.",
-    categories: ["Obiecte în funcțiune", "Proiecte de dezvoltare", "Spații disponibile"],
-    operatingIndex: "Obiecte în funcțiune",
-    operatingTitle: "Activele MEGAPARC",
-    operatingText: "Patru obiecte în funcțiune în Chișinău: o clădire de birouri, spații comerciale și un obiect ale cărui informații publice vor fi completate.",
-    developmentIndex: "Proiecte de dezvoltare",
-    developmentTitle: "Dezvoltăm proiecte de la idee la realizare.",
-    developmentText: "Proiectele și conceptele sunt prezentate numai cu materiale și date aprobate pentru publicare.",
-    developmentCta: "Vezi Dezvoltare",
-    concept: "Concept în evaluare",
-    opportunitiesIndex: "Spații disponibile și noi oportunități",
-    opportunitiesTitle: "Spații disponibile, propuneri de obiecte și parteneriat.",
-    opportunitiesText: (n: string) => `Condițiile se discută direct. ${n} obiecte cu disponibilitate confirmată.`,
-    opportunitiesCta: "Colaborare",
+    label: "Portofoliu",
+    numeral: "obiecte în funcțiune",
+    lead: "Clădiri pentru sedii, spații comerciale pe prima linie și o clădire de birouri și servicii — în Chișinău. Fiecare este administrată ca o afacere.",
+    gla: "Suprafață închiriabilă",
+    tenants: "Chiriași",
+    occupancy: "Grad de ocupare",
+    land: "Teren pentru dezvoltare",
+    find: "Găsește spațiul potrivit",
+    dev: "Proiecte de dezvoltare",
+    filter: "Filtrează după format",
+    all: "Toate",
+    cats: { office: "Birouri", retail: "Retail", mixed: "Mixt" } as Record<AssetCategory, string>,
+    collectionLabel: "Colecția",
+    collectionTitle: "Patru obiecte, patru moduri de a lucra.",
+    best: "Potrivit pentru",
+    area: "Suprafață",
+    availability: "Disponibilitate",
+    open: "Vezi obiectul",
+    check: "Verifică disponibilitatea",
+    devLabel: "Dezvoltare",
+    devTitle: "Ce construim mai departe.",
+    devLead: "Un proiect în realizare și un teren în evaluare — prezentate la etapa lor reală.",
+    stage: "Etapă",
+    site: "Teren",
+    concept: "Concept · în evaluare",
+    closeLabel: "Nu sunteți sigur?",
+    closeTitle: "Spuneți ce trebuie să facă spațiul. Vă arătăm ce se potrivește și de ce.",
+    routes: [["Găsește spațiul potrivit", "/opportunities", "occupier"], ["Discută cerințele", "/contact", "occupier"], ["Propune un obiect", "/opportunities", "owners"]],
   },
   ru: {
-    eyebrow: "Портфель",
-    title: ["Портфель недвижимости", "MEGAPARC"],
-    lead: "Действующие коммерческие объекты и проекты развития в Кишинёве. Каждый объект представлен с описанием, ключевыми данными и информацией о доступных площадях — без публикации коммерческих условий.",
-    categories: ["Действующие объекты", "Проекты развития", "Доступные площади"],
-    operatingIndex: "Действующие объекты",
-    operatingTitle: "Активы MEGAPARC",
-    operatingText: "Четыре действующих объекта в Кишинёве: офисное здание, торговые помещения и объект, информация о котором будет дополнена.",
-    developmentIndex: "Проекты развития",
-    developmentTitle: "Развиваем проекты от идеи до реализации.",
-    developmentText: "Проекты и концепции представлены только с утверждёнными для публикации материалами и данными.",
-    developmentCta: "Смотреть девелопмент",
-    concept: "Концепция на стадии оценки",
-    opportunitiesIndex: "Доступные площади и новые возможности",
-    opportunitiesTitle: "Доступные площади, предложение объектов и партнёрство.",
-    opportunitiesText: (n: string) => `Условия обсуждаются напрямую. ${n} объекта с подтверждённой доступностью.`,
-    opportunitiesCta: "Сотрудничество",
+    label: "Портфель",
+    numeral: "действующих объекта",
+    lead: "Здания под штаб-квартиры, торговые помещения первой линии и офисно-сервисное здание — в Кишинёве. Каждым управляем как бизнесом.",
+    gla: "Арендуемая площадь",
+    tenants: "Арендаторы",
+    occupancy: "Заполняемость",
+    land: "Земля под развитие",
+    find: "Подобрать помещение",
+    dev: "Проекты развития",
+    filter: "Фильтр по формату",
+    all: "Все",
+    cats: { office: "Офисы", retail: "Ритейл", mixed: "Смешанный" } as Record<AssetCategory, string>,
+    collectionLabel: "Коллекция",
+    collectionTitle: "Четыре объекта — четыре способа работать.",
+    best: "Подходит для",
+    area: "Площадь",
+    availability: "Доступность",
+    open: "Открыть объект",
+    check: "Проверить доступность",
+    devLabel: "Девелопмент",
+    devTitle: "Что мы строим дальше.",
+    devLead: "Проект в стадии реализации и участок на стадии оценки — показаны на их реальном этапе.",
+    stage: "Стадия",
+    site: "Участок",
+    concept: "Концепция · на стадии оценки",
+    closeLabel: "Не уверены?",
+    closeTitle: "Расскажите, что должно делать помещение. Покажем, что подходит и почему.",
+    routes: [["Подобрать помещение", "/opportunities", "occupier"], ["Обсудить требования", "/contact", "occupier"], ["Предложить объект", "/opportunities", "owners"]],
   },
   en: {
-    eyebrow: "Portfolio",
-    title: ["The MEGAPARC", "real estate portfolio"],
-    lead: "Operating commercial properties and development projects in Chișinău. Each property is presented with a description, key facts and information on available space, without publishing commercial terms.",
-    categories: ["Operating properties", "Development projects", "Available space"],
-    operatingIndex: "Operating properties",
-    operatingTitle: "MEGAPARC assets",
-    operatingText: "Four operating properties in Chișinău: an office building, retail spaces and a property whose public information will be added.",
-    developmentIndex: "Development projects",
-    developmentTitle: "We take projects from idea to completion.",
-    developmentText: "Projects and concepts are presented only with material and data approved for publication.",
-    developmentCta: "View Development",
-    concept: "Concept under evaluation",
-    opportunitiesIndex: "Available space and new opportunities",
-    opportunitiesTitle: "Available space, property proposals and partnership.",
-    opportunitiesText: (n: string) => `Terms are discussed directly. ${n} properties with confirmed availability.`,
-    opportunitiesCta: "Work with us",
+    label: "Portfolio",
+    numeral: "operating properties",
+    lead: "Headquarters buildings, first-line retail space and an office and services building — in Chișinău. Each one is managed as a business.",
+    gla: "Lettable area",
+    tenants: "Tenants",
+    occupancy: "Occupancy",
+    land: "Development land",
+    find: "Find the right space",
+    dev: "Development projects",
+    filter: "Filter by format",
+    all: "All",
+    cats: { office: "Office", retail: "Retail", mixed: "Mixed" } as Record<AssetCategory, string>,
+    collectionLabel: "The collection",
+    collectionTitle: "Four properties, four ways of working.",
+    best: "Best for",
+    area: "Area",
+    availability: "Availability",
+    open: "View the property",
+    check: "Check availability",
+    devLabel: "Development",
+    devTitle: "What we build next.",
+    devLead: "One project in delivery and one site under evaluation — each shown at its real stage.",
+    stage: "Stage",
+    site: "Site",
+    concept: "Concept · under evaluation",
+    closeLabel: "Not sure?",
+    closeTitle: "Tell us what the space has to do. We show what fits and why.",
+    routes: [["Find the right space", "/opportunities", "occupier"], ["Discuss my requirements", "/contact", "occupier"], ["Submit a property", "/opportunities", "owners"]],
   },
 } as const;
+
+type Layout = "feature" | "split" | "compact" | "flip";
+const order: { slug: PortfolioAsset["slug"]; layout: Layout; ratio: string }[] = [
+  { slug: "moscova-9", layout: "feature", ratio: "21 / 9" },
+  { slug: "dacia-31", layout: "split", ratio: "4 / 5" },
+  { slug: "moscova-20", layout: "compact", ratio: "3 / 4" },
+  { slug: "creanga-78", layout: "flip", ratio: "4 / 5" },
+];
 
 export function PortfolioIndexPage({ locale }: { locale: SiteLocale }) {
   const c = copy[locale];
   const p = (path: string) => localePath(locale, path);
-  const [dacia, moscova9, moscova20, creanga] = portfolioAssets;
-  const availableAssets = portfolioAssets.filter((asset) => asset.availability);
-  const pad = (n: number) => String(n).padStart(2, "0");
-  const meta = (asset: typeof dacia) => [asset.district[locale], asset.city[locale], asset.positioning[locale], asset.availability ? `${ui.availability[locale]} ${asset.availability.area[locale]}` : ""];
+  const f = portfolioFigures;
+  const [vatra, drochia] = developmentProjects;
+  const count = (cat: AssetCategory) => portfolioAssets.filter((a) => assetProfiles[a.slug].category === cat).length;
+  const typeLabel = (key: string) => businessTypes.find((t) => t.key === key)!.label[locale];
 
   return (
-    <PageShell locale={locale}>
-      <Hero size="page" media={{ src: moscova9.media!.wide, alt: `${moscova9.name} — ${moscova9.positioning[locale]}`, position: moscova9.media!.position }} title={<>{c.title[0]} {c.title[1]}</>} line={c.eyebrow} />
-      <Intro kicker={c.eyebrow} statement={c.lead}>
-        <ul className="chips">
-          <li><a href="#operating">{c.categories[0]}<b>{pad(portfolioAssets.length)}</b></a></li>
-          <li><a href="#development">{c.categories[1]}<b>{pad(developmentProjects.length)}</b></a></li>
-          <li><Link href={p("/opportunities")}>{c.categories[2]}<b>{pad(availableAssets.length)}</b></Link></li>
-        </ul>
-      </Intro>
-
-      {/* OPERATING — four editorial stories */}
-      <Section id="operating">
-        <div className="shell">
-          <Head kicker={c.operatingIndex} title={c.operatingTitle} text={c.operatingText} />
-          <div className="stories">
-            <Story layout="wide" href={p(`/portfolio/${moscova9.slug}`)} media={{ src: moscova9.media!.wide, alt: `${moscova9.name} — ${moscova9.positioning[locale]}`, position: moscova9.media!.position, priority: true }} name={moscova9.name} meta={meta(moscova9)} line={moscova9.headline[locale]} cta={ui.exploreAsset[locale]} />
-            <Story layout="right" href={p(`/portfolio/${moscova20.slug}`)} media={{ src: moscova20.media!.mobile, alt: `${moscova20.name} — ${moscova20.positioning[locale]}`, position: moscova20.media!.position }} name={moscova20.name} meta={meta(moscova20)} line={moscova20.headline[locale]} cta={ui.exploreAsset[locale]} />
-            <Story layout="left" href={p(`/portfolio/${dacia.slug}`)} media={{ src: dacia.media!.card, alt: `${dacia.name} — ${dacia.positioning[locale]}`, position: dacia.media!.position }} name={dacia.name} meta={meta(dacia)} line={dacia.headline[locale]} cta={ui.exploreAsset[locale]} />
-            <Story layout="row" href={p(`/portfolio/${creanga.slug}`)} placeholder={ui.photoPending[locale]} name={creanga.name} meta={[creanga.city[locale], creanga.status[locale], ui.onRequest[locale]]} line={creanga.headline[locale]} cta={ui.exploreAsset[locale]} />
+    <PageShell locale={locale} experience>
+      {/* HERO — the collection in one number */}
+      <section className="xp-pagehero">
+        <div className="xp-shell xp-pagehero__grid">
+          <p className="xp-eyebrow" data-reveal><span className="xp-eyebrow__no">01</span><span>{c.label}</span></p>
+          <div data-reveal>
+            <h1 className="xp-numeral">{f.operating.value[locale]}<small>{c.numeral}</small></h1>
+            <p className="xp-pagehero__lead xp-pagehero__lead--gap">{c.lead}</p>
+          </div>
+          <div className="xp-pagehero__aside" data-reveal>
+            <Ledger locale={locale} className="xp-ledger--pair" items={[
+              { label: c.gla, point: f.gla },
+              { label: c.tenants, point: f.tenants },
+              { label: c.occupancy, point: f.occupancy },
+              { label: c.land, point: f.land },
+            ]} />
+            <div className="xp-actions">
+              <Button href={`${p("/opportunities")}#occupier`}>{c.find}</Button>
+              <TextLink href="#development">{c.dev}</TextLink>
+            </div>
           </div>
         </div>
-      </Section>
+      </section>
 
-      {/* DEVELOPMENT — VATRA large, concept secondary */}
-      <Section tone="ink" id="development">
-        <div className="shell">
-          <Head kicker={c.developmentIndex} title={c.developmentTitle} text={c.developmentText}>
-            <TextLink href={p("/development")} className="tlink--light">{c.developmentCta}</TextLink>
-          </Head>
-          <div className="stories">
-            {developmentProjects.map((project) => (
-              <Story
-                key={project.slug}
-                layout={project.media ? "wide" : "row"}
-                href={p(`/development/${project.slug}`)}
-                media={project.media ? { src: project.media.wide, alt: `${project.name} — ${project.status[locale]}`, position: project.media.position } : undefined}
-                placeholder={c.concept}
-                name={project.name}
-                meta={[project.place[locale], project.media ? project.kind[locale] : c.concept, project.status[locale]]}
-                line={project.headline[locale]}
-                cta={ui.exploreProject[locale]}
-              />
+      {/* COLLECTION */}
+      <section className="xp-sec" id="operating">
+        <div className="xp-shell">
+          <Opening no="02" label={c.collectionLabel} title={c.collectionTitle} />
+          <CollectionFilter label={c.filter} options={[{ key: "all", label: c.all, count: portfolioAssets.length }, ...(["office", "retail", "mixed"] as AssetCategory[]).map((cat) => ({ key: cat, label: c.cats[cat], count: count(cat) }))]}>
+            <div className="xp-collection">
+              {order.map(({ slug, layout, ratio }) => {
+                const asset = portfolioAssets.find((a) => a.slug === slug)!;
+                const fit = tenantFit[slug];
+                const profile = assetProfiles[slug];
+                const href = p(`/portfolio/${slug}`);
+                const place = asset.media ? asset.district[locale] : creangaProfile.district.value[locale];
+                return (
+                  <article key={slug} className={`xp-piece xp-piece--${layout}`} data-category={profile.category}>
+                    <Link href={href} className="xp-piece__figure" aria-label={`${asset.name} — ${c.open}`} data-reveal>
+                      <figure className="xp-fig" style={{ "--ratio": ratio } as CSSProperties}>
+                        {asset.media ? (
+                          <ArtImage media={asset.media} alt={`${asset.name} — ${asset.positioning[locale]}`} sizes={layout === "feature" ? "100vw" : "(min-width: 1024px) 55vw, 100vw"} depth={14} priority={layout === "feature"} />
+                        ) : (
+                          <ConceptImage id="portfolio.creanga-78" locale={locale} sizes="(min-width: 1024px) 55vw, 100vw" depth={14} />
+                        )}
+                      </figure>
+                    </Link>
+                    <div className="xp-piece__copy" data-reveal>
+                      <p className="xp-eyebrow"><span>{place} · {profile.format.value[locale]}{profile.format.status === "DEMO" ? <DemoMark /> : null}</span></p>
+                      <h2 className="xp-piece__name"><Link href={href}>{asset.name}</Link></h2>
+                      <p className="xp-piece__reason">{fit.reason[locale]}</p>
+                      <div className="xp-piece__best">
+                        <span>{c.best}</span>
+                        <ul className="xp-tags">
+                          {fit.bestFor.map((key) => (
+                            <li key={key}>{typeLabel(key)}</li>
+                          ))}
+                        </ul>
+                      </div>
+                      <Ledger locale={locale} items={[
+                        { label: c.area, point: profile.area },
+                        { label: c.availability, point: profile.availability },
+                      ]} />
+                      <div className="xp-actions">
+                        <Button href={href}>{c.open}</Button>
+                        <TextLink href={`${p("/contact")}?subject=lease&property=${slug}#occupier`}>{c.check}</TextLink>
+                      </div>
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
+          </CollectionFilter>
+        </div>
+      </section>
+
+      {/* DEVELOPMENT — light */}
+      <section className="xp-sec xp-sec--warm" id="development">
+        <div className="xp-shell">
+          <Opening no="03" label={c.devLabel} title={c.devTitle} lead={c.devLead} className="xp-opening--split" />
+          <div className="xp-pair">
+            <Link href={p(`/development/${vatra.slug}`)} data-reveal>
+              <figure className="xp-fig" style={{ "--ratio": "16 / 10" } as CSSProperties}>
+                <ArtImage media={vatra.media!} alt={`${vatra.name} — ${vatra.status[locale]}`} sizes="(min-width: 720px) 58vw, 100vw" depth={12} position="50% 70%" />
+              </figure>
+              <h3>{vatra.name}</h3>
+              <p>{vatra.status[locale]} · {c.stage} {vatraProfile.stage.value[locale]}</p>
+            </Link>
+            <Link href={p(`/development/${drochia.slug}`)} data-reveal>
+              <figure className="xp-fig" style={{ "--ratio": "4 / 5" } as CSSProperties}>
+                <ConceptImage id="development.drochia" locale={locale} sizes="(min-width: 720px) 40vw, 100vw" depth={12} />
+              </figure>
+              <h3>{drochia.name}</h3>
+              <p>{c.concept} · {c.site} {drochiaProfile.site.value[locale]}</p>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* CLOSE — routes to the matcher */}
+      <section className="xp-sec xp-sec--stone">
+        <div className="xp-shell xp-close">
+          <div data-reveal>
+            <p className="xp-eyebrow"><span className="xp-eyebrow__no">04</span><span>{c.closeLabel}</span></p>
+            <h2 className="xp-close__title">{c.closeTitle}</h2>
+          </div>
+          <nav className="xp-close__routes" aria-label={c.closeLabel} data-reveal>
+            {c.routes.map(([label, path, anchor]) => (
+              <Link key={label} href={`${p(path)}#${anchor}`}>
+                {label}
+                <Icon name="arrow" size={18} />
+              </Link>
             ))}
-          </div>
+          </nav>
         </div>
-      </Section>
-
-      <Quote tone="paper" id="opportunities" kicker={c.opportunitiesIndex} statement={c.opportunitiesTitle} text={c.opportunitiesText(pad(availableAssets.length))} action={<><Button href={p("/opportunities")}>{c.opportunitiesCta}</Button><TextLink href={`${p("/contact")}#occupier`}>{ui.requestDetails[locale]}</TextLink></>} />
+      </section>
     </PageShell>
   );
 }

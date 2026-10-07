@@ -3,6 +3,8 @@ import { HistoryMotion } from "@/components/history-motion";
 import { PageShell } from "@/components/page-shell";
 import { ArtImage } from "@/components/primitives";
 import { Button, TextLink } from "@/components/ui";
+import { DemoMark } from "@/components/experience";
+import { teamProfiles } from "@/data/demo-content";
 import { developmentProjects, portfolioAssets, type AssetMedia } from "@/lib/assets";
 import { brandLayers } from "@/lib/brand";
 import { companyHistory, historyPeriods, type StoryBlock } from "@/lib/company-history";
@@ -170,6 +172,16 @@ function ChapterTitle({ id, year, children, className = "hx-title" }: { id: stri
 /* Page                                                               */
 /* ---------------------------------------------------------------- */
 
+const teamCopy = {
+  label: { ro: "Echipa", ru: "Команда", en: "The team" },
+  title: { ro: "Oamenii care răspund de decizii.", ru: "Люди, которые отвечают за решения.", en: "The people accountable for decisions." },
+  lead: {
+    ro: "Profiluri ilustrative pentru previzualizare: arată formatul. Numele, rolurile și biografiile vor fi înlocuite cu cele aprobate.",
+    ru: "Иллюстративные профили для превью: показывают формат. Имена, роли и биографии будут заменены утверждёнными.",
+    en: "Illustrative profiles for the preview: they show the format. Names, roles and biographies will be replaced with approved ones.",
+  },
+};
+
 export function AboutPage({ locale }: { locale: SiteLocale }) {
   const c = companyHistory[locale];
   const p = (path: string) => localePath(locale, path);
@@ -236,7 +248,7 @@ export function AboutPage({ locale }: { locale: SiteLocale }) {
       </section>
 
       {/* INTRO — the opening essay and the chronology */}
-      <section className="hx-ch hx-ch--ink hx-intro" aria-label={c.kicker}>
+      <section className="hx-ch hx-ch--warm hx-intro" aria-label={c.kicker}>
         <div className="shell hx-grid">
           <nav className="hx-aside hx-index" aria-label={c.index}>
             <p className="hx-scope">{c.index}</p>
@@ -489,9 +501,30 @@ export function AboutPage({ locale }: { locale: SiteLocale }) {
           </div>
         </div>
       </section>
-      <section className="hx-ch hx-ch--graphite hx-verdict" aria-label={c.value.statement.join(" ")}>
+      <section className="hx-ch hx-ch--red hx-verdict" aria-label={c.value.statement.join(" ")}>
         <div className="shell">
           <Statement lines={c.value.statement} className="hx-verdict__text" />
+        </div>
+      </section>
+
+      {/* 12b TEAM — illustrative profiles (DEMO, full-experience prototype 2026-10-07): monograms, no faces, no links, no employers */}
+      <section id="team" className="xp-sec xp-sec--warm" aria-labelledby="t-team">
+        <div className="shell">
+          <div className="xp-opening xp-opening--split" data-reveal>
+            <p className="xp-eyebrow"><span className="xp-eyebrow__no">{brand.name}</span><span>{teamCopy.label[locale]}</span></p>
+            <h2 className="xp-opening__title" id="t-team">{teamCopy.title[locale]}</h2>
+            <p className="xp-opening__lead">{teamCopy.lead[locale]}</p>
+          </div>
+          <ul className="xp-team">
+            {teamProfiles.map((person) => (
+              <li key={person.initials} className="xp-person" data-reveal>
+                <span className="xp-person__portrait" aria-hidden="true"><span className="xp-person__initials">{person.initials}</span></span>
+                <span className="xp-person__role">{person.role.value[locale]}</span>
+                <span className="xp-person__name">{person.name.value[locale]}<DemoMark /></span>
+                <p className="xp-person__bio">{person.bio.value[locale]}</p>
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
 

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { demoContentPresent } from "@/data/demo-content";
 import { getAsset, getProject } from "@/lib/assets";
 import { brand, isPreviewBuild, localePath, locales, type Localized, type SiteLocale } from "@/lib/site-data";
 
@@ -9,12 +10,14 @@ import { brand, isPreviewBuild, localePath, locales, type Localized, type SiteLo
  * and structured data by construction.
  *
  * Robots: GitHub Pages OWNER preview (GITHUB_PAGES=true) is noindex, nofollow;
- * production megaparc.md is index, follow only after OWNER approval.
+ * so is ANY build that still carries demo content (src/data/demo-content.ts —
+ * full-experience prototype 2026-10-07). Production megaparc.md is index,
+ * follow only after OWNER approval and a passing `npm run gate:production`.
  */
 
 export const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://megaparc.md").replace(/\/$/, "");
 
-export const robotsPolicy: NonNullable<Metadata["robots"]> = isPreviewBuild
+export const robotsPolicy: NonNullable<Metadata["robots"]> = isPreviewBuild || demoContentPresent
   ? { index: false, follow: false, nocache: true, googleBot: { index: false, follow: false } }
   : { index: true, follow: true };
 

@@ -1,4 +1,6 @@
 import { CountUp } from "@/components/count-up";
+import { DemoLegend, DemoMark } from "@/components/experience";
+import { portfolioFigures } from "@/data/demo-content";
 import { Head, Section, TextLink } from "@/components/ui";
 import { developmentProjects, portfolioAssets } from "@/lib/assets";
 import { signatureWords } from "@/lib/brand";
@@ -46,6 +48,10 @@ const copy = {
     with: "Lucrăm cu",
     partners: ["chiriași", "proprietari", "bănci", "investitori", "dezvoltatori", "parteneri"],
     cta: "Despre MEGAPARC",
+    indicators: "Indicatori de portofoliu",
+    gla: "suprafață închiriabilă",
+    tenants: "chiriași",
+    occupancy: "grad de ocupare",
   },
   ru: {
     id: "fakty",
@@ -68,6 +74,10 @@ const copy = {
     with: "Работаем с",
     partners: ["арендаторами", "собственниками", "банками", "инвесторами", "девелоперами", "партнёрами"],
     cta: "О компании",
+    indicators: "Показатели портфеля",
+    gla: "арендуемая площадь",
+    tenants: "арендаторов",
+    occupancy: "заполняемость",
   },
   en: {
     id: "facts",
@@ -90,6 +100,10 @@ const copy = {
     with: "We work with",
     partners: ["tenants", "owners", "banks", "investors", "developers", "partners"],
     cta: "About MEGAPARC",
+    indicators: "Portfolio indicators",
+    gla: "lettable area",
+    tenants: "tenants",
+    occupancy: "occupancy",
   },
 } as const;
 
@@ -99,7 +113,15 @@ function yearsSince(year: string) {
   return Math.max(5, Math.floor(elapsed / 5) * 5);
 }
 
-export function CompanyFacts({ locale }: { locale: SiteLocale }) {
+/**
+ * tone="light" (full-experience prototype 2026-10-07): warm field, the years keep
+ * their burgundy / black / graphite cards, counts and land turn light, and a row
+ * of DEMO portfolio indicators (src/data/demo-content.ts) follows the verified
+ * scale — each value with its demo ring and the legend.
+ */
+export function CompanyFacts({ locale, tone = "dark" }: { locale: SiteLocale; tone?: "dark" | "light" }) {
+  const light = tone === "light";
+  const f = portfolioFigures;
   const c = copy[locale];
   const [heritage, established, focus] = historyAnchors;
   const metrics = scaleMetrics();
@@ -114,7 +136,7 @@ export function CompanyFacts({ locale }: { locale: SiteLocale }) {
   const titleLines = c.title(groupYears, megaparcYears, focus.year);
 
   return (
-    <Section tone="ink" id={c.id} className="keyfacts" label={c.kicker}>
+    <Section tone={light ? "paper" : "ink"} id={c.id} className={`keyfacts${light ? " keyfacts--light" : ""}`} label={c.kicker}>
       <div className="shell">
         <Head
           kicker={c.kicker}
@@ -162,7 +184,7 @@ export function CompanyFacts({ locale }: { locale: SiteLocale }) {
 
           {/* ROW 2 — verified scale from the asset registers */}
           {operating ? (
-            <li className="kf__card kf__card--black kf__card--count" data-reveal>
+            <li className={`kf__card ${light ? "kf__card--paper" : "kf__card--black"} kf__card--count`} data-reveal>
               <span className="kf__scope">{c.portfolio}</span>
               <span className="kf__value kf__value--lg"><CountUp value={operating.value} locale={locale} pad={operating.pad} /></span>
               <div className="kf__body">
@@ -173,7 +195,7 @@ export function CompanyFacts({ locale }: { locale: SiteLocale }) {
           ) : null}
 
           {projects ? (
-            <li className="kf__card kf__card--graphite kf__card--count" data-reveal>
+            <li className={`kf__card ${light ? "kf__card--paper" : "kf__card--graphite"} kf__card--count`} data-reveal>
               <span className="kf__scope">{c.development}</span>
               <span className="kf__value kf__value--lg"><CountUp value={projects.value} locale={locale} pad={projects.pad} /></span>
               <div className="kf__body">
@@ -184,7 +206,7 @@ export function CompanyFacts({ locale }: { locale: SiteLocale }) {
           ) : null}
 
           {land ? (
-            <li className="kf__card kf__card--deep kf__card--land kf__card--wide" data-reveal>
+            <li className={`kf__card ${light ? "kf__card--stone" : "kf__card--deep"} kf__card--land kf__card--wide`} data-reveal>
               <span className="kf__scope">{c.development}</span>
               <span className="kf__value kf__value--land">
                 <CountUp value={land.value} locale={locale} />
@@ -197,6 +219,26 @@ export function CompanyFacts({ locale }: { locale: SiteLocale }) {
               </div>
             </li>
           ) : null}
+
+          {/* ROW 2b — DEMO portfolio indicators (light board only) */}
+          {light
+            ? [
+                [f.gla, c.gla],
+                [f.tenants, c.tenants],
+                [f.occupancy, c.occupancy],
+              ].map(([point, title]) => (
+                <li key={(point as typeof f.gla).key} className={`kf__card kf__card--paper kf__card--demo${point === f.gla ? " kf__card--demo-lead" : ""}`} data-reveal>
+                  <span className="kf__scope">{c.indicators}</span>
+                  <span className="kf__value kf__value--lg">
+                    {(point as typeof f.gla).value[locale]}
+                    <DemoMark />
+                  </span>
+                  <div className="kf__body">
+                    <span className="kf__title kf__title--caps">{title as string}</span>
+                  </div>
+                </li>
+              ))
+            : null}
 
           {/* ROW 3 — the one red field on the page: business-model signature */}
           <li className="kf__card kf__card--red kf__card--model" data-reveal>
@@ -216,8 +258,9 @@ export function CompanyFacts({ locale }: { locale: SiteLocale }) {
               <li key={partner}>{partner}</li>
             ))}
           </ul>
-          <TextLink href={localePath(locale, "/about")} className="tlink--light">{c.cta}</TextLink>
+          <TextLink href={localePath(locale, "/about")} className={light ? undefined : "tlink--light"}>{c.cta}</TextLink>
         </div>
+        {light ? <DemoLegend locale={locale} /> : null}
       </div>
     </Section>
   );

@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import { RootDocument } from "@/components/root-document";
 import { pageMetadata, siteUrl } from "@/lib/seo";
 import "../globals.css";
+import "../experience.css";
 
 /** Root layout for the RU edition: static HTML is served with lang="ru". */
 export const metadata: Metadata = {

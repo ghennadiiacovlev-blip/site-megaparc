@@ -1,163 +1,181 @@
-import Image from "next/image";
 import Link from "next/link";
+import type { CSSProperties } from "react";
+import { ConceptImage, Ledger, MaskTitle, Opening } from "@/components/experience";
 import { LocationSection } from "@/components/location-section";
 import { PageShell } from "@/components/page-shell";
-import { ArrowLink, ArtImage, FactGrid, MediaPlaceholder, Note, SectionIndex } from "@/components/primitives";
-import { Icon } from "@/components/ui";
+import { ArtImage } from "@/components/primitives";
+import { Button, Icon, TextLink } from "@/components/ui";
+import { drochiaProfile, vatraProfile } from "@/data/demo-content";
 import { getNextProject, type DevelopmentProject } from "@/lib/assets";
 import { developmentNarrative } from "@/lib/strategy";
-import { brand, localePath, ui, type Localized, type SiteLocale } from "@/lib/site-data";
+import { localePath, type Localized, type SiteLocale } from "@/lib/site-data";
 
+/**
+ * Development project / concept page (2026-10-07).
+ * VATRA: real aerial imagery, programme figures DEMO, final architecture never
+ * shown before approval. Drochia Gateway: CONCEPT · UNDER EVALUATION, concept
+ * photo direction only (labelled), parameters subject to review.
+ */
 const copy = {
   back: { ro: "Dezvoltare", ru: "Девелопмент", en: "Development" },
-  intro: { ro: "Proiect", ru: "Проект", en: "Project" },
+  project: { ro: "Proiectul", ru: "Проект", en: "The project" },
   facts: { ro: "Date cheie", ru: "Ключевые данные", en: "Key facts" },
-  position: { ro: "Etapa proiectului", ru: "Стадия проекта", en: "Project stage" },
-  enquiry: { ro: "Solicitare", ru: "Запрос", en: "Enquiry" },
+  stage: { ro: "Etapa proiectului", ru: "Стадия проекта", en: "Project stage" },
+  stageTitle: { ro: "Unde se află acum proiectul.", ru: "Где сейчас проект.", en: "Where the project stands now." },
+  site: { ro: "Teren", ru: "Участок", en: "Site" },
+  programme: { ro: "Program", ru: "Программа", en: "Programme" },
+  gba: { ro: "Suprafață construită", ru: "Площадь застройки", en: "Gross building area" },
+  start: { ro: "Începutul lucrărilor", ru: "Начало работ", en: "Works started" },
+  completion: { ro: "Finalizare", ru: "Ввод", en: "Completion" },
+  status: { ro: "Status", ru: "Статус", en: "Status" },
+  fronts: { ro: "Fronturi stradale", ru: "Фронты к дорогам", en: "Road fronts" },
+  potential: { ro: "Potențial construit", ru: "Потенциал застройки", en: "Potential built area" },
+  decision: { ro: "Decizie", ru: "Решение", en: "Decision" },
+  stageNow: { ro: "Etapa actuală", ru: "Текущая стадия", en: "Current stage" },
+  team: { ro: "Pe șantier", ru: "На площадке", en: "On site" },
+  teamText: { ro: "Calitatea se controlează pe șantier, nu în prezentări: echipa urmărește lucrările, bugetul și graficul în fiecare săptămână.", ru: "Качество контролируется на площадке, а не в презентациях: команда каждую неделю следит за работами, бюджетом и графиком.", en: "Quality is controlled on site, not in presentations: the team follows works, budget and schedule every week." },
+  access: { ro: "Acces și vizibilitate", ru: "Подъезд и видимость", en: "Access and visibility" },
+  closeTitle: { ro: "Discutăm proiectul sau terenul dumneavoastră.", ru: "Обсудим проект или ваш участок.", en: "Let's discuss the project — or your land." },
+  discuss: { ro: "Discută proiectul", ru: "Обсудить проект", en: "Discuss the project" },
+  land: { ro: "Propune un teren", ru: "Предложить участок", en: "Submit a site" },
+  next: { ro: "Următorul proiect", ru: "Следующий проект", en: "Next project" },
 } satisfies Record<string, Localized>;
 
-/** Development project / concept page. Image-led when real site imagery exists, typographic otherwise. */
 export function ProjectDetailPage({ locale, project }: { locale: SiteLocale; project: DevelopmentProject }) {
   const next = getNextProject(project.slug);
   const p = (path: string) => localePath(locale, path);
-  let section = 0;
-  const no = () => String(++section).padStart(2, "0");
+  const isVatra = project.slug === "vatra";
+  const stages = developmentNarrative.stages;
+  const sections = project.sections;
 
   return (
-    <PageShell locale={locale} mainClassName="project">
-      <section className={`project-hero${project.media ? "" : " project-hero--typographic"}`}>
-        <div className="project-hero__media" aria-hidden="true">
-          {project.media ? (
-            <>
-              <ArtImage media={project.media} alt="" priority depth={28} className="project-hero__image" />
-              <div className="project-hero__veil" />
-            </>
-          ) : (
-            <MediaPlaceholder title={project.place[locale]} note={project.status[locale]} compact />
-          )}
-        </div>
-        <div className="shell project-hero__top">
-          <Link href={p("/development")} className="back-link back-link--light"><Icon name="left" /> {copy.back[locale]}</Link>
-          <span>{project.kind[locale]} / {project.place[locale]}</span>
-        </div>
-        <div className="shell project-hero__copy" data-reveal>
-          <p className="eyebrow eyebrow--red">{project.status[locale]}</p>
-          <h1>{project.name}</h1>
-          <p className="project-hero__lead">{project.lead[locale]}</p>
-        </div>
-      </section>
-
-      <section className="project-intro paper">
-        <div className="shell">
-          <SectionIndex no={no()}>{copy.intro[locale]}</SectionIndex>
-          <div className="copy-grid" data-reveal>
-            <h2>
-              {project.headline[locale]}
-              <br />
-              <span className="muted-ink">{project.place[locale]}</span>
-            </h2>
-            <div>
-              <p className="lead">{project.intro[locale]}</p>
-              {project.disclaimer ? <Note>{project.disclaimer[locale]}</Note> : null}
-            </div>
+    <PageShell locale={locale} variant="overlay" experience mainClassName="xp-project">
+      {/* HERO */}
+      <section className="xp-hero xp-hero--page" data-xp-hero>
+        <div className="xp-hero__media">
+          <div className="xp-hero__frame is-active">
+            {project.media ? <ArtImage media={project.media} alt={`${project.name} — ${project.status[locale]}`} priority position="50% 70%" /> : <ConceptImage id="project.drochia.hero" locale={locale} priority />}
           </div>
-          {project.facts.length ? (
-            <div className="asset-detail__facts" data-reveal>
-              <SectionIndex no={no()}>{copy.facts[locale]}</SectionIndex>
-              <FactGrid facts={project.facts} locale={locale} />
-            </div>
-          ) : null}
+        </div>
+        <div className="xp-hero__veil" aria-hidden="true" />
+        <div className="xp-shell xp-hero__copy">
+          <Link href={p("/development")} className="back-link back-link--light"><Icon name="left" /> {copy.back[locale]}</Link>
+          <span className="xp-flag xp-flag--light">{project.status[locale]}{project.media ? "" : ` · ${drochiaProfile.status.value[locale]}`}</span>
+          <MaskTitle as="h1" className="xp-hero__title" lines={[project.name]} />
+          <p className="xp-hero__lead">{project.lead[locale]}</p>
         </div>
       </section>
 
-      <section className="dev-stages stone">
-        <div className="shell">
-          <SectionIndex no={no()}>{copy.position[locale]}</SectionIndex>
-          <ol className="dev-stages__list">
-            {developmentNarrative.stages.map((stage, index) => (
-              <li key={stage.no} className={index === project.stage ? "is-current" : undefined} data-reveal>
-                <span>{stage.no}</span>
+      {/* THE PROJECT */}
+      <section className="xp-sec xp-sec--warm">
+        <div className="xp-shell xp-split xp-split--text">
+          <div data-reveal>
+            <p className="xp-eyebrow"><span className="xp-eyebrow__no">01</span><span>{copy.project[locale]}</span></p>
+            <h2 className="xp-split__title xp-split__title--gap">{project.headline[locale]}</h2>
+          </div>
+          <div className="xp-prose" data-reveal>
+            <p className="xp-lead">{project.intro[locale]}</p>
+            {project.disclaimer ? <p className="xp-muted">{project.disclaimer[locale]}</p> : null}
+            <Ledger locale={locale} className="xp-ledger--pair" items={
+              isVatra
+                ? [
+                    { label: copy.stageNow[locale], point: vatraProfile.stage },
+                    { label: copy.site[locale], point: vatraProfile.site },
+                    { label: copy.gba[locale], point: vatraProfile.gba },
+                    { label: copy.programme[locale], point: vatraProfile.programme },
+                    { label: copy.start[locale], point: vatraProfile.start },
+                    { label: copy.completion[locale], point: vatraProfile.completion },
+                  ]
+                : [
+                    { label: copy.site[locale], point: drochiaProfile.site },
+                    { label: copy.fronts[locale], point: drochiaProfile.fronts },
+                    { label: copy.potential[locale], point: drochiaProfile.potential },
+                    { label: copy.decision[locale], point: drochiaProfile.decision },
+                  ]
+            } />
+          </div>
+        </div>
+      </section>
+
+      {/* STAGE */}
+      <section className="xp-sec">
+        <div className="xp-shell">
+          <Opening no="02" label={copy.stage[locale]} title={copy.stageTitle[locale]} />
+          <ol className="xp-process xp-process--stages" style={{ "--n": stages.length } as CSSProperties} data-reveal>
+            {stages.map((stage, index) => (
+              <li key={stage.no} className={index === project.stage ? "is-current" : index < project.stage ? "is-done" : undefined}>
                 <h3>{stage.title[locale]}</h3>
                 <p>{stage.text[locale]}</p>
-                {index === project.stage ? <span className="label label--red">{project.name}</span> : null}
+                {index === project.stage ? <span className="xp-scene__tag">{project.name}</span> : null}
               </li>
             ))}
           </ol>
         </div>
       </section>
 
-      {project.location ? (
-        <LocationSection locale={locale} no={no()} place={project.place[locale]} area={project.map ? project.map.address : project.place[locale]} text={project.location[locale]} points={project.connectivity} map={project.map} />
-      ) : null}
+      {/* LOCATION (Drochia) */}
+      {project.location ? <LocationSection locale={locale} no="03" place={project.place[locale]} area={project.map ? project.map.address : project.place[locale]} text={project.location[locale]} points={project.connectivity} map={project.map} /> : null}
 
-      {project.sections.map((block, index) => (
-        <section key={block.title.en} className={index % 2 === 0 ? "stages ink" : "stages paper stages--paper"}>
-          <div className="shell">
-            <SectionIndex no={no()} inverse={index % 2 === 0}>{block.title[locale]}</SectionIndex>
-            <div className="stages__grid">
-              <div className="stages__heading" data-reveal>
-                <h2>{block.title[locale]}</h2>
-                <p className="stages__text">{block.text[locale]}</p>
-              </div>
-              {block.items ? (
-                <ol className="stages__list">
-                  {block.items.map((item, i) => {
-                    const [head, ...rest] = item[locale].split(" — ");
-                    return (
-                      <li key={item.en} data-reveal>
-                        <span className="stages__no">0{i + 1}</span>
-                        <div>
-                          <h3>{head}</h3>
-                          {rest.length ? <p>{rest.join(" — ")}</p> : null}
-                        </div>
-                      </li>
-                    );
-                  })}
-                </ol>
-              ) : null}
+      {/* CONCEPTS / STAGES OF THE PROJECT */}
+      {sections.map((block) => (
+        <section key={block.title.en} className="xp-sec xp-sec--warm">
+          <div className="xp-shell xp-split xp-split--text">
+            <div data-reveal>
+              <p className="xp-eyebrow"><span className="xp-eyebrow__no">04</span><span>{block.title[locale]}</span></p>
+              <h2 className="xp-split__title xp-split__title--gap">{block.text[locale]}</h2>
             </div>
+            {block.items ? (
+              <ol className="xp-numbered" data-reveal>
+                {block.items.map((item) => {
+                  const [head, ...rest] = item[locale].split(" — ");
+                  return (
+                    <li key={item.en}>
+                      <h3>{head}</h3>
+                      {rest.length ? <p>{rest.join(" — ")}</p> : null}
+                    </li>
+                  );
+                })}
+              </ol>
+            ) : null}
           </div>
         </section>
       ))}
 
-      {project.media ? (
-        <section className="vatra-depth" aria-label={project.statement[locale]}>
-          <div className="vatra-depth__media">
-            <Image src={project.media.src} alt="" fill sizes="100vw" className="vatra-depth__image" data-depth="30" style={{ objectPosition: "50% 82%" }} />
-            <div className="vatra-depth__veil" />
+      {/* IMAGERY — real site depth (VATRA) / concept directions (Drochia) */}
+      <section className="xp-sec">
+        <div className="xp-shell xp-split xp-split--wide">
+          <figure className="xp-fig" style={{ "--ratio": "3 / 2" } as CSSProperties} data-reveal>
+            {isVatra ? <ConceptImage id="project.vatra.team" locale={locale} sizes="(min-width: 1024px) 60vw, 100vw" depth={10} /> : <ConceptImage id="project.drochia.road" locale={locale} sizes="(min-width: 1024px) 60vw, 100vw" depth={10} />}
+          </figure>
+          <div className="xp-split__copy" data-reveal>
+            <p className="xp-eyebrow"><span className="xp-eyebrow__no">05</span><span>{isVatra ? copy.team[locale] : copy.access[locale]}</span></p>
+            <p className="xp-lead">{isVatra ? copy.teamText[locale] : project.location?.[locale]}</p>
+            <p className="xp-muted">{project.statement[locale]}</p>
           </div>
-          <div className="shell vatra-depth__content" data-reveal>
-            <span className="label label--light">{brand.name} · {project.name}</span>
-            <p>{project.statement[locale]}</p>
-            {project.disclaimer ? <Note light>{project.disclaimer[locale]}</Note> : null}
-          </div>
-        </section>
-      ) : (
-        <section className="statement ink">
-          <div className="shell statement__inner" data-reveal>
-            <span className="label label--light">{brand.name} · {project.name}</span>
-            <p>{project.statement[locale]}</p>
-            {project.disclaimer ? <Note light>{project.disclaimer[locale]}</Note> : null}
-          </div>
-        </section>
-      )}
+        </div>
+      </section>
 
-      <section className="enquiry paper enquiry--paper">
-        <div className="shell">
-          <SectionIndex no={no()}>{copy.enquiry[locale]}</SectionIndex>
-          <div className="enquiry__grid" data-reveal>
-            <h2>{project.name}</h2>
-            <div className="enquiry__actions">
-              <ArrowLink href={`${p("/contact")}#partnership`} strong>{ui.discussProject[locale]}</ArrowLink>
-              <ArrowLink href={p("/development")}>{ui.backToDevelopment[locale]}</ArrowLink>
+      {/* CLOSE */}
+      <section className="xp-sec xp-sec--ink">
+        <div className="xp-shell xp-close">
+          <div data-reveal>
+            <p className="xp-eyebrow"><span className="xp-eyebrow__no">06</span><span>{project.name}</span></p>
+            <h2 className="xp-close__title">{copy.closeTitle[locale]}</h2>
+            <div className="xp-actions xp-actions--top">
+              <Button href={`${p("/contact")}?subject=partnership#partnership`} variant="light">{copy.discuss[locale]}</Button>
+              <TextLink href={`${p("/opportunities")}#owners`} className="tlink--light">{copy.land[locale]}</TextLink>
             </div>
           </div>
-          <Link href={p(`/development/${next.slug}`)} className="next-asset" data-reveal>
-            <span className="label">{ui.nextProject[locale]}</span>
-            <span className="next-asset__name">{next.name}</span>
-            <span className="next-asset__meta">{next.status[locale]} · {next.place[locale]}</span>
-            <span className="next-asset__arrow"><Icon name="arrow" size={18} /></span>
-          </Link>
+          <nav className="xp-close__routes" aria-label={copy.next[locale]} data-reveal>
+            <Link href={p(`/development/${next.slug}`)}>
+              <span><small className="xp-label">{copy.next[locale]}</small><br />{next.name}</span>
+              <Icon name="arrow" size={18} />
+            </Link>
+            <Link href={p("/development")}>
+              {copy.back[locale]}
+              <Icon name="arrow" size={18} />
+            </Link>
+          </nav>
         </div>
       </section>
     </PageShell>

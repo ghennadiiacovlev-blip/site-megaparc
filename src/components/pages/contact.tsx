@@ -1,117 +1,117 @@
+import { DemoLegend, Val } from "@/components/experience";
+import { EnquiryFormBlock } from "@/components/journey-blocks";
 import { PageShell } from "@/components/page-shell";
-import { Facts, Head, Hero, Intro, Quote, Section, TextLink } from "@/components/ui";
-import { portfolioAssets } from "@/lib/assets";
-import { enquiryPaths } from "@/lib/client-journeys";
-import { brand, localePath, type SiteLocale } from "@/lib/site-data";
+import { company, leasingProcess } from "@/data/demo-content";
+import { brand, type SiteLocale } from "@/lib/site-data";
 
+/**
+ * CONTACT — extremely clean, almost no motion (2026-10-07).
+ * One light screen: the routing (five subjects), the form that adapts to the
+ * subject, the details and what happens next. Mailboxes and telephone are DEMO
+ * and shown as plain text — no mailto, no tel, nothing is routed anywhere.
+ */
 const copy = {
   ro: {
-    eyebrow: "Contact",
-    title: ["Contactați", "MEGAPARC."],
-    lead: "Alegeți subiectul solicitării: închirierea unui spațiu, propunerea unui obiect, investiții și parteneriat sau carieră.",
-    pathsIndex: "Subiectul solicitării",
-    includeLabel: "Ce este util într-un prim mesaj",
-    detailsIndex: "Date de contact",
-    office: "Sediu",
-    officeValue: "Chișinău, Republica Moldova",
+    label: "Contact",
+    title: "Scrieți-ne despre ce aveți nevoie.",
+    lead: "Alegeți subiectul — formularul se adaptează solicitării, iar mesajul ajunge direct la echipa responsabilă.",
+    details: "Date de contact",
     company: "Companie",
-    companyValue: "MEGAPARC SRL",
+    office: "Birou",
+    general: "General",
+    investments: "Investiții",
+    leasing: "Închiriere",
     careers: "Cariere",
-    careersValue: "CV-urile se transmit prin aceleași date de contact, cu mențiunea „Cariere”. Posturile deschise sunt publicate pe Rabota.md.",
-    note: "Datele de contact directe și informațiile juridice sunt disponibile la cerere și vor fi publicate odată cu lansarea oficială a site-ului.",
-    careersCta: "Vezi posturile deschise",
-    breakLabel: "MEGAPARC · Chișinău",
-    breakStatement: "Investim, dezvoltăm și administrăm imobiliare.",
+    phone: "Telefon",
+    hours: "Program",
+    nextLabel: "Ce urmează",
+    next: [["Citim solicitarea", "O persoană din echipa responsabilă, nu un robot."], ["Vă răspundem", "Cu întrebări concrete sau o primă propunere."], ["Ne întâlnim", "Pe obiect, la birou sau online — cum vă este comod."]],
   },
   ru: {
-    eyebrow: "Контакты",
-    title: ["Связаться с", "MEGAPARC."],
-    lead: "Выберите тему обращения: аренда помещения, предложение объекта, инвестиции и партнёрство или карьера.",
-    pathsIndex: "Тема обращения",
-    includeLabel: "Что полезно указать в первом сообщении",
-    detailsIndex: "Контактные данные",
-    office: "Офис",
-    officeValue: "Кишинёв, Республика Молдова",
+    label: "Контакты",
+    title: "Напишите, что вам нужно.",
+    lead: "Выберите тему — форма подстроится под ваш запрос, а сообщение попадёт сразу к ответственной команде.",
+    details: "Контактные данные",
     company: "Компания",
-    companyValue: "MEGAPARC SRL",
+    office: "Офис",
+    general: "Общие вопросы",
+    investments: "Инвестиции",
+    leasing: "Аренда",
     careers: "Карьера",
-    careersValue: "Резюме направляются по тем же контактным данным с пометкой «Карьера». Открытые вакансии опубликованы на Rabota.md.",
-    note: "Прямые контактные данные и юридическая информация предоставляются по запросу и будут опубликованы с официальным запуском сайта.",
-    careersCta: "Смотреть вакансии",
-    breakLabel: "MEGAPARC · Кишинёв",
-    breakStatement: "Инвестируем, развиваем и управляем недвижимостью.",
+    phone: "Телефон",
+    hours: "Часы работы",
+    nextLabel: "Что будет дальше",
+    next: [["Читаем запрос", "Его читает человек из ответственной команды, а не робот."], ["Отвечаем", "С конкретными вопросами или первым предложением."], ["Встречаемся", "На объекте, в офисе или онлайн — как вам удобно."]],
   },
   en: {
-    eyebrow: "Contact",
-    title: ["Contact", "MEGAPARC."],
-    lead: "Choose the subject of your enquiry: leasing a space, proposing a property, investment and partnership, or careers.",
-    pathsIndex: "Subject",
-    includeLabel: "What helps in a first message",
-    detailsIndex: "Contact details",
-    office: "Office",
-    officeValue: "Chișinău, Republic of Moldova",
+    label: "Contact",
+    title: "Tell us what you need.",
+    lead: "Choose the subject — the form adapts to your request, and the message goes straight to the team responsible.",
+    details: "Contact details",
     company: "Company",
-    companyValue: "MEGAPARC SRL",
+    office: "Office",
+    general: "General",
+    investments: "Investment",
+    leasing: "Leasing",
     careers: "Careers",
-    careersValue: "CVs are sent through the same contact details, marked \"Careers\". Open vacancies are published on Rabota.md.",
-    note: "Direct contact details and legal information are available on request and will be published with the official launch of the website.",
-    careersCta: "See open vacancies",
-    breakLabel: "MEGAPARC · Chișinău",
-    breakStatement: "We invest in, develop and manage real estate.",
+    phone: "Telephone",
+    hours: "Hours",
+    nextLabel: "What happens next",
+    next: [["We read your request", "A person from the team responsible, not a robot."], ["We reply", "With specific questions or a first proposal."], ["We meet", "On site, at the office or online — as suits you."]],
   },
 } as const;
 
 export function ContactPage({ locale }: { locale: SiteLocale }) {
   const c = copy[locale];
-  const image = portfolioAssets[1];
-  const tones = ["tile--ink", "tile--paper", "tile--paper", "tile--ink"];
+  const rows = [
+    [c.company, company.legalName],
+    [c.office, company.city],
+    [c.general, company.emails.office],
+    [c.leasing, company.emails.leasing],
+    [c.investments, company.emails.investments],
+    [c.careers, company.emails.careers],
+    [c.phone, company.phone],
+    [c.hours, company.hours],
+  ] as const;
 
   return (
-    <PageShell locale={locale}>
-      <Hero size="page" media={{ src: image.media!.wide, alt: `${image.name} — ${image.positioning[locale]}`, position: image.media!.position }} title={<>{c.title[0]} {c.title[1]}</>} line={c.eyebrow} />
-      <Intro kicker={c.pathsIndex} statement={c.lead}>
-        <ul className="chips">
-          {enquiryPaths.map((path) => (
-            <li key={path.key}><a href={`#${path.anchor}`}>{path.title[locale]}<b>{path.no}</b></a></li>
-          ))}
-        </ul>
-      </Intro>
-
-      {/* SUBJECTS — four tiles */}
-      <Section flush id="subjects" label={c.pathsIndex}>
-        <div className="tiles">
-          {enquiryPaths.map((path, index) => (
-            <article key={path.key} id={path.anchor} className={`tile ${tones[index]}`} data-reveal>
-              <span className="tile__no">{path.no}</span>
-              <h2 className="tile__title">{path.title[locale]}</h2>
-              <span className="tile__meta">{path.meta[locale]}</span>
-              <p>{path.text[locale]}</p>
-              <span className="kicker">{c.includeLabel}</span>
-              <ul className="list list--plain">
-                {path.include[locale].map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            </article>
-          ))}
-        </div>
-      </Section>
-
-      {/* DETAILS */}
-      <Section tone="paper" id="details">
-        <div className="shell details" data-reveal>
-          <Head kicker={c.detailsIndex} title={brand.name} />
+    <PageShell locale={locale} experience mainClassName="xp-contact">
+      <section className="xp-pagehero xp-pagehero--contact">
+        <div className="xp-shell xp-pagehero__grid">
+          <p className="xp-eyebrow"><span className="xp-eyebrow__no">{brand.name}</span><span>{c.label}</span></p>
           <div>
-            <Facts items={[{ label: c.company, value: c.companyValue }, { label: c.office, value: c.officeValue }, { label: c.careers, value: c.careersValue }]} />
-            <div className="sec__actions">
-              <TextLink href={localePath(locale, "/careers")}>{c.careersCta}</TextLink>
-            </div>
-            <p className="note">{c.note}</p>
+            <h1 className="xp-pagehero__title">{c.title}</h1>
+            <p className="xp-pagehero__lead xp-pagehero__lead--gap">{c.lead}</p>
           </div>
         </div>
-      </Section>
+      </section>
 
-      <Quote tone="ink" kicker={c.breakLabel} statement={c.breakStatement} />
+      <section className="xp-sec xp-sec--flush-top xp-sec--warm">
+        <div className="xp-shell xp-contact__grid">
+          <EnquiryFormBlock locale={locale} />
+          <aside className="xp-contact__aside">
+            <p className="xp-label">{c.details}</p>
+            <dl className="xp-details">
+              {rows.map(([label, point]) => (
+                <div key={label}>
+                  <dt>{label}</dt>
+                  <dd><Val point={point} locale={locale} /></dd>
+                </div>
+              ))}
+            </dl>
+            <DemoLegend locale={locale} />
+            <p className="xp-label xp-label--gap">{c.nextLabel}</p>
+            <ol className="xp-process xp-process--stack">
+              {c.next.map(([title, text], index) => (
+                <li key={title}>
+                  <h3>{title}</h3>
+                  <p>{text}{index === 1 ? <> <Val point={leasingProcess.reply} locale={locale} /></> : null}</p>
+                </li>
+              ))}
+            </ol>
+          </aside>
+        </div>
+      </section>
     </PageShell>
   );
 }
