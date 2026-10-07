@@ -1,35 +1,33 @@
+import type { CSSProperties, ReactNode } from "react";
+import { HistoryMotion } from "@/components/history-motion";
 import { PageShell } from "@/components/page-shell";
 import { ArtImage } from "@/components/primitives";
 import { Button, TextLink } from "@/components/ui";
 import { developmentProjects, portfolioAssets, type AssetMedia } from "@/lib/assets";
 import { brandLayers } from "@/lib/brand";
-import { scaleMetrics, type ScaleMetric } from "@/lib/metrics";
-import { capitalCopy, publicFinancialMetrics } from "@/lib/public-financial-metrics";
-import { capabilities, historyAnchors, historyCopy, mission, purpose, vision } from "@/lib/strategy";
+import { companyHistory, historyPeriods, type StoryBlock } from "@/lib/company-history";
+import { historyAnchors, historyCopy } from "@/lib/strategy";
 import { brand, localePath, publicAsset, type SiteLocale } from "@/lib/site-data";
 
 /**
- * ABOUT — editorial company history (2026-10-07).
+ * ABOUT — the full MEGAPARC company history as a long-form editorial feature
+ * (OWNER-approved RU master copy, 2026-10-07) with a restrained cinematic
+ * motion layer (HistoryMotion + MotionController, no dependency).
  *
- * One story, told as a magazine spread rather than a corporate timeline:
- *   hero (brand image) · 1995 group heritage · 1996–1997 · image break ·
- *   2005 MEGAPARC established · 2006–2019 group experience · 2020 strategic
- *   real-estate focus (the strongest moment, with the page's red field) ·
- *   today · "value is created by decisions" + purpose / mission / vision ·
- *   closing (WE BUILD THE FUTURE).
+ * Movements: hero (three-frame crossfade, line-mask headline) · intro +
+ * chronology · 1995 (sticky year, burgundy = group) · 1996–1997 · image
+ * interlude · red wipe → 2005 (sticky red year = MEGAPARC, manifesto) ·
+ * story stage 2006–2007 / international / 2014 / 2017–2019 (sticky frame,
+ * crossfade per chapter) · the turn ("В недвижимости.") · 2020 (sticky year,
+ * pinned scene: three disciplines → red statement) · today (current
+ * portfolio crossfade) · value creation (scroll-linked progression) ·
+ * verdict · closing (WE BUILD THE FUTURE; the footer omits it here).
  *
- * Public chronology (OWNER rule): 1995 = group heritage, 2005 = MEGAPARC
- * established, 2020 = strategic real-estate focus. Years come from
- * historyAnchors / historyCopy.supporting, never typed into JSX. The group
- * chapters (1995, 1996–1997, 2006–2019) speak about the group, not MEGAPARC.
- *
- * Images: brand / editorial frames (warm monochrome, scripts/brand-imagery.mjs)
- * for the hero, 1995, the break and 2006–2019 — never captioned as MEGAPARC
- * assets or archive photographs. Real MEGAPARC photographs for 2005
- * (Moscova 9), 2020 (VATRA) and today (Dacia 31), captioned as the current
- * portfolio so no date is implied.
- *
- * Editorial source: RU. RO and EN are adaptations.
+ * Copy lives in src/lib/company-history.ts and is rendered in full. Years
+ * come from historyAnchors / historyCopy.supporting / historyPeriods.
+ * Brand frames are atmosphere (warm monochrome, never captioned as assets or
+ * archive); real MEGAPARC photographs are captioned as the current portfolio.
+ * No review-only financial figures on this page.
  */
 
 function brandMedia(key: string, { single = false, position }: { single?: boolean; position?: string } = {}): AssetMedia {
@@ -37,193 +35,26 @@ function brandMedia(key: string, { single = false, position }: { single?: boolea
   return { src, card: src, wide: src, mobile: single ? src : publicAsset(`/assets/brand/${key}-mobile.webp`), position };
 }
 
+const tradePortrait = publicAsset("/assets/brand/about-trade-mobile.webp");
+
 const img = {
-  hero: brandMedia("about-hero", { position: "50% 50%" }),
+  hero: [brandMedia("about-hero", { position: "50% 50%" }), brandMedia("about-hero-2", { position: "50% 50%" }), brandMedia("about-hero-3", { position: "50% 50%" })],
   heritage: brandMedia("about-1995", { single: true }),
   pause: brandMedia("about-break", { position: "50% 60%" }),
-  trade: brandMedia("about-trade"),
+  stage: [
+    brandMedia("about-stage-2006", { single: true }),
+    { src: tradePortrait, card: tradePortrait, wide: tradePortrait, mobile: tradePortrait } satisfies AssetMedia,
+    brandMedia("about-stage-2014", { single: true }),
+    brandMedia("about-stage-2017", { single: true }),
+  ],
 };
 
-type Lines = readonly string[];
+/* ---------------------------------------------------------------- */
+/* Typographic helpers                                                */
+/* ---------------------------------------------------------------- */
 
-const copy = {
-  ro: {
-    kicker: "Istoric",
-    title: ["Experiența", "care ne-a condus", "spre imobiliare."],
-    lead: (group: string, company: string, focus: string) => `Povestea grupului începe în ${group}, a MEGAPARC\u00a0— în\u00a0${company}. Din ${focus}, în centrul ei se află imobiliarele.`,
-    index: "Cronologie",
-    alt: {
-      hero: "Arhitectură contemporană — imagine monocromă",
-      heritage: "Turn din beton — detaliu arhitectural",
-      pause: "Fațada unei clădiri înalte — vedere de jos",
-      trade: "Terminal de containere — vedere de sus",
-    },
-    heritage: {
-      title: "Începutul istoriei investiționale a grupului",
-      text: "În 1995 începe parcursul antreprenorial al grupului: retail, investiții, producție. Pe această experiență se sprijină astăzi MEGAPARC.",
-      quote: ["„Să vezi oportunitatea", "înainte ca ea să devină evidentă.”"] as Lines,
-    },
-    operating: {
-      title: "De la capital la expertiză operațională",
-      text: "Grupul intră în serviciile financiare și în agroindustrie. Pe lângă investiție apare a doua competență: administrarea unei afaceri în funcțiune.",
-    },
-    established: {
-      title: "Apare MEGAPARC",
-      text: "Este fondată MEGAPARC. Compania achiziționează și modernizează obiecte comerciale și privește fiecare clădire ca pe o afacere în funcțiune.",
-      quote: ["„Valoarea unui obiect nu stă doar", "în cât costă.", "Contează cum funcționează.”"] as Lines,
-      caption: (name: string) => `${name} · obiect din portofoliul actual`,
-    },
-    beyond: {
-      title: "Experiență dincolo de un singur domeniu",
-      text: "Domenii și piețe diferite învață același lucru: să calculezi economia în ansamblu și să vezi riscurile din timp.",
-    },
-    focus: {
-      title: "Imobiliarele devin focusul strategic",
-      text: "MEGAPARC se concentrează pe imobiliarele din Moldova: administrarea obiectelor, dezvoltare și modernizarea mediului urban.",
-      quote: ["„Imobiliarele nu mai sunt", "una dintre direcțiile afacerii.", "Au devenit centrul ei.”"] as Lines,
-      caption: (name: string) => `${name} · proiect de dezvoltare`,
-    },
-    today: {
-      title: "Imobiliarele\u00a0— o activitate pe termen lung",
-      text: "MEGAPARC investește în imobiliare, dezvoltă proiecte și administrează obiecte în funcțiune. Portofoliul actual al companiei se află în Moldova. Noile oportunități de investiții compania le analizează la nivel internațional.",
-      verbs: ["Investește", "Dezvoltă", "Administrează", "Analizează noi oportunități"],
-      links: [
-        ["/portfolio", "Portofoliu"],
-        ["/development", "Proiecte de dezvoltare"],
-        ["/approach", "Abordarea noastră"],
-      ],
-    },
-    value: {
-      label: "Scop · Misiune · Viziune",
-      quote: ["„Valoarea nu apare de la sine.", "O creează deciziile.”"] as Lines,
-    },
-    close: {
-      title: ["Experiența trecutului.", "Focus pe viitor."],
-      contact: "Discută un parteneriat",
-      careers: "Cariere la MEGAPARC",
-    },
-  },
-  ru: {
-    kicker: "История",
-    title: ["Опыт, который", "привёл нас", "к недвижимости."],
-    lead: (group: string, company: string, focus: string) => `История группы начинается в\u00a0${group}\u00a0году, MEGAPARC\u00a0— в\u00a0${company}-м. С\u00a0${focus}\u00a0года центр этой истории\u00a0— недвижимость.`,
-    index: "Хронология",
-    alt: {
-      hero: "Современная архитектура — монохромный кадр",
-      heritage: "Бетонная башня — архитектурная деталь",
-      pause: "Фасад высотного здания — вид снизу",
-      trade: "Контейнерный терминал — вид сверху",
-    },
-    heritage: {
-      title: "Начало инвестиционной истории группы",
-      text: "В 1995 году начинается предпринимательская история группы: розница, инвестиции, производство. На этот опыт сегодня опирается MEGAPARC.",
-      quote: ["«Видеть возможность раньше,", "чем она становится очевидной.»"] as Lines,
-    },
-    operating: {
-      title: "От капитала\u00a0— к\u00a0операционной экспертизе",
-      text: "Группа выходит в финансовые услуги и агропромышленный сектор. К умению вкладывать средства добавляется второе\u00a0— управлять работающим бизнесом.",
-    },
-    established: {
-      title: "Появляется MEGAPARC",
-      text: "Основана MEGAPARC. Компания покупает и модернизирует коммерческие объекты и оценивает каждое здание как работающий бизнес.",
-      quote: ["«Объект ценен не только тем,", "сколько он стоит.", "Важно, как он работает.»"] as Lines,
-      caption: (name: string) => `${name} · объект текущего портфеля`,
-    },
-    beyond: {
-      title: "Опыт за пределами одной отрасли",
-      text: "Разные отрасли и рынки учат одному: считать экономику целиком и видеть риски заранее.",
-    },
-    focus: {
-      title: "Недвижимость становится стратегическим фокусом",
-      text: "MEGAPARC сосредотачивается на недвижимости в Молдове: управление объектами, девелопмент и обновление городской среды.",
-      quote: ["«Недвижимость перестала быть", "одним из направлений бизнеса.", "Она стала его центром.»"] as Lines,
-      caption: (name: string) => `${name} · проект развития`,
-    },
-    today: {
-      title: "Недвижимость как долгосрочная работа",
-      text: "MEGAPARC инвестирует в недвижимость, развивает проекты и управляет действующими объектами. Действующий портфель компании находится в Молдове. Новые инвестиционные возможности компания рассматривает по всему миру.",
-      verbs: ["Инвестирует", "Развивает", "Управляет", "Рассматривает новые возможности"],
-      links: [
-        ["/portfolio", "Портфель"],
-        ["/development", "Проекты развития"],
-        ["/approach", "Наш подход"],
-      ],
-    },
-    value: {
-      label: "Цель · Миссия · Видение",
-      quote: ["«Стоимость не появляется сама.", "Её создают решения.»"] as Lines,
-    },
-    close: {
-      title: ["Опыт прошлого.", "Фокус на будущем."],
-      contact: "Обсудить партнёрство",
-      careers: "Карьера в MEGAPARC",
-    },
-  },
-  en: {
-    kicker: "History",
-    title: ["The experience", "that led us", "to real estate."],
-    lead: (group: string, company: string, focus: string) => `The group's story begins in ${group}, MEGAPARC's in ${company}. Since ${focus}, real estate has been at its centre.`,
-    index: "Chronology",
-    alt: {
-      hero: "Contemporary architecture — monochrome",
-      heritage: "Concrete tower — architectural detail",
-      pause: "High-rise facade seen from below",
-      trade: "Container terminal from above",
-    },
-    heritage: {
-      title: "The start of the group's investment story",
-      text: "In 1995 the group's entrepreneurial story begins: retail, investment, manufacturing. MEGAPARC builds on that experience today.",
-      quote: ["“Seeing an opportunity", "before it becomes obvious.”"] as Lines,
-    },
-    operating: {
-      title: "From capital to operating expertise",
-      text: "The group moves into financial services and agro-industry. Alongside investing comes a second skill: running an operating business.",
-    },
-    established: {
-      title: "MEGAPARC arrives",
-      text: "MEGAPARC is founded. The company buys and modernises commercial properties and judges every building as an operating business.",
-      quote: ["“A property is not valued only", "by what it costs.", "What matters is how it works.”"] as Lines,
-      caption: (name: string) => `${name} · current portfolio`,
-    },
-    beyond: {
-      title: "Experience beyond a single industry",
-      text: "Different industries and markets teach the same lesson: look at the economics as a whole and see risks early.",
-    },
-    focus: {
-      title: "Real estate becomes the strategic focus",
-      text: "MEGAPARC concentrates on real estate in Moldova: property management, development and urban renewal.",
-      quote: ["“Real estate stopped being", "one line of the business.", "It became its centre.”"] as Lines,
-      caption: (name: string) => `${name} · development project`,
-    },
-    today: {
-      title: "Real estate as long-term\u00a0work",
-      text: "MEGAPARC invests in real estate, develops projects and manages operating properties. The company's current portfolio is in Moldova. It considers new investment opportunities worldwide.",
-      verbs: ["Invests", "Develops", "Manages", "Considers new opportunities"],
-      links: [
-        ["/portfolio", "Portfolio"],
-        ["/development", "Development projects"],
-        ["/approach", "Our approach"],
-      ],
-    },
-    value: {
-      label: "Purpose · Mission · Vision",
-      quote: ["“Value does not appear on its own.", "Decisions create it.”"] as Lines,
-    },
-    close: {
-      title: ["Experience of the past.", "Focus on the future."],
-      contact: "Discuss a partnership",
-      careers: "Careers at MEGAPARC",
-    },
-  },
-} as const;
-
-function formatNumber(value: number, locale: SiteLocale, pad = 0) {
-  const s = new Intl.NumberFormat(locale === "en" ? "en-GB" : locale === "ru" ? "ru-RU" : "ro-RO").format(value);
-  return pad ? s.padStart(pad, "0") : s;
-}
-
-/** Fixed line breaks from 720px; on phones the lines run on as one sentence. */
-function Broken({ lines }: { lines: Lines }) {
+/** Editorial line breaks from 720px; below, the lines run on as one sentence. */
+function Lines({ lines }: { lines: readonly string[] }) {
   return (
     <>
       {lines.map((line, i) => (
@@ -236,297 +67,483 @@ function Broken({ lines }: { lines: Lines }) {
   );
 }
 
-function Quote({ lines, className = "" }: { lines: Lines; className?: string }) {
+/** Year as a graphic object: masked vertical reveal. Decorative; chapter headings carry the year for assistive tech. */
+function Year({ children, size, tone }: { children: ReactNode; size: "xl" | "lg" | "md"; tone?: "burgundy" | "red" }) {
   return (
-    <blockquote className={`hx-quote ${className}`.trim()} data-reveal>
-      <p>
-        <Broken lines={lines} />
-      </p>
-    </blockquote>
+    <p className={`hx-year hx-year--${size}${tone ? ` hx-year--${tone}` : ""}`} aria-hidden="true">
+      <span className="hx-mask" data-reveal>
+        <span>{children}</span>
+      </span>
+    </p>
   );
 }
 
+function Block({ block }: { block: StoryBlock }) {
+  switch (block.kind) {
+    case "p":
+      return (
+        <>
+          {block.note ? <span className="hx-note">{block.note}</span> : null}
+          <p>{block.text}</p>
+        </>
+      );
+    case "emph":
+      return <p className="hx-emph">{block.text}</p>;
+    case "terms":
+      return (
+        <ul className="hx-terms">
+          {block.items.map((item) => (
+            <li key={item.term}>
+              <strong>{item.term}</strong>
+              {item.rest}
+            </li>
+          ))}
+        </ul>
+      );
+    case "lines":
+      return (
+        <ul className="hx-lines">
+          {block.items.map((item) => (
+            <li key={item}>{item}</li>
+          ))}
+        </ul>
+      );
+  }
+}
+
+/** Paragraphs revealed in semantic groups of two or three, never one by one. */
+function groupBlocks(blocks: StoryBlock[]) {
+  const groups: StoryBlock[][] = [];
+  let current: StoryBlock[] = [];
+  let length = 0;
+  const flush = () => {
+    if (current.length) groups.push(current);
+    current = [];
+    length = 0;
+  };
+  for (const block of blocks) {
+    if (block.kind !== "p") {
+      flush();
+      groups.push([block]);
+      continue;
+    }
+    current.push(block);
+    length += block.text.length;
+    if (current.length === 3 || length > 520) flush();
+  }
+  flush();
+  return groups;
+}
+
+function Prose({ blocks, className = "" }: { blocks: StoryBlock[]; className?: string }) {
+  return (
+    <div className={`hx-prose ${className}`.trim()}>
+      {groupBlocks(blocks).map((group, i) => (
+        <div key={i} className="hx-group" data-reveal>
+          {group.map((block, j) => (
+            <Block key={j} block={block} />
+          ))}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function Statement({ lines, className = "" }: { lines: readonly string[]; className?: string }) {
+  return (
+    <p className={`hx-statement ${className}`.trim()} data-reveal>
+      <Lines lines={lines} />
+    </p>
+  );
+}
+
+function ChapterTitle({ id, year, children, className = "hx-title" }: { id: string; year: string; children: ReactNode; className?: string }) {
+  return (
+    <h2 className={className} id={id}>
+      <span className="sr-only">{year}. </span>
+      {children}
+    </h2>
+  );
+}
+
+/* ---------------------------------------------------------------- */
+/* Page                                                               */
+/* ---------------------------------------------------------------- */
+
 export function AboutPage({ locale }: { locale: SiteLocale }) {
-  const c = copy[locale];
+  const c = companyHistory[locale];
   const p = (path: string) => localePath(locale, path);
 
   const [heritage, established, focus] = historyAnchors;
-  const [early, diversification, trade] = historyCopy.supporting;
-  const beyondSpan = `${diversification.year.split("–")[0]}–${trade.year.split("–")[1]}`;
+  const [early, expansionPeriod, consolidationPeriod] = historyCopy.supporting;
   const today = historyCopy.today[locale];
-  const group = historyCopy.group[locale];
+  const earlyYears = early.year.split("–");
 
   const moscova9 = portfolioAssets.find((asset) => asset.slug === "moscova-9")!;
   const dacia31 = portfolioAssets.find((asset) => asset.slug === "dacia-31")!;
   const vatra = developmentProjects.find((project) => project.slug === "vatra")!;
 
-  const metrics = scaleMetrics();
-  const byKey = (key: string) => metrics.find((metric) => metric.key === key);
-  const figures = [byKey("operating"), byKey("projects"), byKey("land")].filter((metric): metric is ScaleMetric => Boolean(metric));
-  const figureNote: Record<string, string> = {
-    operating: dacia31.city[locale],
-    projects: developmentProjects.map((project) => project.name).join(" · "),
-    land: [byKey("land")?.secondary?.[locale], developmentProjects.find((project) => project.slug === "drochia-gateway")?.name].filter(Boolean).join(" · "),
-  };
+  const stage = [
+    { id: "y2006", year: expansionPeriod.year, chapter: c.expansion, media: img.stage[0] },
+    { id: "y2007", year: c.international.period, chapter: c.international, media: img.stage[1] },
+    { id: "y2014", year: historyPeriods.knowhow, chapter: c.knowhow, media: img.stage[2] },
+    { id: "y2017", year: consolidationPeriod.year, chapter: c.consolidation, media: img.stage[3] },
+  ];
+
+  const todayFrames = [
+    { media: moscova9.media!, name: moscova9.name, status: moscova9.status[locale], alt: `${moscova9.name} — ${moscova9.positioning[locale]}` },
+    { media: { ...vatra.media!, position: "50% 88%" }, name: vatra.name, status: vatra.status[locale], alt: `${vatra.name} — ${vatra.status[locale]}` },
+    { media: dacia31.media!, name: dacia31.name, status: dacia31.status[locale], alt: `${dacia31.name} — ${dacia31.positioning[locale]}` },
+  ];
 
   const chapters = [
     { id: "y1995", mark: heritage.year },
     { id: "y1996", mark: early.year },
     { id: "y2005", mark: established.year },
-    { id: "y2006", mark: beyondSpan },
+    ...stage.map((item) => ({ id: item.id, mark: item.year })),
     { id: "y2020", mark: focus.year },
     { id: "today", mark: today },
   ];
 
   return (
-    <PageShell locale={locale}>
-      {/* HERO — brand architecture, the story's title, a chapter index */}
-      <section className="hx-hero" aria-labelledby="hx-title">
-        <div className="hx-hero__media">
-          <ArtImage media={img.hero} alt={c.alt.hero} priority depth={10} position={img.hero.position} />
+    <PageShell locale={locale} variant="overlay" footerStatement={false} mainClassName="hx-page">
+      <HistoryMotion />
+
+      {/* 01 HERO — three architectural frames crossfading, line-mask headline */}
+      <section className="hx-hero" data-hx-hero aria-labelledby="hx-title">
+        <div className="hx-hero__media" data-hx-sequence data-interval="6500">
+          {img.hero.map((media, i) => (
+            <div key={media.src} className={`hx-hero__frame${i === 0 ? " is-active" : " is-deferred"}`} data-hx-frame>
+              <ArtImage media={media} alt={i === 0 ? c.alt.hero : ""} priority={i === 0} position={media.position} />
+            </div>
+          ))}
         </div>
         <span className="hx-hero__veil" aria-hidden="true" />
-        <div className="shell hx-hero__copy" data-reveal>
-          <p className="hx-kicker hx-kicker--light">{c.kicker}</p>
+        <div className="shell hx-hero__copy">
+          <p className="hx-kicker hx-kicker--light hx-hero__kicker">{c.kicker}</p>
           <h1 className="hx-hero__title" id="hx-title">
-            <Broken lines={c.title} />
+            {c.title.map((line, i) => (
+              <span key={line} className="hx-line" style={{ "--i": i } as CSSProperties}>
+                <span>
+                  {line}
+                  {i < c.title.length - 1 ? " " : null}
+                </span>
+              </span>
+            ))}
           </h1>
-          <div className="hx-hero__foot">
-            <p className="hx-hero__lead">{c.lead(heritage.year, established.year, focus.year)}</p>
-            <nav className="hx-index" aria-label={c.index}>
-              <ol>
-                {chapters.map((chapter) => (
-                  <li key={chapter.id}>
-                    <a href={`#${chapter.id}`}>{chapter.mark}</a>
-                  </li>
-                ))}
-              </ol>
-            </nav>
+          <p className="hx-hero__lead">{c.intro.lead}</p>
+        </div>
+      </section>
+
+      {/* INTRO — the opening essay and the chronology */}
+      <section className="hx-ch hx-ch--ink hx-intro" aria-label={c.kicker}>
+        <div className="shell hx-grid">
+          <nav className="hx-aside hx-index" aria-label={c.index}>
+            <p className="hx-scope">{c.index}</p>
+            <ol>
+              {chapters.map((chapter) => (
+                <li key={chapter.id}>
+                  <a href={`#${chapter.id}`}>{chapter.mark}</a>
+                </li>
+              ))}
+            </ol>
+          </nav>
+          <div className="hx-main">
+            <Prose blocks={c.intro.body} />
+            <p className="hx-closeline" data-reveal>{c.intro.close}</p>
           </div>
         </div>
       </section>
 
-      {/* 1995 — group heritage: the year as an object beside a concrete tower */}
-      <section className="hx-ch hx-ch--paper hx-1995" id="y1995" aria-labelledby="t-1995">
-        <div className="shell hx-1995__grid">
-          <div className="hx-1995__head" data-reveal>
-            <p className="hx-scope">{group}</p>
-            <p className="hx-year hx-year--xl" aria-hidden="true">{heritage.year}</p>
+      {/* 02 1995 — group heritage: sticky burgundy year beside the narrative */}
+      <section id="y1995" className="hx-ch hx-ch--paper hx-major" aria-labelledby="t-y1995">
+        <div className="shell hx-grid">
+          <header className="hx-aside hx-aside--sticky">
+            <p className="hx-scope">{c.heritage.label}</p>
+            <Year size="xl" tone="burgundy">{heritage.year}</Year>
+            <ChapterTitle id="t-y1995" year={heritage.year}>{c.heritage.title}</ChapterTitle>
+          </header>
+          <div className="hx-main">
+            <Prose blocks={c.heritage.body} />
           </div>
-          <div className="hx-1995__copy" data-reveal>
-            <h2 className="hx-title" id="t-1995">
-              <span className="sr-only">{heritage.year}. </span>
-              {c.heritage.title}
-            </h2>
-            <p className="hx-text">{c.heritage.text}</p>
-          </div>
-          <figure className="hx-fig hx-1995__fig" data-reveal>
+        </div>
+        <div className="shell hx-pair">
+          <figure className="hx-fig hx-pair__fig" data-reveal>
             <div className="hx-media hx-media--portrait">
-              <ArtImage media={img.heritage} alt={c.alt.heritage} depth={12} sizes="(min-width: 900px) 40vw, 80vw" />
+              <ArtImage media={img.heritage} alt={c.alt.heritage} depth={28} sizes="(min-width: 900px) 40vw, 90vw" />
             </div>
           </figure>
-          <Quote lines={c.heritage.quote} className="hx-1995__quote" />
+          <Statement lines={c.heritage.statement} className="hx-pair__statement" />
         </div>
       </section>
 
-      {/* 1996–1997 — from capital to operating expertise (typographic) */}
-      <section className="hx-ch hx-ch--paper hx-ch--cont" id="y1996" aria-labelledby="t-1996">
-        <div className="shell hx-row" data-reveal>
-          <p className="hx-scope hx-row__scope">{group}</p>
-          <p className="hx-year hx-year--md hx-row__year" aria-hidden="true">{early.year}</p>
-          <div className="hx-row__body">
-            <h2 className="hx-title" id="t-1996">
-              <span className="sr-only">{early.year}. </span>
-              {c.operating.title}
-            </h2>
-            <p className="hx-text">{c.operating.text}</p>
+      {/* 03 1996–1997 — quieter chapter, vertical date object, annotations */}
+      <section id="y1996" className="hx-ch hx-ch--white" aria-labelledby="t-y1996">
+        <div className="shell hx-grid">
+          <header className="hx-aside">
+            <p className="hx-scope">{c.finance.label}</p>
+            <p className="hx-year hx-year--stack" aria-hidden="true">
+              <span className="hx-mask" data-reveal>
+                <span>{earlyYears[0]}</span>
+              </span>
+              <span className="hx-year__dash">—</span>
+              <span className="hx-mask" data-reveal>
+                <span>{earlyYears[1]}</span>
+              </span>
+            </p>
+            <ChapterTitle id="t-y1996" year={early.year}>{c.finance.title}</ChapterTitle>
+          </header>
+          <div className="hx-main">
+            <Prose blocks={c.finance.body} />
           </div>
         </div>
+        <div className="shell">
+          <Statement lines={c.finance.statement} className="hx-statement--wide" />
+        </div>
       </section>
 
-      {/* IMAGE BREAK — brand architecture, no text */}
-      <figure className="hx-break">
-        <ArtImage media={img.pause} alt={c.alt.pause} depth={16} position={img.pause.position} />
+      {/* 04 INTERLUDE — a visual pause */}
+      <figure className="hx-band">
+        <ArtImage media={img.pause} alt={c.alt.pause} depth={18} position={img.pause.position} />
       </figure>
 
-      {/* 2005 — MEGAPARC established: red year, a real portfolio property */}
-      <section className="hx-ch hx-ch--graphite hx-2005" id="y2005" aria-labelledby="t-2005">
-        <div className="shell hx-2005__grid">
-          <div className="hx-2005__head" data-reveal>
-            <p className="hx-scope">{brand.name}</p>
-            <p className="hx-year hx-year--lg hx-year--red" aria-hidden="true">{established.year}</p>
-            <h2 className="hx-title" id="t-2005">
-              <span className="sr-only">{established.year}. </span>
-              {c.established.title}
-            </h2>
-            <p className="hx-text">{c.established.text}</p>
-          </div>
-          <figure className="hx-fig hx-2005__fig" data-reveal>
-            <div className="hx-media hx-media--land hx-media--bleed">
-              <ArtImage media={moscova9.media!} alt={`${moscova9.name} — ${moscova9.positioning[locale]}`} depth={12} sizes="(min-width: 900px) 55vw, 100vw" />
-            </div>
-            <figcaption className="hx-cap">{c.established.caption(moscova9.name)}</figcaption>
-          </figure>
-          <Quote lines={c.established.quote} className="hx-2005__quote" />
-        </div>
-      </section>
-
-      {/* 2006–2019 — group experience beyond one industry */}
-      <section className="hx-ch hx-ch--paper hx-2006" id="y2006" aria-labelledby="t-2006">
-        <div className="shell hx-2006__grid">
-          <div className="hx-2006__copy" data-reveal>
-            <p className="hx-scope">{group}</p>
-            <p className="hx-year hx-year--md" aria-hidden="true">{beyondSpan}</p>
-            <h2 className="hx-title" id="t-2006">
-              <span className="sr-only">{beyondSpan}. </span>
-              {c.beyond.title}
-            </h2>
-            <p className="hx-text">{c.beyond.text}</p>
-          </div>
-          <figure className="hx-fig hx-2006__fig" data-reveal>
-            <div className="hx-media hx-media--wide hx-media--bleed">
-              <ArtImage media={img.trade} alt={c.alt.trade} depth={12} sizes="(min-width: 900px) 58vw, 100vw" />
-            </div>
-          </figure>
-          <dl className="hx-periods hx-2006__periods" data-reveal>
-            {[diversification, trade].map((period) => (
-              <div key={period.year}>
-                <dt>{period.year}</dt>
-                <dd>
-                  <strong>{period.title[locale]}</strong>
-                  <span>{period.text[locale]}</span>
-                </dd>
+      {/* 05 2005 — red wipe into the dark: MEGAPARC is established */}
+      <div className="hx-wipe" data-reveal aria-hidden="true" />
+      <section id="y2005" className="hx-ch hx-ch--graphite hx-major" aria-labelledby="t-y2005">
+        <div className="shell hx-grid">
+          <header className="hx-aside hx-aside--sticky">
+            <p className="hx-scope">{c.established.label}</p>
+            <Year size="lg" tone="red">{established.year}</Year>
+            <ChapterTitle id="t-y2005" year={established.year}>{c.established.title}</ChapterTitle>
+          </header>
+          <div className="hx-main">
+            <Prose blocks={c.established.body.slice(0, 2)} />
+            <div className="hx-boundary" data-reveal aria-hidden="true">
+              <div>
+                <span className="hx-boundary__year hx-boundary__year--group">{heritage.year}</span>
+                <span>{c.established.boundary.group}</span>
               </div>
-            ))}
-          </dl>
+              <div>
+                <span className="hx-boundary__year">{established.year}</span>
+                <span>{c.established.boundary.megaparc}</span>
+              </div>
+            </div>
+            <Prose blocks={c.established.body.slice(2)} />
+          </div>
+        </div>
+        <div className="shell hx-manifesto">
+          {c.established.manifesto.map((line, i) => (
+            <p key={line} className={i === c.established.manifesto.length - 1 ? "hx-manifesto__final" : undefined} data-reveal>
+              {line}
+            </p>
+          ))}
         </div>
       </section>
 
-      {/* 2020 — the strongest moment: three words and the page's red field */}
-      <section className="hx-ch hx-ch--ink hx-2020" id="y2020" aria-labelledby="t-2020">
-        <div className="shell">
-          <div className="hx-2020__head" data-reveal>
-            <div>
-              <p className="hx-scope">{brand.name}</p>
-              <p className="hx-year hx-year--xl" aria-hidden="true">{focus.year}</p>
-            </div>
-            <div className="hx-2020__intro">
-              <h2 className="hx-title" id="t-2020">
-                <span className="sr-only">{focus.year}. </span>
-                {c.focus.title}
-              </h2>
-              <p className="hx-text">{c.focus.text}</p>
+      {/* 06 2006–2019 — story stage: narrative left, sticky crossfading frame right */}
+      <section className="hx-ch hx-ch--paper hx-stage" data-hx-stage data-active="0" aria-label={stage.map((item) => item.year).join(" · ")}>
+        <div className="shell hx-stage__grid">
+          <div className="hx-stage__story">
+            {stage.map((item, i) => (
+              <article key={item.id} id={item.id} className="hx-step" data-hx-stage-step={i} aria-labelledby={`t-${item.id}`}>
+                <figure className="hx-fig hx-step__fig">
+                  <div className="hx-media hx-media--portrait hx-media--bleed">
+                    <ArtImage media={item.media} alt={c.alt.stage[i]} sizes="100vw" />
+                  </div>
+                </figure>
+                <header className="hx-step__head">
+                  <p className={`hx-scope${item.id === "y2007" ? " hx-scope--history" : ""}`}>{item.chapter.label}</p>
+                  <Year size="md">{item.year}</Year>
+                  <ChapterTitle id={`t-${item.id}`} year={item.year}>{item.chapter.title}</ChapterTitle>
+                </header>
+                <Prose blocks={item.chapter.body} />
+                {item.id === "y2014" ? <Statement lines={c.knowhow.aphorism} className="hx-aphorism" /> : null}
+              </article>
+            ))}
+          </div>
+          <div className="hx-stage__frame" aria-hidden="true">
+            <div className="hx-stage__sticky">
+              {stage.map((item, i) => (
+                <div key={item.id} className="hx-stage__image" data-frame={i}>
+                  <ArtImage media={item.media} alt="" sizes="(min-width: 768px) 42vw, 1px" />
+                </div>
+              ))}
             </div>
           </div>
-          <ol className="hx-focus">
-            {capabilities.map((capability) => (
-              <li key={capability.no} data-reveal>
-                <span className="hx-focus__no">{capability.no}</span>
-                <span className="hx-focus__word">{capability.title[locale]}</span>
-                <span className="hx-focus__text">{capability.text[locale]}</span>
-              </li>
+        </div>
+      </section>
+
+      {/* 08 THE TURN — the question, then, after a pause, the answer */}
+      <section className="hx-ch hx-ch--white hx-turn" aria-label={c.consolidation.question}>
+        <div className="shell hx-turn__inner">
+          <p className="hx-turn__question" data-reveal>{c.consolidation.question}</p>
+          <p className="hx-turn__lead" data-reveal>{c.consolidation.answerLead}</p>
+          <p className="hx-turn__answer">
+            <span className="hx-mask" data-reveal>
+              <span>{c.consolidation.answer}</span>
+            </span>
+          </p>
+        </div>
+      </section>
+
+      {/* 10 2020 — sticky year, full narrative, then the pinned scene */}
+      <section id="y2020" className="hx-ch hx-ch--ink hx-major" aria-labelledby="t-y2020">
+        <div className="shell hx-grid">
+          <header className="hx-aside hx-aside--sticky">
+            <p className="hx-scope">{c.focus.label}</p>
+            <Year size="xl">{focus.year}</Year>
+            <ChapterTitle id="t-y2020" year={focus.year}>{c.focus.title}</ChapterTitle>
+          </header>
+          <div className="hx-main">
+            <Prose blocks={c.focus.body} />
+          </div>
+        </div>
+      </section>
+      <section className="hx-scene" data-hx-scene data-steps="4" data-step="0" aria-label={c.focus.words.join(" ")}>
+        <div className="hx-scene__pin">
+          <div className="hx-scene__media">
+            <ArtImage media={dacia31.media!} alt={`${dacia31.name} — ${dacia31.positioning[locale]}`} position={dacia31.media!.position} />
+          </div>
+          <span className="hx-scene__veil" aria-hidden="true" />
+          <p className="hx-scene__caption">{dacia31.name} · {c.caption.today}</p>
+          <div className="shell hx-scene__copy">
+            <ol className="hx-scene__words">
+              {c.focus.words.map((word, i) => (
+                <li key={word} data-word={i + 1} data-reveal>{word}</li>
+              ))}
+            </ol>
+            <p className="hx-scene__statement" data-reveal>
+              <Lines lines={c.focus.statement} />
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* 11 TODAY — the present: current portfolio, calm crossfade */}
+      <section id="today" className="hx-ch hx-ch--white hx-today" aria-labelledby="t-today">
+        <div className="shell">
+          <header className="hx-today__head">
+            <p className="hx-scope">{c.today.label}</p>
+            <h2 className="hx-today__title" id="t-today">
+              <span className="hx-mask" data-reveal>
+                <span>{c.today.title}</span>
+              </span>
+            </h2>
+            <p className="hx-today__subtitle" data-reveal>{c.today.subtitle}</p>
+          </header>
+          <div className="hx-today__frame" data-hx-sequence data-interval="6000">
+            {todayFrames.map((frame, i) => (
+              <figure key={frame.name} className={`hx-today__slide${i === 0 ? " is-active" : ""}`} data-hx-frame>
+                <ArtImage media={frame.media} alt={frame.alt} sizes="(min-width: 900px) 90vw, 100vw" position={frame.media.position} />
+                <figcaption>{frame.name} · {frame.status}</figcaption>
+              </figure>
+            ))}
+          </div>
+          <div className="hx-grid hx-today__grid">
+            <div className="hx-aside" />
+            <div className="hx-main">
+              <Prose blocks={c.today.body} />
+              <ul className="hx-criteria" data-reveal>
+                {c.today.criteria.map((line) => (
+                  <li key={line}>{line}</li>
+                ))}
+              </ul>
+              <div className="hx-links" data-reveal>
+                {c.today.links.map(([path, label]) => (
+                  <TextLink key={path} href={p(path)}>{label}</TextLink>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 12 VALUE CREATION — scroll-linked progression, then the verdict */}
+      <section id="value" className="hx-ch hx-ch--paper hx-value" aria-labelledby="t-value">
+        <div className="shell hx-grid">
+          <header className="hx-aside">
+            <p className="hx-scope">{c.value.label}</p>
+            <h2 className="hx-value__title" id="t-value">{c.value.title}</h2>
+          </header>
+          <div className="hx-main">
+            <Prose blocks={c.value.body} />
+          </div>
+        </div>
+        <div className="shell hx-progression" data-hx-progress aria-hidden="true">
+          <span className="hx-progression__line" />
+          <ol>
+            {c.value.progression.map((term) => (
+              <li key={term} data-hx-term>{term}</li>
             ))}
           </ol>
-          <div className="hx-2020__close">
-            <figure className="hx-fig hx-2020__fig" data-reveal>
-              <div className="hx-media hx-media--wide hx-media--bleed">
-                <ArtImage media={vatra.media!} alt={`${vatra.name} — ${vatra.status[locale]}`} depth={12} position="50% 100%" sizes="(min-width: 900px) 70vw, 100vw" />
-                <figcaption className="hx-cap hx-cap--over">{c.focus.caption(vatra.name)}</figcaption>
-              </div>
-            </figure>
-            <blockquote className="hx-red" data-reveal>
-              <p>
-                <Broken lines={c.focus.quote} />
-              </p>
-            </blockquote>
-          </div>
         </div>
-      </section>
-
-      {/* TODAY — real portfolio, verified scale, review-only key figures */}
-      <section className="hx-ch hx-ch--white hx-today" id="today" aria-labelledby="t-today">
-        <div className="shell">
-          <div className="hx-today__head" data-reveal>
-            <p className="hx-scope">{brand.name}</p>
-            <p className="hx-year hx-year--word" aria-hidden="true">{today}</p>
-            <h2 className="hx-title" id="t-today">
-              <span className="sr-only">{today}. </span>
-              {c.today.title}
-            </h2>
-            <p className="hx-text">{c.today.text}</p>
-          </div>
-          <figure className="hx-fig hx-today__fig" data-reveal>
-            <div className="hx-media hx-media--hero hx-media--bleed">
-              <ArtImage media={dacia31.media!} alt={`${dacia31.name} — ${dacia31.positioning[locale]}`} depth={14} position={dacia31.media!.position} />
-            </div>
-            <figcaption className="hx-cap">{dacia31.name} · {dacia31.city[locale]}</figcaption>
-          </figure>
-          <dl className="hx-figures" data-reveal>
-            {figures.map((metric) => (
-              <div key={metric.key} className={metric.key === "land" ? "is-wide" : undefined}>
-                <dt>{metric.label[locale]}</dt>
-                <dd className="hx-figures__value">
-                  {formatNumber(metric.value, locale, metric.pad)}
-                  {metric.plus ? <b>+</b> : null}
-                  {metric.unit ? <small>{metric.unit[locale]}</small> : null}
-                </dd>
-                <dd className="hx-figures__note">{figureNote[metric.key]}</dd>
-              </div>
-            ))}
-          </dl>
-          <p className="hx-scope hx-today__kicker">{capitalCopy.kicker[locale]}</p>
-          <dl className="hx-figures hx-figures--small" data-reveal>
-            {publicFinancialMetrics.map((metric) => (
-              <div key={metric.key} data-temporary={metric.temporary ? "true" : undefined}>
-                <dt>{metric.label[locale]}</dt>
-                <dd className="hx-figures__value">{metric.display}</dd>
-              </div>
-            ))}
-          </dl>
-          <div className="hx-today__foot" data-reveal>
-            <ul className="hx-verbs">
-              {c.today.verbs.map((verb) => (
-                <li key={verb}>{verb}</li>
+        <div className="shell hx-grid">
+          <div className="hx-aside" />
+          <div className="hx-main hx-prose">
+            <ul className="hx-steps" data-reveal>
+              {c.value.steps.map((step) => (
+                <li key={step}>{step}</li>
               ))}
             </ul>
-            <div className="hx-links">
-              {c.today.links.map(([path, label]) => (
-                <TextLink key={path} href={p(path)}>{label}</TextLink>
-              ))}
-            </div>
+            <p className="hx-emph" data-reveal>{c.value.refusal}</p>
           </div>
         </div>
       </section>
-
-      {/* VALUE — "value is created by decisions" + purpose / mission / vision */}
-      <section className="hx-ch hx-ch--paper hx-value" aria-label={c.value.label}>
+      <section className="hx-ch hx-ch--graphite hx-verdict" aria-label={c.value.statement.join(" ")}>
         <div className="shell">
-          <blockquote className="hx-statement" data-reveal>
-            <p>
-              <Broken lines={c.value.quote} />
-            </p>
-          </blockquote>
-          <dl className="hx-pmv" data-reveal>
-            {[purpose, mission, vision].map((item) => (
-              <div key={item.title.en}>
-                <dt>{item.title[locale]}</dt>
-                <dd>{item.text[locale]}</dd>
-              </div>
-            ))}
-          </dl>
+          <Statement lines={c.value.statement} className="hx-verdict__text" />
         </div>
       </section>
 
-      {/* CLOSING — experience of the past, focus on the future */}
+      {/* 13 CLOSING — experience of the past, focus on the future */}
       <section className="hx-ch hx-ch--ink hx-close" aria-labelledby="t-close">
-        <div className="shell hx-close__inner" data-reveal>
+        <div className="shell">
           <h2 className="hx-close__title" id="t-close">
-            <Broken lines={c.close.title} />
+            {c.closing.title.map((line, i) => (
+              <span key={line} className="hx-mask hx-close__line" data-reveal>
+                <span>
+                  {line}
+                  {i < c.closing.title.length - 1 ? " " : null}
+                </span>
+              </span>
+            ))}
           </h2>
-          <p className="hx-close__brand">{brandLayers.statement.en}</p>
-          <div className="hx-close__actions">
-            <Button href={`${p("/contact")}#partnership`} variant="light">{c.close.contact}</Button>
-            <TextLink href={p("/careers")} className="tlink--light">{c.close.careers}</TextLink>
+          <div className="hx-grid">
+            <div className="hx-aside" />
+            <div className="hx-main">
+              <Prose blocks={c.closing.body} />
+              <div className="hx-prose">
+                <p className="hx-group" data-reveal>{c.closing.positionsLead}</p>
+              </div>
+              <ul className="hx-positions" data-reveal>
+                {c.closing.positions.map((item) => (
+                  <li key={item.term}>
+                    <strong>{item.term}</strong>
+                    {item.rest}
+                  </li>
+                ))}
+              </ul>
+              <Prose blocks={c.closing.after} />
+            </div>
+          </div>
+          <ul className="hx-audiences">
+            {c.closing.audiences.map((audience, i) => (
+              <li key={audience} data-reveal style={{ "--i": i } as CSSProperties}>{audience}</li>
+            ))}
+          </ul>
+          <div className="hx-grid">
+            <div className="hx-aside" />
+            <div className="hx-main hx-prose">
+              <p className="hx-emph hx-next" data-reveal>{c.closing.next}</p>
+            </div>
+          </div>
+          <div className="hx-finale" data-reveal>
+            <p className="hx-finale__brand" lang="en">{brandLayers.statement.en}</p>
+            {locale !== "en" ? <p className="hx-finale__local">{brand.tagline[locale]}.</p> : null}
+            <div className="hx-finale__actions">
+              <Button href={`${p("/contact")}#partnership`} variant="light">{c.closing.contact}</Button>
+              <TextLink href={p("/careers")} className="tlink--light">{c.closing.careers}</TextLink>
+            </div>
           </div>
         </div>
       </section>

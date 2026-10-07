@@ -20,8 +20,11 @@ const copy = {
 
 const lines = ["Real Estate Investment", "Development", "Asset Management"];
 
-/** Final brand moment: MEGAPARC, the three lines, WE BUILD THE FUTURE, then navigation, contact, languages, legal. */
-export function SiteFooter({ locale }: { locale: SiteLocale }) {
+/**
+ * Final brand moment: MEGAPARC, the three lines, WE BUILD THE FUTURE, then navigation, contact, languages, legal.
+ * `statement={false}` omits WE BUILD THE FUTURE on a page that has just closed on it (About).
+ */
+export function SiteFooter({ locale, statement = true }: { locale: SiteLocale; statement?: boolean }) {
   return (
     <footer className="ftr">
       <div className="shell">
@@ -32,8 +35,8 @@ export function SiteFooter({ locale }: { locale: SiteLocale }) {
               <li key={line}>{line}</li>
             ))}
           </ul>
-          <p className="ftr__future" lang="en">We build the future.</p>
-          {locale !== "en" ? <p className="ftr__future ftr__future--local">{brand.tagline[locale]}.</p> : null}
+          {statement ? <p className="ftr__future" lang="en">We build the future.</p> : null}
+          {statement && locale !== "en" ? <p className="ftr__future ftr__future--local">{brand.tagline[locale]}.</p> : null}
         </div>
 
         <div className="ftr__grid">
