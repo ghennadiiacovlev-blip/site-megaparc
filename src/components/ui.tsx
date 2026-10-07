@@ -7,7 +7,7 @@ import type { CSSProperties, ReactNode } from "react";
  *
  * Mobile-first, media-led, compact copy. One small vocabulary:
  *   Icon · Button · TextLink · Section · Kicker · Hero · Intro · Band ·
- *   Split · Story · Rows · Facts · Quote · Years
+ *   Split · Story · Rows · Facts · Quote · Stages
  * Every arrow is an inline SVG with stroke="currentColor" — never a glyph.
  */
 
@@ -295,25 +295,6 @@ export function Quote({ kicker, statement, text, action, tone = "graphite", id }
         {action ? <div className="quote__actions">{action}</div> : null}
       </div>
     </Section>
-  );
-}
-
-/* ---------------------------------------------------------------- */
-/* Years — 1995 · 2005 · 2020 · today                                  */
-/* ---------------------------------------------------------------- */
-
-export function Years({ items }: { items: { key: string; mark: string; scope: string; title: string; text: string; current?: boolean }[] }) {
-  return (
-    <ol className="years">
-      {items.map((item) => (
-        <li key={item.key} className={`years__item${item.current ? " is-current" : ""}`} data-reveal>
-          <span className="years__scope">{item.scope}</span>
-          <span className="years__mark">{item.mark}</span>
-          <span className="years__title">{item.title}</span>
-          <p>{item.text}</p>
-        </li>
-      ))}
-    </ol>
   );
 }
 
