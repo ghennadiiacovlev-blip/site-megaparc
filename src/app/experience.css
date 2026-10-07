@@ -873,3 +873,8 @@ a:hover .xp-showcase__meta .icon { transform: translateX(4px); }
   .xp-index a { grid-template-columns: 6rem minmax(0, 3fr) minmax(0, 5fr) auto; gap: 1.6rem; padding: 1.05rem 0; }
   .xp-index .xp-fig, .xp-index .icon, .xp-index__mono { grid-row: auto; }
 }
+/* File inputs (documents, CV) — nothing is uploaded in the preview. */
+.xp-form input[type="file"] { padding: .55rem; border-style: dashed; background: white; cursor: pointer; font-size: .88rem; }
+.xp-form input[type="file"]::file-selector-button { margin-right: .9rem; padding: .55rem 1rem; border: 1px solid var(--ink); border-radius: 999px; background: var(--ink); color: white; font: inherit; font-size: .7rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; cursor: pointer; transition: background var(--xp-ui) ease, border-color var(--xp-ui) ease; }
+.xp-form input[type="file"]:hover::file-selector-button { background: var(--red); border-color: var(--red); }
+.xp-culture { margin-bottom: clamp(3rem, 7vw, 6rem); }

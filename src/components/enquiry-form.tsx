@@ -19,7 +19,8 @@ type Field =
   | { name: string; label: string; kind: "text" | "email" | "tel" | "url" | "month"; required?: boolean; placeholder?: string; half?: boolean; hint?: string }
   | { name: string; label: string; kind: "select"; options: Option[]; required?: boolean; half?: boolean; hint?: string }
   | { name: string; label: string; kind: "radio" | "checks"; options: Option[]; required?: boolean; hint?: string }
-  | { name: string; label: string; kind: "textarea"; required?: boolean; placeholder?: string; hint?: string };
+  | { name: string; label: string; kind: "textarea"; required?: boolean; placeholder?: string; hint?: string }
+  | { name: string; label: string; kind: "file"; accept?: string; multiple?: boolean; required?: boolean; hint?: string };
 
 export type FormOptions = {
   properties: Option[];
@@ -53,9 +54,10 @@ const T = {
       company: "Companie / afacere", opening: "Ce deschideți?", openingDetail: "În câteva cuvinte", openingPh: "de ex. cabinet stomatologic, cafenea de specialitate", area: "Suprafața necesară", location: "Zona preferată", property: "Obiect de interes", date: "Data dorită de deschidere", critical: "Ce este critic?", other: "Altceva",
       have: "Ce aveți?", country: "Țara", city: "Orașul", size: "Suprafața", sizePh: "de ex. 1,5 ha sau 2.400 m²", consider: "Ce luați în calcul?", materials: "Link spre materiale (opțional)", materialsHint: "Planuri, fotografii, extras cadastral — prin Drive, Dropbox etc.",
       organisation: "Organizația", kind: "Tipul organizației", interest: "Ce vă interesează?", ticket: "Volumul orientativ", category: "Categoria", proposal: "Ce propuneți?", where: "Unde (oraș / regiune)",
-      discipline: "Direcția", role: "Postul", cv: "Link spre CV", cvPh: "https://…",
+      discipline: "Direcția", role: "Postul", cv: "Link spre CV (opțional dacă atașați fișierul)", cvPh: "https://…",
       name: "Nume și prenume", email: "E-mail", phone: "Telefon (opțional)", message: "Mesaj (opțional)", consent: "Sunt de acord ca datele mele să fie folosite pentru a răspunde la această solicitare.",
       any: "Oricare", anyProperty: "Orice obiect potrivit", choose: "Alegeți",
+      price: "Preț orientativ (opțional)", status: "Calitatea dumneavoastră", statuses: ["Proprietar", "Broker autorizat", "Consultant", "Altceva"], description: "Descriere scurtă", documents: "Documente (opțional)", docsHint: "În previzualizare fișierele nu se încarcă — rămân pe dispozitivul dumneavoastră.", company2: "Companie (opțional)", role2: "Rolul dumneavoastră", cvFile: "CV (fișier)", cvEither: "Adăugați un fișier sau un link spre CV.",
     },
     kinds: ["Bancă", "Investitor privat", "Family office", "Fond", "Altă organizație"],
     interests: ["Finanțarea proiectelor", "Co-investiție", "Achiziție", "Dezvoltare comună"],
@@ -80,9 +82,10 @@ const T = {
       company: "Компания / бизнес", opening: "Что вы открываете?", openingDetail: "В нескольких словах", openingPh: "например, стоматология, кофейня, шоурум мебели", area: "Нужная площадь", location: "Предпочтительный район", property: "Интересующий объект", date: "Желаемая дата открытия", critical: "Что критично?", other: "Другое",
       have: "Что у вас есть?", country: "Страна", city: "Город", size: "Площадь", sizePh: "например, 1,5 га или 2 400 м²", consider: "Что вы рассматриваете?", materials: "Ссылка на материалы (необязательно)", materialsHint: "Планы, фото, выписка из кадастра — через Drive, Dropbox и т. п.",
       organisation: "Организация", kind: "Тип организации", interest: "Что вас интересует?", ticket: "Ориентировочный объём", category: "Категория", proposal: "Что вы предлагаете?", where: "Где (город / регион)",
-      discipline: "Направление", role: "Вакансия", cv: "Ссылка на резюме", cvPh: "https://…",
+      discipline: "Направление", role: "Вакансия", cv: "Ссылка на резюме (если нет файла)", cvPh: "https://…",
       name: "Имя и фамилия", email: "E-mail", phone: "Телефон (необязательно)", message: "Сообщение (необязательно)", consent: "Согласен(на) на использование моих данных для ответа на этот запрос.",
       any: "Любой", anyProperty: "Любой подходящий объект", choose: "Выберите",
+      price: "Ориентировочная цена (необязательно)", status: "Кто вы по отношению к объекту", statuses: ["Собственник", "Уполномоченный брокер", "Консультант", "Другое"], description: "Краткое описание", documents: "Документы (необязательно)", docsHint: "В превью файлы не загружаются — они остаются на вашем устройстве.", company2: "Компания (необязательно)", role2: "Ваша роль", cvFile: "Резюме (файл)", cvEither: "Добавьте файл или ссылку на резюме.",
     },
     kinds: ["Банк", "Частный инвестор", "Семейный офис", "Фонд", "Другая организация"],
     interests: ["Финансирование проектов", "Соинвестиции", "Покупка", "Совместное развитие"],
@@ -107,9 +110,10 @@ const T = {
       company: "Company / business", opening: "What are you opening?", openingDetail: "In a few words", openingPh: "e.g. dental practice, specialty coffee, furniture showroom", area: "Required area", location: "Preferred area", property: "Property of interest", date: "Target opening date", critical: "What is critical?", other: "Other",
       have: "What do you have?", country: "Country", city: "City", size: "Size", sizePh: "e.g. 1.5 ha or 2,400 m²", consider: "What are you considering?", materials: "Link to materials (optional)", materialsHint: "Plans, photos, cadastral extract — via Drive, Dropbox, etc.",
       organisation: "Organisation", kind: "Type of organisation", interest: "What interests you?", ticket: "Indicative size", category: "Category", proposal: "What do you propose?", where: "Where (city / region)",
-      discipline: "Area", role: "Role", cv: "Link to your CV", cvPh: "https://…",
+      discipline: "Area", role: "Role", cv: "Link to your CV (if no file)", cvPh: "https://…",
       name: "Full name", email: "E-mail", phone: "Telephone (optional)", message: "Message (optional)", consent: "I agree that my data may be used to answer this request.",
       any: "Any", anyProperty: "Any suitable property", choose: "Choose",
+      price: "Indicative price (optional)", status: "Your position", statuses: ["Owner", "Authorised broker", "Adviser", "Other"], description: "Short description", documents: "Documents (optional)", docsHint: "In the preview files are not uploaded — they stay on your device.", company2: "Company (optional)", role2: "Your role", cvFile: "CV (file)", cvEither: "Add a file or a link to your CV.",
     },
     kinds: ["Bank", "Private investor", "Family office", "Fund", "Other organisation"],
     interests: ["Project financing", "Co-investment", "Acquisition", "Joint development"],
@@ -156,11 +160,14 @@ function groupsFor(subject: Subject, t: (typeof T)["ro"], o: FormOptions): { tit
           { name: "country", label: t.f.country, kind: "text", required: true, half: true },
           { name: "city", label: t.f.city, kind: "text", required: true, half: true },
           { name: "size", label: t.f.size, kind: "text", required: true, placeholder: t.f.sizePh, half: true },
+          { name: "price", label: t.f.price, kind: "text", half: true },
+          { name: "status", label: t.f.status, kind: "select", options: opts(t.f.statuses), required: true, half: true },
           { name: "consider", label: t.f.consider, kind: "radio", options: o.ownerIntents, required: true },
+          { name: "description", label: t.f.description, kind: "textarea" },
+          { name: "documents", label: t.f.documents, kind: "file", multiple: true, accept: ".pdf,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx", hint: t.f.docsHint },
           { name: "materials", label: t.f.materials, kind: "url", hint: t.f.materialsHint },
-          message,
         ] },
-        { title: t.groups.contact, fields: contact },
+        { title: t.groups.contact, fields: [...contact, { name: "company", label: t.f.company2, kind: "text", half: true }] },
       ];
     case "capital":
       return [
@@ -177,6 +184,7 @@ function groupsFor(subject: Subject, t: (typeof T)["ro"], o: FormOptions): { tit
       return [
         { title: t.groups.org, fields: [
           { name: "organisation", label: t.f.organisation, kind: "text", required: true, half: true },
+          { name: "role", label: t.f.role2, kind: "text", half: true },
           { name: "category", label: t.f.category, kind: "select", options: o.partnerCategories, required: true, half: true },
           { name: "proposal", label: t.f.proposal, kind: "textarea", required: true },
           { name: "where", label: t.f.where, kind: "text", half: true },
@@ -188,7 +196,8 @@ function groupsFor(subject: Subject, t: (typeof T)["ro"], o: FormOptions): { tit
         { title: t.groups.role, fields: [
           { name: "discipline", label: t.f.discipline, kind: "select", options: o.disciplines, required: true, half: true },
           { name: "role", label: t.f.role, kind: "select", options: [...o.vacancies, { value: "open", label: t.openRole }], half: true },
-          { name: "cv", label: t.f.cv, kind: "url", required: true, placeholder: t.f.cvPh },
+          { name: "cvFile", label: t.f.cvFile, kind: "file", accept: ".pdf,.doc,.docx", hint: t.f.docsHint },
+          { name: "cv", label: t.f.cv, kind: "url", placeholder: t.f.cvPh },
           message,
         ] },
         { title: t.groups.contact, fields: contact },
@@ -246,11 +255,13 @@ export function EnquiryForm({ locale, options, initial = "lease" }: { locale: Si
     const data = new FormData(event.currentTarget);
     const found: Record<string, string> = {};
     const all = groups.flatMap((group) => group.fields);
+    const read = (name: string) => data.getAll(name).map((v) => (typeof v === "string" ? v : v.name)).filter(Boolean);
     all.forEach((field) => {
-      const values = data.getAll(field.name).map(String).filter(Boolean);
+      const values = read(field.name);
       if (field.required && !values.length) found[field.name] = t.errors.required;
       if (field.kind === "email" && values[0] && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values[0])) found[field.name] = t.errors.email;
     });
+    if (subject === "careers" && !read("cv").length && !read("cvFile").length) found.cv = t.f.cvEither;
     if (!data.get("consent")) found.consent = t.errors.consent;
     setErrors(found);
     if (Object.keys(found).length) {
@@ -259,7 +270,7 @@ export function EnquiryForm({ locale, options, initial = "lease" }: { locale: Si
     }
     const summary = all
       .map((field) => {
-        const raw = data.getAll(field.name).map(String).filter(Boolean);
+        const raw = read(field.name);
         if (!raw.length) return null;
         const list = "options" in field ? raw.map((v) => field.options.find((opt) => opt.value === v)?.label ?? v) : raw;
         return { label: field.label, value: list.join(", ") };
@@ -363,6 +374,8 @@ export function EnquiryForm({ locale, options, initial = "lease" }: { locale: Si
                             <option key={opt.value} value={opt.value}>{opt.label}</option>
                           ))}
                         </select>
+                      ) : field.kind === "file" ? (
+                        <input id={id} name={field.name} type="file" accept={field.accept} multiple={field.multiple} className="xp-form__file" {...errorFor(field.name)} />
                       ) : field.kind === "textarea" ? (
                         <textarea id={id} name={field.name} rows={4} placeholder={field.placeholder} required={field.required} {...errorFor(field.name)} />
                       ) : (

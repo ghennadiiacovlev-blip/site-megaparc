@@ -439,6 +439,8 @@ export const caseStudy = {
 /* CAREERS — role stories                                               */
 /* ------------------------------------------------------------------ */
 
+export const cultureStatement = demo("careers.culture", "CAREERS", "Careers", "Culture statement", { ro: "O echipă mică. Responsabilitate mare. Obiecte reale.", ru: "Небольшая команда. Высокая ответственность. Реальные объекты.", en: "A small team. High responsibility. Real properties." }, "OWNER / HR — approved employer statement");
+
 export type RoleStory = { key: string; title: DataPoint; where: Localized; text: Localized; owns: Localized };
 
 function role(key: string, title: Localized, where: Localized, text: Localized, owns: Localized): RoleStory {

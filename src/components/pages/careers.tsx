@@ -8,7 +8,7 @@ import { disciplineLabel } from "@/components/journey-blocks";
 import { PageShell } from "@/components/page-shell";
 import { ArtImage } from "@/components/primitives";
 import { Button, Icon, TextLink } from "@/components/ui";
-import { company, roleStories } from "@/data/demo-content";
+import { company, cultureStatement, roleStories } from "@/data/demo-content";
 import { developmentProjects, portfolioAssets } from "@/lib/assets";
 import { employerBrand, openVacancies } from "@/lib/careers";
 import { localePath, publicAsset, type SiteLocale } from "@/lib/site-data";
@@ -166,6 +166,7 @@ export function CareersPage({ locale }: { locale: SiteLocale }) {
       {/* WHAT YOU WILL WORK ON — real assets and projects */}
       <section className="xp-sec xp-sec--warm" id="work">
         <div className="xp-shell">
+          <p className="xp-statement xp-culture" data-reveal>{cultureStatement.value[locale]}<DemoMark /></p>
           <Opening no="01" label={c.workLabel} title={c.workTitle} lead={employerBrand.lead[locale]} className="xp-opening--split" />
           <ul className="xp-index" data-reveal>
             {work.map((item) => (
