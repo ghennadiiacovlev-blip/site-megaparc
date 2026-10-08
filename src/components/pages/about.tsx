@@ -7,8 +7,8 @@ import { ArtImage } from "@/components/primitives";
 import { Button, Icon, TextLink } from "@/components/ui";
 import { getProject } from "@/content/source";
 import { businessStatement, geography, lifecycle, operations, principles, verbs } from "@/lib/business";
-import { eras, historyCopy } from "@/lib/history";
-import { brand, localePath, publicAsset, type SiteLocale } from "@/lib/site-data";
+import { eras } from "@/lib/history";
+import { brand, localePath, publicAsset, type Localized, type SiteLocale } from "@/lib/site-data";
 
 /**
  * ABOUT — the corrected business model (OWNER correction 2026-10-08).
@@ -21,13 +21,14 @@ import { brand, localePath, publicAsset, type SiteLocale } from "@/lib/site-data
 const copy = {
   ro: {
     label: "Despre companie",
-    lead: "MEGAPARC a fost fondată în 2005. Lucrăm doar cu obiectele noastre: cumpărăm clădiri și terenuri, construim și renovăm, închiriem spațiile și ne ocupăm singuri de clădiri.",
+    lead: "Compania a fost fondată în 2005 și lucrează doar cu obiectele proprii — de la cumpărare la închiriere și întreținere.",
     founded: "Fondată",
     group: "Grupul",
     origins: "Originile afacerii",
+    groupSince: "din 1995",
     focus: "Focus pe imobiliare",
     modelLabel: "Cum lucrăm",
-    modelTitle: "Șase pași prin care trece fiecare obiect.",
+    modelTitle: "Șase etape din viața unui obiect.",
     opsLink: "Spațiile libere acum",
     principlesLabel: "Cum decidem",
     principlesTitle: "Patru reguli de proprietar.",
@@ -35,19 +36,20 @@ const copy = {
     whereCta: "Propuneți un obiect sau un teren",
     historyLabel: "Istoric",
     historyTitle: "O cronică ce începe în 1991.",
-    historyText: "Comerț, producție, logistică, finanțe, agrobusiness și proiecte internaționale — înainte ca imobiliarele să devină activitatea principală.",
+    historyText: "Comerț, producție, logistică, finanțe, agrobusiness și proiecte internaționale — înainte ca imobiliarele să devină activitatea principală.",
     historyCta: "Citiți cronica",
     closeLabel: "Mai departe",
     closeTitle: "Ce vă interesează?",
     routes: [["Proiectele noastre", "/projects"], ["Spații de închiriat", "/leasing"], ["Propuneți un obiect", "/offer"], ["Cariere", "/careers"]],
   },
   ru: {
-    label: "О компании",
-    lead: "Компания основана в 2005 году и работает только со своими объектами — от покупки до аренды и обслуживания.",
+    label: "О компании",
+    lead: "Компания основана в 2005 году и работает только со своими объектами — от покупки до аренды и обслуживания.",
     founded: "Основана",
     group: "Группа",
     origins: "Истоки бизнеса",
-    focus: "Фокус на недвижимости",
+    groupSince: "с 1995 года",
+    focus: "Фокус на недвижимости",
     modelLabel: "Как мы работаем",
     modelTitle: "Шесть этапов жизни объекта.",
     opsLink: "Что сдаётся сейчас",
@@ -56,22 +58,23 @@ const copy = {
     whereLabel: "Где",
     whereCta: "Предложить объект или землю",
     historyLabel: "История",
-    historyTitle: "Хроника, которая начинается в 1991 году.",
-    historyText: "Розница, производство, логистика, финансы, агробизнес и международные проекты — до того, как недвижимость стала главным делом.",
+    historyTitle: "Хроника, которая начинается в 1991 году.",
+    historyText: "Розница, производство, логистика, финансы, агробизнес и международные проекты — до того, как недвижимость стала главным делом.",
     historyCta: "Читать хронику",
     closeLabel: "Дальше",
     closeTitle: "Что вас интересует?",
-    routes: [["Наши проекты", "/projects"], ["Помещения в аренду", "/leasing"], ["Предложить объект", "/offer"], ["Вакансии", "/careers"]],
+    routes: [["Наши проекты", "/projects"], ["Помещения в аренду", "/leasing"], ["Предложить объект", "/offer"], ["Вакансии", "/careers"]],
   },
   en: {
     label: "About",
-    lead: "MEGAPARC was founded in 2005. We work only with our own properties: we buy buildings and land, build and renovate, lease the space and run our buildings ourselves.",
+    lead: "Founded in 2005, the company works only with its own properties — from purchase to leasing and upkeep.",
     founded: "Founded",
     group: "The group",
     origins: "Business origins",
+    groupSince: "since 1995",
     focus: "Real-estate focus",
     modelLabel: "How we work",
-    modelTitle: "Six steps every property goes through.",
+    modelTitle: "Six stages in the life of a property.",
     opsLink: "What is available now",
     principlesLabel: "How we decide",
     principlesTitle: "Four owner's rules.",
@@ -79,7 +82,7 @@ const copy = {
     whereCta: "Offer a property or land",
     historyLabel: "History",
     historyTitle: "A chronicle that begins in 1991.",
-    historyText: "Retail, manufacturing, logistics, finance, agribusiness and international projects — before real estate became the core business.",
+    historyText: "Retail, manufacturing, logistics, finance, agribusiness and international projects — before real estate became the core business.",
     historyCta: "Read the chronicle",
     closeLabel: "Next",
     closeTitle: "What are you interested in?",
@@ -88,13 +91,21 @@ const copy = {
 } as const;
 
 /** One frame per stage: real MEGAPARC photographs where the stage is visible in a real building, labelled brand frames for the decisions. */
-const stageImages: ({ kind: "asset"; slug: string } | { kind: "use"; id: string })[] = [
-  { kind: "asset", slug: "moscova-9" },
-  { kind: "asset", slug: "vatra" },
-  { kind: "asset", slug: "moscova-20" },
-  { kind: "asset", slug: "dacia-31" },
-  { kind: "use", id: "about.decide" },
-  { kind: "use", id: "about.reinvest" },
+/**
+ * One image per stage, telling the story (final craft pass 2026-10-08):
+ * buy → land and buildings · develop → VATRA on site · lease → Moscova 20, a
+ * finished commercial space · look after → Moscova 9 in daily use · hold or
+ * sell → Dacia 31, a mature building · reinvest → earthworks for the next
+ * project. Real MEGAPARC photographs for 02–05; 01 and 06 are registered brand
+ * frames (src/data/demo-content.ts) and their captions never name a property.
+ */
+const stageImages: ({ kind: "asset"; slug: string; caption: Localized } | { kind: "use"; id: string; caption: Localized })[] = [
+  { kind: "use", id: "about.acquire", caption: { ro: "Clădiri și terenuri — începutul fiecărui proiect", ru: "Здания и земля — начало каждого проекта", en: "Buildings and land — where every project starts" } },
+  { kind: "asset", slug: "vatra", caption: { ro: "VATRA — proiect propriu în lucru", ru: "VATRA — собственный проект в работе", en: "VATRA — our own project, under way" } },
+  { kind: "asset", slug: "moscova-20", caption: { ro: "Moscova 20 — spațiu pentru afaceri", ru: "Moscova 20 — помещение для бизнеса", en: "Moscova 20 — space for business" } },
+  { kind: "asset", slug: "moscova-9", caption: { ro: "Moscova 9 — clădire în funcțiune", ru: "Moscova 9 — действующий объект", en: "Moscova 9 — an operating property" } },
+  { kind: "asset", slug: "dacia-31", caption: { ro: "Dacia 31 — o clădire matură în portofoliu", ru: "Dacia 31 — зрелый объект в портфеле", en: "Dacia 31 — a mature building in the portfolio" } },
+  { kind: "use", id: "about.reinvest", caption: { ro: "Următorul proiect începe de la teren", ru: "Следующий проект начинается с земли", en: "The next project starts with the land" } },
 ];
 
 export function AboutPage({ locale }: { locale: SiteLocale }) {
@@ -105,18 +116,17 @@ export function AboutPage({ locale }: { locale: SiteLocale }) {
 
   return (
     <PageShell locale={locale} experience>
-      {/* 01 HERO — the model in three words */}
+      {/* 01 HERO — the model in three words */}
       <section className="xp-pagehero ab-hero">
         <div className="xp-shell xp-pagehero__grid">
           <p className="xp-eyebrow" data-reveal><span className="xp-eyebrow__no">{brand.name}</span><span>{c.label}</span></p>
-          <div>
-            <MaskTitle as="h1" className="ab-hero__title" lines={[...verbs[locale]]} />
-            <p className="xp-pagehero__lead xp-pagehero__lead--gap" data-reveal>{businessStatement[locale]} {c.lead}</p>
-          </div>
+          {/* The three verbs span the full width so every verb keeps one line (final craft pass). */}
+          <MaskTitle as="h1" className="ab-hero__title" lines={[...verbs[locale]]} />
+          <p className="xp-pagehero__lead" data-reveal>{businessStatement[locale]} {c.lead}</p>
           <div className="xp-pagehero__aside" data-reveal>
             <Ledger locale={locale} className="xp-ledger--pair" items={[
               { label: c.origins, value: "1991" },
-              { label: c.group, value: <span lang="en">{brand.since}</span> },
+              { label: c.group, value: c.groupSince },
               { label: c.founded, value: "2005" },
               { label: c.focus, value: "2020" },
             ]} />
@@ -124,7 +134,7 @@ export function AboutPage({ locale }: { locale: SiteLocale }) {
         </div>
       </section>
 
-      {/* 02 THE MODEL — sticky scene, six stages */}
+      {/* 02 THE MODEL — sticky scene, six stages */}
       <section className="xp-sec" id="model">
         <div className="xp-shell">
           <Opening no="01" label={c.modelLabel} title={c.modelTitle} />
@@ -135,19 +145,29 @@ export function AboutPage({ locale }: { locale: SiteLocale }) {
               {stageImages.map((frame, index) => {
                 const project = frame.kind === "asset" ? getProject(frame.slug) : null;
                 return (
-                  <div key={index} className="xp-scene__frame">
+                  <figure key={index} className="xp-scene__frame">
                     {project?.media ? (
-                      <ArtImage media={project.media} alt={`${project.name} — ${lifecycle[index].title[locale]}`} sizes="(min-width: 1024px) 55vw, 100vw" position={project.slug === "vatra" ? "50% 70%" : undefined} />
+                      <ArtImage media={project.media} alt={`${project.name} — ${lifecycle[index].title[locale]}`} sizes="(min-width: 1024px) 58vw, 100vw" position={project.slug === "vatra" ? "50% 70%" : undefined} />
                     ) : frame.kind === "use" ? (
-                      <ConceptImage id={frame.id} locale={locale} sizes="(min-width: 1024px) 55vw, 100vw" />
+                      <ConceptImage id={frame.id} locale={locale} sizes="(min-width: 1024px) 58vw, 100vw" />
                     ) : null}
-                  </div>
+                    <figcaption className="xp-scene__caption"><span>{String(index + 1).padStart(2, "0")}</span>{frame.caption[locale]}</figcaption>
+                  </figure>
                 );
               })}
             </div>
             <ol className="xp-scene__steps">
               {lifecycle.map((stage, index) => (
                 <li key={stage.key} className="xp-scene__step" style={{ "--i": index } as CSSProperties}>
+                  {/* Below 1024px the sticky frame is replaced by one image per stage, so the story survives on phones. */}
+                  <figure className="xp-fig xp-scene__thumb" style={{ "--ratio": "3 / 2" } as CSSProperties} aria-hidden="true">
+                    {(() => {
+                      const frame = stageImages[index];
+                      const project = frame.kind === "asset" ? getProject(frame.slug) : null;
+                      if (project?.media) return <ArtImage media={project.media} alt="" sizes="100vw" position={project.slug === "vatra" ? "50% 70%" : undefined} />;
+                      return frame.kind === "use" ? <ConceptImage id={frame.id} locale={locale} sizes="100vw" /> : null;
+                    })()}
+                  </figure>
                   <span className="xp-scene__no">{String(index + 1).padStart(2, "0")}</span>
                   <h3 className="xp-scene__title">{stage.title[locale]}</h3>
                   <p className="xp-scene__short">{stage.short[locale]}</p>
@@ -159,12 +179,12 @@ export function AboutPage({ locale }: { locale: SiteLocale }) {
         </div>
       </section>
 
-      {/* 03 OWNED PROPERTY OPERATIONS — never a service to third parties */}
+      {/* 03 OWNED PROPERTY OPERATIONS — never a service to third parties */}
       <section className="xp-sec xp-sec--warm" id="operations">
         <div className="xp-shell xp-split xp-split--wide">
           <Link href={p(`/projects/${dacia.slug}`)} className="xp-piece__figure" data-reveal>
             <figure className="xp-fig" style={{ "--ratio": "3 / 2" } as CSSProperties}>
-              <ArtImage media={dacia.media!} alt={`${dacia.name} — ${dacia.format[locale]}`} sizes="(min-width: 1024px) 60vw, 100vw" depth={10} />
+              <ArtImage media={dacia.media!} alt={`${dacia.name} — ${dacia.format[locale]}`} sizes="(min-width: 1024px) 60vw, 100vw" depth={10} />
               <figcaption>{dacia.name}</figcaption>
             </figure>
           </Link>
@@ -214,7 +234,7 @@ export function AboutPage({ locale }: { locale: SiteLocale }) {
         </div>
       </section>
 
-      {/* 07 HISTORY — hand over to the chronicle */}
+      {/* 07 HISTORY — hand over to the chronicle */}
       <section className="hs-teaser hs-teaser--about">
         <div className="xp-shell hs-teaser__grid">
           <div className="hs-teaser__copy" data-reveal>
@@ -236,7 +256,6 @@ export function AboutPage({ locale }: { locale: SiteLocale }) {
               <source media="(min-width: 721px)" srcSet={publicAsset("/assets/history/era-retail.webp")} />
               <img src={publicAsset("/assets/history/era-retail-mobile.webp")} alt="" loading="lazy" decoding="async" />
             </picture>
-            <figcaption>{historyCopy.illustration(locale === "ru" ? "супермаркет" : locale === "ro" ? "supermarket" : "supermarket", "1967", locale)}</figcaption>
           </figure>
         </div>
       </section>

@@ -62,7 +62,7 @@ export function scaleMetrics(): ScaleMetric[] {
             ru: `${(portfolioMetrics.developmentLandArea / 10000).toFixed(1).replace(".", ",")} га`,
             en: `${(portfolioMetrics.developmentLandArea / 10000).toFixed(1)} ha`,
           },
-          label: { ro: "Teren pentru dezvoltare", ru: "Земля под развитие", en: "Development land" },
+          label: { ro: "Teren pentru dezvoltare", ru: "Земля под развитие", en: "Development land" },
         },
     {
       key: "operating",

@@ -13,7 +13,7 @@ import { localePath, type Localized, type SiteLocale } from "@/lib/site-data";
  */
 
 export const leasingUi = {
-  details: { ro: "Vezi spațiul", ru: "Подробнее о помещении", en: "View the space" },
+  details: { ro: "Vezi spațiul", ru: "Подробнее", en: "View the space" },
   viewing: { ro: "Solicită o vizionare", ru: "Запросить просмотр", en: "Request a viewing" },
   waitlist: { ro: "Anunțați-mă dacă se eliberează", ru: "Сообщить, если освободится", en: "Tell me if it frees up" },
   floor: { ro: "Etaj", ru: "Этаж", en: "Floor" },
@@ -29,7 +29,7 @@ export function SpaceImage({ photo, space, locale, sizes = "(min-width: 1024px) 
   if (photo.kind === "use") return <ConceptImage id={photo.id} locale={locale} sizes={sizes} priority={priority} />;
   const project = getProject(photo.slug);
   if (!project?.media) return null;
-  return <ArtImage media={project.media} alt={`${project.name} — ${space.unit[locale]}`} sizes={sizes} priority={priority} />;
+  return <ArtImage media={project.media} alt={`${project.name} — ${space.unit[locale]}`} sizes={sizes} priority={priority} />;
 }
 
 export function AvailabilityChip({ space, locale, className = "" }: { space: AvailableSpace; locale: SiteLocale; className?: string }) {
@@ -65,7 +65,7 @@ export function UnitCard({ space, locale, priority = false, compact = false }: {
       data-project={space.project}
       data-avail={a.key}
     >
-      <Link href={href} className="lx-card__media" aria-label={`${project.name} — ${space.unit[locale]}`}>
+      <Link href={href} className="lx-card__media" aria-label={`${project.name} — ${space.unit[locale]}`}>
         <figure className="xp-fig">
           <SpaceImage photo={space.photos[0]} space={space} locale={locale} priority={priority} />
         </figure>
@@ -87,7 +87,6 @@ export function UnitCard({ space, locale, priority = false, compact = false }: {
           {space.uses.map((key) => (
             <li key={key}>{labelOfUse(key, locale)}</li>
           ))}
-          {isDemoField(space, "uses") ? <li className="lx-card__demo"><DemoMark /></li> : null}
         </ul>
         {compact ? null : <p className="lx-card__headline">{space.headline[locale]}</p>}
         <div className="lx-card__actions">

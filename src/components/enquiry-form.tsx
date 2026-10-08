@@ -37,14 +37,14 @@ export type FormOptions = {
   vacancies: Option[];
   disciplines: Option[];
   mailboxes: Record<Subject, string>;
-  reply: string;
+  reply: Record<Subject, string>;
 };
 
 const anchors: Record<Subject, string> = { lease: "occupier", property: "opportunity", careers: "careers", partnership: "partnership" };
 
 const T = {
   ro: {
-    subjects: { lease: "Caut un spațiu", property: "Propun un obiect sau teren", careers: "Carieră", partnership: "Parteneriat sau altă întrebare" },
+    subjects: { lease: "Închiriere", property: "Propuneți un obiect sau un teren", careers: "Cariere", partnership: "Altă întrebare" },
     intro: {
       lease: "Spuneți-ne ce trebuie să facă spațiul pentru afacerea dumneavoastră. Verificăm spațiile libere și vă recomandăm variantele potrivite.",
       property: "Descrieți obiectul sau terenul și ce luați în calcul. Primiți o primă evaluare, nu un formular automat.",
@@ -54,12 +54,12 @@ const T = {
     groups: { business: "Despre afacere", need: "Ce vă trebuie", asset: "Despre obiect", org: "Despre organizație", role: "Despre rol", contact: "Date de contact" },
     f: {
       company: "Companie / afacere", opening: "Ce deschideți?", openingDetail: "În câteva cuvinte", openingPh: "de ex. cabinet stomatologic, cafenea de specialitate", area: "Suprafața necesară", location: "Zona preferată", property: "Obiect de interes", date: "Data dorită de deschidere", critical: "Ce este critic?", other: "Altceva",
-      have: "Ce aveți?", country: "Țara", city: "Orașul", size: "Suprafața", sizePh: "de ex. 1,5 ha sau 2.400 m²", consider: "Ce luați în calcul?", materials: "Link spre materiale (opțional)", materialsHint: "Planuri, fotografii, extras cadastral — prin Drive, Dropbox etc.",
+      have: "Ce aveți?", country: "Țara", city: "Orașul", size: "Suprafața", sizePh: "de ex. 1,5 ha sau 2.400 m²", consider: "Ce luați în calcul?", materials: "Link spre materiale (opțional)", materialsHint: "Planuri, fotografii, extras cadastral — prin Drive, Dropbox etc.",
       organisation: "Organizația", kind: "Tipul organizației", interest: "Ce vă interesează?", ticket: "Volumul orientativ", category: "Categoria", proposal: "Ce propuneți?", where: "Unde (oraș / regiune)",
       discipline: "Direcția", role: "Postul", cv: "Link spre CV (opțional dacă atașați fișierul)", cvPh: "https://…",
       name: "Nume și prenume", email: "E-mail", phone: "Telefon (opțional)", message: "Mesaj (opțional)", consent: "Sunt de acord ca datele mele să fie folosite pentru a răspunde la această solicitare.",
       any: "Oricare", anyProperty: "Orice obiect potrivit", choose: "Alegeți", space: "Spațiul", anySpace: "Orice spațiu potrivit",
-      price: "Preț orientativ (opțional)", status: "Calitatea dumneavoastră", statuses: ["Proprietar", "Broker autorizat", "Consultant", "Altceva"], description: "Descriere scurtă", documents: "Documente (opțional)", docsHint: "În previzualizare fișierele nu se încarcă — rămân pe dispozitivul dumneavoastră.", company2: "Companie (opțional)", role2: "Rolul dumneavoastră", cvFile: "CV (fișier)", cvEither: "Adăugați un fișier sau un link spre CV.",
+      price: "Preț orientativ (opțional)", status: "Calitatea dumneavoastră", statuses: ["Proprietar", "Broker autorizat", "Consultant", "Altceva"], description: "Descriere scurtă", documents: "Documente (opțional)", docsHint: "În previzualizare fișierele nu se încarcă — rămân pe dispozitivul dumneavoastră.", company2: "Companie (opțional)", role2: "Rolul dumneavoastră", cvFile: "CV (fișier)", cvEither: "Adăugați un fișier sau un link spre CV.",
     },
     openRole: "Candidatură spontană",
     send: "Trimite solicitarea", sending: "Se verifică…",
@@ -68,31 +68,31 @@ const T = {
     required: "obligatoriu",
   },
   ru: {
-    subjects: { lease: "Ищу помещение", property: "Предлагаю объект или землю", careers: "Вакансии", partnership: "Партнёрство или другой вопрос" },
+    subjects: { lease: "Аренда", property: "Предложить объект или землю", careers: "Вакансии", partnership: "Другой вопрос" },
     intro: {
-      lease: "Расскажите о своём бизнесе — подберём подходящие помещения из свободных.",
-      property: "Опишите объект или участок и что вы рассматриваете. Ответит человек, а не автоответчик.",
-      partnership: "Нескольких строк об организации и предложении достаточно для первого разговора.",
-      careers: "Укажите направление или вакансию и ссылку на резюме. Данные кандидатов используются только для подбора.",
+      lease: "Расскажите о своём бизнесе — подберём подходящие помещения из свободных.",
+      property: "Опишите объект или участок и что вы рассматриваете. Ответит человек, а не автоответчик.",
+      partnership: "Нескольких строк об организации и предложении достаточно для первого разговора.",
+      careers: "Укажите направление или вакансию и ссылку на резюме. Данные кандидатов используются только для подбора.",
     },
-    groups: { business: "О бизнесе", need: "Что нужно", asset: "Об объекте", org: "Об организации", role: "О позиции", contact: "Контактные данные" },
+    groups: { business: "О бизнесе", need: "Что нужно", asset: "Об объекте", org: "Об организации", role: "О позиции", contact: "Контактные данные" },
     f: {
-      company: "Компания / бизнес", opening: "Что вы открываете?", openingDetail: "В нескольких словах", openingPh: "например, стоматология, кофейня, шоурум мебели", area: "Нужная площадь", location: "Предпочтительный район", property: "Интересующий объект", date: "Желаемая дата открытия", critical: "Что критично?", other: "Другое",
-      have: "Что у вас есть?", country: "Страна", city: "Город", size: "Площадь", sizePh: "например, 1,5 га или 2 400 м²", consider: "Что вы рассматриваете?", materials: "Ссылка на материалы (необязательно)", materialsHint: "Планы, фото, выписка из кадастра — через Drive, Dropbox и т. п.",
+      company: "Компания / бизнес", opening: "Что вы открываете?", openingDetail: "В нескольких словах", openingPh: "например, стоматология, кофейня, шоурум мебели", area: "Нужная площадь", location: "Предпочтительный район", property: "Интересующий объект", date: "Желаемая дата открытия", critical: "Что критично?", other: "Другое",
+      have: "Что у вас есть?", country: "Страна", city: "Город", size: "Площадь", sizePh: "например, 1,5 га или 2 400 м²", consider: "Что вы рассматриваете?", materials: "Ссылка на материалы (необязательно)", materialsHint: "Планы, фото, выписка из кадастра — через Drive, Dropbox и т. п.",
       organisation: "Организация", kind: "Тип организации", interest: "Что вас интересует?", ticket: "Ориентировочный объём", category: "Категория", proposal: "Что вы предлагаете?", where: "Где (город / регион)",
-      discipline: "Направление", role: "Вакансия", cv: "Ссылка на резюме (если нет файла)", cvPh: "https://…",
-      name: "Имя и фамилия", email: "E-mail", phone: "Телефон (необязательно)", message: "Сообщение (необязательно)", consent: "Согласен(на) на использование моих данных для ответа на этот запрос.",
+      discipline: "Направление", role: "Вакансия", cv: "Ссылка на резюме (если нет файла)", cvPh: "https://…",
+      name: "Имя и фамилия", email: "E-mail", phone: "Телефон (необязательно)", message: "Сообщение (необязательно)", consent: "Согласен(на) на использование моих данных для ответа на этот запрос.",
       any: "Любой", anyProperty: "Любой подходящий объект", choose: "Выберите", space: "Помещение", anySpace: "Любое подходящее помещение",
-      price: "Ориентировочная цена (необязательно)", status: "Ваша роль", statuses: ["Собственник", "Уполномоченный брокер", "Консультант", "Другое"], description: "Краткое описание", documents: "Документы (необязательно)", docsHint: "В превью файлы не загружаются — они остаются на вашем устройстве.", company2: "Компания (необязательно)", role2: "Ваша роль", cvFile: "Резюме (файл)", cvEither: "Добавьте файл или ссылку на резюме.",
+      price: "Ориентировочная цена (необязательно)", status: "Ваша роль", statuses: ["Собственник", "Уполномоченный брокер", "Консультант", "Другое"], description: "Краткое описание", documents: "Документы (необязательно)", docsHint: "В превью файлы не загружаются — они остаются на вашем устройстве.", company2: "Компания (необязательно)", role2: "Ваша роль", cvFile: "Резюме (файл)", cvEither: "Добавьте файл или ссылку на резюме.",
     },
     openRole: "Инициативный отклик",
     send: "Отправить запрос", sending: "Проверяем…",
     errors: { required: "Заполните это поле.", email: "Введите корректный e-mail.", consent: "Нужно согласие, чтобы мы могли ответить.", summary: "Проверьте отмеченные поля:" },
-    done: { kicker: "Превью · ничего не отправлено", title: "Запрос подготовлен.", text: (to: string, reply: string) => `В рабочей версии запрос попадёт на ${to} (демонстрационный адрес). ${reply}.`, summary: "Сводка запроса", edit: "Изменить", fresh: "Новый запрос" },
+    done: { kicker: "Превью · ничего не отправлено", title: "Запрос подготовлен.", text: (to: string, reply: string) => `В рабочей версии запрос попадёт на ${to} (демонстрационный адрес). ${reply}.`, summary: "Сводка запроса", edit: "Изменить", fresh: "Новый запрос" },
     required: "обязательно",
   },
   en: {
-    subjects: { lease: "I need a space", property: "I have a property or land", careers: "Careers", partnership: "Partnership or another question" },
+    subjects: { lease: "Leasing", property: "Offer a property or land", careers: "Careers", partnership: "Another question" },
     intro: {
       lease: "Tell us what the space needs to do for your business. We will check the available spaces and recommend suitable options.",
       property: "Describe the property or land and what you are considering. You get a first assessment, not an automatic reply.",
@@ -102,12 +102,12 @@ const T = {
     groups: { business: "About the business", need: "What you need", asset: "About the property", org: "About the organisation", role: "About the role", contact: "Contact details" },
     f: {
       company: "Company / business", opening: "What are you opening?", openingDetail: "In a few words", openingPh: "e.g. dental practice, specialty coffee, furniture showroom", area: "Required area", location: "Preferred area", property: "Property of interest", date: "Target opening date", critical: "What is critical?", other: "Other",
-      have: "What do you have?", country: "Country", city: "City", size: "Size", sizePh: "e.g. 1.5 ha or 2,400 m²", consider: "What are you considering?", materials: "Link to materials (optional)", materialsHint: "Plans, photos, cadastral extract — via Drive, Dropbox, etc.",
+      have: "What do you have?", country: "Country", city: "City", size: "Size", sizePh: "e.g. 1.5 ha or 2,400 m²", consider: "What are you considering?", materials: "Link to materials (optional)", materialsHint: "Plans, photos, cadastral extract — via Drive, Dropbox, etc.",
       organisation: "Organisation", kind: "Type of organisation", interest: "What interests you?", ticket: "Indicative size", category: "Category", proposal: "What do you propose?", where: "Where (city / region)",
       discipline: "Area", role: "Role", cv: "Link to your CV (if no file)", cvPh: "https://…",
       name: "Full name", email: "E-mail", phone: "Telephone (optional)", message: "Message (optional)", consent: "I agree that my data may be used to answer this request.",
       any: "Any", anyProperty: "Any suitable property", choose: "Choose", space: "Space", anySpace: "Any suitable space",
-      price: "Indicative price (optional)", status: "Your position", statuses: ["Owner", "Authorised broker", "Adviser", "Other"], description: "Short description", documents: "Documents (optional)", docsHint: "In the preview files are not uploaded — they stay on your device.", company2: "Company (optional)", role2: "Your role", cvFile: "CV (file)", cvEither: "Add a file or a link to your CV.",
+      price: "Indicative price (optional)", status: "Your position", statuses: ["Owner", "Authorised broker", "Adviser", "Other"], description: "Short description", documents: "Documents (optional)", docsHint: "In the preview files are not uploaded — they stay on your device.", company2: "Company (optional)", role2: "Your role", cvFile: "CV (file)", cvEither: "Add a file or a link to your CV.",
     },
     openRole: "Open application",
     send: "Send the request", sending: "Checking…",
@@ -272,9 +272,8 @@ export function EnquiryForm({ locale, options, initial = "lease", only }: { loca
         <span key={key} id={anchors[key]} className="xp-form__anchor" aria-hidden="true" />
       ))}
       <div className="xp-form__subjects" role="group" aria-label={t.groups.contact}>
-        {subjects.map((key, index) => (
+        {subjects.map((key) => (
           <button key={key} type="button" className={`xp-form__subject${subject === key ? " is-active" : ""}`} aria-pressed={subject === key} onClick={() => choose(key)}>
-            <span>{String(index + 1).padStart(2, "0")}</span>
             {t.subjects[key]}
           </button>
         ))}
@@ -284,7 +283,7 @@ export function EnquiryForm({ locale, options, initial = "lease", only }: { loca
         <div className="xp-form__done" ref={doneRef} tabIndex={-1}>
           <p className="xp-form__done-kicker">{t.done.kicker}</p>
           <h3>{t.done.title}</h3>
-          <p>{t.done.text(options.mailboxes[subject], options.reply)}</p>
+          <p>{t.done.text(options.mailboxes[subject], options.reply[subject])}</p>
           <p className="xp-match__label">{t.done.summary}</p>
           <dl className="xp-form__summary">
             {done.map((row) => (
@@ -379,7 +378,7 @@ export function EnquiryForm({ locale, options, initial = "lease", only }: { loca
           {errors.consent ? <p className="xp-form__error" id={`${fieldId("consent")}-error`}>{errors.consent}</p> : null}
           <div className="xp-form__submit">
             <button type="submit" className="btn"><span>{t.send}</span><Icon /></button>
-            <p className="xp-form__note">* {t.required} · {options.reply}<span className="xp-demo-mark" aria-label="DEMO" title="DEMO"><span aria-hidden="true" /></span></p>
+            <p className="xp-form__note">* {t.required} · {options.reply[subject]}</p>
           </div>
         </form>
       )}

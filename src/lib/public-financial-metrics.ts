@@ -34,7 +34,7 @@ export const publicFinancialMetrics: PublicFinancialMetric[] = [
     currency: "EUR",
     display: "€25M+",
     label: { ro: "Valoarea portofoliului", ru: "Стоимость портфеля", en: "Portfolio value" },
-    note: { ro: "Obiecte în funcțiune și în dezvoltare", ru: "Действующие объекты и проекты развития", en: "Operating properties and development projects" },
+    note: { ro: "Obiecte în funcțiune și în dezvoltare", ru: "Действующие объекты и проекты развития", en: "Operating properties and development projects" },
     temporary: true,
   },
   {
@@ -43,7 +43,7 @@ export const publicFinancialMetrics: PublicFinancialMetric[] = [
     currency: "EUR",
     display: "€18M+",
     label: { ro: "Investiții realizate", ru: "Инвестировано", en: "Invested to date" },
-    note: { ro: "Achiziții, dezvoltare și modernizare", ru: "Приобретения, девелопмент и модернизация", en: "Acquisitions, development and renewal" },
+    note: { ro: "Achiziții, dezvoltare și modernizare", ru: "Приобретения, девелопмент и модернизация", en: "Acquisitions, development and renewal" },
     temporary: true,
   },
   {
@@ -51,8 +51,8 @@ export const publicFinancialMetrics: PublicFinancialMetric[] = [
     value: 12_000_000,
     currency: "EUR",
     display: "€12M+",
-    label: { ro: "Proiecte în lucru", ru: "Проекты в работе", en: "Projects in progress" },
-    note: { ro: "Proiecte și concepte în evaluare", ru: "Проекты и концепции в проработке", en: "Projects and concepts under evaluation" },
+    label: { ro: "Proiecte în lucru", ru: "Проекты в работе", en: "Projects in progress" },
+    note: { ro: "Proiecte și concepte în evaluare", ru: "Проекты и концепции в проработке", en: "Projects and concepts under evaluation" },
     temporary: true,
   },
   {
@@ -60,7 +60,7 @@ export const publicFinancialMetrics: PublicFinancialMetric[] = [
     value: 2_400_000,
     currency: "EUR",
     display: "€2.4M+",
-    label: { ro: "Chirie contractată pe an", ru: "Арендная плата по договорам в год", en: "Contracted rent per year" },
+    label: { ro: "Chirie contractată pe an", ru: "Арендная плата по договорам в год", en: "Contracted rent per year" },
     note: { ro: "Venituri din chirii ale obiectelor în funcțiune", ru: "Арендные поступления действующих объектов", en: "Rental income from operating properties" },
     temporary: true,
   },
@@ -79,12 +79,12 @@ export const capitalCopy = {
   kicker: { ro: "Cifre cheie", ru: "Ключевые показатели", en: "Key figures" } satisfies Localized,
   title: {
     ro: "Portofoliul în cifre.",
-    ru: "Портфель в цифрах.",
+    ru: "Портфель в цифрах.",
     en: "The portfolio in numbers.",
   } satisfies Localized,
   text: {
     ro: "Valoarea portofoliului, investițiile realizate, proiectele în lucru și chiria contractată, în valori rotunjite.",
-    ru: "Стоимость портфеля, вложенные средства, проекты в работе и арендная плата по договорам — в округлённых значениях.",
+    ru: "Стоимость портфеля, вложенные средства, проекты в работе и арендная плата по договорам — в округлённых значениях.",
     en: "Portfolio value, invested capital, projects in progress and contracted rent, in rounded figures.",
   } satisfies Localized,
 };

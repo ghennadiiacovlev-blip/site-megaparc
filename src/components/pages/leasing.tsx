@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { CSSProperties } from "react";
-import { DemoMark, Ledger, Opening, Val } from "@/components/experience";
+import { DemoMark, HeroFigures, Opening, Val, plural } from "@/components/experience";
 import { LeasingInventory, type InventoryCopy } from "@/components/leasing/inventory";
 import { TenantAdvisor, type AdvisorCopy } from "@/components/leasing/tenant-advisor";
 import { SpaceImage, UnitCard, viewingHref } from "@/components/leasing/unit-card";
@@ -9,7 +9,7 @@ import { Icon } from "@/components/ui";
 import { availabilityLabel, availabilityOf, formatArea, formatAreaRange, getProject, listProjects, publicSpaces, sortSpaces, spacesFor } from "@/content/source";
 import { leasingProcess } from "@/data/demo-content";
 import { areaBands, leasingSteps, needOrder, needs, noPrice, uses } from "@/lib/leasing";
-import { localePath, type SiteLocale } from "@/lib/site-data";
+import { brand, localePath, type SiteLocale } from "@/lib/site-data";
 
 /**
  * LEASING — a top-level product, not a subsection (OWNER correction 2026-10-08).
@@ -22,17 +22,16 @@ import { localePath, type SiteLocale } from "@/lib/site-data";
 const copy = {
   ro: {
     label: "Închiriere",
-    title: "Spațiile MEGAPARC pe care le puteți închiria acum.",
-    lead: "Retail, birouri, showroom, servicii, clinici, cafenele — în clădirile noastre din Chișinău. Fiecare spațiu cu suprafața, etajul, accesul, parcarea și planul lui.",
-    spaces: "Spații publicate",
-    range: "Suprafețe",
-    now: "Libere acum",
-    buildings: "Clădiri",
-    shortcutArea: "Am nevoie de circa 200 m²",
-    shortcutFood: "Deschid un restaurant",
+    title: "Spații pentru afaceri.",
+    lead: "Spațiile libere din clădirile MEGAPARC — cu planuri, caracteristici și statut actualizat.",
+    spaces: ["spațiu", "spații", "spații"],
+    now: "libere acum",
+    buildings: ["obiect", "obiecte", "obiecte"],
+    shortcutArea: "Spații de 120–300 m²",
+    shortcutFood: "Pentru cafenea sau restaurant",
     shortcutAll: "Toate spațiile",
     availableLabel: "Acum se închiriază",
-    availableTitle: "Ce este liber — cu toate datele.",
+    availableTitle: "Ce este liber — cu toate datele.",
     advisorLabel: "Ce deschideți?",
     advisorTitle: "Spuneți-ne ce trebuie să facă spațiul. Vă arătăm ce se potrivește și de ce.",
     buildingsLabel: "Clădirile",
@@ -48,43 +47,41 @@ const copy = {
   },
   ru: {
     label: "Аренда",
-    title: "Помещения MEGAPARC, которые можно арендовать сейчас.",
-    lead: "Магазины, офисы, шоурумы, сервисы, клиники, кафе — в наших зданиях в Кишинёве. По каждому помещению — площадь, этаж, вход, парковка и план.",
-    spaces: "Помещений",
-    range: "Площади",
-    now: "Свободно сейчас",
-    buildings: "Зданий",
-    shortcutArea: "Мне нужно около 200 м²",
-    shortcutFood: "Я открываю ресторан",
+    title: "Помещения для бизнеса.",
+    lead: "Свободные площади в объектах MEGAPARC — с планами, характеристиками и актуальным статусом.",
+    spaces: ["помещение", "помещения", "помещений"],
+    now: "свободно сейчас",
+    buildings: ["объект", "объекта", "объектов"],
+    shortcutArea: "Помещения 120–300 м²",
+    shortcutFood: "Для кафе и ресторана",
     shortcutAll: "Все помещения",
     availableLabel: "Сейчас сдаётся",
-    availableTitle: "Всё, что свободно, — с полными данными.",
+    availableTitle: "Всё, что свободно, — с полными данными.",
     advisorLabel: "Что вы открываете?",
-    advisorTitle: "Расскажите о своём бизнесе — покажем, что подходит и почему.",
+    advisorTitle: "Расскажите о своём бизнесе — покажем, что подходит и почему.",
     buildingsLabel: "Здания",
     buildingsTitle: "Где находятся помещения.",
     spacesIn: (n: number) => (n === 1 ? "1 помещение" : n < 5 ? `${n} помещения` : `${n} помещений`),
     processLabel: "Как мы сдаём",
-    processTitle: "Пять шагов — от запроса до открытия.",
+    processTitle: "Пять шагов — от запроса до открытия.",
     reply: "Ответ",
     viewing: "Просмотр",
-    closeLabel: "Не нашли?",
+    closeLabel: "Не нашли?",
     closeTitle: "Расскажите, что ищете. Сообщим, когда освободится.",
-    routes: [["Оставить запрос на помещение", "/contact?subject=lease#occupier"], ["Все проекты", "/projects"], ["Предложить объект", "/offer"]],
+    routes: [["Оставить запрос на помещение", "/contact?subject=lease#occupier"], ["Все проекты", "/projects"], ["Предложить объект", "/offer"]],
   },
   en: {
     label: "Leasing",
-    title: "MEGAPARC spaces you can lease now.",
-    lead: "Retail, offices, showrooms, services, clinics, cafés — in our buildings in Chișinău. Every space with its area, floor, access, parking and plan.",
-    spaces: "Spaces listed",
-    range: "Areas",
-    now: "Available now",
-    buildings: "Buildings",
-    shortcutArea: "I need about 200 m²",
-    shortcutFood: "I am opening a restaurant",
+    title: "Space for business.",
+    lead: "Available space in MEGAPARC properties — with plans, specifications and up-to-date status.",
+    spaces: ["space", "spaces", "spaces"],
+    now: "available now",
+    buildings: ["property", "properties", "properties"],
+    shortcutArea: "Spaces of 120–300 m²",
+    shortcutFood: "For a café or restaurant",
     shortcutAll: "All spaces",
     availableLabel: "Available now",
-    availableTitle: "What is free — with every detail.",
+    availableTitle: "What is free — with every detail.",
     advisorLabel: "What are you opening?",
     advisorTitle: "Tell us what the space must do. We show what fits and why.",
     buildingsLabel: "The buildings",
@@ -95,65 +92,58 @@ const copy = {
     reply: "Reply",
     viewing: "Viewing",
     closeLabel: "Nothing yet?",
-    closeTitle: "Tell us what you are looking for. We let you know when it frees up.",
+    closeTitle: "Tell us what you need — we'll let you know.",
     routes: [["Leave a space request", "/contact?subject=lease#occupier"], ["All projects", "/projects"], ["Offer a property", "/offer"]],
   },
 } as const;
 
 const inventoryCopy: Record<SiteLocale, InventoryCopy> = {
-  ro: { label: "Filtre", use: "Ce deschideți", area: "Suprafața", project: "Clădirea", all: "Toate", anyArea: "Oricare", allProjects: "Toate clădirile", nowOnly: "Doar libere acum", found: ["spațiu găsit", "spații găsite", "spații găsite"], reset: "Resetează filtrele", emptyTitle: "Acum nu avem exact acest spațiu.", emptyText: "Lăsați o cerere — vă scriem când se eliberează un spațiu potrivit.", emptyCta: "Lasă o cerere" },
-  ru: { label: "Фильтры", use: "Что вы открываете", area: "Площадь", project: "Здание", all: "Все", anyArea: "Любая", allProjects: "Все здания", nowOnly: "Только свободные сейчас", found: ["помещение", "помещения", "помещений"], reset: "Сбросить фильтры", emptyTitle: "Сейчас именно такого помещения нет.", emptyText: "Оставьте запрос — напишем, когда освободится подходящее помещение.", emptyCta: "Оставить запрос" },
-  en: { label: "Filters", use: "What you are opening", area: "Area", project: "Building", all: "All", anyArea: "Any", allProjects: "All buildings", nowOnly: "Available now only", found: ["space", "spaces", "spaces"], reset: "Reset filters", emptyTitle: "We don't have exactly this space right now.", emptyText: "Leave a request — we write when a suitable space frees up.", emptyCta: "Leave a request" },
+  ro: { label: "Filtre", use: "Ce deschideți?", area: "Ce suprafață vă trebuie?", project: "Clădirea", all: "Toate", anyArea: "Oricare", allProjects: "Toate clădirile", nowOnly: "Doar libere acum", found: ["spațiu găsit", "spații găsite", "spații găsite"], reset: "Resetează filtrele", emptyTitle: "Acum nu avem exact acest spațiu.", emptyText: "Lăsați o cerere — vă scriem când se eliberează un spațiu potrivit.", emptyCta: "Lasă o cerere" },
+  ru: { label: "Фильтры", use: "Что вы открываете?", area: "Какая площадь нужна?", project: "Здание", all: "Все", anyArea: "Любая", allProjects: "Все здания", nowOnly: "Только свободные сейчас", found: ["помещение", "помещения", "помещений"], reset: "Сбросить фильтры", emptyTitle: "Сейчас именно такого помещения нет.", emptyText: "Оставьте запрос — напишем, когда освободится подходящее помещение.", emptyCta: "Оставить запрос" },
+  en: { label: "Filters", use: "What are you opening?", area: "How much space do you need?", project: "Building", all: "All", anyArea: "Any", allProjects: "All buildings", nowOnly: "Available now only", found: ["space", "spaces", "spaces"], reset: "Reset filters", emptyTitle: "We don't have exactly this space right now.", emptyText: "Leave a request — we write when a suitable space frees up.", emptyCta: "Leave a request" },
 };
 
 const advisorCopy: Record<SiteLocale, AdvisorCopy> = {
-  ro: { stepUse: "Ce deschideți?", stepNeeds: "Ce contează pentru afacere?", stepArea: "Ce suprafață?", typical: "Pentru „{type}” contează de obicei punctele marcate cu roșu.", anyArea: "Nu contează", result: "Recomandare", more: "Alte variante", why: "De ce se potrivește", check: "De verificat împreună", quality: { strong: "Potrivire puternică", good: "Potrivire bună", partial: "Potrivire parțială" }, useFits: "Spațiul este gândit pentru: {type}", useMiss: "", areaFits: "Suprafața se încadrează", areaMiss: "", reserved: "Spațiul este rezervat — vă anunțăm dacă se eliberează", details: "Vezi spațiul", viewing: "Solicită o vizionare", emptyTitle: "Acum nu avem un spațiu potrivit.", emptyText: "Lăsați cerințele — vă scriem când se eliberează un spațiu sau apare un obiect nou.", emptyCta: "Lasă o cerere", demo: "Datele acestui spațiu sunt demonstrative." },
-  ru: { stepUse: "Что вы открываете?", stepNeeds: "Что важно для бизнеса?", stepArea: "Какая площадь?", typical: "Для формата «{type}» обычно важны пункты, отмеченные красным.", anyArea: "Неважно", result: "Рекомендация", more: "Ещё варианты", why: "Почему подходит", check: "Что проверить вместе", quality: { strong: "Сильное совпадение", good: "Хорошее совпадение", partial: "Частичное совпадение" }, useFits: "Подходит для формата «{type}»", useMiss: "", areaFits: "Площадь подходит", areaMiss: "", reserved: "Помещение забронировано — сообщим, если освободится", details: "Подробнее о помещении", viewing: "Запросить просмотр", emptyTitle: "Сейчас подходящего помещения нет.", emptyText: "Опишите требования — напишем, когда освободится помещение или появится новый объект.", emptyCta: "Оставить запрос", demo: "Данные этого помещения — демонстрационные." },
-  en: { stepUse: "What are you opening?", stepNeeds: "What matters for the business?", stepArea: "How much space?", typical: "For “{type}”, the points marked in red usually matter most.", anyArea: "Doesn't matter", result: "Recommendation", more: "Other options", why: "Why it fits", check: "To check together", quality: { strong: "Strong fit", good: "Good fit", partial: "Partial fit" }, useFits: "The space is designed for: {type}", useMiss: "", areaFits: "The area fits", areaMiss: "", reserved: "The space is reserved — we tell you if it frees up", details: "View the space", viewing: "Request a viewing", emptyTitle: "We have no suitable space right now.", emptyText: "Describe your requirements — we write when a space frees up or a new property arrives.", emptyCta: "Leave a request", demo: "This space's data is a demonstration." },
+  ro: { stepUse: "Ce deschideți?", stepNeeds: "Ce contează pentru afacere?", stepArea: "Ce suprafață?", typical: "Pentru „{type}” contează de obicei punctele marcate cu roșu.", anyArea: "Nu contează", result: "Recomandare", more: "Alte variante", why: "De ce se potrivește", check: "De verificat împreună", quality: { strong: "Potrivire puternică", good: "Potrivire bună", partial: "Potrivire parțială" }, useFits: "Spațiul este gândit pentru: {type}", useMiss: "", areaFits: "Suprafața se încadrează", areaMiss: "", reserved: "Spațiul este rezervat — vă anunțăm dacă se eliberează", details: "Vezi spațiul", viewing: "Solicită o vizionare", emptyTitle: "Acum nu avem un spațiu potrivit.", emptyText: "Lăsați cerințele — vă scriem când se eliberează un spațiu sau apare un obiect nou.", emptyCta: "Lasă o cerere", demo: "Datele acestui spațiu sunt demonstrative." },
+  ru: { stepUse: "Что вы открываете?", stepNeeds: "Что важно для бизнеса?", stepArea: "Какая площадь?", typical: "Для формата «{type}» обычно важны пункты, отмеченные красным.", anyArea: "Неважно", result: "Рекомендация", more: "Ещё варианты", why: "Почему подходит", check: "Что проверить вместе", quality: { strong: "Сильное совпадение", good: "Хорошее совпадение", partial: "Частичное совпадение" }, useFits: "Подходит для формата «{type}»", useMiss: "", areaFits: "Площадь подходит", areaMiss: "", reserved: "Помещение забронировано — сообщим, если освободится", details: "Подробнее о помещении", viewing: "Запросить просмотр", emptyTitle: "Сейчас подходящего помещения нет.", emptyText: "Опишите требования — напишем, когда освободится помещение или появится новый объект.", emptyCta: "Оставить запрос", demo: "Данные этого помещения — демонстрационные." },
+  en: { stepUse: "What are you opening?", stepNeeds: "What matters for the business?", stepArea: "How much space?", typical: "For “{type}”, the points marked in red usually matter most.", anyArea: "Doesn't matter", result: "Recommendation", more: "Other options", why: "Why it fits", check: "To check together", quality: { strong: "Strong fit", good: "Good fit", partial: "Partial fit" }, useFits: "The space is designed for: {type}", useMiss: "", areaFits: "The area fits", areaMiss: "", reserved: "The space is reserved — we tell you if it frees up", details: "View the space", viewing: "Request a viewing", emptyTitle: "We have no suitable space right now.", emptyText: "Describe your requirements — we write when a space frees up or a new property arrives.", emptyCta: "Leave a request", demo: "This space's data is a demonstration." },
 };
 
 export function LeasingPage({ locale }: { locale: SiteLocale }) {
   const c = copy[locale];
   const p = (path: string) => localePath(locale, path);
   const list = sortSpaces(publicSpaces);
-  const min = Math.min(...list.map((s) => s.areaMin ?? s.area));
-  const max = Math.max(...list.map((s) => s.area));
   const nowCount = list.filter((s) => availabilityOf(s).key === "now").length;
   const withSpace = listProjects().filter((project) => spacesFor(project.slug).length);
-  const anyDemo = list.some((s) => s.dataStatus === "DEMO");
 
   return (
     <PageShell locale={locale} experience mainClassName="lx-page">
-      {/* HERO — practical, the count first */}
-      <section className="xp-pagehero lx-hero">
-        <div className="xp-shell xp-pagehero__grid">
-          <p className="xp-eyebrow" data-reveal><span className="xp-eyebrow__no">01</span><span>{c.label}</span></p>
-          <div data-reveal>
-            <h1 className="xp-pagehero__title">{c.title}</h1>
-            <p className="xp-pagehero__lead xp-pagehero__lead--gap">{c.lead}</p>
-            {/* Same page, new filter: plain relative links reload the page so the inventory and the advisor read the URL. */}
-            <nav className="lx-hero__shortcuts" aria-label={c.label}>
-              <a href="?area=120-300#available">{c.shortcutArea}<Icon /></a>
-              <a href="?use=fnb#advisor">{c.shortcutFood}<Icon /></a>
-              <a href="#available">{c.shortcutAll}<Icon name="down" /></a>
-            </nav>
-          </div>
-          <div className="xp-pagehero__aside" data-reveal>
-            <Ledger locale={locale} className="xp-ledger--pair" items={[
-              { label: c.spaces, value: String(list.length).padStart(2, "0") },
-              { label: c.now, value: String(nowCount).padStart(2, "0") },
-              { label: c.range, value: `${formatAreaRange(min, max, locale)}` },
-              { label: c.buildings, value: String(withSpace.length).padStart(2, "0") },
+      {/* HERO — a short statement, the live count, two shortcuts (journeys A and B) */}
+      <section className="xp-pagehero xp-sh">
+        <div className="xp-shell xp-sh__grid">
+          <p className="xp-eyebrow xp-sh__eyebrow" data-reveal><span className="xp-eyebrow__no">{brand.name}</span><span>{c.label}</span></p>
+          <h1 className="xp-display-title xp-sh__title" data-reveal>{c.title}</h1>
+          <p className="xp-pagehero__lead xp-sh__lead" data-reveal>{c.lead}</p>
+          <div className="xp-sh__aside" data-reveal>
+            <HeroFigures items={[
+              { value: String(list.length).padStart(2, "0"), label: plural(list.length, c.spaces, locale) },
+              { value: String(nowCount).padStart(2, "0"), label: c.now },
+              { value: String(withSpace.length).padStart(2, "0"), label: plural(withSpace.length, c.buildings, locale) },
             ]} />
-            {anyDemo ? <p className="xp-demo-legend"><span className="xp-demo-mark" aria-hidden="true"><span /></span>{locale === "ru" ? "Часть помещений — демонстрационные записи для превью." : locale === "ro" ? "O parte din spații sunt înregistrări demonstrative pentru previzualizare." : "Some spaces are demonstration records for the preview."}</p> : null}
           </div>
+          {/* Same page, new filter: plain relative links reload the page so the inventory and the advisor read the URL. */}
+          <nav className="xp-sh__foot lx-hero__shortcuts" aria-label={c.label} data-reveal>
+            <a href="?area=120-300#available">{c.shortcutArea}<Icon /></a>
+            <a href="?use=fnb#advisor">{c.shortcutFood}<Icon /></a>
+            <a href="#available">{c.shortcutAll}<Icon name="down" /></a>
+          </nav>
         </div>
       </section>
 
-      {/* AVAILABLE NOW — inventory */}
+      {/* AVAILABLE NOW — inventory */}
       <section className="xp-sec lx-available" id="available">
         <div className="xp-shell">
-          <Opening no="02" label={c.availableLabel} title={c.availableTitle} lead={noPrice[locale]} className="xp-opening--split" />
+          <Opening no="01" label={c.availableLabel} title={c.availableTitle} lead={noPrice[locale]} className="xp-opening--split" />
           <LeasingInventory
             locale={locale}
             items={list.map((s) => ({ id: s.id, uses: s.uses, area: s.area, areaMin: s.areaMin ?? s.area, project: s.project, avail: availabilityOf(s).key }))}
@@ -173,7 +163,7 @@ export function LeasingPage({ locale }: { locale: SiteLocale }) {
       {/* TENANT ADVISOR */}
       <section className="xp-sec xp-sec--warm" id="advisor">
         <div className="xp-shell">
-          <Opening no="03" label={c.advisorLabel} title={c.advisorTitle} className="xp-opening--split" />
+          <Opening no="02" label={c.advisorLabel} title={c.advisorTitle} className="xp-opening--split" />
           <TenantAdvisor
             items={list.map((space) => ({
               id: space.id,
@@ -203,7 +193,7 @@ export function LeasingPage({ locale }: { locale: SiteLocale }) {
       {/* BUILDINGS WITH SPACE */}
       <section className="xp-sec">
         <div className="xp-shell">
-          <Opening no="04" label={c.buildingsLabel} title={c.buildingsTitle} />
+          <Opening no="03" label={c.buildingsLabel} title={c.buildingsTitle} />
           <ul className="lx-buildings">
             {withSpace.map((project) => {
               const own = spacesFor(project.slug);
@@ -229,7 +219,7 @@ export function LeasingPage({ locale }: { locale: SiteLocale }) {
       {/* PROCESS */}
       <section className="xp-sec xp-sec--stone">
         <div className="xp-shell">
-          <Opening no="05" label={c.processLabel} title={c.processTitle} lead={noPrice[locale]} className="xp-opening--split" />
+          <Opening no="04" label={c.processLabel} title={c.processTitle} lead={noPrice[locale]} className="xp-opening--split" />
           <ol className="xp-process" style={{ "--n": leasingSteps.length } as CSSProperties} data-reveal>
             {leasingSteps.map((step) => (
               <li key={step.title.en}>
@@ -245,11 +235,11 @@ export function LeasingPage({ locale }: { locale: SiteLocale }) {
         </div>
       </section>
 
-      {/* CLOSE — waiting list */}
+      {/* CLOSE — waiting list */}
       <section className="xp-sec xp-sec--ink">
         <div className="xp-shell xp-close">
           <div data-reveal>
-            <p className="xp-eyebrow"><span className="xp-eyebrow__no">06</span><span>{c.closeLabel}</span></p>
+            <p className="xp-eyebrow"><span className="xp-eyebrow__no">05</span><span>{c.closeLabel}</span></p>
             <h2 className="xp-close__title">{c.closeTitle}</h2>
           </div>
           <nav className="xp-close__routes" aria-label={c.closeLabel} data-reveal>

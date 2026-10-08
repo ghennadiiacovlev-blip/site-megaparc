@@ -3,7 +3,6 @@ import type { CSSProperties } from "react";
 import { ConceptImage, DemoMark, Ledger, MaskTitle, Opening, Val } from "@/components/experience";
 import { LocationSection } from "@/components/location-section";
 import { PageShell } from "@/components/page-shell";
-import { PhotoStoryboard } from "@/components/photo-storyboard";
 import { ArtImage } from "@/components/primitives";
 import { Button, Icon, TextLink } from "@/components/ui";
 import { nextProject, type ProjectEntry } from "@/content/source";
@@ -29,46 +28,47 @@ const copy = {
   storyLabel: { ro: "Povestea proiectului", ru: "История проекта", en: "Development story" },
   masterLabel: { ro: "Masterplan", ru: "Мастерплан", en: "Masterplan" },
   masterPending: { ro: "Publicăm masterplanul după aprobare.", ru: "Мастерплан опубликуем после утверждения.", en: "The masterplan will be published once approved." },
-  realityLabel: { ro: "Realitatea de azi", ru: "Сейчас на площадке", en: "Current reality" },
+  realityLabel: { ro: "Realitatea de azi", ru: "Сейчас на площадке", en: "Current reality" },
   visionLabel: { ro: "Viziunea", ru: "Видение", en: "Future vision" },
-  visionNote: { ro: "Viziune — nu arhitectură aprobată.", ru: "Видение — не утверждённая архитектура.", en: "A vision — not approved architecture." },
+  visionNote: { ro: "Viziune — nu arhitectură aprobată.", ru: "Видение — не утверждённая архитектура.", en: "A vision — not approved architecture." },
   timelineLabel: { ro: "Calendar", ru: "Таймлайн", en: "Timeline" },
   galleryLabel: { ro: "Galerie", ru: "Галерея", en: "Gallery" },
   site: { ro: "Teren", ru: "Участок", en: "Site" },
   programme: { ro: "Program", ru: "Программа", en: "Programme" },
   gba: { ro: "Suprafață construită", ru: "Площадь застройки", en: "Gross building area" },
   stage: { ro: "Etapa", ru: "Стадия", en: "Stage" },
-  fronts: { ro: "Fronturi stradale", ru: "Фронты к дорогам", en: "Road fronts" },
+  fronts: { ro: "Fronturi stradale", ru: "Фронты к дорогам", en: "Road fronts" },
   potential: { ro: "Potențial construit", ru: "Потенциал застройки", en: "Potential built area" },
   status: { ro: "Status", ru: "Статус", en: "Status" },
   now: { ro: "Acum", ru: "Сейчас", en: "Now" },
   started: { ro: "Începutul lucrărilor", ru: "Начало работ", en: "Works started" },
   completion: { ro: "Finalizare", ru: "Завершение", en: "Completion" },
-  acquiredLand: { ro: "Terenul în proprietatea MEGAPARC", ru: "Земля в собственности MEGAPARC", en: "Land owned by MEGAPARC" },
+  acquiredLand: { ro: "Terenul în proprietatea MEGAPARC", ru: "Земля в собственности MEGAPARC", en: "Land owned by MEGAPARC" },
   evaluation: { ro: "Evaluarea conceptelor", ru: "Оценка концепций", en: "Concept evaluation" },
-  decision: { ro: "Decizie privind conceptul", ru: "Решение по концепции", en: "Concept decision" },
-  team: { ro: "Pe șantier", ru: "На площадке", en: "On site" },
-  teamText: { ro: "Calitatea se controlează pe șantier, nu în prezentări: echipa urmărește lucrările, bugetul și graficul în fiecare săptămână.", ru: "Качество проверяем на площадке, а не в презентациях: каждую неделю — работы, бюджет и график.", en: "Quality is controlled on site, not in presentations: the team follows works, budget and schedule every week." },
-  closeTitle: { ro: "Discutăm proiectul — sau terenul dumneavoastră.", ru: "Обсудим проект — или ваш участок.", en: "Let's talk about the project — or your land." },
-  discuss: { ro: "Scrie-ne despre proiect", ru: "Написать о проекте", en: "Write to us about the project" },
+  decision: { ro: "Decizie privind conceptul", ru: "Решение по концепции", en: "Concept decision" },
+  team: { ro: "Pe șantier", ru: "На площадке", en: "On site" },
+  teamText: { ro: "Calitatea se controlează pe șantier, nu în prezentări: echipa urmărește lucrările, bugetul și graficul în fiecare săptămână.", ru: "Качество проверяем на площадке, а не в презентациях: каждую неделю — работы, бюджет и график.", en: "Quality is controlled on site, not in presentations: the team follows works, budget and schedule every week." },
+  closeTitle: { ro: "Discutăm proiectul — sau terenul dumneavoastră.", ru: "Обсудим проект — или ваш участок.", en: "Let's talk about the project — or your land." },
+  discuss: { ro: "Scrie-ne despre proiect", ru: "Написать о проекте", en: "Write to us about the project" },
   land: { ro: "Propune un teren", ru: "Предложить участок", en: "Offer a site" },
   next: { ro: "Următorul proiect", ru: "Следующий проект", en: "Next project" },
-  planLabel: { ro: "Ilustrativ · nu este o schemă aprobată", ru: "Иллюстративно · не утверждённая схема", en: "Illustrative · not an approved scheme" },
-  planRetail: { ro: "Comerț — față", ru: "Торговля — фронт", en: "Retail — front" },
-  planLogistics: { ro: "Logistică — spate", ru: "Логистика — тыл", en: "Logistics — rear" },
+  planTitle: { ro: "Cum poate funcționa terenul.", ru: "Как может работать участок.", en: "How the site could work." },
+  planLabel: { ro: "Schemă ilustrativă — neaprobată", ru: "Иллюстративная схема — не утверждена", en: "Illustrative scheme — not approved" },
+  planRetail: { ro: "Comerț — față", ru: "Торговля — фронт", en: "Retail — front" },
+  planLogistics: { ro: "Logistică — spate", ru: "Логистика — тыл", en: "Logistics — rear" },
   planRoad: { ro: "Drum de acces", ru: "Подъездная дорога", en: "Access road" },
-  planEntry: { ro: "Intrarea în oraș", ru: "Въезд в город", en: "Town entrance" },
+  planEntry: { ro: "Intrarea în oraș", ru: "Въезд в город", en: "Town entrance" },
 } satisfies Record<string, Localized>;
 
 const vision: Record<string, Localized> = {
   vatra: {
-    ro: "Un cartier de locuințe joase cu spații publice, gândit pentru o viață lungă și pentru o exploatare simplă. Clădirile rămân la MEGAPARC după finalizare sau intră în etapa următoare — prin decizia companiei.",
-    ru: "Малоэтажный квартал с общественными пространствами, рассчитанный на долгую жизнь и простую эксплуатацию. После завершения здания остаются у MEGAPARC — или проект переходит на следующий этап.",
-    en: "A low-rise neighbourhood with public spaces, designed for a long life and simple operation. Once complete, the buildings stay with MEGAPARC or move to the next stage — as the company decides.",
+    ro: "Un cartier de locuințe joase cu spații publice, gândit pentru o viață lungă și pentru o exploatare simplă. Clădirile rămân la MEGAPARC după finalizare sau intră în etapa următoare — prin decizia companiei.",
+    ru: "Малоэтажный квартал с общественными пространствами, рассчитанный на долгую жизнь и простую эксплуатацию. После завершения здания остаются у MEGAPARC — или проект переходит на следующий этап.",
+    en: "A low-rise neighbourhood with public spaces, designed for a long life and simple operation. Once complete, the buildings stay with MEGAPARC or move to the next stage — as the company decides.",
   },
   "drochia-gateway": {
     ro: "O poartă comercială și logistică pentru oraș și regiune: comerț în față, spre drum, logistică în spate, cu accese separate. Una din trei direcții va fi aleasă după verificări.",
-    ru: "Торговые и логистические ворота города и региона: торговля спереди, к дороге, логистика сзади, с раздельными подъездами. Одно из трёх направлений будет выбрано после проверок.",
+    ru: "Торговые и логистические ворота города и региона: торговля спереди, к дороге, логистика сзади, с раздельными подъездами. Одно из трёх направлений будет выбрано после проверок.",
     en: "A retail and logistics gateway for the town and the region: retail at the front facing the road, logistics at the rear, with separate access. One of three directions will be chosen after review.",
   },
 };
@@ -117,11 +117,11 @@ export function DevelopmentProjectPage({ locale, project }: { locale: SiteLocale
 
   return (
     <PageShell locale={locale} variant="overlay" experience mainClassName="xp-project">
-      {/* 01 CONCEPT — hero */}
+      {/* 01 CONCEPT — hero */}
       <section className="xp-hero xp-hero--page" data-xp-hero>
         <div className="xp-hero__media">
           <div className="xp-hero__frame is-active">
-            {dev.media ? <ArtImage media={dev.media} alt={`${dev.name} — ${dev.status[locale]}`} priority position="50% 70%" /> : <ConceptImage id="project.drochia.hero" locale={locale} priority />}
+            {dev.media ? <ArtImage media={dev.media} alt={`${dev.name} — ${dev.status[locale]}`} priority position="50% 70%" /> : <ConceptImage id="project.drochia.hero" locale={locale} priority />}
           </div>
         </div>
         <div className="xp-hero__veil" aria-hidden="true" />
@@ -148,9 +148,9 @@ export function DevelopmentProjectPage({ locale, project }: { locale: SiteLocale
 
       {/* 02 SITE */}
       {dev.location ? (
-        <LocationSection locale={locale} no="02" place={dev.place[locale]} area={dev.map ? dev.map.address : dev.place[locale]} text={dev.location[locale]} points={dev.connectivity} map={dev.map} />
+        <LocationSection locale={locale} no="02" mapKey={dev.map ? project.slug : undefined} name={dev.name} place={dev.place[locale]} area={dev.map ? dev.map.address : dev.place[locale]} text={dev.location[locale]} points={dev.connectivity} map={dev.map} fallback={dev.media ? <ArtImage media={dev.media} alt="" sizes="(min-width: 1024px) 50vw, 100vw" position="50% 62%" /> : undefined} />
       ) : null}
-      <section className={`xp-sec${dev.location ? " xp-sec--paper xp-sec--flush-top" : ""}`}>
+      <section className={`xp-sec${dev.location ? " xp-sec--warm xp-sec--flush-top" : ""}`}>
         <div className="xp-shell" data-reveal>
           {dev.location ? null : <p className="xp-eyebrow xp-eyebrow--gap"><span className="xp-eyebrow__no">02</span><span>{copy.siteLabel[locale]}</span></p>}
           <Ledger locale={locale} items={
@@ -198,11 +198,11 @@ export function DevelopmentProjectPage({ locale, project }: { locale: SiteLocale
             {block.items ? (
               <ol className="xp-numbered" data-reveal>
                 {block.items.map((item) => {
-                  const [head, ...rest] = item[locale].split(" — ");
+                  const [head, ...rest] = item[locale].split(" — ");
                   return (
                     <li key={item.en}>
                       <h3>{head}</h3>
-                      {rest.length ? <p>{rest.join(" — ")}</p> : null}
+                      {rest.length ? <p>{rest.join(" — ")}</p> : null}
                     </li>
                   );
                 })}
@@ -212,50 +212,44 @@ export function DevelopmentProjectPage({ locale, project }: { locale: SiteLocale
         </section>
       ))}
 
-      {/* 05 MASTERPLAN */}
-      <section className="xp-sec">
-        <div className="xp-shell xp-split xp-split--text">
-          <div data-reveal>
-            <p className="xp-eyebrow"><span className="xp-eyebrow__no">05</span><span>{copy.masterLabel[locale]}</span></p>
-            <h2 className="xp-split__title xp-split__title--gap">{isVatra ? copy.masterPending[locale] : copy.planLabel[locale]}</h2>
-          </div>
-          <div data-reveal>
-            {isVatra ? (
-              <div className="pj-pending" role="img" aria-label={copy.masterPending[locale]}>
-                <span className="pj-pending__marks" aria-hidden="true"><i /><i /><i /><i /></span>
-                <span className="pj-pending__label">{copy.masterLabel[locale]} · VATRA</span>
-                <span className="pj-pending__note">{copy.masterPending[locale]}</span>
-              </div>
-            ) : (
+      {/* 05 MASTERPLAN — only once a scheme exists (VATRA's is published after approval) */}
+      {isVatra ? null : (
+        <section className="xp-sec">
+          <div className="xp-shell xp-split xp-split--text">
+            <div data-reveal>
+              <p className="xp-eyebrow"><span className="xp-eyebrow__no">05</span><span>{copy.masterLabel[locale]}</span></p>
+              <h2 className="xp-split__title xp-split__title--gap">{copy.planTitle[locale]}</h2>
+            </div>
+            <div data-reveal>
               <SitePlan locale={locale} />
-            )}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
-      {/* 06 CURRENT REALITY */}
-      <section className="xp-sec xp-sec--warm">
-        <div className="xp-shell xp-split xp-split--wide">
-          <figure className="xp-fig" style={{ "--ratio": "3 / 2" } as CSSProperties} data-reveal>
-            {isVatra ? <ArtImage media={dev.media!} alt={`${dev.name} — ${dev.status[locale]}`} sizes="(min-width: 1024px) 60vw, 100vw" depth={10} position="50% 62%" /> : <ConceptImage id="project.drochia.road" locale={locale} sizes="(min-width: 1024px) 60vw, 100vw" depth={10} />}
-          </figure>
-          <div className="xp-split__copy" data-reveal>
-            <p className="xp-eyebrow"><span className="xp-eyebrow__no">06</span><span>{copy.realityLabel[locale]}</span></p>
-            <p className="xp-lead">{isVatra ? copy.teamText[locale] : dev.location?.[locale]}</p>
-            {isVatra ? (
+      {/* 05 CURRENT REALITY — VATRA's site in work (Drochia's site is told by the map above) */}
+      {isVatra ? (
+        <section className="xp-sec xp-sec--warm">
+          <div className="xp-shell xp-split xp-split--wide">
+            <figure className="xp-fig" style={{ "--ratio": "3 / 2" } as CSSProperties} data-reveal>
+              <ArtImage media={dev.media!} alt={`${dev.name} — ${dev.status[locale]}`} sizes="(min-width: 1024px) 60vw, 100vw" depth={10} position="50% 62%" />
+            </figure>
+            <div className="xp-split__copy" data-reveal>
+              <p className="xp-eyebrow"><span className="xp-eyebrow__no">05</span><span>{copy.realityLabel[locale]}</span></p>
+              <p className="xp-lead">{copy.teamText[locale]}</p>
               <figure className="xp-fig pj-inset" style={{ "--ratio": "4 / 3" } as CSSProperties}>
                 <ConceptImage id="project.vatra.team" locale={locale} sizes="(min-width: 1024px) 30vw, 100vw" />
               </figure>
-            ) : null}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      ) : null}
 
-      {/* 07 FUTURE VISION */}
+      {/* 06 FUTURE VISION */}
       <section className="xp-sec xp-sec--ink">
         <div className="xp-shell xp-split xp-split--text">
           <div data-reveal>
-            <p className="xp-eyebrow"><span className="xp-eyebrow__no">07</span><span>{copy.visionLabel[locale]}</span></p>
+            <p className="xp-eyebrow"><span className="xp-eyebrow__no">06</span><span>{copy.visionLabel[locale]}</span></p>
             <h2 className="xp-split__title xp-split__title--gap">{dev.statement[locale]}</h2>
           </div>
           <div className="xp-prose" data-reveal>
@@ -265,10 +259,10 @@ export function DevelopmentProjectPage({ locale, project }: { locale: SiteLocale
         </div>
       </section>
 
-      {/* 08 TIMELINE */}
+      {/* 07 TIMELINE */}
       <section className="xp-sec">
         <div className="xp-shell">
-          <p className="xp-eyebrow xp-eyebrow--gap" data-reveal><span className="xp-eyebrow__no">08</span><span>{copy.timelineLabel[locale]}</span></p>
+          <p className="xp-eyebrow xp-eyebrow--gap" data-reveal><span className="xp-eyebrow__no">07</span><span>{copy.timelineLabel[locale]}</span></p>
           <ol className="pj-timeline" data-reveal>
             {timeline.map((step) => (
               <li key={step.label.en} className={step.current ? "is-current" : undefined}>
@@ -280,14 +274,13 @@ export function DevelopmentProjectPage({ locale, project }: { locale: SiteLocale
         </div>
       </section>
 
-      {/* 09 GALLERY — photo direction storyboard in the preview */}
-      <PhotoStoryboard slug={project.slug as "vatra" | "drochia-gateway"} locale={locale} media={dev.media} no="09" />
+      {/* 09 GALLERY — photo direction storyboard in the preview */}
 
-      {/* 10 CONTACT */}
+      {/* 08 CONTACT */}
       <section className="xp-sec xp-sec--stone">
         <div className="xp-shell xp-close">
           <div data-reveal>
-            <p className="xp-eyebrow"><span className="xp-eyebrow__no">10</span><span>{dev.name}</span></p>
+            <p className="xp-eyebrow"><span className="xp-eyebrow__no">08</span><span>{dev.name}</span></p>
             <h2 className="xp-close__title">{copy.closeTitle[locale]}</h2>
             <div className="xp-actions xp-actions--top">
               <Button href={`${p("/contact")}?subject=partnership#partnership`}>{copy.discuss[locale]}</Button>

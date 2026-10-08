@@ -1,21 +1,27 @@
-import { DemoLegend, Val } from "@/components/experience";
+import Link from "next/link";
+import { DemoLegend, Opening, Val } from "@/components/experience";
 import { EnquiryFormBlock } from "@/components/journey-blocks";
 import { PageShell } from "@/components/page-shell";
 import { company, leasingProcess } from "@/data/demo-content";
-import { brand, type SiteLocale } from "@/lib/site-data";
+import { Icon } from "@/components/ui";
+import { brand, localePath, type SiteLocale } from "@/lib/site-data";
 
 /**
- * CONTACT — extremely clean, almost no motion (2026-10-07).
- * One light screen: the routing (four subjects: space · property or land ·
- * careers · partnership or other — OWNER correction 2026-10-08), the form that adapts to the
- * subject, the details and what happens next. Mailboxes and telephone are DEMO
+ * CONTACT — calm, routing first (final craft pass 2026-10-08).
+ * The first screen is a statement and three routes (leasing · offer a property
+ * or land · vacancies); the form follows as the fourth way in, adapting to its
+ * subject (space · property or land · careers · partnership or other), with the
+ * details and what happens next. Mailboxes and telephone are DEMO
  * and shown as plain text — no mailto, no tel, nothing is routed anywhere.
  */
 const copy = {
   ro: {
     label: "Contact",
-    title: "Scrieți-ne despre ce aveți nevoie.",
-    lead: "Alegeți subiectul — formularul se adaptează solicitării, iar mesajul ajunge direct la echipa responsabilă.",
+    title: "Să stăm de vorbă.",
+    lead: "Alegeți direcția — sau scrieți-ne mai jos.",
+    routes: [["Închiriere", "Găsiți un spațiu", "/leasing#available"], ["Propuneți un obiect sau un teren", "Trimiteți informațiile", "/offer#form"], ["Cariere", "Vedeți posturile deschise", "/careers#positions"], ["Altă întrebare", "Scrieți-ne", "#partnership"]],
+    formLabel: "Scrieți-ne",
+    formTitle: "Sau descrieți sarcina — răspunde echipa potrivită.",
     details: "Date de contact",
     company: "Companie",
     office: "Birou",
@@ -26,12 +32,15 @@ const copy = {
     phone: "Telefon",
     hours: "Program",
     nextLabel: "Ce urmează",
-    next: [["Citim solicitarea", "O persoană din echipa responsabilă, nu un robot."], ["Vă răspundem", "Cu întrebări concrete sau o primă propunere."], ["Ne întâlnim", "Pe obiect, la birou sau online — cum vă este comod."]],
+    next: [["Citim solicitarea", "O persoană din echipa responsabilă, nu un robot."], ["Vă răspundem", "Cu întrebări concrete sau o primă propunere."], ["Ne întâlnim", "Pe obiect, la birou sau online — cum vă este comod."]],
   },
   ru: {
     label: "Контакты",
-    title: "Напишите, что вам нужно.",
-    lead: "Выберите тему — форма подстроится, а сообщение попадёт сразу к нужной команде.",
+    title: "Поговорим о задаче.",
+    lead: "Выберите направление — или опишите задачу в форме ниже.",
+    routes: [["Аренда", "Найти помещение", "/leasing#available"], ["Предложить объект или землю", "Отправить информацию", "/offer#form"], ["Вакансии", "Смотреть открытые позиции", "/careers#positions"], ["Другой вопрос", "Написать нам", "#partnership"]],
+    formLabel: "Написать нам",
+    formTitle: "Или опишите задачу — ответит нужная команда.",
     details: "Контактные данные",
     company: "Компания",
     office: "Офис",
@@ -42,12 +51,15 @@ const copy = {
     phone: "Телефон",
     hours: "Часы работы",
     nextLabel: "Что будет дальше",
-    next: [["Читаем запрос", "Его читает человек из ответственной команды, а не робот."], ["Отвечаем", "С конкретными вопросами или первым предложением."], ["Встречаемся", "На объекте, в офисе или онлайн — как вам удобно."]],
+    next: [["Читаем запрос", "Его читает человек из ответственной команды, а не робот."], ["Отвечаем", "С конкретными вопросами или первым предложением."], ["Встречаемся", "На объекте, в офисе или онлайн — как вам удобно."]],
   },
   en: {
     label: "Contact",
-    title: "Tell us what you need.",
-    lead: "Choose the subject — the form adapts to your request, and the message goes straight to the team responsible.",
+    title: "Let's talk it through.",
+    lead: "Choose a route — or write to us below.",
+    routes: [["Leasing", "Find a space", "/leasing#available"], ["Offer a property or land", "Send the details", "/offer#form"], ["Careers", "See open roles", "/careers#positions"], ["Another question", "Write to us", "#partnership"]],
+    formLabel: "Write to us",
+    formTitle: "Or describe the task — the right team replies.",
     details: "Contact details",
     company: "Company",
     office: "Office",
@@ -58,7 +70,7 @@ const copy = {
     phone: "Telephone",
     hours: "Hours",
     nextLabel: "What happens next",
-    next: [["We read your request", "A person from the team responsible, not a robot."], ["We reply", "With specific questions or a first proposal."], ["We meet", "On site, at the office or online — as suits you."]],
+    next: [["We read your request", "A person from the team responsible, not a robot."], ["We reply", "With specific questions or a first proposal."], ["We meet", "On site, at the office or online — as suits you."]],
   },
 } as const;
 
@@ -71,23 +83,34 @@ export function ContactPage({ locale }: { locale: SiteLocale }) {
     [c.leasing, company.emails.leasing],
     [c.acquisitions, company.emails.acquisitions],
     [c.careers, company.emails.careers],
-    [c.phone, company.phone],
     [c.hours, company.hours],
   ] as const;
 
   return (
     <PageShell locale={locale} experience mainClassName="xp-contact">
-      <section className="xp-pagehero xp-pagehero--contact">
-        <div className="xp-shell xp-pagehero__grid">
-          <p className="xp-eyebrow"><span className="xp-eyebrow__no">{brand.name}</span><span>{c.label}</span></p>
-          <div>
-            <h1 className="xp-pagehero__title">{c.title}</h1>
-            <p className="xp-pagehero__lead xp-pagehero__lead--gap">{c.lead}</p>
-          </div>
+      <section className="xp-pagehero xp-sh">
+        <div className="xp-shell xp-sh__grid">
+          <p className="xp-eyebrow xp-sh__eyebrow"><span className="xp-eyebrow__no">{brand.name}</span><span>{c.label}</span></p>
+          <h1 className="xp-display-title xp-sh__title">{c.title}</h1>
+          <p className="xp-pagehero__lead xp-sh__lead">{c.lead}</p>
+          <nav className="xp-sh__aside xp-routes" aria-label={c.label}>
+            {c.routes.map(([label, action, href]) => {
+              const [path, hash] = href.split("#");
+              return (
+                <Link key={label} href={path ? `${localePath(locale, path)}${hash ? `#${hash}` : ""}` : `#${hash}`}>
+                  <span className="xp-routes__label">{label}</span>
+                  <span className="xp-routes__action">{action}<Icon /></span>
+                </Link>
+              );
+            })}
+          </nav>
         </div>
       </section>
 
-      <section className="xp-sec xp-sec--flush-top xp-sec--warm">
+      <section className="xp-sec xp-sec--warm xp-contact__form" id="write">
+        <div className="xp-shell">
+          <Opening no="01" label={c.formLabel} title={c.formTitle} />
+        </div>
         <div className="xp-shell xp-contact__grid">
           <EnquiryFormBlock locale={locale} />
           <aside className="xp-contact__aside">

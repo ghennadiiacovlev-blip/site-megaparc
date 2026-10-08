@@ -11,7 +11,7 @@ import "./globals.css";
  * the Russian and English lines carry their own lang attribute.
  */
 export const metadata: Metadata = {
-  title: "404 — MEGAPARC",
+  title: "404 — MEGAPARC",
   robots: { index: false },
 };
 

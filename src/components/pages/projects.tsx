@@ -1,14 +1,14 @@
 import Link from "next/link";
 import type { CSSProperties } from "react";
 import { CollectionFilter } from "@/components/collection-filter";
-import { ConceptImage, DemoMark, Ledger, Opening } from "@/components/experience";
+import { ConceptImage, DemoMark, HeroFigures, Opening } from "@/components/experience";
 import { PageShell } from "@/components/page-shell";
+import { ProjectFacts } from "@/components/project-facts";
 import { ArtImage } from "@/components/primitives";
 import { Button, Icon, TextLink } from "@/components/ui";
 import { formatAreaRange, listProjects, projectTags, publicSpaces, spacesFor, type ProjectEntry } from "@/content/source";
-import { drochiaProfile } from "@/data/demo-content";
 import { lifecycle } from "@/lib/business";
-import { localePath, type SiteLocale } from "@/lib/site-data";
+import { brand, localePath, type SiteLocale } from "@/lib/site-data";
 
 /**
  * PROJECTS — the real-estate universe of MEGAPARC (OWNER correction
@@ -21,8 +21,13 @@ import { localePath, type SiteLocale } from "@/lib/site-data";
 const copy = {
   ro: {
     label: "Proiecte",
-    title: "Tot ce MEGAPARC a cumpărat, a construit și dezvoltă.",
-    lead: "Clădiri în funcțiune, un proiect în realizare și un teren pentru dezvoltare. În unele dintre ele se închiriază acum spații.",
+    title: "Imobiliarele MEGAPARC.",
+    lead: "Clădiri comerciale în funcțiune, proiecte de dezvoltare și terenuri.",
+    figOperating: "Clădiri în funcțiune",
+    figDevelopment: "Proiect de dezvoltare",
+    figLand: "Teren pentru dezvoltare",
+    figSpaces: "Spații libere",
+    seeAll: "Vezi spațiile libere",
     operating: "În funcțiune",
     development: "Dezvoltare",
     land: "Teren",
@@ -45,8 +50,13 @@ const copy = {
   },
   ru: {
     label: "Проекты",
-    title: "Всё, что MEGAPARC купила, построила и развивает.",
-    lead: "Действующие здания, проект в работе и земля под развитие. В четырёх зданиях сейчас есть свободные помещения.",
+    title: "Недвижимость MEGAPARC.",
+    lead: "Действующие коммерческие объекты, проекты развития и земельные участки.",
+    figOperating: "Действующие объекты",
+    figDevelopment: "Проект развития",
+    figLand: "Земля под развитие",
+    figSpaces: "Свободных помещений",
+    seeAll: "Смотреть свободные помещения",
     operating: "Действующие",
     development: "Развитие",
     land: "Земля",
@@ -54,23 +64,28 @@ const copy = {
     leasingNow: (n: number) => `${n} ${n === 1 ? "помещение" : n < 5 ? "помещения" : "помещений"} сдаётся сейчас`,
     filter: "Фильтр проектов",
     all: "Все",
-    tags: { operating: "Действующие", development: "Развитие", land: "Земля", leasing: "Есть в аренду", sale: "Продажа" } as Record<string, string>,
+    tags: { operating: "Действующие", development: "Развитие", land: "Земля", leasing: "Есть в аренду", sale: "Продажа" } as Record<string, string>,
     collectionLabel: "Коллекция",
-    collectionTitle: "У каждого проекта своя роль.",
+    collectionTitle: "У каждого проекта своя роль.",
     open: "Открыть проект",
     available: (n: number) => (n === 1 ? "1 свободное помещение" : n < 5 ? `${n} свободных помещения` : `${n} свободных помещений`),
     seeSpaces: "Смотреть помещения",
     cycleLabel: "Цикл проекта",
-    cycleTitle: "Каждый объект проходит один и тот же путь.",
-    cycleNote: "Продаётся не каждый объект — решение принимаем по каждому отдельно.",
+    cycleTitle: "Каждый объект проходит один и тот же путь.",
+    cycleNote: "Продаётся не каждый объект — решение принимаем по каждому отдельно.",
     closeLabel: "Следующий шаг",
-    closeTitle: "Ищете помещение или хотите предложить объект?",
-    routes: [["Что сдаётся сейчас", "/leasing#available"], ["Предложить объект или землю", "/offer"], ["О компании", "/about"]],
+    closeTitle: "Ищете помещение или предлагаете объект?",
+    routes: [["Что сдаётся сейчас", "/leasing#available"], ["Предложить объект или землю", "/offer"], ["О компании", "/about"]],
   },
   en: {
     label: "Projects",
-    title: "Everything MEGAPARC has bought, built and is developing.",
-    lead: "Operating buildings, a project in delivery and land for development. Some of them have space to lease right now.",
+    title: "MEGAPARC real estate.",
+    lead: "Operating commercial properties, development projects and land.",
+    figOperating: "Operating properties",
+    figDevelopment: "Development project",
+    figLand: "Land for development",
+    figSpaces: "Available spaces",
+    seeAll: "See the available spaces",
     operating: "Operating",
     development: "Development",
     land: "Land",
@@ -104,7 +119,7 @@ const layout: Record<string, { layout: Layout; ratio: string }> = {
 };
 
 function ProjectFigure({ project, locale, sizes, priority = false }: { project: ProjectEntry; locale: SiteLocale; sizes: string; priority?: boolean }) {
-  if (project.media) return <ArtImage media={project.media} alt={`${project.name} — ${project.format[locale]}`} sizes={sizes} depth={14} priority={priority} position={project.slug === "vatra" ? "50% 70%" : undefined} />;
+  if (project.media) return <ArtImage media={project.media} alt={`${project.name} — ${project.format[locale]}`} sizes={sizes} depth={14} priority={priority} position={project.slug === "vatra" ? "50% 70%" : undefined} />;
   return <ConceptImage id={project.conceptUse!} locale={locale} sizes={sizes} depth={14} />;
 }
 
@@ -113,27 +128,26 @@ export function ProjectsPage({ locale }: { locale: SiteLocale }) {
   const p = (path: string) => localePath(locale, path);
   const projects = listProjects();
   const count = (tag: string) => projects.filter((project) => projectTags(project).includes(tag)).length;
+  const drochiaProject = projects.find((project) => project.slug === "drochia-gateway")!;
   const filterKeys = ["operating", "development", "land", "leasing", ...(count("sale") ? ["sale"] : [])];
 
   return (
     <PageShell locale={locale} experience>
-      {/* HERO */}
-      <section className="xp-pagehero">
-        <div className="xp-shell xp-pagehero__grid">
-          <p className="xp-eyebrow" data-reveal><span className="xp-eyebrow__no">01</span><span>{c.label}</span></p>
-          <div data-reveal>
-            <h1 className="xp-pagehero__title">{c.title}</h1>
-            <p className="xp-pagehero__lead xp-pagehero__lead--gap">{c.lead}</p>
-          </div>
-          <div className="xp-pagehero__aside" data-reveal>
-            <Ledger locale={locale} className="xp-ledger--pair" items={[
-              { label: c.operating, value: String(count("operating")).padStart(2, "0") },
-              { label: c.development, value: String(count("development")).padStart(2, "0") },
-              { label: c.land, point: drochiaProfile.site },
-              { label: c.leasing, value: String(publicSpaces.length).padStart(2, "0") },
+      {/* HERO — statement + figures */}
+      <section className="xp-pagehero xp-sh">
+        <div className="xp-shell xp-sh__grid">
+          <p className="xp-eyebrow xp-sh__eyebrow" data-reveal><span className="xp-eyebrow__no">{brand.name}</span><span>{c.label}</span></p>
+          <h1 className="xp-display-title xp-sh__title" data-reveal>{c.title}</h1>
+          <p className="xp-pagehero__lead xp-sh__lead" data-reveal>{c.lead}</p>
+          <div className="xp-sh__aside" data-reveal>
+            <HeroFigures className="xp-figures--caps xp-figures--four" items={[
+              { value: String(count("operating")).padStart(2, "0"), label: c.figOperating },
+              { value: String(count("development")).padStart(2, "0"), label: c.figDevelopment },
+              { value: drochiaProject.card.size[locale], label: c.figLand },
+              { value: String(publicSpaces.length).padStart(2, "0"), label: c.figSpaces },
             ]} />
             <div className="xp-actions">
-              <Button href={`${p("/leasing")}#available`}>{c.leasingNow(publicSpaces.length)}</Button>
+              <Button href={`${p("/leasing")}#available`}>{c.seeAll}</Button>
             </div>
           </div>
         </div>
@@ -142,7 +156,7 @@ export function ProjectsPage({ locale }: { locale: SiteLocale }) {
       {/* COLLECTION */}
       <section className="xp-sec" id="collection">
         <div className="xp-shell">
-          <Opening no="02" label={c.collectionLabel} title={c.collectionTitle} />
+          <Opening no="01" label={c.collectionLabel} title={c.collectionTitle} />
           <CollectionFilter label={c.filter} options={[{ key: "all", label: c.all, count: projects.length }, ...filterKeys.map((key) => ({ key, label: c.tags[key], count: count(key) }))]}>
             <div className="xp-collection">
               {projects.map((project, index) => {
@@ -151,21 +165,21 @@ export function ProjectsPage({ locale }: { locale: SiteLocale }) {
                 const own = spacesFor(project.slug);
                 return (
                   <article key={project.slug} className={`xp-piece xp-piece--${kind}`} data-category={projectTags(project).join(" ")}>
-                    <Link href={href} className="xp-piece__figure" aria-label={`${project.name} — ${c.open}`} data-reveal>
+                    <Link href={href} className="xp-piece__figure" aria-label={`${project.name} — ${c.open}`} data-reveal>
                       <figure className="xp-fig" style={{ "--ratio": ratio } as CSSProperties}>
                         <ProjectFigure project={project} locale={locale} sizes={kind === "feature" ? "100vw" : "(min-width: 1024px) 55vw, 100vw"} priority={index === 0} />
                       </figure>
                     </Link>
                     <div className="xp-piece__copy" data-reveal>
-                      <p className="xp-eyebrow"><span>{project.district[locale]} · {project.format[locale]}{project.formatDemo ? <DemoMark /> : null}</span></p>
+                      <p className="xp-eyebrow"><span>{project.kind === "operating" ? `${project.district[locale]} · ` : ""}{project.format[locale]}{project.formatDemo ? <DemoMark /> : null}</span></p>
                       <h2 className="xp-piece__name"><Link href={href}>{project.name}</Link></h2>
-                      <ul className="pj-tags">
-                        {projectTags(project).map((tag) => (
-                          <li key={tag} className={`pj-tag pj-tag--${tag}`}>{c.tags[tag]}</li>
-                        ))}
-                      </ul>
+                      <ProjectFacts project={project} locale={locale} />
+                      {project.forSale ? (
+                        <ul className="pj-tags">
+                          <li className="pj-tag pj-tag--sale">{c.tags.sale}</li>
+                        </ul>
+                      ) : null}
                       <p className="xp-piece__reason">{project.line[locale]}</p>
-                      <Ledger locale={locale} items={project.facts.map((fact) => ({ label: fact.label[locale], point: fact.point }))} />
                       {own.length ? (
                         <Link className="pj-available" href={`${p("/leasing")}?project=${project.slug}#available`}>
                           <span className="pj-available__dot" aria-hidden="true" />
@@ -189,7 +203,7 @@ export function ProjectsPage({ locale }: { locale: SiteLocale }) {
       {/* LIFECYCLE */}
       <section className="xp-sec xp-sec--warm">
         <div className="xp-shell">
-          <Opening no="03" label={c.cycleLabel} title={c.cycleTitle} lead={c.cycleNote} className="xp-opening--split" />
+          <Opening no="02" label={c.cycleLabel} title={c.cycleTitle} lead={c.cycleNote} className="xp-opening--split" />
           <ol className="xp-progress xp-progress--six" data-xp-progress>
             {lifecycle.map((stage) => (
               <li key={stage.key} className="xp-progress__term" data-xp-term>
@@ -205,7 +219,7 @@ export function ProjectsPage({ locale }: { locale: SiteLocale }) {
       <section className="xp-sec xp-sec--stone">
         <div className="xp-shell xp-close">
           <div data-reveal>
-            <p className="xp-eyebrow"><span className="xp-eyebrow__no">04</span><span>{c.closeLabel}</span></p>
+            <p className="xp-eyebrow"><span className="xp-eyebrow__no">03</span><span>{c.closeLabel}</span></p>
             <h2 className="xp-close__title">{c.closeTitle}</h2>
           </div>
           <nav className="xp-close__routes" aria-label={c.closeLabel} data-reveal>

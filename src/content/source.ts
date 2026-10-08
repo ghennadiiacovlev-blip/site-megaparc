@@ -136,6 +136,8 @@ export type ProjectEntry = {
   conceptUse?: string;
   /** Two facts for cards. */
   facts: { label: Localized; point: DataPoint }[];
+  /** Card facts line (final craft pass): place · size · status — read without opening the page. */
+  card: { place: Localized; size: Localized; sizeDemo: boolean; status: Localized };
   asset?: PortfolioAsset;
   development?: DevelopmentProject;
 };
@@ -146,6 +148,12 @@ const label = {
   stage: { ro: "Etapă", ru: "Стадия", en: "Stage" } satisfies Localized,
   status: { ro: "Status", ru: "Статус", en: "Status" } satisfies Localized,
 };
+
+const cardStatus = {
+  operating: { ro: "Clădire în funcțiune", ru: "Действующий объект", en: "Operating property" },
+  development: { ro: "Etapa: realizare", ru: "Стадия: реализация", en: "Stage: delivery" },
+  land: { ro: "Teren · concept", ru: "Земля · концепция", en: "Land · concept" },
+} satisfies Record<string, Localized>;
 
 const asset = (slug: SpaceProject) => portfolioAssets.find((a) => a.slug === slug)!;
 const dev = (slug: string) => developmentProjects.find((p) => p.slug === slug)!;
@@ -168,6 +176,7 @@ const operatingEntry = (slug: SpaceProject): ProjectEntry => {
     media: a.media,
     conceptUse: isCreanga ? "portfolio.creanga-78" : undefined,
     facts: [{ label: label.area, point: profile.area }],
+    card: { place: a.city, size: profile.area.value, sizeDemo: profile.area.status === "DEMO", status: cardStatus.operating },
     asset: a,
   };
 };
@@ -187,9 +196,10 @@ export const projects: ProjectEntry[] = [
     city: dev("vatra").place,
     format: dev("vatra").status,
     formatDemo: false,
-    line: { ro: "Un proiect propriu în realizare — de la teren la clădirea care lucrează.", ru: "Собственный проект: от участка до работающего здания.", en: "An own project in delivery — from site to a working building." },
+    line: { ro: "Un proiect propriu în realizare — de la teren la clădirea care lucrează.", ru: "Собственный проект: от участка до работающего здания.", en: "An own project in delivery — from site to a working building." },
     media: dev("vatra").media,
     facts: [{ label: label.stage, point: vatraProfile.stage }, { label: label.site, point: vatraProfile.site }],
+    card: { place: { ro: "Moldova", ru: "Молдова", en: "Moldova" }, size: vatraProfile.site.value, sizeDemo: vatraProfile.site.status === "DEMO", status: cardStatus.development },
     development: dev("vatra"),
   },
   {
@@ -202,10 +212,11 @@ export const projects: ProjectEntry[] = [
     city: dev("drochia-gateway").place,
     format: dev("drochia-gateway").kind,
     formatDemo: false,
-    line: { ro: "2,0 ha la intrarea în Drochia — teren propriu, concept în evaluare.", ru: "2,0 га на въезде в Дрокию — наша земля; концепцию сейчас оцениваем.", en: "2.0 ha at the entrance to Drochia — our own land, concept under evaluation." },
+    line: { ro: "2,0 ha la intrarea în Drochia — teren propriu, concept în evaluare.", ru: "2,0 га на въезде в Дрокию — наша земля; концепцию сейчас оцениваем.", en: "2.0 ha at the entrance to Drochia — our own land, concept under evaluation." },
     media: null,
     conceptUse: "development.drochia",
     facts: [{ label: label.site, point: drochiaProfile.site }, { label: label.status, point: drochiaProfile.status }],
+    card: { place: dev("drochia-gateway").place, size: { ro: "2,0 ha", ru: "2,0 га", en: "2.0 ha" }, sizeDemo: drochiaProfile.site.status === "DEMO", status: cardStatus.land },
     development: dev("drochia-gateway"),
   },
 ];

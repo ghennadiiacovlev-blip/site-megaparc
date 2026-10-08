@@ -3,7 +3,9 @@ import type { CSSProperties } from "react";
 import { ConceptImage, MaskTitle, Opening, Val } from "@/components/experience";
 import { EnquiryFormBlock, OwnerCompassBlock } from "@/components/journey-blocks";
 import { PageShell } from "@/components/page-shell";
+import { ArtImage } from "@/components/primitives";
 import { Button, Icon, TextLink } from "@/components/ui";
+import { getProject } from "@/content/source";
 import { acquisitionProcess, company } from "@/data/demo-content";
 import { acquisitionCriteria, acquisitionTypes, geography } from "@/lib/business";
 import { isPreviewBuild, localePath, publicAsset, type SiteLocale } from "@/lib/site-data";
@@ -20,7 +22,7 @@ const copy = {
   ro: {
     label: "Propune un obiect",
     title: ["Aveți o clădire sau un teren?", "MEGAPARC cumpără."],
-    lead: "Cumpărăm clădiri comerciale, clădiri care cer o nouă viață și terenuri pentru dezvoltare — și le dezvoltăm noi. Trimiteți obiectul și primiți o primă evaluare.",
+    lead: "Cumpărăm clădiri comerciale, clădiri care cer o nouă viață și terenuri pentru dezvoltare — și le dezvoltăm noi. Trimiteți obiectul și primiți o primă evaluare.",
     send: "Trimite obiectul",
     how: "Ce verificăm",
     buyLabel: "Ce cumpărăm",
@@ -28,10 +30,10 @@ const copy = {
     checkLabel: "Ce verificăm",
     checkTitle: "Șase întrebări înainte de orice ofertă.",
     compassLabel: "Situația dumneavoastră",
-    compassTitle: "Spuneți ce aveți — vă arătăm cum gândim.",
+    compassTitle: "Spuneți ce aveți — vă arătăm cum gândim.",
     processLabel: "Cum decurge",
     processTitle: "De la primul mesaj la decizie.",
-    steps: [["Trimiteți obiectul", "Adresa, suprafața, documentele pe care le aveți."], ["Prima discuție", "Vă sună persoana care evaluează obiectul."], ["Vizita și documentele", "Pe obiect; materialele se schimbă sub acord de confidențialitate."], ["Evaluarea", "Juridic, tehnic, piață — și ce poate deveni obiectul."], ["Decizia", "O ofertă argumentată sau un răspuns clar."]],
+    steps: [["Trimiteți obiectul", "Adresa, suprafața, documentele pe care le aveți."], ["Prima discuție", "Vă sună persoana care evaluează obiectul."], ["Vizita și documentele", "Pe obiect; materialele se schimbă sub acord de confidențialitate."], ["Evaluarea", "Juridic, tehnic, piață — și ce poate deveni obiectul."], ["Decizia", "O ofertă argumentată sau un răspuns clar."]],
     reply: "Primul răspuns",
     mailbox: "Propunerile ajung la",
     formLabel: "Formular",
@@ -43,30 +45,30 @@ const copy = {
   ru: {
     label: "Предложить объект",
     title: ["Есть здание или земля?", "MEGAPARC покупает."],
-    lead: "Покупаем коммерческие здания — в том числе те, которым нужна новая жизнь, — и землю под развитие. Опишите объект — мы его оценим и ответим.",
+    lead: "Покупаем коммерческие здания — в том числе те, которым нужна новая жизнь, — и землю под развитие. Опишите объект — мы его оценим и ответим.",
     send: "Отправить объект",
     how: "Что мы проверяем",
     buyLabel: "Что покупаем",
     buyTitle: "Четыре типа объектов.",
     checkLabel: "Что проверяем",
-    checkTitle: "Шесть вопросов до любого предложения.",
+    checkTitle: "Шесть вопросов до любого предложения.",
     compassLabel: "Ваша ситуация",
-    compassTitle: "Расскажите, что у вас есть, — покажем, как мы думаем.",
+    compassTitle: "Расскажите, что у вас есть, — покажем, как мы думаем.",
     processLabel: "Как это происходит",
-    processTitle: "От первого сообщения до решения.",
-    steps: [["Отправьте объект", "Адрес, площадь, документы, которые есть."], ["Первый разговор", "Звонит тот, кто оценивает объект."], ["Выезд и документы", "На объекте; материалы — под соглашение о конфиденциальности."], ["Оценка", "Право, техника, рынок — и чем объект может стать."], ["Решение", "Аргументированное предложение или ясный ответ."]],
+    processTitle: "От первого сообщения до решения.",
+    steps: [["Отправьте объект", "Адрес, площадь, документы, которые есть."], ["Первый разговор", "Звонит тот, кто оценивает объект."], ["Выезд и документы", "На объекте; материалы — под соглашение о конфиденциальности."], ["Оценка", "Право, техника, рынок — и чем объект может стать."], ["Решение", "Аргументированное предложение или ясный ответ."]],
     reply: "Первый ответ",
     mailbox: "Предложения получает",
     formLabel: "Форма",
     formTitle: "Опишите объект.",
     closeLabel: "Другое?",
-    closeTitle: "Ищете помещение или хотите работать в MEGAPARC?",
-    routes: [["Помещения в аренду", "/leasing"], ["Наши проекты", "/projects"], ["Вакансии", "/careers"]],
+    closeTitle: "Ищете помещение или работу в MEGAPARC?",
+    routes: [["Помещения в аренду", "/leasing"], ["Наши проекты", "/projects"], ["Вакансии", "/careers"]],
   },
   en: {
     label: "Offer a property",
     title: ["Own a building or land?", "MEGAPARC buys."],
-    lead: "We buy commercial buildings, buildings that need a new life and land for development — and develop them ourselves. Send us the property and get a first assessment.",
+    lead: "We buy commercial buildings, buildings that need a new life and land for development — and develop them ourselves. Send us the property and get a first assessment.",
     send: "Send the property",
     how: "What we check",
     buyLabel: "What we buy",
@@ -74,10 +76,10 @@ const copy = {
     checkLabel: "What we check",
     checkTitle: "Six questions before any offer.",
     compassLabel: "Your situation",
-    compassTitle: "Tell us what you have — we show how we think.",
+    compassTitle: "Tell us what you have — we show how we think.",
     processLabel: "How it works",
     processTitle: "From the first message to a decision.",
-    steps: [["Send the property", "Address, area, the documents you have."], ["A first call", "From the person who assesses the property."], ["Site visit and documents", "On site; materials exchanged under a confidentiality agreement."], ["Assessment", "Legal, technical, market — and what the property could become."], ["Decision", "A reasoned offer or a clear answer."]],
+    steps: [["Send the property", "Address, area, the documents you have."], ["A first call", "From the person who assesses the property."], ["Site visit and documents", "On site; materials exchanged under a confidentiality agreement."], ["Assessment", "Legal, technical, market — and what the property could become."], ["Decision", "A reasoned offer or a clear answer."]],
     reply: "First reply",
     mailbox: "Offers go to",
     formLabel: "Form",
@@ -98,7 +100,7 @@ export function OfferPage({ locale }: { locale: SiteLocale }) {
       <section className="xp-hero xp-hero--page" data-xp-hero>
         <div className="xp-hero__media">
           <div className="xp-hero__frame is-active">
-            <ConceptImage id="offer.hero" locale={locale} priority />
+            <ArtImage media={getProject("vatra")!.media!} alt="" priority position="50% 62%" />
           </div>
         </div>
         <div className="xp-hero__veil" aria-hidden="true" />

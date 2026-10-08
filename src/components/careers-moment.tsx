@@ -1,15 +1,14 @@
 import { CinemaFilm } from "@/components/cinema-film";
 import { MaskTitle } from "@/components/experience";
 import { Button } from "@/components/ui";
-import { conceptVideoLabel, videoUses } from "@/data/demo-content";
 import { publicAsset, type SiteLocale } from "@/lib/site-data";
 
 /**
  * CAREERS FILM MOMENT (OWNER addendum 2026-10-08, "MICROCOPY + CAREERS VIDEO
  * CORRECTION"). Interaction principle only: a large atmospheric film, one
  * statement, one call to action. Used as a section on Home and as the hero of
- * Careers. The footage is concept video (src/data/demo-content.ts →
- * videoUses) and says so on the frame.
+ * Careers. The footage is concept video, registered in src/data/demo-content.ts
+ * (videoUses); the public signal is the global PREVIEW · DEMO DATA marker.
  */
 
 const FILM = {
@@ -30,8 +29,8 @@ const copy = {
   ru: {
     label: "Вакансии",
     title: ["Работа,", "результат которой видно."],
-    home: "Здания, площадки и проекты, которые становятся частью города. Ищем людей, готовых отвечать за результат вместе с MEGAPARC.",
-    page: "Здания, площадки и проекты, которые становятся частью города. Открытые вакансии — ниже.",
+    home: "Здания, площадки и проекты, которые становятся частью города. Ищем людей, готовых отвечать за результат вместе с MEGAPARC.",
+    page: "Здания, площадки и проекты, которые становятся частью города. Открытые вакансии — ниже.",
     cta: "Смотреть вакансии",
     pause: "Остановить видео",
     play: "Включить видео",
@@ -52,12 +51,10 @@ const asset = (edit: { src: string; poster: string }) => ({ src: publicAsset(edi
 export function CareersMoment({ locale, variant, href, no, count }: { locale: SiteLocale; variant: "section" | "hero"; href: string; no?: string; count?: number }) {
   const c = copy[locale];
   const hero = variant === "hero";
-  const concept = videoUses.some((use) => use.id === (hero ? "careers.hero.film" : "home.careers.film"));
   return (
     <section className={`cm${hero ? " cm--hero" : ""}`} id={hero ? "careers-hero" : "vacancies"} {...(hero ? { "data-xp-hero": "" } : {})}>
       <CinemaFilm desktop={asset(FILM.desktop)} mobile={asset(FILM.mobile)} copy={{ pause: c.pause, play: c.play }} priority={hero} />
       <span className="cm__veil" aria-hidden="true" />
-      {concept ? <span className="xp-photo-label cm__label">{conceptVideoLabel[locale]}</span> : null}
       <div className="xp-shell cm__copy">
         <p className="xp-eyebrow cm__eyebrow">
           {no ? <span className="xp-eyebrow__no">{no}</span> : null}

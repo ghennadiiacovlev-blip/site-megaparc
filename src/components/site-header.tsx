@@ -6,7 +6,7 @@ import { brand, localePath, ui, type SiteLocale } from "@/lib/site-data";
 
 export function Brand({ locale, href, light = false }: { locale: SiteLocale; href?: string; light?: boolean }) {
   return (
-    <Link className={`brand${light ? " brand--light" : ""}`} href={href ?? localePath(locale, "/")} aria-label={`${brand.name} — ${ui.home[locale]}`}>
+    <Link className={`brand${light ? " brand--light" : ""}`} href={href ?? localePath(locale, "/")} aria-label={`${brand.name} — ${ui.home[locale]}`}>
       <span className="brand__name">{brand.wordmark}</span>
       <span className="brand__rule" aria-hidden="true" />
     </Link>

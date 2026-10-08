@@ -1,15 +1,15 @@
 import Link from "next/link";
 import type { CSSProperties } from "react";
 import { AudienceRouter } from "@/components/audience-router";
-import { ConceptImage, DemoMark, Ledger, MaskTitle, Opening } from "@/components/experience";
+import { ConceptImage, Ledger, MaskTitle, Opening } from "@/components/experience";
 import { UnitCard } from "@/components/leasing/unit-card";
 import { PageShell } from "@/components/page-shell";
 import { ArtImage } from "@/components/primitives";
 import { Button, Icon, TextLink } from "@/components/ui";
 import { formatAreaRange, getProject, listProjects, listVacancies, publicSpaces, sortSpaces, spacesCount, spacesFor } from "@/content/source";
 import { drochiaProfile, vatraProfile } from "@/data/demo-content";
-import { businessStatement, lifecycle, verbs } from "@/lib/business";
 import { CareersMoment } from "@/components/careers-moment";
+import { ProjectFacts } from "@/components/project-facts";
 import { eras, historyCopy } from "@/lib/history";
 import { areaBands } from "@/lib/leasing";
 import { brand, localePath, publicAsset, type SiteLocale } from "@/lib/site-data";
@@ -26,25 +26,28 @@ import { brand, localePath, publicAsset, type SiteLocale } from "@/lib/site-data
 const copy = {
   ro: {
     scroll: "Derulează",
-    routesLabel: "Începeți de aici",
-    routesTitle: "Cu ce ați venit la MEGAPARC?",
-    cycleLabel: "Cum lucrează MEGAPARC",
+    heroLine: "MEGAPARC · din 2005",
+    heroTitle: ["Investim în imobiliare.", "Dezvoltăm proiecte proprii.", "Închiriem spații comerciale."],
+    heroLead: "MEGAPARC achiziționează imobile și terenuri, dezvoltă proiecte și creează spații comerciale pentru afaceri.",
+    routesLabel: "Direcții",
+    routesTitle: "Ce vă interesează?",
     routes: {
-      space: ["Caut un spațiu", (n: string, range: string) => `Acum se închiriază ${n}, ${range}. Filtre după format, suprafață și clădire.`],
-      offer: ["Vreau să propun un obiect sau un teren", () => "MEGAPARC cumpără clădiri și terenuri. Descrieți obiectul — primiți o primă evaluare."],
-      about: ["Vreau să cunosc MEGAPARC", () => "Cum lucrăm — cumpărăm, dezvoltăm, închiriem — și cronica noastră din 1991."],
+      space: ["Închiriere", "Găsiți un spațiu pentru afacerea dumneavoastră.", "Vezi spațiile libere"],
+      offer: ["Propuneți un obiect sau un teren", "Trimiteți un imobil spre evaluare la MEGAPARC.", "Propune un obiect"],
+      about: ["Despre companie", "Istoria, proiectele și abordarea MEGAPARC.", "Află mai multe"],
     },
-    ctaSpace: "Caut un spațiu",
-    ctaOffer: "Propun un obiect sau teren",
-    ctaAbout: "Despre MEGAPARC",
+    ctaSpace: "Spații libere",
+    ctaOffer: "Propuneți un obiect sau un teren",
+    ctaAbout: "Despre companie",
     availableLabel: "Acum se închiriază",
     availableTitle: "Spații libere în clădirile noastre.",
     availableAll: "Toate spațiile",
     quick: "Căutați după suprafață",
     projectsLabel: "Proiecte",
-    projectsTitle: "Clădirile pe care le-am cumpărat și le închiriem.",
-    projectsLead: "Clădiri pentru sedii, comerț pe prima linie și servicii de cartier — în Chișinău.",
+    projectsTitle: "Imobiliarele MEGAPARC.",
+    projectsLead: "Clădiri comerciale în funcțiune, proiecte de dezvoltare și terenuri.",
     projectsAll: "Toate proiectele",
+    projectsOpen: "Vezi proiectul",
     spacesHere: (n: number) => (n === 1 ? "1 spațiu liber" : `${n} spații libere`),
     devLabel: "Dezvoltare",
     devTitle: "Construim proiecte proprii. Și cumpărăm teren pentru următoarele.",
@@ -57,33 +60,36 @@ const copy = {
     historyCta: "Citiți cronica",
     closeLabel: "Contact",
     closeTitle: "Spuneți-ne ce aveți nevoie.",
-    closeRoutes: [["Caut un spațiu", "/contact?subject=lease#occupier"], ["Propun un obiect sau un teren", "/offer"], ["Vreau să lucrez la MEGAPARC", "/careers"], ["Altă întrebare", "/contact"]],
+    closeRoutes: [["Închiriere", "/contact?subject=lease#occupier"], ["Propuneți un obiect sau un teren", "/offer"], ["Cariere", "/careers"], ["Altă întrebare", "/contact"]],
   },
   ru: {
     scroll: "Листайте",
-    routesLabel: "Начните отсюда",
-    routesTitle: "С чем вы пришли в MEGAPARC?",
-    cycleLabel: "Как работает MEGAPARC",
+    heroLine: "MEGAPARC · с 2005 года",
+    heroTitle: ["Инвестируем в недвижимость.", "Развиваем собственные проекты.", "Сдаём коммерческие площади в аренду."],
+    heroLead: "MEGAPARC приобретает недвижимость и землю, развивает проекты и формирует коммерческие пространства для бизнеса.",
+    routesLabel: "Направления",
+    routesTitle: "Что вас интересует?",
     routes: {
-      space: ["Ищу помещение", (n: string, range: string) => `Сейчас свободно ${n}: ${range}. Подберите по формату, площади и зданию.`],
-      offer: ["Хочу предложить объект или землю", () => "MEGAPARC покупает здания и землю. Опишите объект — ответим, интересен ли он нам."],
-      about: ["Хочу узнать о MEGAPARC", () => "Как мы работаем и с чего всё начиналось — с 1991 года."],
+      space: ["Аренда", "Найти помещение для бизнеса.", "Смотреть свободные помещения"],
+      offer: ["Предложить объект или землю", "Направить недвижимость на рассмотрение MEGAPARC.", "Предложить объект"],
+      about: ["О компании", "История, проекты и подход MEGAPARC.", "Узнать больше"],
     },
-    ctaSpace: "Ищу помещение",
-    ctaOffer: "Предложить объект или землю",
-    ctaAbout: "О компании",
+    ctaSpace: "Свободные помещения",
+    ctaOffer: "Предложить объект или землю",
+    ctaAbout: "О компании",
     availableLabel: "Сейчас сдаётся",
-    availableTitle: "Свободные помещения в наших зданиях.",
+    availableTitle: "Свободные помещения в наших зданиях.",
     availableAll: "Все помещения",
-    quick: "Искать по площади",
+    quick: "Искать по площади",
     projectsLabel: "Проекты",
-    projectsTitle: "Здания, которые мы купили и сдаём в аренду.",
-    projectsLead: "Штаб-квартиры, торговля на первой линии, районные сервисы — всё в Кишинёве.",
+    projectsTitle: "Недвижимость MEGAPARC.",
+    projectsLead: "Действующие коммерческие объекты, проекты развития и земельные участки.",
     projectsAll: "Все проекты",
+    projectsOpen: "Открыть проект",
     spacesHere: (n: number) => (n === 1 ? "1 свободное помещение" : n < 5 ? `${n} свободных помещения` : `${n} свободных помещений`),
     devLabel: "Развитие",
-    devTitle: "Строим собственные проекты. И покупаем землю для следующих.",
-    devText: "VATRA уже в работе. Drochia Gateway — наш участок 2,0 га на въезде в город; концепцию сейчас оцениваем.",
+    devTitle: "Строим собственные проекты. И покупаем землю для следующих.",
+    devText: "VATRA уже в работе. Drochia Gateway — наш участок 2,0 га на въезде в город; концепцию сейчас оцениваем.",
     devCta: "Проекты развития",
     stage: "Стадия",
     site: "Участок",
@@ -92,29 +98,32 @@ const copy = {
     historyCta: "Читать хронику",
     closeLabel: "Контакты",
     closeTitle: "Расскажите, что вам нужно.",
-    closeRoutes: [["Ищу помещение", "/contact?subject=lease#occupier"], ["Предлагаю объект или землю", "/offer"], ["Хочу работать в MEGAPARC", "/careers"], ["Другой вопрос", "/contact"]],
+    closeRoutes: [["Аренда", "/contact?subject=lease#occupier"], ["Предложить объект или землю", "/offer"], ["Вакансии", "/careers"], ["Другой вопрос", "/contact"]],
   },
   en: {
     scroll: "Scroll",
-    routesLabel: "Start here",
-    routesTitle: "What brings you to MEGAPARC?",
-    cycleLabel: "How MEGAPARC works",
+    heroLine: "MEGAPARC · since 2005",
+    heroTitle: ["We invest in real estate.", "We develop our own projects.", "We lease commercial space."],
+    heroLead: "MEGAPARC acquires real estate and land, develops projects and creates commercial space for business.",
+    routesLabel: "Directions",
+    routesTitle: "What are you looking for?",
     routes: {
-      space: ["I need a space", (n: string, range: string) => `${n} to lease now, ${range}. Filter by format, area and building.`],
-      offer: ["I want to offer a property or land", () => "MEGAPARC buys buildings and land. Describe the property — get a first assessment."],
-      about: ["I want to know MEGAPARC", () => "How we work — we acquire, develop and lease — and our chronicle since 1991."],
+      space: ["Leasing", "Find a space for your business.", "See available spaces"],
+      offer: ["Offer a property or land", "Put a property forward for MEGAPARC to consider.", "Offer a property"],
+      about: ["About the company", "MEGAPARC's history, projects and approach.", "Learn more"],
     },
-    ctaSpace: "I need a space",
+    ctaSpace: "Available spaces",
     ctaOffer: "Offer a property or land",
-    ctaAbout: "About MEGAPARC",
+    ctaAbout: "About the company",
     availableLabel: "Available now",
     availableTitle: "Free space in our buildings.",
     availableAll: "All spaces",
     quick: "Search by area",
     projectsLabel: "Projects",
-    projectsTitle: "The buildings we bought and lease.",
-    projectsLead: "Headquarters buildings, first-line retail and neighbourhood services — in Chișinău.",
+    projectsTitle: "MEGAPARC real estate.",
+    projectsLead: "Operating commercial properties, development projects and land.",
     projectsAll: "All projects",
+    projectsOpen: "View the project",
     spacesHere: (n: number) => (n === 1 ? "1 space available" : `${n} spaces available`),
     devLabel: "Development",
     devTitle: "We build our own projects. And buy land for the next ones.",
@@ -127,7 +136,7 @@ const copy = {
     historyCta: "Read the chronicle",
     closeLabel: "Contact",
     closeTitle: "Tell us what you need.",
-    closeRoutes: [["I need a space", "/contact?subject=lease#occupier"], ["I offer a property or land", "/offer"], ["I want to work at MEGAPARC", "/careers"], ["Another question", "/contact"]],
+    closeRoutes: [["Leasing", "/contact?subject=lease#occupier"], ["Offer a property or land", "/offer"], ["Careers", "/careers"], ["Another question", "/contact"]],
   },
 } as const;
 
@@ -154,15 +163,16 @@ export function HomePage({ locale }: { locale: SiteLocale }) {
   const vacancies = listVacancies();
   const moscova20 = getProject("moscova-20")!;
 
+  const dacia = getProject("dacia-31")!;
   const routes = [
-    { key: "space", no: "01", title: c.routes.space[0], next: c.routes.space[1](spacesCount(spaces.length, locale), range), href: `${p("/leasing")}#available`, media: <ArtImage media={moscova20.media!} alt={moscova20.name} sizes="(min-width: 1024px) 40vw, 100vw" /> },
-    { key: "offer", no: "02", title: c.routes.offer[0], next: c.routes.offer[1](), href: p("/offer"), media: <ConceptImage id="home.route.owner" locale={locale} sizes="(min-width: 1024px) 40vw, 100vw" /> },
-    { key: "about", no: "03", title: c.routes.about[0], next: c.routes.about[1](), href: p("/about"), media: <ConceptImage id="home.route.about" locale={locale} sizes="(min-width: 1024px) 40vw, 100vw" /> },
+    { key: "space", title: c.routes.space[0], next: c.routes.space[1], cta: c.routes.space[2], href: `${p("/leasing")}#available`, media: <ArtImage media={moscova20.media!} alt={moscova20.name} sizes="(min-width: 1024px) 40vw, 100vw" /> },
+    { key: "offer", title: c.routes.offer[0], next: c.routes.offer[1], cta: c.routes.offer[2], href: p("/offer"), media: <ConceptImage id="home.route.owner" locale={locale} sizes="(min-width: 1024px) 40vw, 100vw" /> },
+    { key: "about", title: c.routes.about[0], next: c.routes.about[1], cta: c.routes.about[2], href: p("/about"), media: <ArtImage media={dacia.media!} alt={dacia.name} sizes="(min-width: 1024px) 40vw, 100vw" /> },
   ];
 
   return (
     <PageShell locale={locale} variant="overlay" experience>
-      {/* 01 HERO — MEGAPARC · acquire · develop · lease */}
+      {/* 01 HERO — MEGAPARC · acquire · develop · lease */}
       <section className="xp-hero hm-hero" id="home" data-xp-hero>
         <div className="xp-hero__media" data-xp-seq data-interval="6500">
           {heroFrames.map((id, index) => (
@@ -173,9 +183,9 @@ export function HomePage({ locale }: { locale: SiteLocale }) {
         </div>
         <div className="xp-hero__veil" aria-hidden="true" />
         <div className="xp-shell xp-hero__copy">
-          <p className="xp-hero__line">{brand.name} · <span lang="en">{brand.since}</span></p>
-          <MaskTitle as="h1" className="xp-hero__title hm-hero__title" lines={[...verbs[locale]]} />
-          <p className="xp-hero__lead">{businessStatement[locale]}</p>
+          <p className="xp-hero__line">{c.heroLine}</p>
+          <MaskTitle as="h1" className="xp-hero__title hm-hero__title" lines={[...c.heroTitle]} />
+          <p className="xp-hero__lead">{c.heroLead}</p>
           <div className="xp-actions">
             <Button href={`${p("/leasing")}#available`} variant="light">{c.ctaSpace}</Button>
             <Button href={p("/offer")} variant="ghost-light">{c.ctaOffer}</Button>
@@ -191,16 +201,10 @@ export function HomePage({ locale }: { locale: SiteLocale }) {
         </div>
       </section>
 
-      {/* 02 ROUTES — three situations + the model in one line */}
+      {/* 02 ROUTES — three situations + the model in one line */}
       <section className="xp-sec" id="start">
         <div className="xp-shell">
-          <Opening no="01" label={c.routesLabel} title={c.routesTitle} className="xp-opening--split">
-            <ol className="hm-cycle" data-xp-progress aria-label={c.cycleLabel}>
-              {lifecycle.map((stage) => (
-                <li key={stage.key} data-xp-term>{stage.title[locale]}</li>
-              ))}
-            </ol>
-          </Opening>
+          <Opening label={c.routesLabel} title={c.routesTitle} />
           <AudienceRouter items={routes} label={c.routesTitle} />
         </div>
       </section>
@@ -208,7 +212,7 @@ export function HomePage({ locale }: { locale: SiteLocale }) {
       {/* 03 AVAILABLE NOW */}
       <section className="xp-sec xp-sec--warm" id="available">
         <div className="xp-shell">
-          <Opening no="02" label={c.availableLabel} title={c.availableTitle} lead={`${spacesCount(spaces.length, locale)} · ${range}`} className="xp-opening--split" />
+          <Opening no="01" label={c.availableLabel} title={c.availableTitle} lead={`${spacesCount(spaces.length, locale)} · ${range}`} className="xp-opening--split" />
           <div className="lx-rail lx-rail--home">
             {spaces.slice(0, 4).map((space, i) => (
               <UnitCard key={space.id} space={space} locale={locale} compact priority={i === 0} />
@@ -229,15 +233,16 @@ export function HomePage({ locale }: { locale: SiteLocale }) {
       {/* 04 PROJECTS */}
       <section className="xp-sec" id="projects">
         <div className="xp-shell">
-          <Opening no="03" label={c.projectsLabel} title={c.projectsTitle} lead={c.projectsLead} className="xp-opening--split" />
+          <Opening no="02" label={c.projectsLabel} title={c.projectsTitle} lead={c.projectsLead} className="xp-opening--split" />
           <Link href={p(`/projects/${lead.slug}`)} className="xp-showcase__lead" data-reveal>
             <figure className="xp-fig" style={{ "--ratio": "21 / 9" } as CSSProperties}>
-              <ArtImage media={lead.media!} alt={`${lead.name} — ${lead.format[locale]}`} sizes="100vw" depth={14} />
+              <ArtImage media={lead.media!} alt={`${lead.name} — ${lead.format[locale]}`} sizes="100vw" depth={14} />
             </figure>
             <span className="xp-showcase__caption">
               <span className="xp-showcase__name">{lead.name}</span>
+              <ProjectFacts project={lead} locale={locale} />
               <span className="xp-showcase__reason">{lead.line[locale]}</span>
-              <span className="xp-showcase__meta">{lead.district[locale]} · {lead.format[locale]}{spacesFor(lead.slug).length ? ` · ${c.spacesHere(spacesFor(lead.slug).length)}` : ""}<Icon name="arrow" /></span>
+              <span className="xp-showcase__meta">{spacesFor(lead.slug).length ? c.spacesHere(spacesFor(lead.slug).length) : c.projectsOpen}<Icon name="arrow" /></span>
             </span>
           </Link>
           <ul className="xp-showcase">
@@ -246,16 +251,16 @@ export function HomePage({ locale }: { locale: SiteLocale }) {
                 <Link href={p(`/projects/${project.slug}`)} className="xp-showcase__item">
                   <figure className="xp-fig" style={{ "--ratio": "4 / 5" } as CSSProperties}>
                     {project.media ? (
-                      <ArtImage media={project.media} alt={`${project.name} — ${project.format[locale]}`} sizes="(min-width: 720px) 33vw, 100vw" depth={10} />
+                      <ArtImage media={project.media} alt={`${project.name} — ${project.format[locale]}`} sizes="(min-width: 720px) 33vw, 100vw" depth={10} />
                     ) : (
                       <ConceptImage id="home.projects.creanga-78" locale={locale} sizes="(min-width: 720px) 33vw, 100vw" depth={10} />
                     )}
                   </figure>
                   <span className="xp-showcase__name">{project.name}</span>
+                  <ProjectFacts project={project} locale={locale} />
                   <span className="xp-showcase__reason">{project.line[locale]}</span>
                   <span className="xp-showcase__meta">
-                    {project.district[locale]} · {spacesFor(project.slug).length ? c.spacesHere(spacesFor(project.slug).length) : project.format[locale]}
-                    {project.formatDemo ? <DemoMark /> : null}
+                    {spacesFor(project.slug).length ? c.spacesHere(spacesFor(project.slug).length) : c.projectsOpen}
                     <Icon name="arrow" />
                   </span>
                 </Link>
@@ -268,14 +273,14 @@ export function HomePage({ locale }: { locale: SiteLocale }) {
         </div>
       </section>
 
-      {/* 05 DEVELOPMENT — the dark moment */}
+      {/* 05 DEVELOPMENT — the dark moment */}
       <section className="xp-sec xp-sec--ink" id="development">
         <div className="xp-shell">
-          <Opening no="04" label={c.devLabel} title={c.devTitle} lead={c.devText} tone="dark" className="xp-opening--split" />
+          <Opening no="03" label={c.devLabel} title={c.devTitle} lead={c.devText} tone="dark" className="xp-opening--split" />
           <div className="xp-feature">
             <Link href={p(`/projects/${vatra.slug}`)} className="xp-piece__figure" data-reveal>
               <figure className="xp-fig" style={{ "--ratio": "16 / 10" } as CSSProperties}>
-                <ArtImage media={vatra.media!} alt={`${vatra.name} — ${vatra.format[locale]}`} sizes="(min-width: 1024px) 58vw, 100vw" depth={16} position="50% 70%" />
+                <ArtImage media={vatra.media!} alt={`${vatra.name} — ${vatra.format[locale]}`} sizes="(min-width: 1024px) 58vw, 100vw" depth={16} position="50% 70%" />
                 <figcaption>{vatra.name} · {vatra.format[locale]}</figcaption>
               </figure>
             </Link>
@@ -294,11 +299,11 @@ export function HomePage({ locale }: { locale: SiteLocale }) {
         </div>
       </section>
 
-      {/* 06 HISTORY — archival teaser */}
+      {/* 06 HISTORY — archival teaser */}
       <section className="hs-teaser" id="history">
         <div className="xp-shell hs-teaser__grid">
           <div className="hs-teaser__copy" data-reveal>
-            <p className="xp-eyebrow"><span className="xp-eyebrow__no">05</span><span>{c.historyLabel}</span></p>
+            <p className="xp-eyebrow"><span className="xp-eyebrow__no">04</span><span>{c.historyLabel}</span></p>
             <h2 className="hs-teaser__title">{historyCopy.title[locale].join(" ")}</h2>
             <p className="hs-teaser__lead">{historyCopy.lead[locale]}</p>
             <ol className="hs-teaser__ribbon" aria-label={c.historyLabel}>
@@ -319,19 +324,18 @@ export function HomePage({ locale }: { locale: SiteLocale }) {
               <source media="(min-width: 721px)" srcSet={publicAsset("/assets/history/era-port.webp")} />
               <img src={publicAsset("/assets/history/era-port-mobile.webp")} alt="" loading="lazy" decoding="async" />
             </picture>
-            <figcaption>{historyCopy.illustration(locale === "ru" ? "портовые краны" : locale === "ro" ? "macarale de port" : "port cranes", "1946", locale)}</figcaption>
           </figure>
         </div>
       </section>
 
-      {/* 07 VACANCIES — cinematic film moment (concept footage, labelled) */}
-      <CareersMoment locale={locale} variant="section" href={`${p("/careers")}#positions`} no="06" count={vacancies.length} />
+      {/* 07 VACANCIES — cinematic film moment (concept footage, labelled) */}
+      <CareersMoment locale={locale} variant="section" href={`${p("/careers")}#positions`} no="05" count={vacancies.length} />
 
-      {/* 08 CONTACT — red signature */}
+      {/* 08 CONTACT — red signature */}
       <section className="xp-sec xp-sec--red" id="next">
         <div className="xp-shell xp-close">
           <div data-reveal>
-            <p className="xp-eyebrow"><span className="xp-eyebrow__no">07</span><span>{c.closeLabel}</span></p>
+            <p className="xp-eyebrow"><span className="xp-eyebrow__no">06</span><span>{c.closeLabel}</span></p>
             <h2 className="xp-close__title">{c.closeTitle}</h2>
           </div>
           <nav className="xp-close__routes" aria-label={c.closeLabel} data-reveal>

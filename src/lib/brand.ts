@@ -18,31 +18,31 @@ export const brandLayers = {
   /** Owner philosophy. */
   strategicIdea: {
     ro: "Imobiliare proprii, construite și exploatate pentru mult timp",
-    ru: "Собственная недвижимость, построенная и эксплуатируемая надолго",
+    ru: "Собственная недвижимость, построенная и эксплуатируемая надолго",
     en: "Our own real estate, built and run for the long term",
   } satisfies Localized,
   /** Business model (lifecycle of an owned asset). */
   model: {
     ro: "Cumpărăm · Dezvoltăm · Închiriem · Exploatăm · Păstrăm sau vindem · Reinvestim",
-    ru: "Покупаем · Развиваем · Сдаём в аренду · Эксплуатируем · Держим или продаём · Реинвестируем",
+    ru: "Покупаем · Развиваем · Сдаём в аренду · Эксплуатируем · Держим или продаём · Реинвестируем",
     en: "Acquire · Develop · Lease · Operate · Hold or sell · Reinvest",
   } satisfies Localized,
   /** Positioning. */
   platform: {
     ro: "Cumpărăm, dezvoltăm și închiriem imobiliare comerciale proprii",
-    ru: "Покупаем, развиваем и сдаём в аренду собственную коммерческую недвижимость",
+    ru: "Покупаем, развиваем и сдаём в аренду собственную коммерческую недвижимость",
     en: "We acquire, develop and lease our own commercial real estate",
   } satisfies Localized,
   /** Geography (OWNER addendum 2026-09-26). Current portfolio in Moldova; offers from other countries considered. */
   mandate: {
     ro: "Toate obiectele actuale sunt în Republica Moldova. Analizăm și propuneri din alte țări.",
-    ru: "Все текущие объекты — в Республике Молдова. Рассматриваем и предложения из других стран.",
+    ru: "Все текущие объекты — в Республике Молдова. Рассматриваем и предложения из других стран.",
     en: "All current properties are in the Republic of Moldova. We also consider offers from other countries.",
   } satisfies Localized,
   /** Capabilities line, localised. */
   capabilities: {
     ro: "Cumpărăm · Dezvoltăm · Închiriem",
-    ru: "Покупаем · Развиваем · Сдаём в аренду",
+    ru: "Покупаем · Развиваем · Сдаём в аренду",
     en: "Acquire · Develop · Lease",
   } satisfies Localized,
 };
@@ -50,7 +50,7 @@ export const brandLayers = {
 /** Signature red brand moment — four words, one per line. */
 export const signatureWords: Record<"ro" | "ru" | "en", string[]> = {
   ro: ["Cumpărăm.", "Dezvoltăm.", "Închiriem.", "Reinvestim."],
-  ru: ["Покупаем.", "Развиваем.", "Сдаём в аренду.", "Реинвестируем."],
+  ru: ["Покупаем.", "Развиваем.", "Сдаём в аренду.", "Реинвестируем."],
   en: ["Acquire.", "Develop.", "Lease.", "Reinvest."],
 };
 
@@ -58,7 +58,7 @@ export const brandEssence = {
   title: { ro: "Esența brandului", ru: "Суть бренда", en: "Brand essence" } satisfies Localized,
   text: {
     ro: "MEGAPARC își construiește și își exploatează singură clădirile, pe termen lung. Nu clădiri predate, ci obiecte care funcționează.",
-    ru: "MEGAPARC сама строит и эксплуатирует свои здания — надолго. Не сданные здания, а работающие объекты.",
+    ru: "MEGAPARC сама строит и эксплуатирует свои здания — надолго. Не сданные здания, а работающие объекты.",
     en: "MEGAPARC builds and runs its own buildings, for the long term. Not buildings handed over, but properties that work.",
   } satisfies Localized,
   words: {
@@ -86,15 +86,15 @@ export type BrandColour = {
 export const brandColours: BrandColour[] = [
   { name: "MEGAPARC Red", role: { ro: "Semnătură · câmp roșu · linia roșie", ru: "Сигнатура · красное поле · красная линия", en: "Signature · red field · the red line" }, hex: "#ED1C2E", rgb: "237 28 46", token: "--red", status: "core", onDark: true },
   { name: "Carbon", role: { ro: "Câmp întunecat · text principal", ru: "Тёмное поле · основной текст", en: "Dark field · primary text" }, hex: "#111216", rgb: "17 18 22", token: "--ink", status: "core", onDark: true },
-  { name: "Architectural White", role: { ro: "Fundal luminos · text pe întunecat", ru: "Светлый фон · текст на тёмном", en: "Light ground · text on dark" }, hex: "#FFFFFF", rgb: "255 255 255", token: "--white", status: "core" },
+  { name: "Architectural White", role: { ro: "Fundal luminos · text pe întunecat", ru: "Светлый фон · текст на тёмном", en: "Light ground · text on dark" }, hex: "#FFFFFF", rgb: "255 255 255", token: "--white", status: "core" },
   { name: "Graphite", role: { ro: "Câmp întunecat secundar", ru: "Вторичное тёмное поле", en: "Secondary dark field" }, hex: "#1F2126", rgb: "31 33 38", token: "--graphite", status: "supporting", onDark: true },
-  { name: "Warm Stone", role: { ro: "Secțiuni calde · fundaluri editoriale", ru: "Тёплые секции · редакционные фоны", en: "Warm sections · editorial grounds" }, hex: "#E4DFD5", rgb: "228 223 213", token: "--stone", status: "supporting" },
-  { name: "Concrete", role: { ro: "Fundal neutru intermediar", ru: "Нейтральный промежуточный фон", en: "Intermediate neutral ground" }, hex: "#D3D0CA", rgb: "211 208 202", token: "--concrete", status: "supporting" },
-  { name: "Paper / Ivory", role: { ro: "Fundal principal", ru: "Основной фон", en: "Primary ground" }, hex: "#F3F1EC", rgb: "243 241 236", token: "--paper", status: "supporting" },
-  { name: "Soft Grey", role: { ro: "Text secundar · linii", ru: "Вторичный текст · линии", en: "Secondary text · rules" }, hex: "#8A8E94", rgb: "138 142 148", token: "--grey", status: "supporting" },
+  { name: "Warm Stone", role: { ro: "Secțiuni calde · fundaluri editoriale", ru: "Тёплые секции · редакционные фоны", en: "Warm sections · editorial grounds" }, hex: "#E4DFD5", rgb: "228 223 213", token: "--stone", status: "supporting" },
+  { name: "Concrete", role: { ro: "Fundal neutru intermediar", ru: "Нейтральный промежуточный фон", en: "Intermediate neutral ground" }, hex: "#D3D0CA", rgb: "211 208 202", token: "--concrete", status: "supporting" },
+  { name: "Paper / Ivory", role: { ro: "Fundal principal", ru: "Основной фон", en: "Primary ground" }, hex: "#F3F1EC", rgb: "243 241 236", token: "--paper", status: "supporting" },
+  { name: "Soft Grey", role: { ro: "Text secundar · linii", ru: "Вторичный текст · линии", en: "Secondary text · rules" }, hex: "#8A8E94", rgb: "138 142 148", token: "--grey", status: "supporting" },
   { name: "Red Deep", role: { ro: "Scara tonală a roșului · hover · accent profund", ru: "Тональная шкала красного · hover · глубокий акцент", en: "Red tonal scale · hover · deep accent" }, hex: "#A80F1B", rgb: "168 15 27", token: "--red-deep", status: "proposed", onDark: true },
   { name: "Red Field", role: { ro: "Câmpuri roșii mari, momentul-semnătură", ru: "Крупные красные поля, сигнатурный момент", en: "Large red fields, the signature moment" }, hex: "#D71A2B", rgb: "215 26 43", token: "--red-field", status: "proposed", onDark: true },
-  { name: "Red Tint", role: { ro: "Ton discret pe fundal deschis", ru: "Деликатный оттенок на светлом фоне", en: "Quiet tint on light grounds" }, hex: "#F9E3E5", rgb: "249 227 229", token: "--red-tint", status: "proposed" },
+  { name: "Red Tint", role: { ro: "Ton discret pe fundal deschis", ru: "Деликатный оттенок на светлом фоне", en: "Quiet tint on light grounds" }, hex: "#F9E3E5", rgb: "249 227 229", token: "--red-tint", status: "proposed" },
 ];
 
 export const gradientPolicy = {
@@ -103,7 +103,7 @@ export const gradientPolicy = {
   alphaMasksAllowed: true,
   rule: {
     ro: "Fără gradienturi decorative de brand. Velele funcționale peste imagini și măștile alfa sunt permise.",
-    ru: "Без декоративных брендовых градиентов. Функциональные затемнения изображений и альфа-маски разрешены.",
+    ru: "Без декоративных брендовых градиентов. Функциональные затемнения изображений и альфа-маски разрешены.",
     en: "No decorative brand gradients. Functional image veils and alpha masks are allowed.",
   } satisfies Localized,
 };
@@ -121,27 +121,27 @@ export const typeScale: TypeStyle[] = [
   { name: "H3", token: "--t-h3", className: "t-h3", use: { ro: "Titluri de bloc", ru: "Заголовки блоков", en: "Block titles" } },
   { name: "Body", token: "--t-body", className: "t-body", use: { ro: "Text editorial", ru: "Редакционный текст", en: "Editorial copy" } },
   { name: "Small", token: "--t-small", className: "t-small", use: { ro: "Note, condiții", ru: "Примечания, условия", en: "Notes, conditions" } },
-  { name: "Caption", token: "--t-caption", className: "t-caption", use: { ro: "Legende foto, index", ru: "Подписи к фото, индекс", en: "Photo captions, index" } },
-  { name: "Metric", token: "--t-metric", className: "t-metric", use: { ro: "Cifre de capital și scară", ru: "Цифры капитала и масштаба", en: "Capital and scale figures" } },
+  { name: "Caption", token: "--t-caption", className: "t-caption", use: { ro: "Legende foto, index", ru: "Подписи к фото, индекс", en: "Photo captions, index" } },
+  { name: "Metric", token: "--t-metric", className: "t-metric", use: { ro: "Cifre de capital și scară", ru: "Цифры капитала и масштаба", en: "Capital and scale figures" } },
   { name: "Navigation", token: "--t-nav", className: "t-nav", use: { ro: "Navigație, limbi", ru: "Навигация, языки", en: "Navigation, languages" } },
   { name: "Data label", token: "--t-label", className: "t-label", use: { ro: "Etichete de date, majuscule", ru: "Метки данных, капитель", en: "Data labels, uppercase" } },
 ];
 
 /** Glyph coverage sample used on the brand-system review route. */
 export const glyphSample = {
-  ro: "Ăă Ââ Îî Șș Țț — Chișinău · Rîșcani · Creangă",
-  ru: "Ёё Жж Щщ Ыы Ъъ — Кишинёв · Рышкань · Дрокия",
+  ro: "Ăă Ââ Îî Șș Țț — Chișinău · Rîșcani · Creangă",
+  ru: "Ёё Жж Щщ Ыы Ъъ — Кишинёв · Рышкань · Дрокия",
   en: "€25M+ · 5,223 m² · 2.0 ha · 1995 → 2030 · 04 / 02",
 };
 
 /** Graphic devices of the identity (documented; used across sections). */
 export const graphicDevices: { name: string; text: Localized }[] = [
-  { name: "The Red Line", text: { ro: "O linie roșie scurtă marchează începutul, hover-ul și tranzițiile.", ru: "Короткая красная линия отмечает начало, hover и переходы.", en: "A short red line marks beginnings, hover states and transitions." } },
-  { name: "Asset Grid", text: { ro: "Grilă arhitecturală asimetrică pentru active; niciodată un catalog uniform.", ru: "Асимметричная архитектурная сетка для активов; никогда не однородный каталог.", en: "An asymmetric architectural grid for assets; never a uniform catalogue." } },
-  { name: "Capital Numbers", text: { ro: "Cifre mari, tabulare, cu unitate discretă: €, m², ha, +.", ru: "Крупные табличные цифры с деликатной единицей: €, м², га, +.", en: "Large tabular figures with a quiet unit: €, m², ha, +." } },
-  { name: "Dark Field", text: { ro: "Secțiuni carbon pentru strategie, capital și organizație.", ru: "Карбоновые секции для стратегии, капитала и организации.", en: "Carbon sections for strategy, capital and organisation." } },
-  { name: "Red Field", text: { ro: "Un singur câmp roșu pe pagină, rezervat afirmației de model.", ru: "Одно красное поле на страницу, зарезервированное для утверждения модели.", en: "One red field per page, reserved for the model statement." } },
-  { name: "Architectural Crops", text: { ro: "Decupaje cinematice, orizont corect, fără decorare.", ru: "Кинематографические кадрирования, ровный горизонт, без декора.", en: "Cinematic crops, a level horizon, no decoration." } },
+  { name: "The Red Line", text: { ro: "O linie roșie scurtă marchează începutul, hover-ul și tranzițiile.", ru: "Короткая красная линия отмечает начало, hover и переходы.", en: "A short red line marks beginnings, hover states and transitions." } },
+  { name: "Asset Grid", text: { ro: "Grilă arhitecturală asimetrică pentru active; niciodată un catalog uniform.", ru: "Асимметричная архитектурная сетка для активов; никогда не однородный каталог.", en: "An asymmetric architectural grid for assets; never a uniform catalogue." } },
+  { name: "Capital Numbers", text: { ro: "Cifre mari, tabulare, cu unitate discretă: €, m², ha, +.", ru: "Крупные табличные цифры с деликатной единицей: €, м², га, +.", en: "Large tabular figures with a quiet unit: €, m², ha, +." } },
+  { name: "Dark Field", text: { ro: "Secțiuni carbon pentru strategie, capital și organizație.", ru: "Карбоновые секции для стратегии, капитала и организации.", en: "Carbon sections for strategy, capital and organisation." } },
+  { name: "Red Field", text: { ro: "Un singur câmp roșu pe pagină, rezervat afirmației de model.", ru: "Одно красное поле на страницу, зарезервированное для утверждения модели.", en: "One red field per page, reserved for the model statement." } },
+  { name: "Architectural Crops", text: { ro: "Decupaje cinematice, orizont corect, fără decorare.", ru: "Кинематографические кадрирования, ровный горизонт, без декора.", en: "Cinematic crops, a level horizon, no decoration." } },
   { name: "Large Years", text: { ro: "1995 · 2005 · 2020 · 2030 ca ancore tipografice.", ru: "1995 · 2005 · 2020 · 2030 как типографические якоря.", en: "1995 · 2005 · 2020 · 2030 as typographic anchors." } },
   { name: "Precise Dividers", text: { ro: "Linii subțiri, index numerotat, aliniere strictă.", ru: "Тонкие линии, нумерованный индекс, строгое выравнивание.", en: "Hairlines, numbered index, strict alignment." } },
 ];

@@ -8,7 +8,9 @@ import { Icon } from "@/components/ui";
  * AVAILABLE NOW — the leasing inventory filter (OWNER correction 2026-10-08).
  * Cards are server-rendered children carrying data attributes; this component
  * only decides which are visible (the `hidden` attribute) and says how many
- * match. Filters: use · area · property · available now. State mirrors the URL
+ * match. Editorial filter hierarchy (final craft pass 2026-10-08): a question,
+ * then the options as quiet text buttons; pressing the active option again
+ * clears it — no "all" chips, no boxed panel. Filters: use · area · property · available now. State mirrors the URL
  * (?use=fnb&area=120-300&project=moscova-20&now=1) so Home, project pages and
  * the tenant advisor can deep-link into a filtered view.
  */
@@ -135,12 +137,12 @@ export function LeasingInventory({
         <fieldset className="lx-inv__row">
           <legend>{copy.use}</legend>
           <div className="lx-inv__chips">
-            {[{ key: "all", label: copy.all }, ...uses].map((option) => {
-              const n = option.key === "all" ? countFor("use", () => true) : countFor("use", (item) => item.uses.includes(option.key));
+            {uses.map((option) => {
+              const n = countFor("use", (item) => item.uses.includes(option.key));
+              const active = use === option.key;
               return (
-                <button key={option.key} type="button" className={`xp-filter__btn${use === option.key ? " is-active" : ""}`} aria-pressed={use === option.key} disabled={n === 0 && use !== option.key} onClick={() => setUse(option.key)}>
+                <button key={option.key} type="button" className={`lx-opt${active ? " is-active" : ""}`} aria-pressed={active} disabled={n === 0 && !active} onClick={() => setUse(active ? "all" : option.key)}>
                   {option.label}
-                  <sup>{String(n).padStart(2, "0")}</sup>
                 </button>
               );
             })}
@@ -149,12 +151,12 @@ export function LeasingInventory({
         <fieldset className="lx-inv__row">
           <legend>{copy.area}</legend>
           <div className="lx-inv__chips">
-            {[{ key: "all", label: copy.anyArea, min: 0, max: Infinity }, ...bands].map((option) => {
-              const n = countFor("band", (item) => option.key === "all" || (item.areaMin <= option.max && item.area >= option.min));
+            {bands.map((option) => {
+              const n = countFor("band", (item) => item.areaMin <= option.max && item.area >= option.min);
+              const active = band === option.key;
               return (
-                <button key={option.key} type="button" className={`xp-filter__btn${band === option.key ? " is-active" : ""}`} aria-pressed={band === option.key} disabled={n === 0 && band !== option.key} onClick={() => setBand(option.key)}>
+                <button key={option.key} type="button" className={`lx-opt${active ? " is-active" : ""}`} aria-pressed={active} disabled={n === 0 && !active} onClick={() => setBand(active ? "all" : option.key)}>
                   {option.label}
-                  <sup>{String(n).padStart(2, "0")}</sup>
                 </button>
               );
             })}

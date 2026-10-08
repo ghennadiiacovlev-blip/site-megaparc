@@ -4,7 +4,7 @@ import { CareersMoment } from "@/components/careers-moment";
 import { ConceptImage, DemoMark, Opening } from "@/components/experience";
 import { PageShell } from "@/components/page-shell";
 import { ArtImage } from "@/components/primitives";
-import { Button, Icon, TextLink } from "@/components/ui";
+import { Button, Icon } from "@/components/ui";
 import { company, cultureStatement, roleStories } from "@/data/demo-content";
 import { formatDate, listProjects, listVacancies } from "@/content/source";
 import { departmentLabel, employerBrand } from "@/lib/careers";
@@ -31,51 +31,53 @@ const copy = {
     } as Record<string, string>,
     pillars: [
       ["Echipă", "Achiziții, finanțe, dezvoltare, construcție, închiriere și exploatare stau la aceeași masă. O decizie bună are nevoie de toate."],
-      ["Responsabilitate pe proiect", "Fiecare proiect are un om care răspunde de el — de buget, de termene și de calitatea care rămâne după predare."],
+      ["Responsabilitate pe proiect", "Fiecare proiect are un om care răspunde de el — de buget, de termene și de calitatea care rămâne după predare."],
       ["Dezvoltare profesională", "Lucrați pe toată durata de viață a unui obiect: de la analiză la construcție și exploatare. Asta formează specialiști compleți."],
       ["Teren + birou", "O parte a zilei pe șantier sau în clădire, o parte la calcule și decizii. Rezultatul se vede pe stradă, nu doar în raport."],
     ],
     pillarsLabel: "Cum se lucrează la MEGAPARC",
-    storiesLabel: "Roluri — cum arată munca",
+    storiesLabel: "Roluri — cum arată munca",
     storiesTitle: "Patru roluri, descrise prin ce faceți, nu prin titluri.",
-    storiesNote: "Exemple de roluri pentru previzualizare: descriu munca, nu persoane reale.",
+    storiesNote: "Patru roluri tipice: ce fac și de ce răspund.",
     owns: "Răspundeți de",
     positionsLabel: "Posturi deschise",
     positionsTitle: (n: number) => `${String(n).padStart(2, "0")} posturi deschise acum.`,
-    view: "Vezi postul pe Rabota.md",
+    view: "Vezi postul",
+    viewAll: "Vezi toate posturile",
     applyLabel: "Candidatură",
     applyTitle: "Nu ați găsit rolul potrivit?",
     applyText: "Trimiteți un CV și spuneți-ne direcția care vă interesează. Ne întoarcem la el când apare un rol potrivit.",
     applyCta: "Trimite CV-ul",
   },
   ru: {
-    workLabel: "Над чем вы будете работать",
-    workTitle: "На объектах и проектах, которые можно увидеть завтра.",
+    workLabel: "Над чем вы будете работать",
+    workTitle: "На объектах и проектах, которые можно увидеть завтра.",
     workLines: {
-      "dacia-31": "Подготовка здания к новому пользователю с 2027 года: аудит, инженерия, планировки.",
-      "moscova-9": "Работа с брендом-арендатором: фасад, логистика, эксплуатация.",
-      "moscova-20": "Запуск помещения под новый формат с августа 2026 года.",
-      "creanga-78": "Здание, где много арендаторов: обслуживание и сервис.",
+      "dacia-31": "Подготовка здания к новому пользователю с 2027 года: аудит, инженерия, планировки.",
+      "moscova-9": "Работа с брендом-арендатором: фасад, логистика, эксплуатация.",
+      "moscova-20": "Запуск помещения под новый формат с августа 2026 года.",
+      "creanga-78": "Здание, где много арендаторов: обслуживание и сервис.",
       vatra: "Строительство: качество, бюджет, график.",
       "drochia-gateway": "Оценка участка: градостроительство, концепции, экономика.",
     } as Record<string, string>,
     pillars: [
-      ["Команда", "Приобретения, финансы, девелопмент, строительство, аренда и эксплуатация — за одним столом. Хорошему решению нужны все."],
-      ["Ответственность за проект", "У каждого проекта есть человек, который за него отвечает: за бюджет, сроки и качество, которое остаётся после сдачи."],
-      ["Профессиональный рост", "Вы видите весь путь объекта — от анализа до стройки и эксплуатации. Так вырастают специалисты широкого профиля."],
-      ["Объект + офис", "Часть дня — на площадке или в здании, часть — над расчётами и решениями. Результат виден на улице, а не только в отчёте."],
+      ["Команда", "Приобретения, финансы, девелопмент, строительство, аренда и эксплуатация — за одним столом. Хорошему решению нужны все."],
+      ["Ответственность за проект", "У каждого проекта есть человек, который за него отвечает: за бюджет, сроки и качество, которое остаётся после сдачи."],
+      ["Профессиональный рост", "Вы видите весь путь объекта — от анализа до стройки и эксплуатации. Так вырастают специалисты широкого профиля."],
+      ["Объект + офис", "Часть дня — на площадке или в здании, часть — над расчётами и решениями. Результат виден на улице, а не только в отчёте."],
     ],
-    pillarsLabel: "Как работают в MEGAPARC",
-    storiesLabel: "Роли — как выглядит работа",
-    storiesTitle: "Четыре роли — о работе, а не о должностях.",
-    storiesNote: "Примеры ролей для превью: описывают работу, а не реальных людей.",
+    pillarsLabel: "Как работают в MEGAPARC",
+    storiesLabel: "Роли — как выглядит работа",
+    storiesTitle: "Четыре роли — о работе, а не о должностях.",
+    storiesNote: "Четыре типичные роли: чем заняты и за что отвечают.",
     owns: "Вы отвечаете за",
     positionsLabel: "Открытые вакансии",
     positionsTitle: (n: number) => `${String(n).padStart(2, "0")} открытых вакансий.`,
-    view: "Вакансия на Rabota.md",
+    view: "Смотреть вакансию",
+    viewAll: "Смотреть все вакансии",
     applyLabel: "Отклик",
-    applyTitle: "Не нашли свою роль?",
-    applyText: "Отправьте резюме и укажите интересующее направление. Мы вернёмся к нему, когда появится подходящая позиция.",
+    applyTitle: "Не нашли свою роль?",
+    applyText: "Отправьте резюме и укажите интересующее направление. Мы вернёмся к нему, когда появится подходящая позиция.",
     applyCta: "Отправить резюме",
   },
   en: {
@@ -91,18 +93,19 @@ const copy = {
     } as Record<string, string>,
     pillars: [
       ["Team", "Acquisitions, finance, development, construction, leasing and operations at one table. A good decision needs all of them."],
-      ["Project responsibility", "Every project has a person accountable for it — for budget, schedule and the quality that stays after handover."],
+      ["Project responsibility", "Every project has a person accountable for it — for budget, schedule and the quality that stays after handover."],
       ["Career development", "You work across a property's whole life: from analysis to construction and operation. That is how all-round specialists grow."],
       ["Field + office", "Part of the day on site or in the building, part on numbers and decisions. The result shows on the street, not only in a report."],
     ],
     pillarsLabel: "How work is done at MEGAPARC",
-    storiesLabel: "Roles — what the work looks like",
+    storiesLabel: "Roles — what the work looks like",
     storiesTitle: "Four roles, described by what you do, not by titles.",
-    storiesNote: "Example roles for the preview: they describe the work, not real people.",
+    storiesNote: "Four typical roles: what they do and what they answer for.",
     owns: "You own",
     positionsLabel: "Open vacancies",
     positionsTitle: (n: number) => `${String(n).padStart(2, "0")} open vacancies right now.`,
-    view: "View the role on Rabota.md",
+    view: "View the role",
+    viewAll: "See all vacancies",
     applyLabel: "Application",
     applyTitle: "Didn't find your role?",
     applyText: "Send a CV and tell us which area interests you. We come back to it when a suitable role opens.",
@@ -112,21 +115,29 @@ const copy = {
 
 const pillarImages = ["careers.team", "careers.responsibility", "careers.growth", "careers.field"];
 
+/** Projects without an approved photograph use their registered concept image (DEMO, src/data/demo-content.ts). */
+const workConcept: Partial<Record<string, string>> = { "creanga-78": "asset.creanga-78.hero", "drochia-gateway": "project.drochia.road" };
+
 export function CareersPage({ locale }: { locale: SiteLocale }) {
   const c = copy[locale];
   const p = (path: string) => localePath(locale, path);
-  const work = listProjects().map((project) => ({ key: project.slug, name: project.name, href: p(`/projects/${project.slug}`), media: project.media }));
+  const work = listProjects().map((project) => ({ key: project.slug, name: project.name, href: p(`/projects/${project.slug}`), media: project.media, concept: workConcept[project.slug] }));
   const vacancies = listVacancies();
 
   return (
     <PageShell locale={locale} variant="overlay" experience>
-      {/* HERO — cinematic film, one statement, one action (concept footage, labelled) */}
+      {/* HERO — cinematic film, one statement, one action (concept footage, labelled) */}
       <CareersMoment locale={locale} variant="hero" href="#positions" />
 
-      {/* VACANCIES — real, Rabota.md */}
+      {/* VACANCIES — real, Rabota.md */}
       <section className="xp-sec" id="positions">
         <div className="xp-shell">
-          <Opening no="01" label={c.positionsLabel} title={c.positionsTitle(vacancies.length)} lead={employerBrand.positions.sourceNote[locale]} className="xp-opening--split" />
+          <Opening no="01" label={c.positionsLabel} title={c.positionsTitle(vacancies.length)} className="xp-opening--split">
+            <div className="xp-vacancies__top">
+              <p>{employerBrand.positions.sourceNote[locale]}</p>
+              <Button href={employerBrand.positions.allRolesUrl} icon="up-right" external>{c.viewAll}</Button>
+            </div>
+          </Opening>
           {vacancies.length ? null : (
             <div className="xp-split__copy" data-reveal>
               <h3 className="xp-split__title">{employerBrand.positions.emptyTitle[locale]}</h3>
@@ -137,23 +148,19 @@ export function CareersPage({ locale }: { locale: SiteLocale }) {
             {vacancies.map((vacancy) => (
               <li key={vacancy.slug} id={vacancy.slug}>
                 <a href={vacancy.externalUrl} target="_blank" rel="noopener noreferrer">
-                  <span className="xp-vacancies__meta"><b>{departmentLabel[vacancy.department][locale]}</b><span>{vacancy.location[locale]}</span>{vacancy.publishedAt ? <span>{formatDate(vacancy.publishedAt, locale)}</span> : null}</span>
                   <h3>{vacancy.title[locale]}</h3>
+                  <span className="xp-vacancies__meta">{departmentLabel[vacancy.department][locale]} · {vacancy.location[locale]}{vacancy.publishedAt ? ` · ${formatDate(vacancy.publishedAt, locale)}` : ""}</span>
                   <p>{vacancy.summary[locale]}</p>
                   {vacancy.full ? <p className="xp-vacancies__full">{vacancy.full[locale]}</p> : null}
-                  <span className="xp-vacancies__go" aria-hidden="true"><Icon name="up-right" size={18} /></span>
-                  <span className="sr-only">{c.view}</span>
+                  <span className="xp-vacancies__cta">{c.view}<Icon name="up-right" size={16} /></span>
                 </a>
               </li>
             ))}
           </ul>
-          <div className="xp-actions xp-actions--top" data-reveal>
-            <TextLink href={employerBrand.positions.allRolesUrl} external>{employerBrand.positions.allRoles[locale]}</TextLink>
-          </div>
         </div>
       </section>
 
-      {/* WHAT YOU WILL WORK ON — real assets and projects */}
+      {/* WHAT YOU WILL WORK ON — real assets and projects */}
       <section className="xp-sec xp-sec--warm" id="work">
         <div className="xp-shell">
           <p className="xp-statement xp-culture" data-reveal>{cultureStatement.value[locale]}<DemoMark /></p>
@@ -163,7 +170,7 @@ export function CareersPage({ locale }: { locale: SiteLocale }) {
               <li key={item.key}>
                 <Link href={item.href}>
                   <figure className="xp-fig">
-                    {item.media ? <ArtImage media={item.media} alt="" sizes="6rem" /> : <span className="xp-index__mono" aria-hidden="true">{item.name.split(" ").map((w) => w[0]).join("")}</span>}
+                    {item.media ? <ArtImage media={item.media} alt="" sizes="6rem" /> : item.concept ? <ConceptImage id={item.concept} locale={locale} sizes="6rem" /> : <span className="xp-index__mono" aria-hidden="true">{item.name.split(" ").map((w) => w[0]).join("")}</span>}
                   </figure>
                   <strong>{item.name}</strong>
                   <span>{c.workLines[item.key]}</span>
@@ -175,7 +182,7 @@ export function CareersPage({ locale }: { locale: SiteLocale }) {
         </div>
       </section>
 
-      {/* FOUR PILLARS — walking rhythm */}
+      {/* FOUR PILLARS — walking rhythm */}
       <section className="xp-sec" id="how">
         <div className="xp-shell">
           <p className="xp-eyebrow xp-eyebrow--gap" data-reveal><span className="xp-eyebrow__no">03</span><span>{c.pillarsLabel}</span></p>
@@ -196,7 +203,7 @@ export function CareersPage({ locale }: { locale: SiteLocale }) {
         </div>
       </section>
 
-      {/* ROLE STORIES — DEMO */}
+      {/* ROLE STORIES — DEMO */}
       <section className="xp-sec xp-sec--stone" id="roles">
         <div className="xp-shell">
           <Opening no="04" label={c.storiesLabel} title={c.storiesTitle} lead={c.storiesNote} className="xp-opening--split" />

@@ -207,7 +207,7 @@ export function AssetMediaBlock({
 /** Typographic placeholder for an asset without approved photography. */
 export function MediaPlaceholder({ title, note, compact = false }: { title: string; note: string; compact?: boolean }) {
   return (
-    <div className={`media-placeholder${compact ? " media-placeholder--compact" : ""}`} role="img" aria-label={`${title} — ${note}`}>
+    <div className={`media-placeholder${compact ? " media-placeholder--compact" : ""}`} role="img" aria-label={`${title} — ${note}`}>
       <span className="media-placeholder__grid" aria-hidden="true" />
       <span className="media-placeholder__mark" aria-hidden="true">
         <i />

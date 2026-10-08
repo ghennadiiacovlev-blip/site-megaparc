@@ -30,12 +30,16 @@ export function assetMedia(slug: string): AssetMedia | null {
 export const photoDirectionLabel = "Photo direction · Concept";
 
 /** Small label carried by every concept image that stands in for a named property. */
-export function PhotoLabel({ className = "" }: { className?: string }) {
-  return (
-    <span className={`xp-photo-label ${className}`.trim()} lang="en">
-      {photoDirectionLabel}
-    </span>
-  );
+/**
+ * Public pages carry no production notation (OWNER acceptance brief 2026-10-08):
+ * the label is kept as a component so internal pages can opt in, but renders
+ * nothing; the register (docs/DEMO_IMAGE_REGISTER.md) and the production gate
+ * keep the status. The one public signal is the PREVIEW · DEMO DATA marker.
+ */
+export function PhotoLabel(props: { className?: string }) {
+  void props;
+  void photoDirectionLabel;
+  return null;
 }
 
 /**
@@ -95,10 +99,43 @@ export function Opening({ no, label, title, lead, tone = "light", children, as =
 /* ---------------------------------------------------------------- */
 
 const demoLegend: Localized = {
-  ro: "Valori demonstrative pentru previzualizare — vor fi înlocuite cu date aprobate.",
-  ru: "Демонстрационные значения для превью — будут заменены утверждёнными данными.",
-  en: "Demonstration values for the preview — to be replaced with approved data.",
+  ro: "Valori demonstrative pentru previzualizare — vor fi înlocuite cu date aprobate.",
+  ru: "Демонстрационные значения для превью — будут заменены утверждёнными данными.",
+  en: "Demonstration values for the preview — to be replaced with approved data.",
 };
+
+/**
+ * Hero figures (final craft pass 2026-10-08): two to four large numerals with a
+ * one-line label underneath — "07 помещений · 04 свободно сейчас · 04 объекта".
+ * Lighter than a ledger: no table, no column labels above the values.
+ */
+export function HeroFigures({ items, className = "" }: { items: { value: ReactNode; label: string; demo?: boolean }[]; className?: string }) {
+  return (
+    <dl className={`xp-figures ${className}`.trim()}>
+      {items.map((item) => (
+        <div key={item.label} className="xp-figures__item">
+          <dt>{item.label}</dt>
+          <dd>
+            {item.value}
+            {item.demo ? <DemoMark /> : null}
+          </dd>
+        </div>
+      ))}
+    </dl>
+  );
+}
+
+/** Russian / Romanian / English plural: forms = [one, few, many] (RO and EN use one / many). */
+export function plural(n: number, forms: readonly [string, string, string], locale: SiteLocale) {
+  if (locale === "ru") {
+    const mod10 = n % 10;
+    const mod100 = n % 100;
+    if (mod10 === 1 && mod100 !== 11) return forms[0];
+    if (mod10 >= 2 && mod10 <= 4 && (mod100 < 10 || mod100 >= 20)) return forms[1];
+    return forms[2];
+  }
+  return n === 1 ? forms[0] : forms[2];
+}
 
 export type LedgerItem = { label: string; point?: DataPoint; value?: ReactNode; hint?: string };
 
@@ -128,21 +165,15 @@ export function Ledger({ items, locale, tone = "light", size = "md", className =
   );
 }
 
+/** DEMO status stays in the register and the gate; no per-value marks on public pages (OWNER acceptance brief 2026-10-08). */
 export function DemoMark() {
-  return (
-    <span className="xp-demo-mark" aria-label="DEMO" title="DEMO">
-      <span aria-hidden="true" />
-    </span>
-  );
+  return null;
 }
 
-export function DemoLegend({ locale, className = "" }: { locale: SiteLocale; className?: string }) {
-  return (
-    <p className={`xp-demo-legend ${className}`.trim()}>
-      <span className="xp-demo-mark" aria-hidden="true"><span /></span>
-      {demoLegend[locale]}
-    </p>
-  );
+export function DemoLegend(props: { locale: SiteLocale; className?: string }) {
+  void props;
+  void demoLegend;
+  return null;
 }
 
 /** Inline value with its demo ring when needed. */
@@ -160,9 +191,9 @@ export function Val({ point, locale }: { point: DataPoint; locale: SiteLocale })
 /* ---------------------------------------------------------------- */
 
 const markerNote: Localized = {
-  ro: "Previzualizare pentru aprobare. Unele cifre, profiluri și imagini sunt demonstrative și nu reprezintă date MEGAPARC.",
-  ru: "Превью для согласования. Часть цифр, текстов и изображений — демонстрационные, это не данные MEGAPARC.",
-  en: "Approval preview. Some figures, profiles and images are demonstrations and are not MEGAPARC data.",
+  ro: "Previzualizare pentru aprobare. Unele cifre, texte, fotografii și video sunt demonstrative și nu reprezintă date MEGAPARC.",
+  ru: "Превью для согласования. Часть цифр, текстов, фотографий и видео — демонстрационные, это не данные MEGAPARC.",
+  en: "Approval preview. Some figures, texts, photographs and video are demonstrations and are not MEGAPARC data.",
 };
 
 /**

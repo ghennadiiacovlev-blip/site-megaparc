@@ -87,7 +87,8 @@ export function ExperienceMotion() {
         const exit = clamp(-rect.top / Math.max(rect.height, 1));
         if (!reduce) hero.style.setProperty("--xp-exit", exit.toFixed(3));
         const header = parseFloat(getComputedStyle(root).getPropertyValue("--header-h")) * 16 || 72;
-        root.classList.toggle("hx-solid", rect.bottom <= header + 1 || document.body.classList.contains("menu-open"));
+        // Solid a little before the hero has fully gone, so the hero's bottom controls never pass under a transparent header.
+        root.classList.toggle("hx-solid", rect.bottom <= header + 64 || document.body.classList.contains("menu-open"));
       }
 
       scenes.forEach((scene) => {

@@ -24,7 +24,7 @@ const t = {
   viewing: { ro: "Solicită o vizionare", ru: "Запросить просмотр", en: "Request a viewing" },
   waitlist: { ro: "Anunțați-mă dacă se eliberează", ru: "Сообщить, если освободится", en: "Tell me if it frees up" },
   fits: { ro: "Se potrivește afacerii mele?", ru: "Подходит ли моему бизнесу?", en: "Does it fit my business?" },
-  dataLabel: { ro: "Datele spațiului", ru: "О помещении", en: "The space in figures" },
+  dataLabel: { ro: "Datele spațiului", ru: "О помещении", en: "The space in figures" },
   property: { ro: "Obiect", ru: "Объект", en: "Property" },
   unit: { ro: "Spațiu", ru: "Помещение", en: "Unit" },
   area: { ro: "Suprafață disponibilă", ru: "Площадь", en: "Available area" },
@@ -41,20 +41,21 @@ const t = {
   condition: { ro: "Stare", ru: "Состояние", en: "Condition" },
   now: { ro: "Acum", ru: "Сейчас", en: "Now" },
   free: { ro: "Liber", ru: "Свободно", en: "Available" },
-  featuresLabel: { ro: "Ce contează aici", ru: "Главное о помещении", en: "Key features" },
+  featuresLabel: { ro: "Ce contează aici", ru: "Главное о помещении", en: "Key features" },
   techLabel: { ro: "Tehnic", ru: "Техника", en: "Technical" },
   fitLabel: { ro: "Cui i se potrivește", ru: "Кому подходит", en: "Who it fits" },
   fitTitle: { ro: "Cum răspunde spațiul nevoilor unei afaceri.", ru: "Что это помещение даёт бизнесу.", en: "How the space answers a business's needs." },
   planLabel: { ro: "Plan", ru: "План", en: "Plan" },
   photosLabel: { ro: "Fotografii", ru: "Фотографии", en: "Photographs" },
+  terms: { ro: "Condiții", ru: "Условия", en: "Terms" },
   processLabel: { ro: "Cum închiriem", ru: "Как мы сдаём", en: "How we lease" },
   reply: { ro: "Răspuns", ru: "Ответ", en: "Reply" },
   viewingTime: { ro: "Vizionare", ru: "Просмотр", en: "Viewing" },
   moreLabel: { ro: "Alte spații libere", ru: "Другие свободные помещения", en: "Other available spaces" },
-  projectLink: { ro: "Despre clădire", ru: "О здании", en: "About the building" },
+  projectLink: { ro: "Despre clădire", ru: "О здании", en: "About the building" },
   updated: { ro: "Actualizat", ru: "Обновлено", en: "Updated" },
-  closeTitle: { ro: "Vedeți spațiul cu ochii dumneavoastră.", ru: "Посмотрите помещение своими глазами.", en: "See the space for yourself." },
-  closeText: { ro: "Spuneți-ne ce deschideți și ce este critic — pregătim vizionarea cu răspunsurile tehnice la îndemână.", ru: "Расскажите, что вы открываете и что для вас важно, — к просмотру подготовим ответы на технические вопросы.", en: "Tell us what you are opening and what is critical — we prepare the viewing with the technical answers at hand." },
+  closeTitle: { ro: "Vedeți spațiul cu ochii dumneavoastră.", ru: "Посмотрите помещение вживую.", en: "See the space for yourself." },
+  closeText: { ro: "Spuneți-ne ce deschideți și ce este critic — pregătim vizionarea cu răspunsurile tehnice la îndemână.", ru: "Расскажите, что вы открываете и что для вас важно, — к просмотру подготовим ответы на технические вопросы.", en: "Tell us what you are opening and what is critical — we prepare the viewing with the technical answers at hand." },
 } satisfies Record<string, Localized>;
 
 function Row({ label, value, demo }: { label: string; value: string; demo?: boolean }) {
@@ -71,6 +72,7 @@ export function UnitPage({ locale, space }: { locale: SiteLocale; space: Availab
   const project = getProject(space.project)!;
   const viewing = viewingHref(locale, space);
   const demo = (field: SpaceField) => isDemoField(space, field);
+  const more = space.photos.slice(1);
   const others = sortSpaces(publicSpaces.filter((s) => s.id !== space.id)).sort((a, b) => Number(b.project === space.project) - Number(a.project === space.project)).slice(0, 3);
   const reserved = space.status === "reserved";
   const when = availabilityOf(space);
@@ -79,7 +81,7 @@ export function UnitPage({ locale, space }: { locale: SiteLocale; space: Availab
 
   return (
     <PageShell locale={locale} experience mainClassName="lx-unit">
-      {/* HEADER — the space in one screen */}
+      {/* HEADER — the space in one screen */}
       <section className="lx-unit__head">
         <div className="xp-shell lx-unit__grid">
           <div className="lx-unit__intro" data-reveal>
@@ -110,7 +112,7 @@ export function UnitPage({ locale, space }: { locale: SiteLocale; space: Availab
         </div>
       </section>
 
-      {/* DATA — every field */}
+      {/* DATA — every field */}
       <section className="xp-sec xp-sec--warm">
         <div className="xp-shell lx-unit__split">
           <div data-reveal>
@@ -148,27 +150,29 @@ export function UnitPage({ locale, space }: { locale: SiteLocale; space: Availab
         </div>
       </section>
 
-      {/* PLAN + PHOTOS */}
+      {/* PLAN + PHOTOS — the photographs after the hero frame (it is never repeated) */}
       <section className="xp-sec">
-        <div className="xp-shell lx-unit__split lx-unit__split--plan">
+        <div className={`xp-shell lx-unit__split lx-unit__split--plan${more.length ? "" : " lx-unit__split--single"}`}>
           <div data-reveal>
             <p className="xp-eyebrow xp-eyebrow--gap"><span className="xp-eyebrow__no">02</span><span>{t.planLabel[locale]}</span></p>
-            <UnitPlan plan={space.plan} locale={locale} demo={demo("plan")} title={`${project.name} — ${space.unit[locale]}`} uid={space.id} />
+            <UnitPlan plan={space.plan} locale={locale} demo={demo("plan")} title={`${project.name} — ${space.unit[locale]}`} uid={space.id} />
           </div>
-          <div data-reveal>
-            <p className="xp-eyebrow xp-eyebrow--gap"><span className="xp-eyebrow__no">03</span><span>{t.photosLabel[locale]}</span></p>
-            <div className="lx-unit__photos">
-              {space.photos.map((photo, i) => (
-                <figure key={i} className="xp-fig" style={{ "--ratio": i === 0 ? "3 / 2" : "4 / 3" } as CSSProperties}>
-                  <SpaceImage photo={photo} space={space} locale={locale} sizes="(min-width: 1024px) 30vw, 100vw" />
-                </figure>
-              ))}
+          {more.length ? (
+            <div data-reveal>
+              <p className="xp-eyebrow xp-eyebrow--gap"><span className="xp-eyebrow__no">03</span><span>{t.photosLabel[locale]}</span></p>
+              <div className={`lx-unit__photos${more.length === 2 ? " lx-unit__photos--pair" : ""}`}>
+                {more.map((photo, i) => (
+                  <figure key={i} className="xp-fig" style={{ "--ratio": more.length === 2 ? "4 / 5" : i === 0 ? "3 / 2" : "4 / 3" } as CSSProperties}>
+                    <SpaceImage photo={photo} space={space} locale={locale} sizes="(min-width: 1024px) 30vw, 100vw" />
+                  </figure>
+                ))}
+              </div>
             </div>
-          </div>
+          ) : null}
         </div>
       </section>
 
-      {/* WHO IT FITS — all ten needs */}
+      {/* WHO IT FITS — all ten needs */}
       <section className="xp-sec xp-sec--warm">
         <div className="xp-shell">
           <Opening no="04" label={t.fitLabel[locale]} title={t.fitTitle[locale]} lead={useList} className="xp-opening--split" />
@@ -207,7 +211,7 @@ export function UnitPage({ locale, space }: { locale: SiteLocale; space: Availab
           <dl className="lx-facts" data-reveal>
             <div><dt>{t.reply[locale]}</dt><dd><Val point={leasingProcess.reply} locale={locale} /></dd></div>
             <div><dt>{t.viewingTime[locale]}</dt><dd><Val point={leasingProcess.viewing} locale={locale} /></dd></div>
-            <div><dt>€</dt><dd>{noPrice[locale]}</dd></div>
+            <div><dt>{t.terms[locale]}</dt><dd>{noPrice[locale]}</dd></div>
           </dl>
         </div>
       </section>

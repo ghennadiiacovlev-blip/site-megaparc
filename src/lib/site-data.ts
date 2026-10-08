@@ -37,7 +37,7 @@ export const brand = {
   name: "MEGAPARC",
   wordmark: "Megaparc",
   /** Business positioning (OWNER correction 2026-10-08): acquire · develop · lease — localised. */
-  positioning: { ro: "Cumpărăm · Dezvoltăm · Închiriem", ru: "Покупаем · Развиваем · Сдаём в аренду", en: "Acquire · Develop · Lease" } satisfies Localized,
+  positioning: { ro: "Cumpărăm · Dezvoltăm · Închiriem", ru: "Покупаем · Развиваем · Сдаём в аренду", en: "Acquire · Develop · Lease" } satisfies Localized,
   /** OWNER-approved group heritage marker (group investment structure, 1995). Kept in English in every locale. 1991 = business origins; 2005 = MEGAPARC founded. */
   since: "Since 1995",
   tagline: { ro: "Construim viitorul", ru: "Строим будущее", en: "We build the future" } satisfies Localized,
@@ -69,7 +69,7 @@ export const navigation: Record<SiteLocale, NavItem[]> = {
   ],
   ru: [
     { label: "Главная", path: "/" },
-    { label: "О компании", path: "/about", also: ["/history"] },
+    { label: "О компании", path: "/about", also: ["/history"] },
     { label: "Проекты", path: "/projects" },
     { label: "Аренда", path: "/leasing" },
     { label: "Предложить объект", path: "/offer" },
@@ -106,7 +106,7 @@ export const ui = {
   exploreAsset: { ro: "Vezi obiectul", ru: "Открыть объект", en: "View property" },
   exploreProject: { ro: "Vezi proiectul", ru: "Открыть проект", en: "View project" },
   photoPending: { ro: "Fotografie în pregătire", ru: "Фотография готовится", en: "Photography in preparation" },
-  onRequest: { ro: "Informații suplimentare la cerere", ru: "Дополнительная информация по запросу", en: "Additional information on request" },
+  onRequest: { ro: "Informații suplimentare la cerere", ru: "Дополнительная информация по запросу", en: "Additional information on request" },
   location: { ro: "Localizare", ru: "Расположение", en: "Location" },
   status: { ro: "Status", ru: "Статус", en: "Status" },
   use: { ro: "Destinație", ru: "Назначение", en: "Use" },
@@ -120,12 +120,12 @@ export const ui = {
   requestDetails: { ro: "Solicită detalii", ru: "Запросить детали", en: "Request details" },
   discussAsset: { ro: "Discută despre acest obiect", ru: "Обсудить объект", en: "Discuss this property" },
   discussProject: { ro: "Discută despre proiect", ru: "Обсудить проект", en: "Discuss the project" },
-  contactUs: { ro: "Contactează-ne", ru: "Связаться с нами", en: "Contact us" },
+  contactUs: { ro: "Contactează-ne", ru: "Связаться с нами", en: "Contact us" },
   viewProjects: { ro: "Vezi proiectele", ru: "Смотреть проекты", en: "View the projects" },
   concept: { ro: "Concept în discuție", ru: "Концепция", en: "Concept" },
   siteArea: { ro: "Suprafața terenului", ru: "Площадь участка", en: "Site area" },
   developer: { ro: "Dezvoltator", ru: "Девелопер", en: "Developer" },
   stage: { ro: "Etapă", ru: "Стадия", en: "Stage" },
-  page404: { ro: "Pagina nu există.", ru: "Страница не найдена.", en: "Page not found." },
-  back404: { ro: "Înapoi la MEGAPARC", ru: "Вернуться на MEGAPARC", en: "Back to MEGAPARC" },
+  page404: { ro: "Pagina nu există.", ru: "Страница не найдена.", en: "Page not found." },
+  back404: { ro: "Înapoi la MEGAPARC", ru: "Вернуться на MEGAPARC", en: "Back to MEGAPARC" },
 } satisfies Record<string, Localized>;
