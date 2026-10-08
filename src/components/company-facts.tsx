@@ -16,7 +16,7 @@ import { brand, localePath, type SiteLocale } from "@/lib/site-data";
  *          2020 real-estate focus (graphite)
  *   row 2  04 operating properties · 02 development projects · 20 000+ m² land
  *   row 2b lettable area (DEMO) · spaces available now (live from the content source)
- *   row 3  the one red field: Acquire · Develop · Lease · Reinvest
+ *   row 3  the one burgundy field: Investment · Development · Leasing (OWNER brief 2026-10-08)
  * Every year, count and area comes from the shared data modules; "35+ / 20+"
  * are derived from the 1991 and 2005 anchors, rounded down to a multiple of five.
  */
@@ -35,7 +35,7 @@ const copy = {
     establishedTitle: "Este fondată MEGAPARC",
     establishedText: "Cumpărarea clădirilor comerciale și transformarea lor în spații de închiriat.",
     focusTitle: "Imobiliarele devin activitatea principală",
-    focusText: "Cumpărăm, dezvoltăm și închiriem imobiliare proprii.",
+    focusText: "Investiții, dezvoltare și închiriere — în imobiliare proprii.",
     portfolio: "Proiecte",
     development: "Dezvoltare",
     operatingTitle: "obiecte în funcțiune",
@@ -60,7 +60,7 @@ const copy = {
     establishedTitle: "Основана MEGAPARC",
     establishedText: "Покупка коммерческих зданий и превращение их в пространства для аренды.",
     focusTitle: "Недвижимость становится главным делом",
-    focusText: "Покупаем, развиваем и сдаём в аренду собственную недвижимость.",
+    focusText: "Инвестиции, девелопмент и аренда собственной недвижимости.",
     portfolio: "Проекты",
     development: "Развитие",
     operatingTitle: "действующих объекта",
@@ -85,7 +85,7 @@ const copy = {
     establishedTitle: "MEGAPARC is founded",
     establishedText: "Buying commercial buildings and turning them into space to lease.",
     focusTitle: "Real estate becomes the core business",
-    focusText: "We acquire, develop and lease our own real estate.",
+    focusText: "Investment, development and leasing of our own real estate.",
     portfolio: "Projects",
     development: "Development",
     operatingTitle: "operating properties",

@@ -1,9 +1,9 @@
 import Link from "next/link";
 import type { CSSProperties } from "react";
-import { DemoMark, HeroFigures, Opening, Val, plural } from "@/components/experience";
+import { DemoMark, Opening, Val, plural } from "@/components/experience";
 import { LeasingInventory, type InventoryCopy } from "@/components/leasing/inventory";
 import { TenantAdvisor, type AdvisorCopy } from "@/components/leasing/tenant-advisor";
-import { SpaceImage, UnitCard, viewingHref } from "@/components/leasing/unit-card";
+import { AvailabilityChip, SpaceImage, UnitCard, viewingHref } from "@/components/leasing/unit-card";
 import { PageShell } from "@/components/page-shell";
 import { Icon } from "@/components/ui";
 import { availabilityLabel, availabilityOf, formatArea, formatAreaRange, getProject, listProjects, publicSpaces, sortSpaces, spacesFor } from "@/content/source";
@@ -26,6 +26,8 @@ const copy = {
     lead: "Spațiile libere din clădirile MEGAPARC — cu planuri, caracteristici și statut actualizat.",
     spaces: ["spațiu", "spații", "spații"],
     now: "libere acum",
+    boardLabel: "Liber acum",
+    boardAll: "Toate spațiile",
     buildings: ["obiect", "obiecte", "obiecte"],
     shortcutArea: "Spații de 120–300 m²",
     shortcutFood: "Pentru cafenea sau restaurant",
@@ -51,6 +53,8 @@ const copy = {
     lead: "Свободные площади в объектах MEGAPARC — с планами, характеристиками и актуальным статусом.",
     spaces: ["помещение", "помещения", "помещений"],
     now: "свободно сейчас",
+    boardLabel: "Свободно сейчас",
+    boardAll: "Все помещения",
     buildings: ["объект", "объекта", "объектов"],
     shortcutArea: "Помещения 120–300 м²",
     shortcutFood: "Для кафе и ресторана",
@@ -76,6 +80,8 @@ const copy = {
     lead: "Available space in MEGAPARC properties — with plans, specifications and up-to-date status.",
     spaces: ["space", "spaces", "spaces"],
     now: "available now",
+    boardLabel: "Available now",
+    boardAll: "All spaces",
     buildings: ["property", "properties", "properties"],
     shortcutArea: "Spaces of 120–300 m²",
     shortcutFood: "For a café or restaurant",
@@ -124,12 +130,36 @@ export function LeasingPage({ locale }: { locale: SiteLocale }) {
           <p className="xp-eyebrow xp-sh__eyebrow" data-reveal><span className="xp-eyebrow__no">{brand.name}</span><span>{c.label}</span></p>
           <h1 className="xp-display-title xp-sh__title" data-reveal>{c.title}</h1>
           <p className="xp-pagehero__lead xp-sh__lead" data-reveal>{c.lead}</p>
-          <div className="xp-sh__aside" data-reveal>
-            <HeroFigures items={[
-              { value: String(list.length).padStart(2, "0"), label: plural(list.length, c.spaces, locale) },
-              { value: String(nowCount).padStart(2, "0"), label: c.now },
-              { value: String(withSpace.length).padStart(2, "0"), label: plural(withSpace.length, c.buildings, locale) },
-            ]} />
+          {/* WHAT CAN I RENT NOW? — a live board of the first spaces, before any filter (OWNER brief 2026-10-08) */}
+          <div className="xp-sh__aside lx-board" data-reveal>
+            <p className="lx-board__head">
+              <span><i aria-hidden="true" />{c.boardLabel}</span>
+              <span>{String(list.length).padStart(2, "0")} {plural(list.length, c.spaces, locale)} · {String(nowCount).padStart(2, "0")} {c.now} · {String(withSpace.length).padStart(2, "0")} {plural(withSpace.length, c.buildings, locale)}</span>
+            </p>
+            <ul className="lx-board__list">
+              {list.slice(0, 4).map((space, index) => {
+                const project = getProject(space.project)!;
+                return (
+                  <li key={space.id} style={{ "--i": index } as CSSProperties}>
+                    <Link href={p(`/leasing/${space.id}`)} className="lx-board__row">
+                      <figure className="lx-board__media">
+                        <SpaceImage photo={space.photos[0]} space={space} locale={locale} sizes="9rem" priority={index === 0} />
+                      </figure>
+                      <span className="lx-board__main">
+                        <span className="lx-board__where">{project.name} · {project.district[locale]}</span>
+                        <span className="lx-board__unit">{space.unit[locale]}</span>
+                        <span className="lx-board__why">{space.headline[locale]}</span>
+                      </span>
+                      <span className="lx-board__side">
+                        <span className="lx-board__area">{formatAreaRange(space.areaMin, space.area, locale)}</span>
+                        <AvailabilityChip space={space} locale={locale} />
+                      </span>
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+            <a className="lx-board__all" href="#available">{c.boardAll} · {String(list.length).padStart(2, "0")}<Icon name="down" /></a>
           </div>
           {/* Same page, new filter: plain relative links reload the page so the inventory and the advisor read the URL. */}
           <nav className="xp-sh__foot lx-hero__shortcuts" aria-label={c.label} data-reveal>

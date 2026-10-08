@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { LanguageSwitcher } from "@/components/language-switcher";
 import { SiteNav } from "@/components/site-nav";
-import { verbs } from "@/lib/business";
+import { directionLines } from "@/lib/business";
 import { brand, localePath, type Localized, type SiteLocale } from "@/lib/site-data";
 
 const copy = {
@@ -25,7 +25,7 @@ const routes: { path: string; label: Localized }[] = [
 ];
 
 /**
- * Final brand moment: MEGAPARC, the three verbs (acquire · develop · lease), WE BUILD THE FUTURE, then navigation, routes, contact, languages, legal.
+ * Final brand moment: MEGAPARC, the three directions (investment · development · leasing), WE BUILD THE FUTURE, then navigation, routes, contact, languages, legal.
  * `statement={false}` omits WE BUILD THE FUTURE on a page that has just closed on it (About).
  */
 export function SiteFooter({ locale, statement = true }: { locale: SiteLocale; statement?: boolean }) {
@@ -35,7 +35,7 @@ export function SiteFooter({ locale, statement = true }: { locale: SiteLocale; s
         <div className="ftr__brand">
           <p className="ftr__wordmark" aria-hidden="true">{brand.name}</p>
           <ul className="ftr__lines" aria-label={brand.positioning[locale]}>
-            {verbs[locale].map((line) => (
+            {directionLines[locale].map((line) => (
               <li key={line}>{line.replace(/.$/, "")}</li>
             ))}
           </ul>

@@ -33,9 +33,9 @@ type PageCopy = { title: Localized; description: Localized };
 export const pageSeo = {
   home: {
     title: {
-      ro: "MEGAPARC — cumpărăm, dezvoltăm și închiriem imobiliare comerciale",
-      ru: "MEGAPARC — покупаем, развиваем и сдаём в аренду коммерческую недвижимость",
-      en: "MEGAPARC — we acquire, develop and lease commercial real estate",
+      ro: "MEGAPARC — investiții, dezvoltare și închiriere de imobiliare comerciale",
+      ru: "MEGAPARC — инвестиции, девелопмент и аренда коммерческой недвижимости",
+      en: "MEGAPARC — commercial real estate investment, development and leasing",
     },
     description: {
       ro: "MEGAPARC investește în imobiliare și terenuri, dezvoltă proiecte proprii și închiriază spații comerciale în Chișinău. Vedeți spațiile libere acum.",
@@ -44,11 +44,11 @@ export const pageSeo = {
     },
   },
   about: {
-    title: { ro: "Despre MEGAPARC — cum lucrăm", ru: "О компании MEGAPARC — как мы работаем", en: "About MEGAPARC — how we work" },
+    title: { ro: "Despre MEGAPARC — investiții, dezvoltare, închiriere", ru: "О компании MEGAPARC — инвестиции, девелопмент, аренда", en: "About MEGAPARC — investment, development, leasing" },
     description: {
-      ro: "MEGAPARC cumpără clădiri și terenuri, dezvoltă și renovează proiecte proprii, închiriază și exploatează propriile clădiri. Fondată în 2005.",
-      ru: "MEGAPARC покупает здания и землю, развивает и обновляет собственные проекты, сдаёт в аренду и эксплуатирует свои здания. Основана в 2005 году.",
-      en: "MEGAPARC buys buildings and land, develops and renovates its own projects, leases and operates its own buildings. Founded in 2005.",
+      ro: "MEGAPARC achiziționează obiecte comerciale și terenuri, dezvoltă și reconstruiește proiecte proprii și închiriază spații în clădirile sale. Fondată în 2005.",
+      ru: "MEGAPARC приобретает коммерческие объекты и землю, строит и реконструирует собственные проекты и сдаёт площади в своих зданиях. Основана в 2005 году.",
+      en: "MEGAPARC acquires commercial property and land, builds and redevelops its own projects and leases space in its own buildings. Founded in 2005.",
     },
   },
   history: {
@@ -75,6 +75,14 @@ export const pageSeo = {
       en: "What is available now: retail, offices, showrooms, services, clinics, food and drink. Area, floor, access, parking and plan for every space.",
     },
   },
+  partnership: {
+    title: { ro: "Parteneriat investițional — MEGAPARC", ru: "Инвестиционное партнёрство — MEGAPARC", en: "Investment partnership — MEGAPARC" },
+    description: {
+      ro: "Pentru investitori, bănci și parteneri: obiectele MEGAPARC, proiectele de dezvoltare, cum evaluăm proiectele și cum discutăm un parteneriat.",
+      ru: "Для инвесторов, банков и партнёров: объекты MEGAPARC, проекты развития, как мы оцениваем проекты и как обсуждаем партнёрство.",
+      en: "For investors, banks and partners: MEGAPARC's properties, development projects, how we evaluate projects and how we discuss a partnership.",
+    },
+  },
   offer: {
     title: { ro: "Propuneți un obiect sau un teren — MEGAPARC cumpără", ru: "Предложите объект или землю — MEGAPARC покупает", en: "Offer a property or land — MEGAPARC buys" },
     description: {
@@ -92,11 +100,11 @@ export const pageSeo = {
     },
   },
   contact: {
-    title: { ro: "Contact — MEGAPARC", ru: "Контакты — MEGAPARC", en: "Contact — MEGAPARC" },
+    title: { ro: "Contact — MEGAPARC", ru: "Контакты — MEGAPARC", en: "Contact — MEGAPARC" },
     description: {
-      ro: "Contactați MEGAPARC: închirierea unui spațiu, propunerea unui obiect sau teren, carieră.",
-      ru: "Связаться с MEGAPARC: аренда помещения, предложение объекта или земли, вакансии.",
-      en: "Contact MEGAPARC: leasing a space, offering a property or land, careers.",
+      ro: "Contactați MEGAPARC: închiriere, parteneriat investițional, propunerea unui obiect sau teren, carieră, întrebări generale.",
+      ru: "Связаться с MEGAPARC: аренда, инвестиционное партнёрство, предложение объекта или земли, вакансии, общие вопросы.",
+      en: "Contact MEGAPARC: leasing, investment partnership, offering a property or land, careers, general questions.",
     },
   },
   brandSystem: {

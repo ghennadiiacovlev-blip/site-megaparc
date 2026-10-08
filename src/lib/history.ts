@@ -376,7 +376,7 @@ export const entries: HistoryEntry[] = [
     scope: "group",
     name: "Soiuz Agros-Intex",
     place: L("Republica Moldova", "Молдова", "Moldova"),
-    title: L("Soiuz Agros-Intex — sistem agricol integrat", "Soiuz Agros-Intex — агробизнес полного цикла", "Soiuz Agros-Intex — an integrated farm system"),
+    title: L("Soiuz Agros‑Intex — sistem agricol integrat", "Soiuz Agros‑Intex — агробизнес полного цикла", "Soiuz Agros‑Intex — an integrated farm system"),
     text: L(
       "Tot ce îi trebuie fermierului, într-un singur sistem: semințe și îngrășăminte, colectarea recoltei, logistica exportului de cereale.",
       "Всё для фермера в одной системе: семена и удобрения, сбор урожая, логистика экспорта зерна.",
@@ -587,6 +587,7 @@ export const historyImages: Record<HistoryImageKey, { year: string; subject: Loc
   "era-bottling": { year: "1959", subject: L("îmbuteliere", "розлив", "bottling"), page: "https://commons.wikimedia.org/wiki/File:Flessen_vullen_bij_wijnhandel_Richard_Scheid,_Bestanddeelnr_254-4238.jpg" },
   "era-sugar": { year: "1982", subject: L("campania sfeclei de zahăr", "сезон сахарной свёклы", "sugar-beet campaign"), page: "https://commons.wikimedia.org/wiki/File:Suikerbietencampagne,_Halfweg,_Bestanddeelnr_932-3141.jpg" },
   "era-energy": { year: "1955", subject: L("terminal petrolier", "нефтяной терминал", "oil terminal"), page: "https://commons.wikimedia.org/wiki/File:Geen_bijschrift_Olie_terminal._Pijpleidingen_en_afsluiters,_Bestanddeelnr_143-0980.tif" },
+  "era-construction": { year: "1950s", subject: L("construcție", "стройка", "construction"), page: "https://commons.wikimedia.org/wiki/File:Uitbreiding_woningbouw_Slotermeer_West,_Bestanddeelnr_905-2614.jpg" },
   "era-distribution": { year: "1971", subject: L("centru de distribuție", "распределительный центр", "distribution centre"), page: "https://commons.wikimedia.org/wiki/File:Distributiecentrum_op_het_Amstel_industriegebied_te_Amsterdam,_Bestanddeelnr_924-5661.jpg" },
   "ep-modelier": { year: "1950s", subject: L("atelier de confecții", "швейный цех", "garment workshop"), page: "https://commons.wikimedia.org/wiki/File:De_administratie-afdeling_van_overhemdenbedrijf_Kerko_met_zicht_op_het_naaiateli,_Bestanddeelnr_254-2948.jpg" },
   "ep-mi-gross": { year: "1950s", subject: L("supermarket", "супермаркет", "supermarket"), page: "https://commons.wikimedia.org/wiki/File:Supermarkt_in_Willemstad,_Bestanddeelnr_252-2951.jpg" },

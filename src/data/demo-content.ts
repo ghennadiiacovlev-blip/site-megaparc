@@ -400,7 +400,7 @@ export type ConceptVisual = {
   mobile: boolean;
 };
 
-const visualKeys = ["cv-hero-1", "cv-hero-2", "cv-invest", "cv-manage", "cv-rebar", "cv-excavator", "cv-window", "cv-walker", "cv-meeting-room", "cv-cafe", "cv-field", "cv-office-light", "cv-storefront", "cv-salesfloor", "cv-office-building"] as const;
+const visualKeys = ["cv-hero-2", "cv-manage", "cv-meeting-room", "cv-cafe", "cv-field", "cv-office-light", "cv-salesfloor", "cv-office-building", "cv-inspection", "cv-plans", "cv-frame", "cv-level", "cv-entrance", "cv-loft-cafe", "cv-boutique", "cv-office-tenants", "cv-urban-plot", "cv-model", "cv-crane", "cv-rebar-crew", "cv-site-pair", "cv-scaffold-street", "cv-loft-team", "cv-drawing"] as const;
 export type VisualKey = (typeof visualKeys)[number];
 const portraitOnly: VisualKey[] = ["cv-cafe"];
 
@@ -452,13 +452,37 @@ const A = {
   storefront: { ro: "Vitrină liberă, pregătită pentru un nou chiriaș", ru: "Свободная витрина, готовая к новому арендатору", en: "A vacant shopfront ready for a new tenant" },
   salesfloor: { ro: "Sală de vânzări luminoasă", ru: "Светлый торговый зал", en: "A bright sales floor" },
   officeBuilding: { ro: "Clădire de birouri în lumina zilei", ru: "Офисное здание при дневном свете", en: "An office building in daylight" },
+  inspection: { ro: "Ingineri care verifică o construcție, orașul în fundal", ru: "Инженеры осматривают объект, за ними город", en: "Engineers inspecting a structure, the city behind them" },
+  plans: { ro: "Mâini care lucrează pe planul unui spațiu comercial", ru: "Работа над планом коммерческого пространства", en: "Hands working over a commercial floor plan" },
+  frame: { ro: "Structură de beton în construcție, echipe la lucru", ru: "Строительство бетонного каркаса, бригады за работой", en: "A concrete frame under construction, crews at work" },
+  level: { ro: "Inginer care verifică un perete cu nivela", ru: "Инженер проверяет стену уровнем", en: "An engineer checking a wall with a level" },
+  entrance: { ro: "Oameni care intră printr-o ușă de sticlă", ru: "Люди входят через стеклянную дверь", en: "People walking in through a glass entrance" },
+  loftCafe: { ro: "Cafenea luminoasă într-o clădire reconvertită, cu clienți", ru: "Светлое кафе в обновлённом здании, посетители", en: "A sunlit café in a converted building, with customers" },
+  boutique: { ro: "Cumpărători într-un magazin luminat de vitrină", ru: "Покупатели в магазине, свет от витрины", en: "Shoppers in a shop lit from the window" },
+  officeTenants: { ro: "Chiriași la lucru lângă o fațadă de sticlă cu vedere spre oraș", ru: "Арендаторы за работой у стеклянного фасада с видом на город", en: "Tenants at work by a glass facade with a city view" },
+  urbanPlot: { ro: "Teren în lucru între străzile unui oraș, văzut de sus", ru: "Участок в работе среди городских улиц, вид сверху", en: "A plot under works between town streets, from above" },
+  model: { ro: "Mâini cu compas și riglă deasupra unei machete", ru: "Работа с макетом генплана", en: "Hands with compass and ruler over a masterplan model" },
+  crane: { ro: "Cadru de beton și macara deasupra orașului", ru: "Строящийся каркас и башенный кран над городом", en: "A concrete frame and a tower crane over the city" },
+  rebarCrew: { ro: "Echipă pe o placă armată, macara, acoperișuri roșii", ru: "Бригада на армированной плите, кран, красные крыши", en: "A crew on a reinforced slab, a crane, red roofs" },
+  sitePair: { ro: "Ingineri pe șantier care arată spre structură", ru: "Инженеры на площадке обсуждают конструкцию", en: "Engineers on site pointing at the structure" },
+  scaffoldStreet: { ro: "Lucrător printre schele pe o stradă cu fațade de piatră", ru: "Рабочий среди лесов на улице с каменными фасадами", en: "A worker among scaffolding on a stone-facade street" },
+  loftTeam: { ro: "Echipă la lucru într-un spațiu cu cărămidă și ferestre metalice", ru: "Команда за работой в лофте с кирпичом и стальными окнами", en: "A team at work in a brick loft with steel windows" },
+  drawing: { ro: "Mâini care desenează pe un plan", ru: "Работа над чертежом", en: "Hands drawing on a plan" },
   officeLight: { ro: "Sală de ședințe cu ferestre înalte", ru: "Переговорная с высокими окнами", en: "A meeting room with tall windows" },
 } satisfies Record<string, Localized>;
 
 // Home
-place("home.hero.1", "Home", "Hero sequence · frame 1 (acquire)", null, "cv-hero-1", "BRAND", "Opening frame — daylight architecture", "HIGH", "MEGAPARC hero: a portfolio building in morning light, 16:9 + 9:16", A.balconies);
-place("home.hero.2", "Home", "Hero sequence · frame 2 (develop)", null, "cv-hero-2", "BRAND", "People at work — development", "HIGH", "VATRA site: MEGAPARC engineer on site, natural, 16:9 + 9:16", A.engineer);
-place("home.hero.3", "Home", "Hero sequence · frame 3 (lease)", null, "cv-manage", "BRAND", "Tenant life at street level — leasing", "HIGH", "Tenant activity at a MEGAPARC property entrance, 16:9 + 9:16", A.street);
+// Home (OWNER briefs 2026-10-08): the hero now shows real MEGAPARC property; human scale lives in the direction tiles, the proof band and the routes.
+place("home.direction.investment", "Home", "Directions · 01 investment", null, "cv-inspection", "BRAND", "Investment — people evaluating a real asset", "HIGH", "MEGAPARC team on a site visit with plans at a property", A.inspection);
+place("home.direction.development", "Home", "Directions · 02 development", null, "cv-frame", "BRAND", "Development — engineering on site", "HIGH", "VATRA site: MEGAPARC engineer on site", A.frame);
+place("home.direction.leasing", "Home", "Directions · 03 leasing", null, "cv-loft-cafe", "BRAND", "Leasing — tenant activity at street level", "HIGH", "People entering a MEGAPARC property", A.loftCafe);
+place("home.proof", "Home", "Proof · full-bleed scene", null, "cv-crane", "BRAND", "Execution — work in progress behind the figures", "MEDIUM", "VATRA construction, wide, daylight", A.crane);
+place("home.route.partner", "Home", "Routes · investment partnership", null, "cv-model", "BRAND", "Partnership — a meeting over plans", "MEDIUM", "MEGAPARC meeting over drawings", A.model);
+// About · the business (three scenes): real property photographs carry the scene; these insets add human scale.
+place("business.investment.inset", "About", "Business · 01 investment inset", null, "cv-plans", "BRAND", "Evaluating an asset — plans and people", "HIGH", "Site inspection of a property, plans in hand", A.plans);
+place("business.development.inset", "About", "Business · 02 development inset", null, "cv-level", "BRAND", "Construction work", "HIGH", "VATRA construction crew", A.level);
+place("business.leasing.inset", "About", "Business · 03 leasing inset", null, "cv-entrance", "BRAND", "Tenant activity", "HIGH", "Tenant activity inside a MEGAPARC property", A.entrance);
+place("partnership.hero", "Partnership", "Hero", null, "cv-urban-plot", "BRAND", "Opportunity — a plot under works in a city", "HIGH", "MEGAPARC site from above (drone), daylight", A.urbanPlot);
 place("home.route.owner", "Home", "Routes · offer a property or land", null, "cv-field", "BRAND", "Owner route — land", "MEDIUM", "Land at a town entrance (MEGAPARC site visit)", A.field);
 place("home.projects.creanga-78", "Home", "Projects · card", "Creangă 78", "cv-office-building", "PROPERTY_DIRECTION", "Stands in for the Creangă 78 photograph", "HIGH", "Creangă 78 FACADE 3/4, morning light (shot list)", A.officeBuilding);
 // Projects
@@ -466,27 +490,25 @@ place("portfolio.creanga-78", "Projects", "Collection · Creangă 78", "Creangă
 place("development.drochia", "Projects", "Collection · Drochia Gateway", "Drochia Gateway", "cv-field", "PROPERTY_DIRECTION", "Site context direction — not the site", "HIGH", "Drochia Gateway DRONE — the real site, both road fronts", A.field);
 // Project pages and leasing units
 place("asset.dacia-31.gallery.1", "Projects · Dacia 31", "Gallery · Leasing", "Dacia 31", "cv-office-light", "PROPERTY_DIRECTION", "Interior direction", "HIGH", "Dacia 31 INTERIOR / AVAILABLE UNIT", A.officeLight);
-place("asset.dacia-31.gallery.2", "Projects · Dacia 31", "Gallery · Leasing", "Dacia 31", "cv-meeting-room", "PROPERTY_DIRECTION", "Interior direction", "MEDIUM", "Dacia 31 INTERIOR — typical floor", A.meeting);
+place("asset.dacia-31.gallery.2", "Projects · Dacia 31", "Gallery · Leasing", "Dacia 31", "cv-loft-team", "PROPERTY_DIRECTION", "Interior direction", "MEDIUM", "Dacia 31 INTERIOR — typical floor", A.loftTeam);
 place("asset.moscova-9.gallery.1", "Projects · Moscova 9", "Gallery · Leasing", "Moscova 9", "cv-salesfloor", "PROPERTY_DIRECTION", "Sales-floor direction", "HIGH", "Moscova 9 AVAILABLE UNIT — sales floor", A.salesfloor);
-place("asset.moscova-9.gallery.2", "Projects · Moscova 9", "Gallery · Leasing", "Moscova 9", "cv-storefront", "PROPERTY_DIRECTION", "Shopfront ready for a tenant", "MEDIUM", "Moscova 9 AVAILABLE UNIT — the frontage from the boulevard", A.storefront);
+place("asset.moscova-9.gallery.2", "Projects · Moscova 9", "Gallery · Leasing", "Moscova 9", "cv-boutique", "PROPERTY_DIRECTION", "Shopfront ready for a tenant", "MEDIUM", "Moscova 9 AVAILABLE UNIT — the frontage from the boulevard", A.boutique);
 place("asset.moscova-20.gallery.1", "Projects · Moscova 20", "Gallery · Leasing", "Moscova 20", "cv-cafe", "PROPERTY_DIRECTION", "Tenant activity direction", "HIGH", "Moscova 20 TENANT ACTIVITY", A.cafe);
 place("asset.moscova-20.gallery.2", "Projects · Moscova 20", "Gallery · Leasing", "Moscova 20", "cv-manage", "PROPERTY_DIRECTION", "Street corner activity direction", "MEDIUM", "Moscova 20 ENTRANCE / corner at street level", A.street);
 place("asset.creanga-78.hero", "Projects · Creangă 78", "Hero · Leasing", "Creangă 78", "cv-office-building", "PROPERTY_DIRECTION", "Stands in for the property hero", "HIGH", "Creangă 78 HERO + MOBILE VERTICAL", A.officeBuilding, "50% 40%");
 place("asset.creanga-78.gallery.1", "Projects · Creangă 78", "Gallery · Leasing", "Creangă 78", "cv-meeting-room", "PROPERTY_DIRECTION", "Office floor direction", "HIGH", "Creangă 78 AVAILABLE UNIT — office floor", A.meeting);
-place("asset.creanga-78.gallery.2", "Projects · Creangă 78", "Gallery · Leasing", "Creangă 78", "cv-window", "PROPERTY_DIRECTION", "Tenant activity direction", "MEDIUM", "Creangă 78 TENANT ACTIVITY — office floor", A.window);
-place("project.vatra.team", "Projects · VATRA", "Current reality · on site", "VATRA", "cv-rebar", "PROPERTY_DIRECTION", "Construction team direction", "MEDIUM", "VATRA HUMAN SCALE — construction team, morning", A.rebar);
+place("asset.creanga-78.gallery.2", "Projects · Creangă 78", "Gallery · Leasing", "Creangă 78", "cv-office-tenants", "PROPERTY_DIRECTION", "Tenant activity direction", "MEDIUM", "Creangă 78 TENANT ACTIVITY — office floor", A.officeTenants);
+place("project.vatra.team", "Projects · VATRA", "Current reality · on site", "VATRA", "cv-rebar-crew", "PROPERTY_DIRECTION", "Construction team direction", "MEDIUM", "VATRA HUMAN SCALE — construction team, morning", A.rebarCrew);
 place("project.drochia.hero", "Projects · Drochia Gateway", "Hero", "Drochia Gateway", "cv-field", "PROPERTY_DIRECTION", "Site context direction — not the site", "HIGH", "Drochia Gateway HERO — the real site from the entrance road", A.field, "50% 62%");
 place("project.drochia.road", "Projects · Drochia Gateway", "Current reality · the land", "Drochia Gateway", "cv-field", "PROPERTY_DIRECTION", "The site as it is today — open land", "HIGH", "Drochia Gateway ACCESS — approach road and visibility", A.field, "50% 78%");
 // About — the owner model: acquire · develop · lease · operate use real MEGAPARC photographs; the two decisions use brand frames
-place("about.acquire", "About", "Model · acquire", null, "cv-field", "BRAND", "Buildings and land we buy", "MEDIUM", "Land at a town entrance — a MEGAPARC site visit", A.field);
-place("about.reinvest", "About", "Model · reinvest", null, "cv-excavator", "BRAND", "Capital back into new projects", "LOW", "Earthworks on a MEGAPARC site", A.excavator);
 // Offer a property
 place("offer.land", "Offer a property", "What we buy · land", null, "cv-field", "BRAND", "Land for development", "LOW", "Open land at a town entrance", A.field);
 // Careers
-place("careers.team", "Careers", "Pillar · Team", null, "cv-invest", "BRAND", "Team", "MEDIUM", "MEGAPARC team at work", A.invest);
+place("careers.team", "Careers", "Pillar · Team", null, "cv-site-pair", "BRAND", "Team", "MEDIUM", "MEGAPARC team at work", A.sitePair);
 place("careers.responsibility", "Careers", "Pillar · Project responsibility", null, "cv-hero-2", "BRAND", "Responsibility on site", "MEDIUM", "MEGAPARC engineer on site", A.engineer);
-place("careers.growth", "Careers", "Pillar · Career development", null, "cv-window", "BRAND", "Learning", "LOW", "MEGAPARC office", A.window);
-place("careers.field", "Careers", "Pillar · Field + office", null, "cv-walker", "BRAND", "Field and office", "LOW", "MEGAPARC team between site and office", A.walker);
+place("careers.growth", "Careers", "Pillar · Career development", null, "cv-drawing", "BRAND", "Learning", "LOW", "MEGAPARC office", A.drawing);
+place("careers.field", "Careers", "Pillar · Field + office", null, "cv-scaffold-street", "BRAND", "Field and office", "LOW", "MEGAPARC team between site and office", A.scaffoldStreet);
 
 export const imageUses: readonly ImageUse[] = uses;
 

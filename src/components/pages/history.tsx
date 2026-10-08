@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Fragment, type ReactNode } from "react";
 import { MaskTitle } from "@/components/experience";
 import { HistoryMap } from "@/components/history-map";
 import { PageShell } from "@/components/page-shell";
@@ -79,6 +80,15 @@ function ChapterHead({ chapter, locale, year }: { chapter: Chapter; locale: Site
   );
 }
 
+/** A full-bleed pause between eras: archive before MEGAPARC, colour before today (OWNER brief "MAKE THE WEBSITE FEEL ALIVE"). */
+function Interlude({ children, tone }: { children: ReactNode; tone: "archive" | "today" }) {
+  return (
+    <div className={`hc-interlude hc-interlude--${tone}`} data-xp-progress aria-hidden="true">
+      <div className="hc-interlude__media">{children}</div>
+    </div>
+  );
+}
+
 function EpisodeGrid({ ids, locale }: { ids: string[]; locale: SiteLocale }) {
   const layout = ids.length >= 5 ? "three" : ids.length === 4 ? "two" : "magazine";
   const sizes = layout === "three" ? "(min-width: 1024px) 33vw, (min-width: 720px) 50vw, 100vw" : "(min-width: 1024px) 50vw, 100vw";
@@ -138,10 +148,20 @@ export function HistoryPage({ locale }: { locale: SiteLocale }) {
 
       {chapters.map((chapter) => {
         if (chapter.key === "megaparc") {
+          const before = (
+            <Interlude key="interlude-archive" tone="archive">
+              <picture>
+                <source media="(min-width: 721px)" srcSet={publicAsset("/assets/history/era-construction.webp")} />
+                <img src={publicAsset("/assets/history/era-construction-mobile.webp")} alt="" loading="lazy" decoding="async" />
+              </picture>
+            </Interlude>
+          );
           const main = byId("megaparc");
           const same = byId("imc-market");
           return (
-            <section key={chapter.key} className="hc-ch hc-ch--megaparc" id={chapter.key}>
+            <Fragment key={chapter.key}>
+            {before}
+            <section className="hc-ch hc-ch--megaparc" id={chapter.key}>
               <div className="xp-shell hc-turn">
                 <figure className="hc-turn__media" data-reveal>
                   <EpisodeImage entry={main} locale={locale} sizes="(min-width: 1024px) 58vw, 100vw" />
@@ -165,6 +185,7 @@ export function HistoryPage({ locale }: { locale: SiteLocale }) {
                 </ol>
               </div>
             </section>
+            </Fragment>
           );
         }
         if (chapter.key === "international") {
@@ -213,7 +234,11 @@ export function HistoryPage({ locale }: { locale: SiteLocale }) {
         }
         if (chapter.key === "today") {
           return (
-            <section key={chapter.key} className="hc-ch hc-ch--today" id={chapter.key}>
+            <Fragment key={chapter.key}>
+            <Interlude tone="today">
+              {(() => { const m9 = getProject("moscova-9")!; return <ArtImage media={m9.media!} alt="" sizes="100vw" position="50% 60%" />; })()}
+            </Interlude>
+            <section className="hc-ch hc-ch--today" id={chapter.key}>
               <div className="xp-shell">
                 <ChapterHead chapter={chapter} locale={locale} year={year} />
                 <ul className="hc-today">
@@ -239,6 +264,7 @@ export function HistoryPage({ locale }: { locale: SiteLocale }) {
                 </nav>
               </div>
             </section>
+            </Fragment>
           );
         }
         return (

@@ -36,8 +36,8 @@ export type Localized = Record<SiteLocale, string>;
 export const brand = {
   name: "MEGAPARC",
   wordmark: "Megaparc",
-  /** Business positioning (OWNER correction 2026-10-08): acquire · develop · lease — localised. */
-  positioning: { ro: "Cumpărăm · Dezvoltăm · Închiriem", ru: "Покупаем · Развиваем · Сдаём в аренду", en: "Acquire · Develop · Lease" } satisfies Localized,
+  /** Business positioning (OWNER brief 2026-10-08): investment · development · leasing — localised. */
+  positioning: { ro: "Investiții · Dezvoltare · Închiriere", ru: "Инвестиции · Девелопмент · Аренда", en: "Investment · Development · Leasing" } satisfies Localized,
   /** OWNER-approved group heritage marker (group investment structure, 1995). Kept in English in every locale. 1991 = business origins; 2005 = MEGAPARC founded. */
   since: "Since 1995",
   tagline: { ro: "Construim viitorul", ru: "Строим будущее", en: "We build the future" } satisfies Localized,
@@ -54,7 +54,8 @@ export type NavItem = { label: string; path: string; also?: string[] };
 
 /**
  * Primary navigation — OWNER correction 2026-10-08:
- * HOME · ABOUT · PROJECTS · LEASING · OFFER A PROPERTY · CAREERS · CONTACT.
+ * HOME · ABOUT · PROJECTS · LEASING · PARTNERSHIP · OFFER A PROPERTY · CAREERS · CONTACT
+ * (PARTNERSHIP added by the OWNER brief "TRUST, SCALE & DESIRE", 2026-10-08).
  * Careers is in the top navigation, not only in the footer.
  */
 export const navigation: Record<SiteLocale, NavItem[]> = {
@@ -63,6 +64,7 @@ export const navigation: Record<SiteLocale, NavItem[]> = {
     { label: "Despre companie", path: "/about", also: ["/history"] },
     { label: "Proiecte", path: "/projects" },
     { label: "Închiriere", path: "/leasing" },
+    { label: "Parteneriat", path: "/partnership" },
     { label: "Propune un obiect", path: "/offer" },
     { label: "Cariere", path: "/careers" },
     { label: "Contact", path: "/contact" },
@@ -72,6 +74,7 @@ export const navigation: Record<SiteLocale, NavItem[]> = {
     { label: "О компании", path: "/about", also: ["/history"] },
     { label: "Проекты", path: "/projects" },
     { label: "Аренда", path: "/leasing" },
+    { label: "Партнёрство", path: "/partnership" },
     { label: "Предложить объект", path: "/offer" },
     { label: "Вакансии", path: "/careers" },
     { label: "Контакты", path: "/contact" },
@@ -81,6 +84,7 @@ export const navigation: Record<SiteLocale, NavItem[]> = {
     { label: "About", path: "/about", also: ["/history"] },
     { label: "Projects", path: "/projects" },
     { label: "Leasing", path: "/leasing" },
+    { label: "Partnership", path: "/partnership" },
     { label: "Offer a property", path: "/offer" },
     { label: "Careers", path: "/careers" },
     { label: "Contact", path: "/contact" },

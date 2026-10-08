@@ -15,7 +15,11 @@ import { fitCopy, needs as needCopy, uses as useTaxonomy } from "@/lib/leasing";
 import { localePath, type Localized, type SiteLocale } from "@/lib/site-data";
 
 /**
- * INCOME PROPERTY PAGE (OWNER acceptance brief 2026-10-08): the building first —
+ * INCOME PROPERTY PAGE — a short digital property tour (OWNER briefs 2026-10-08,
+ * "MAKE THE WEBSITE FEEL ALIVE" / "TRUST, SCALE & DESIRE"): full property hero →
+ * key facts → why → location (light map) → gallery → entrance · parking ·
+ * access → available spaces → who it fits → technical → plan → viewing.
+ * Earlier order (acceptance brief 2026-10-08): the building first —
  * large photograph → intro (name, reason, place · size · status) → why this
  * property → key facts → available now → location (light map) → gallery → who
  * it fits → technical information → plan → request a viewing.
@@ -29,7 +33,8 @@ const copy = {
   spaces: { ro: "Vezi spațiile libere", ru: "Смотреть свободные помещения", en: "See the available spaces" },
   whyLabel: { ro: "De ce acest obiect", ru: "Почему этот объект", en: "Why this property" },
   locationLabel: { ro: "Localizare", ru: "Расположение", en: "Location" },
-  placeLabel: { ro: "Vizibilitate, intrare, parcare", ru: "Видимость, вход, парковка", en: "Visibility, entrance, parking" },
+  placeLabel: { ro: "Intrare, parcare, acces", ru: "Вход, парковка, доступ", en: "Entrance, parking, access" },
+  placeTitle: { ro: "Cum se ajunge și cum se intră.", ru: `Как сюда приезжают и входят.`, en: "How people arrive and walk in." },
   photoLabel: { ro: "Fotografie", ru: "Фотография", en: "Photography" },
   factsLabel: { ro: "Date cheie", ru: "Ключевые факты", en: "Key facts" },
   availableLabel: { ro: "Acum se închiriază", ru: "Сейчас сдаётся", en: "Available now" },
@@ -58,7 +63,10 @@ const copy = {
 
 /** Hero framing per property: the whole building, its frontage and the street. */
 const heroPosition: Partial<Record<AssetSlug, string>> = { "moscova-9": "50% 64%", "dacia-31": "50% 58%", "moscova-20": "50% 74%" };
-const techKeys: Requirement[] = ["ground", "power", "ventilation", "delivery", "flexible"];
+const techKeys: Requirement[] = ["ground", "power", "ventilation", "flexible"];
+const accessKeys: Requirement[] = ["entrance", "parking", "visibility", "delivery"];
+/** Street-level detail cut from the real photograph: the entrance and frontage of each building. */
+const accessFocus: Partial<Record<AssetSlug, string>> = { "moscova-9": "40% 62%", "dacia-31": "57% 66%", "moscova-20": "58% 64%" };
 
 function CapabilityRows({ slug, keys, locale }: { slug: AssetSlug; keys: Requirement[]; locale: SiteLocale }) {
   const fit = tenantFit[slug];
@@ -129,22 +137,7 @@ export function IncomeProjectPage({ locale, project }: { locale: SiteLocale; pro
         </div>
       </section>
 
-      <section className="xp-sec xp-sec--warm">
-        <div className="xp-shell xp-split xp-split--text">
-          <div data-reveal>
-            <p className="xp-eyebrow"><span className="xp-eyebrow__no">{no()}</span><span>{copy.whyLabel[locale]}</span></p>
-            <h2 className="xp-split__title xp-split__title--gap">{narrative}{isCreanga ? <DemoMark /> : null}</h2>
-          </div>
-          <div className="xp-prose" data-reveal>
-            <p className="xp-lead">{lead}</p>
-            {story.map((paragraph) => (
-              <p key={paragraph}>{paragraph}</p>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 04 KEY FACTS */}
+      {/* 02 KEY FACTS — the essentials straight after the building */}
       <section className="xp-sec xp-sec--stone xp-sec--tight">
         <div className="xp-shell" data-reveal>
           <p className="xp-eyebrow xp-eyebrow--gap"><span className="xp-eyebrow__no">{no()}</span><span>{copy.factsLabel[locale]}</span></p>
@@ -160,19 +153,18 @@ export function IncomeProjectPage({ locale, project }: { locale: SiteLocale; pro
         </div>
       </section>
 
-      {/* 05 AVAILABLE NOW */}
-      <section className="xp-sec" id="available">
-        <div className="xp-shell">
-          <Opening no={no()} label={copy.availableLabel[locale]} title={own.length ? copy.availableTitle[locale] : copy.noneTitle[locale]} lead={own.length ? undefined : copy.noneText[locale]} className="xp-opening--split" />
-          {own.length ? (
-            <div className="lx-rail">
-              {own.map((space) => (
-                <UnitCard key={space.id} space={space} locale={locale} />
-              ))}
-            </div>
-          ) : (
-            <Button href={viewing}>{copy.noneCta[locale]}</Button>
-          )}
+      <section className="xp-sec">
+        <div className="xp-shell xp-split xp-split--text">
+          <div data-reveal>
+            <p className="xp-eyebrow"><span className="xp-eyebrow__no">{no()}</span><span>{copy.whyLabel[locale]}</span></p>
+            <h2 className="xp-split__title xp-split__title--gap">{narrative}{isCreanga ? <DemoMark /> : null}</h2>
+          </div>
+          <div className="xp-prose" data-reveal>
+            <p className="xp-lead">{lead}</p>
+            {story.map((paragraph) => (
+              <p key={paragraph}>{paragraph}</p>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -193,8 +185,38 @@ export function IncomeProjectPage({ locale, project }: { locale: SiteLocale; pro
         </div>
       </section>
 
+      {/* ENTRANCE · PARKING · ACCESS — the street-level detail of the real building */}
+      <section className="xp-sec pp-access">
+        <div className="xp-shell xp-split xp-split--wide">
+          <figure className="pp-access__media al-reveal" data-reveal style={{ "--focus": accessFocus[slug] ?? "50% 60%" } as CSSProperties}>
+            {isCreanga ? <ConceptImage id="asset.creanga-78.hero" locale={locale} sizes="(min-width: 1024px) 55vw, 100vw" /> : <ArtImage media={asset.media!} alt={`${asset.name} — ${copy.placeLabel[locale]}`} sizes="(min-width: 1024px) 55vw, 100vw" position={accessFocus[slug]} />}
+          </figure>
+          <div className="xp-split__copy" data-reveal>
+            <p className="xp-eyebrow"><span className="xp-eyebrow__no">{no()}</span><span>{copy.placeLabel[locale]}</span></p>
+            <h2 className="xp-split__title">{copy.placeTitle[locale]}</h2>
+            <CapabilityRows slug={slug} keys={accessKeys} locale={locale} />
+          </div>
+        </div>
+      </section>
+
+      {/* AVAILABLE SPACES */}
+      <section className="xp-sec xp-sec--warm" id="available">
+        <div className="xp-shell">
+          <Opening no={no()} label={copy.availableLabel[locale]} title={own.length ? copy.availableTitle[locale] : copy.noneTitle[locale]} lead={own.length ? undefined : copy.noneText[locale]} className="xp-opening--split" />
+          {own.length ? (
+            <div className="lx-rail">
+              {own.map((space) => (
+                <UnitCard key={space.id} space={space} locale={locale} />
+              ))}
+            </div>
+          ) : (
+            <Button href={viewing}>{copy.noneCta[locale]}</Button>
+          )}
+        </div>
+      </section>
+
       {/* 06 WHO IT FITS */}
-      <section className="xp-sec xp-sec--warm">
+      <section className="xp-sec">
         <div className="xp-shell">
           <Opening no={no()} label={copy.fitLabel[locale]} title={copy.fitTitle[locale]} />
           <div className="xp-fit">
@@ -219,7 +241,7 @@ export function IncomeProjectPage({ locale, project }: { locale: SiteLocale; pro
       </section>
 
       {/* 07 TECHNICAL INFORMATION */}
-      <section className="xp-sec">
+      <section className="xp-sec xp-sec--warm">
         <div className="xp-shell">
           <Opening no={no()} label={copy.techLabel[locale]} title={copy.techTitle[locale]} lead={asset.caveat?.[locale]} className="xp-opening--split" />
           <div className="xp-split xp-split--text">

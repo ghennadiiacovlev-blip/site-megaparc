@@ -6,6 +6,7 @@ import "../globals.css";
 import "../experience.css";
 import "../leasing.css";
 import "../history.css";
+import "../alive.css";
 
 /** Root layout for the RO edition: static HTML is served with lang="ro". */
 export const metadata: Metadata = {

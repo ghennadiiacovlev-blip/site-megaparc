@@ -25,11 +25,18 @@ export const verbs: Record<SiteLocale, [string, string, string]> = {
   en: ["We acquire.", "We develop.", "We lease."],
 };
 
-/** Short positioning line (header menu, footer, metadata). */
+/** Short positioning line (header menu, footer, metadata) — the three business directions. */
 export const positioning: Localized = {
-  ro: "Cumpărăm · Dezvoltăm · Închiriem",
-  ru: "Покупаем · Развиваем · Сдаём в аренду",
-  en: "Acquire · Develop · Lease",
+  ro: "Investiții · Dezvoltare · Închiriere",
+  ru: "Инвестиции · Девелопмент · Аренда",
+  en: "Investment · Development · Leasing",
+};
+
+/** The three directions as display lines (footer, About hero). */
+export const directionLines: Record<SiteLocale, [string, string, string]> = {
+  ro: ["Investiții.", "Dezvoltare.", "Închiriere."],
+  ru: ["Инвестиции.", "Девелопмент.", "Аренда."],
+  en: ["Investment.", "Development.", "Leasing."],
 };
 
 /** The model in one sentence (OWNER wording, adapted per language). */
@@ -37,6 +44,79 @@ export const businessStatement: Localized = {
   ro: "MEGAPARC investește în imobiliare și terenuri, dezvoltă proiecte proprii și închiriază spații comerciale.",
   ru: "MEGAPARC инвестирует в недвижимость и землю, развивает собственные проекты и сдаёт коммерческие площади в аренду.",
   en: "MEGAPARC invests in real estate and land, develops its own projects and leases commercial space.",
+};
+
+/**
+ * THREE BUSINESS DIRECTIONS — OWNER brief 2026-10-08 ("BUSINESS MODEL + PREMIUM
+ * COLOR SYSTEM RESET"). The public business level: investment · development ·
+ * leasing. The six-step lifecycle (acquire … reinvest) is no longer a public
+ * presentation; hold-or-sell and reinvestment live only as supporting copy.
+ */
+export type DirectionKey = "investment" | "development" | "leasing";
+export type Direction = { key: DirectionKey; no: string; title: Localized; statement: Localized; text: Localized; short: Localized };
+
+export const directions: Direction[] = [
+  {
+    key: "investment",
+    no: "01",
+    title: { ro: "Investiții imobiliare", ru: "Инвестиции в недвижимость", en: "Real estate investment" },
+    statement: { ro: "Căutăm potențialul în imobiliare.", ru: "Ищем потенциал в недвижимости.", en: "We look for potential in real estate." },
+    text: {
+      ro: "Achiziționăm obiecte comerciale și terenuri în care vedem posibilitatea de dezvoltare și de creare a valorii pe termen lung.",
+      ru: "Приобретаем коммерческие объекты и земельные участки, где видим возможность для развития и создания долгосрочной стоимости.",
+      en: "We acquire commercial property and land where we see room for development and long-term value.",
+    },
+    short: {
+      ro: "Achiziționăm obiecte comerciale și terenuri cu potențial de dezvoltare.",
+      ru: "Приобретаем коммерческие объекты и земельные участки с потенциалом развития.",
+      en: "We acquire commercial property and land with development potential.",
+    },
+  },
+  {
+    key: "development",
+    no: "02",
+    title: { ro: "Dezvoltare", ru: "Девелопмент", en: "Development" },
+    statement: { ro: "Transformăm potențialul într-un proiect care funcționează.", ru: "Превращаем потенциал в работающий проект.", en: "We turn potential into a working project." },
+    text: {
+      ro: "Construim, reconstruim și adaptăm imobilele la nevoile reale ale pieței.",
+      ru: "Строим, реконструируем и адаптируем недвижимость под реальные потребности рынка.",
+      en: "We build, redevelop and adapt property to what the market really needs.",
+    },
+    short: {
+      ro: "Construim proiecte noi, reconstruim clădiri existente și punem în valoare potențialul imobilelor.",
+      ru: "Строим новые проекты, реконструируем существующие здания и раскрываем потенциал недвижимости.",
+      en: "We build new projects, redevelop existing buildings and unlock the potential of property.",
+    },
+  },
+  {
+    key: "leasing",
+    no: "03",
+    title: { ro: "Închiriere", ru: "Аренда", en: "Leasing" },
+    statement: { ro: "Spații în care funcționează afacerile.", ru: "Пространства, в которых работает бизнес.", en: "Spaces where business works." },
+    text: {
+      ro: "Închiriem spații comerciale în obiectele MEGAPARC și creăm condiții pentru activitatea pe termen lung a chiriașilor.",
+      ru: "Сдаём коммерческие площади в объектах MEGAPARC и создаём условия для долгосрочной работы арендаторов.",
+      en: "We lease commercial space in MEGAPARC properties and create the conditions for tenants to stay for the long term.",
+    },
+    short: {
+      ro: "Creăm spații comerciale pentru afaceri și închiriem suprafețe în obiectele MEGAPARC.",
+      ru: "Создаём коммерческие пространства для бизнеса и сдаём площади в объектах MEGAPARC.",
+      en: "We create commercial space for business and lease it in MEGAPARC properties.",
+    },
+  },
+];
+
+/** Supporting logic — never a fourth business line. */
+export const holdOrSell: Localized = {
+  ro: "După punerea în valoare a potențialului unui obiect, MEGAPARC decide păstrarea pe termen lung sau vânzarea, în funcție de strategia de investiții.",
+  ru: "После реализации потенциала объекта MEGAPARC принимает решение о долгосрочном владении или продаже исходя из инвестиционной стратегии.",
+  en: "Once a property's potential is realised, MEGAPARC decides whether to hold it for the long term or sell it, in line with its investment strategy.",
+};
+
+export const reinvestment: Localized = {
+  ro: "Capitalul obținut este direcționat spre dezvoltarea proiectelor existente și spre proiecte noi.",
+  ru: "Полученный капитал направляем в развитие действующих и новые проекты.",
+  en: "Capital released is put back into existing and new projects.",
 };
 
 export type LifecycleStage = { key: "acquire" | "develop" | "lease" | "operate" | "decide" | "reinvest"; title: Localized; short: Localized; text: Localized };

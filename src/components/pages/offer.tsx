@@ -21,8 +21,8 @@ import { isPreviewBuild, localePath, publicAsset, type SiteLocale } from "@/lib/
 const copy = {
   ro: {
     label: "Propune un obiect",
-    title: ["Aveți o clădire sau un teren?", "MEGAPARC cumpără."],
-    lead: "Cumpărăm clădiri comerciale, clădiri care cer o nouă viață și terenuri pentru dezvoltare — și le dezvoltăm noi. Trimiteți obiectul și primiți o primă evaluare.",
+    title: ["Obiecte și terenuri", "pentru proiectele următoare."],
+    lead: "Analizăm clădiri comerciale — inclusiv cele care cer o nouă viață — și terenuri pentru dezvoltare. Descrieți obiectul: îl evaluăm și vă răspundem.",
     send: "Trimite obiectul",
     how: "Ce verificăm",
     buyLabel: "Ce cumpărăm",
@@ -44,8 +44,8 @@ const copy = {
   },
   ru: {
     label: "Предложить объект",
-    title: ["Есть здание или земля?", "MEGAPARC покупает."],
-    lead: "Покупаем коммерческие здания — в том числе те, которым нужна новая жизнь, — и землю под развитие. Опишите объект — мы его оценим и ответим.",
+    title: ["Объекты и земля", "для следующих проектов."],
+    lead: "Рассматриваем коммерческие здания — в том числе те, которым нужна новая жизнь, — и землю под развитие. Опишите объект: оценим его и ответим.",
     send: "Отправить объект",
     how: "Что мы проверяем",
     buyLabel: "Что покупаем",
@@ -67,8 +67,8 @@ const copy = {
   },
   en: {
     label: "Offer a property",
-    title: ["Own a building or land?", "MEGAPARC buys."],
-    lead: "We buy commercial buildings, buildings that need a new life and land for development — and develop them ourselves. Send us the property and get a first assessment.",
+    title: ["Property and land", "for the next projects."],
+    lead: "We consider commercial buildings — including ones that need a new life — and land for development. Describe the property: we assess it and reply.",
     send: "Send the property",
     how: "What we check",
     buyLabel: "What we buy",

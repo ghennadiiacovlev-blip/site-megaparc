@@ -15,7 +15,7 @@ import type { SiteLocale } from "@/lib/site-data";
  * storage. Destination mailboxes shown are DEMO (src/data/demo-content.ts).
  */
 
-export type Subject = "lease" | "property" | "partnership" | "careers";
+export type Subject = "lease" | "partnership" | "property" | "careers" | "general";
 type Option = { value: string; label: string };
 type Field =
   | { name: string; label: string; kind: "text" | "email" | "tel" | "url" | "month"; required?: boolean; placeholder?: string; half?: boolean; hint?: string }
@@ -40,15 +40,17 @@ export type FormOptions = {
   reply: Record<Subject, string>;
 };
 
-const anchors: Record<Subject, string> = { lease: "occupier", property: "opportunity", careers: "careers", partnership: "partnership" };
+// Order = the tabs: leasing · investment partnership · offer a property · careers · general question (OWNER brief 2026-10-08).
+const anchors: Record<Subject, string> = { lease: "occupier", partnership: "partnership", property: "opportunity", careers: "careers", general: "question" };
 
 const T = {
   ro: {
-    subjects: { lease: "Închiriere", property: "Propuneți un obiect sau un teren", careers: "Cariere", partnership: "Altă întrebare" },
+    subjects: { lease: "Închiriere", partnership: "Parteneriat investițional", property: "Propuneți un obiect sau un teren", careers: "Cariere", general: "Întrebare generală" },
     intro: {
       lease: "Spuneți-ne ce trebuie să facă spațiul pentru afacerea dumneavoastră. Verificăm spațiile libere și vă recomandăm variantele potrivite.",
       property: "Descrieți obiectul sau terenul și ce luați în calcul. Primiți o primă evaluare, nu un formular automat.",
-      partnership: "Câteva rânduri despre organizație și propunere sunt suficiente pentru o primă discuție.",
+      partnership: "Câteva rânduri despre organizație și proiectul care vă interesează sunt suficiente pentru o primă discuție. Condițiile se discută individual.",
+      general: "Scrieți-ne întrebarea — o direcționăm către persoana potrivită.",
       careers: "Indicați direcția sau postul și un link spre CV. Datele candidaților se folosesc doar pentru recrutare.",
     },
     groups: { business: "Despre afacere", need: "Ce vă trebuie", asset: "Despre obiect", org: "Despre organizație", role: "Despre rol", contact: "Date de contact" },
@@ -57,7 +59,7 @@ const T = {
       have: "Ce aveți?", country: "Țara", city: "Orașul", size: "Suprafața", sizePh: "de ex. 1,5 ha sau 2.400 m²", consider: "Ce luați în calcul?", materials: "Link spre materiale (opțional)", materialsHint: "Planuri, fotografii, extras cadastral — prin Drive, Dropbox etc.",
       organisation: "Organizația", kind: "Tipul organizației", interest: "Ce vă interesează?", ticket: "Volumul orientativ", category: "Categoria", proposal: "Ce propuneți?", where: "Unde (oraș / regiune)",
       discipline: "Direcția", role: "Postul", cv: "Link spre CV (opțional dacă atașați fișierul)", cvPh: "https://…",
-      name: "Nume și prenume", email: "E-mail", phone: "Telefon (opțional)", message: "Mesaj (opțional)", consent: "Sunt de acord ca datele mele să fie folosite pentru a răspunde la această solicitare.",
+      question: "Întrebarea dumneavoastră", name: "Nume și prenume", email: "E-mail", phone: "Telefon (opțional)", message: "Mesaj (opțional)", consent: "Sunt de acord ca datele mele să fie folosite pentru a răspunde la această solicitare.",
       any: "Oricare", anyProperty: "Orice obiect potrivit", choose: "Alegeți", space: "Spațiul", anySpace: "Orice spațiu potrivit",
       price: "Preț orientativ (opțional)", status: "Calitatea dumneavoastră", statuses: ["Proprietar", "Broker autorizat", "Consultant", "Altceva"], description: "Descriere scurtă", documents: "Documente (opțional)", docsHint: "În previzualizare fișierele nu se încarcă — rămân pe dispozitivul dumneavoastră.", company2: "Companie (opțional)", role2: "Rolul dumneavoastră", cvFile: "CV (fișier)", cvEither: "Adăugați un fișier sau un link spre CV.",
     },
@@ -68,11 +70,12 @@ const T = {
     required: "obligatoriu",
   },
   ru: {
-    subjects: { lease: "Аренда", property: "Предложить объект или землю", careers: "Вакансии", partnership: "Другой вопрос" },
+    subjects: { lease: "Аренда", partnership: "Инвестиционное партнёрство", property: "Предложить объект или землю", careers: "Вакансии", general: "Общий вопрос" },
     intro: {
       lease: "Расскажите о своём бизнесе — подберём подходящие помещения из свободных.",
       property: "Опишите объект или участок и что вы рассматриваете. Ответит человек, а не автоответчик.",
-      partnership: "Нескольких строк об организации и предложении достаточно для первого разговора.",
+      partnership: "Нескольких строк об организации и интересующем проекте достаточно для первого разговора. Условия обсуждаются индивидуально.",
+      general: "Напишите вопрос — передадим его тому, кто ответит по существу.",
       careers: "Укажите направление или вакансию и ссылку на резюме. Данные кандидатов используются только для подбора.",
     },
     groups: { business: "О бизнесе", need: "Что нужно", asset: "Об объекте", org: "Об организации", role: "О позиции", contact: "Контактные данные" },
@@ -81,7 +84,7 @@ const T = {
       have: "Что у вас есть?", country: "Страна", city: "Город", size: "Площадь", sizePh: "например, 1,5 га или 2 400 м²", consider: "Что вы рассматриваете?", materials: "Ссылка на материалы (необязательно)", materialsHint: "Планы, фото, выписка из кадастра — через Drive, Dropbox и т. п.",
       organisation: "Организация", kind: "Тип организации", interest: "Что вас интересует?", ticket: "Ориентировочный объём", category: "Категория", proposal: "Что вы предлагаете?", where: "Где (город / регион)",
       discipline: "Направление", role: "Вакансия", cv: "Ссылка на резюме (если нет файла)", cvPh: "https://…",
-      name: "Имя и фамилия", email: "E-mail", phone: "Телефон (необязательно)", message: "Сообщение (необязательно)", consent: "Согласен(на) на использование моих данных для ответа на этот запрос.",
+      question: "Ваш вопрос", name: "Имя и фамилия", email: "E-mail", phone: "Телефон (необязательно)", message: "Сообщение (необязательно)", consent: "Согласен(на) на использование моих данных для ответа на этот запрос.",
       any: "Любой", anyProperty: "Любой подходящий объект", choose: "Выберите", space: "Помещение", anySpace: "Любое подходящее помещение",
       price: "Ориентировочная цена (необязательно)", status: "Ваша роль", statuses: ["Собственник", "Уполномоченный брокер", "Консультант", "Другое"], description: "Краткое описание", documents: "Документы (необязательно)", docsHint: "В превью файлы не загружаются — они остаются на вашем устройстве.", company2: "Компания (необязательно)", role2: "Ваша роль", cvFile: "Резюме (файл)", cvEither: "Добавьте файл или ссылку на резюме.",
     },
@@ -92,11 +95,12 @@ const T = {
     required: "обязательно",
   },
   en: {
-    subjects: { lease: "Leasing", property: "Offer a property or land", careers: "Careers", partnership: "Another question" },
+    subjects: { lease: "Leasing", partnership: "Investment partnership", property: "Offer a property or land", careers: "Careers", general: "General question" },
     intro: {
       lease: "Tell us what the space needs to do for your business. We will check the available spaces and recommend suitable options.",
       property: "Describe the property or land and what you are considering. You get a first assessment, not an automatic reply.",
-      partnership: "A few lines about your organisation and proposal are enough for a first conversation.",
+      partnership: "A few lines about your organisation and the project you are interested in are enough for a first conversation. Terms are discussed individually.",
+      general: "Write your question — we pass it to the person who can answer it properly.",
       careers: "Name the area or role and add a link to your CV. Candidate data is used for recruitment only.",
     },
     groups: { business: "About the business", need: "What you need", asset: "About the property", org: "About the organisation", role: "About the role", contact: "Contact details" },
@@ -105,7 +109,7 @@ const T = {
       have: "What do you have?", country: "Country", city: "City", size: "Size", sizePh: "e.g. 1.5 ha or 2,400 m²", consider: "What are you considering?", materials: "Link to materials (optional)", materialsHint: "Plans, photos, cadastral extract — via Drive, Dropbox, etc.",
       organisation: "Organisation", kind: "Type of organisation", interest: "What interests you?", ticket: "Indicative size", category: "Category", proposal: "What do you propose?", where: "Where (city / region)",
       discipline: "Area", role: "Role", cv: "Link to your CV (if no file)", cvPh: "https://…",
-      name: "Full name", email: "E-mail", phone: "Telephone (optional)", message: "Message (optional)", consent: "I agree that my data may be used to answer this request.",
+      question: "Your question", name: "Full name", email: "E-mail", phone: "Telephone (optional)", message: "Message (optional)", consent: "I agree that my data may be used to answer this request.",
       any: "Any", anyProperty: "Any suitable property", choose: "Choose", space: "Space", anySpace: "Any suitable space",
       price: "Indicative price (optional)", status: "Your position", statuses: ["Owner", "Authorised broker", "Adviser", "Other"], description: "Short description", documents: "Documents (optional)", docsHint: "In the preview files are not uploaded — they stay on your device.", company2: "Company (optional)", role2: "Your role", cvFile: "CV (file)", cvEither: "Add a file or a link to your CV.",
     },
@@ -171,6 +175,10 @@ function groupsFor(subject: Subject, t: (typeof T)["ro"], o: FormOptions): { tit
           { name: "where", label: t.f.where, kind: "text", half: true },
         ] },
         { title: t.groups.contact, fields: contact },
+      ];
+    case "general":
+      return [
+        { title: t.groups.contact, fields: [...contact, { name: "message", label: t.f.question, kind: "textarea", required: true }] },
       ];
     case "careers":
       return [

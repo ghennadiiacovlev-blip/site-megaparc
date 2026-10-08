@@ -98,6 +98,7 @@ export function EnquiryFormBlock({ locale, initial, only }: { locale: SiteLocale
       property: company.emails.acquisitions.value[locale],
       partnership: company.emails.office.value[locale],
       careers: company.emails.careers.value[locale],
+      general: company.emails.office.value[locale],
     },
     // One promise per route, so the form never contradicts the page it sits on.
     reply: {
@@ -105,6 +106,7 @@ export function EnquiryFormBlock({ locale, initial, only }: { locale: SiteLocale
       property: `${firstReply[locale]} ${acquisitionProcess.reply.value[locale]}`,
       partnership: company.responseTime.value[locale],
       careers: company.responseTime.value[locale],
+      general: company.responseTime.value[locale],
     },
   };
   return <EnquiryForm locale={locale} options={options} initial={initial} only={only} />;

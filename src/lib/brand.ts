@@ -21,11 +21,11 @@ export const brandLayers = {
     ru: "Собственная недвижимость, построенная и эксплуатируемая надолго",
     en: "Our own real estate, built and run for the long term",
   } satisfies Localized,
-  /** Business model (lifecycle of an owned asset). */
+  /** Business model — three directions (OWNER brief 2026-10-08). Hold or sell and reinvestment are supporting logic. */
   model: {
-    ro: "Cumpărăm · Dezvoltăm · Închiriem · Exploatăm · Păstrăm sau vindem · Reinvestim",
-    ru: "Покупаем · Развиваем · Сдаём в аренду · Эксплуатируем · Держим или продаём · Реинвестируем",
-    en: "Acquire · Develop · Lease · Operate · Hold or sell · Reinvest",
+    ro: "Investiții imobiliare · Dezvoltare · Închiriere",
+    ru: "Инвестиции в недвижимость · Девелопмент · Аренда",
+    en: "Real estate investment · Development · Leasing",
   } satisfies Localized,
   /** Positioning. */
   platform: {
@@ -49,9 +49,9 @@ export const brandLayers = {
 
 /** Signature red brand moment — four words, one per line. */
 export const signatureWords: Record<"ro" | "ru" | "en", string[]> = {
-  ro: ["Cumpărăm.", "Dezvoltăm.", "Închiriem.", "Reinvestim."],
-  ru: ["Покупаем.", "Развиваем.", "Сдаём в аренду.", "Реинвестируем."],
-  en: ["Acquire.", "Develop.", "Lease.", "Reinvest."],
+  ro: ["Investiții.", "Dezvoltare.", "Închiriere."],
+  ru: ["Инвестиции.", "Девелопмент.", "Аренда."],
+  en: ["Investment.", "Development.", "Leasing."],
 };
 
 export const brandEssence = {
@@ -84,7 +84,8 @@ export type BrandColour = {
 };
 
 export const brandColours: BrandColour[] = [
-  { name: "MEGAPARC Red", role: { ro: "Semnătură · câmp roșu · linia roșie", ru: "Сигнатура · красное поле · красная линия", en: "Signature · red field · the red line" }, hex: "#ED1C2E", rgb: "237 28 46", token: "--red", status: "core", onDark: true },
+  { name: "MEGAPARC Burgundy", role: { ro: "Accent principal de brand · cifre, reguli, stări selectate, câmpul-semnătură", ru: "Основной акцент бренда · номера, линейки, выбранные состояния, сигнатурное поле", en: "Primary brand accent · numbers, rules, selected states, the signature field" }, hex: "#74202F", rgb: "116 32 47", token: "--brand", status: "core" },
+  { name: "MEGAPARC Signal Red", role: { ro: "Doar semnal mic · punct de stare, săgeată, pin, subliniere activă, logo", ru: "Только малый сигнал · точка статуса, стрелка, метка, активное подчёркивание, логотип", en: "Small signal only · status dot, arrow, pin, active underline, the logo" }, hex: "#ED1C2E", rgb: "237 28 46", token: "--signal", status: "core" },
   { name: "Carbon", role: { ro: "Câmp întunecat · text principal", ru: "Тёмное поле · основной текст", en: "Dark field · primary text" }, hex: "#111216", rgb: "17 18 22", token: "--ink", status: "core", onDark: true },
   { name: "Architectural White", role: { ro: "Fundal luminos · text pe întunecat", ru: "Светлый фон · текст на тёмном", en: "Light ground · text on dark" }, hex: "#FFFFFF", rgb: "255 255 255", token: "--white", status: "core" },
   { name: "Graphite", role: { ro: "Câmp întunecat secundar", ru: "Вторичное тёмное поле", en: "Secondary dark field" }, hex: "#1F2126", rgb: "31 33 38", token: "--graphite", status: "supporting", onDark: true },
@@ -92,9 +93,8 @@ export const brandColours: BrandColour[] = [
   { name: "Concrete", role: { ro: "Fundal neutru intermediar", ru: "Нейтральный промежуточный фон", en: "Intermediate neutral ground" }, hex: "#D3D0CA", rgb: "211 208 202", token: "--concrete", status: "supporting" },
   { name: "Paper / Ivory", role: { ro: "Fundal principal", ru: "Основной фон", en: "Primary ground" }, hex: "#F3F1EC", rgb: "243 241 236", token: "--paper", status: "supporting" },
   { name: "Soft Grey", role: { ro: "Text secundar · linii", ru: "Вторичный текст · линии", en: "Secondary text · rules" }, hex: "#8A8E94", rgb: "138 142 148", token: "--grey", status: "supporting" },
-  { name: "Red Deep", role: { ro: "Scara tonală a roșului · hover · accent profund", ru: "Тональная шкала красного · hover · глубокий акцент", en: "Red tonal scale · hover · deep accent" }, hex: "#A80F1B", rgb: "168 15 27", token: "--red-deep", status: "proposed", onDark: true },
-  { name: "Red Field", role: { ro: "Câmpuri roșii mari, momentul-semnătură", ru: "Крупные красные поля, сигнатурный момент", en: "Large red fields, the signature moment" }, hex: "#D71A2B", rgb: "215 26 43", token: "--red-field", status: "proposed", onDark: true },
-  { name: "Red Tint", role: { ro: "Ton discret pe fundal deschis", ru: "Деликатный оттенок на светлом фоне", en: "Quiet tint on light grounds" }, hex: "#F9E3E5", rgb: "249 227 229", token: "--red-tint", status: "proposed" },
+  { name: "Burgundy Deep", role: { ro: "Hover pe butoane · accent profund", ru: "Hover кнопок · глубокий акцент", en: "Button hover · deep accent" }, hex: "#5C1925", rgb: "92 25 37", token: "--brand-deep", status: "supporting" },
+  { name: "Burgundy Tint", role: { ro: "Ton discret pe fundal deschis", ru: "Деликатный оттенок на светлом фоне", en: "Quiet tint on light grounds" }, hex: "#F3E7E8", rgb: "243 231 232", token: "--brand-tint", status: "supporting" },
 ];
 
 export const gradientPolicy = {

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { CSSProperties } from "react";
+import { DirectionsLine } from "@/components/business-stage";
 import { CollectionFilter } from "@/components/collection-filter";
 import { ConceptImage, DemoMark, HeroFigures, Opening } from "@/components/experience";
 import { PageShell } from "@/components/page-shell";
@@ -7,7 +8,6 @@ import { ProjectFacts } from "@/components/project-facts";
 import { ArtImage } from "@/components/primitives";
 import { Button, Icon, TextLink } from "@/components/ui";
 import { formatAreaRange, listProjects, projectTags, publicSpaces, spacesFor, type ProjectEntry } from "@/content/source";
-import { lifecycle } from "@/lib/business";
 import { brand, localePath, type SiteLocale } from "@/lib/site-data";
 
 /**
@@ -41,12 +41,11 @@ const copy = {
     open: "Vezi proiectul",
     available: (n: number) => (n === 1 ? "1 spațiu liber" : `${n} spații libere`),
     seeSpaces: "Vezi spațiile",
-    cycleLabel: "Ciclul unui proiect",
-    cycleTitle: "Fiecare obiect trece prin același drum.",
-    cycleNote: "Nu orice obiect este de vânzare: decizia se ia pentru fiecare în parte.",
+    cycleLabel: "Direcții",
+    cycleTitle: "Cum lucrăm cu fiecare obiect.",
     closeLabel: "Pasul următor",
     closeTitle: "Căutați un spațiu sau aveți un obiect de propus?",
-    routes: [["Spații libere acum", "/leasing#available"], ["Propuneți un obiect sau un teren", "/offer"], ["Despre MEGAPARC", "/about"]],
+    routes: [["Spații libere acum", "/leasing#available"], ["Parteneriat investițional", "/partnership"], ["Propuneți un obiect sau un teren", "/offer"], ["Despre MEGAPARC", "/about"]],
   },
   ru: {
     label: "Проекты",
@@ -70,12 +69,11 @@ const copy = {
     open: "Открыть проект",
     available: (n: number) => (n === 1 ? "1 свободное помещение" : n < 5 ? `${n} свободных помещения` : `${n} свободных помещений`),
     seeSpaces: "Смотреть помещения",
-    cycleLabel: "Цикл проекта",
-    cycleTitle: "Каждый объект проходит один и тот же путь.",
-    cycleNote: "Продаётся не каждый объект — решение принимаем по каждому отдельно.",
+    cycleLabel: "Направления",
+    cycleTitle: `Как мы работаем с каждым объектом.`,
     closeLabel: "Следующий шаг",
     closeTitle: "Ищете помещение или предлагаете объект?",
-    routes: [["Что сдаётся сейчас", "/leasing#available"], ["Предложить объект или землю", "/offer"], ["О компании", "/about"]],
+    routes: [["Что сдаётся сейчас", "/leasing#available"], ["Инвестиционное партнёрство", "/partnership"], ["Предложить объект или землю", "/offer"], ["О компании", "/about"]],
   },
   en: {
     label: "Projects",
@@ -99,22 +97,21 @@ const copy = {
     open: "View the project",
     available: (n: number) => (n === 1 ? "1 space available" : `${n} spaces available`),
     seeSpaces: "See the spaces",
-    cycleLabel: "A project's cycle",
-    cycleTitle: "Every asset follows the same path.",
-    cycleNote: "Not every asset is for sale: the decision is made one by one.",
+    cycleLabel: "Directions",
+    cycleTitle: "How we work with every property.",
     closeLabel: "Next step",
     closeTitle: "Looking for a space, or have a property to offer?",
-    routes: [["What is available now", "/leasing#available"], ["Offer a property or land", "/offer"], ["About MEGAPARC", "/about"]],
+    routes: [["What is available now", "/leasing#available"], ["Investment partnership", "/partnership"], ["Offer a property or land", "/offer"], ["About MEGAPARC", "/about"]],
   },
 } as const;
 
-type Layout = "feature" | "split" | "compact" | "flip";
+type Layout = "feature" | "split" | "compact" | "flip" | "wide";
 const layout: Record<string, { layout: Layout; ratio: string }> = {
   "moscova-9": { layout: "feature", ratio: "21 / 9" },
   "dacia-31": { layout: "split", ratio: "4 / 5" },
   "moscova-20": { layout: "compact", ratio: "3 / 4" },
   "creanga-78": { layout: "flip", ratio: "4 / 5" },
-  vatra: { layout: "split", ratio: "16 / 10" },
+  vatra: { layout: "wide", ratio: "21 / 8" },
   "drochia-gateway": { layout: "flip", ratio: "4 / 5" },
 };
 
@@ -165,9 +162,13 @@ export function ProjectsPage({ locale }: { locale: SiteLocale }) {
                 const own = spacesFor(project.slug);
                 return (
                   <article key={project.slug} className={`xp-piece xp-piece--${kind}`} data-category={projectTags(project).join(" ")}>
-                    <Link href={href} className="xp-piece__figure" aria-label={`${project.name} — ${c.open}`} data-reveal>
+                    <Link href={href} className="xp-piece__figure al-reveal al-hover" aria-label={`${project.name} — ${c.open}`} data-reveal>
                       <figure className="xp-fig" style={{ "--ratio": ratio } as CSSProperties}>
-                        <ProjectFigure project={project} locale={locale} sizes={kind === "feature" ? "100vw" : "(min-width: 1024px) 55vw, 100vw"} priority={index === 0} />
+                        <ProjectFigure project={project} locale={locale} sizes={kind === "feature" || kind === "wide" ? "100vw" : "(min-width: 1024px) 55vw, 100vw"} priority={index === 0} />
+                        <span className="al-hover__line" aria-hidden="true">
+                          <span>{project.name}</span>
+                          <span>{project.card.place[locale]} · {project.card.status[locale]}{own.length ? ` · ${c.available(own.length)}` : ""}</span>
+                        </span>
                       </figure>
                     </Link>
                     <div className="xp-piece__copy" data-reveal>
@@ -200,18 +201,11 @@ export function ProjectsPage({ locale }: { locale: SiteLocale }) {
         </div>
       </section>
 
-      {/* LIFECYCLE */}
+      {/* DIRECTIONS — the three directions behind every project (OWNER brief 2026-10-08) */}
       <section className="xp-sec xp-sec--warm">
         <div className="xp-shell">
-          <Opening no="02" label={c.cycleLabel} title={c.cycleTitle} lead={c.cycleNote} className="xp-opening--split" />
-          <ol className="xp-progress xp-progress--six" data-xp-progress>
-            {lifecycle.map((stage) => (
-              <li key={stage.key} className="xp-progress__term" data-xp-term>
-                <span className="xp-progress__title">{stage.title[locale]}</span>
-                <span className="xp-progress__text">{stage.short[locale]}</span>
-              </li>
-            ))}
-          </ol>
+          <Opening no="02" label={c.cycleLabel} title={c.cycleTitle} />
+          <DirectionsLine locale={locale} />
         </div>
       </section>
 

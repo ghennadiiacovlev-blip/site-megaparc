@@ -1,14 +1,15 @@
 import Link from "next/link";
 import type { CSSProperties } from "react";
+import { BusinessStage } from "@/components/business-stage";
 import { CompanyFacts } from "@/components/company-facts";
-import { ConceptImage, Ledger, MaskTitle, Opening } from "@/components/experience";
+import { Ledger, MaskTitle, Opening } from "@/components/experience";
 import { PageShell } from "@/components/page-shell";
 import { ArtImage } from "@/components/primitives";
 import { Button, Icon, TextLink } from "@/components/ui";
 import { getProject } from "@/content/source";
-import { businessStatement, geography, lifecycle, operations, principles, verbs } from "@/lib/business";
+import { businessStatement, directionLines, geography, operations, principles } from "@/lib/business";
 import { eras } from "@/lib/history";
-import { brand, localePath, publicAsset, type Localized, type SiteLocale } from "@/lib/site-data";
+import { brand, localePath, publicAsset, type SiteLocale } from "@/lib/site-data";
 
 /**
  * ABOUT — the corrected business model (OWNER correction 2026-10-08).
@@ -27,8 +28,9 @@ const copy = {
     origins: "Originile afacerii",
     groupSince: "din 1995",
     focus: "Focus pe imobiliare",
-    modelLabel: "Cum lucrăm",
-    modelTitle: "Șase etape din viața unui obiect.",
+    modelLabel: "Direcții",
+    modelTitle: "Trei direcții ale aceleiași afaceri.",
+    stageMore: "Proiectele MEGAPARC",
     opsLink: "Spațiile libere acum",
     principlesLabel: "Cum decidem",
     principlesTitle: "Patru reguli de proprietar.",
@@ -50,8 +52,9 @@ const copy = {
     origins: "Истоки бизнеса",
     groupSince: "с 1995 года",
     focus: "Фокус на недвижимости",
-    modelLabel: "Как мы работаем",
-    modelTitle: "Шесть этапов жизни объекта.",
+    modelLabel: "Направления",
+    modelTitle: "Три направления одного бизнеса.",
+    stageMore: "Проекты MEGAPARC",
     opsLink: "Что сдаётся сейчас",
     principlesLabel: "Как мы решаем",
     principlesTitle: "Четыре правила собственника.",
@@ -73,8 +76,9 @@ const copy = {
     origins: "Business origins",
     groupSince: "since 1995",
     focus: "Real-estate focus",
-    modelLabel: "How we work",
-    modelTitle: "Six stages in the life of a property.",
+    modelLabel: "Directions",
+    modelTitle: "Three directions of one business.",
+    stageMore: "MEGAPARC projects",
     opsLink: "What is available now",
     principlesLabel: "How we decide",
     principlesTitle: "Four owner's rules.",
@@ -90,38 +94,20 @@ const copy = {
   },
 } as const;
 
-/** One frame per stage: real MEGAPARC photographs where the stage is visible in a real building, labelled brand frames for the decisions. */
-/**
- * One image per stage, telling the story (final craft pass 2026-10-08):
- * buy → land and buildings · develop → VATRA on site · lease → Moscova 20, a
- * finished commercial space · look after → Moscova 9 in daily use · hold or
- * sell → Dacia 31, a mature building · reinvest → earthworks for the next
- * project. Real MEGAPARC photographs for 02–05; 01 and 06 are registered brand
- * frames (src/data/demo-content.ts) and their captions never name a property.
- */
-const stageImages: ({ kind: "asset"; slug: string; caption: Localized } | { kind: "use"; id: string; caption: Localized })[] = [
-  { kind: "use", id: "about.acquire", caption: { ro: "Clădiri și terenuri — începutul fiecărui proiect", ru: "Здания и земля — начало каждого проекта", en: "Buildings and land — where every project starts" } },
-  { kind: "asset", slug: "vatra", caption: { ro: "VATRA — proiect propriu în lucru", ru: "VATRA — собственный проект в работе", en: "VATRA — our own project, under way" } },
-  { kind: "asset", slug: "moscova-20", caption: { ro: "Moscova 20 — spațiu pentru afaceri", ru: "Moscova 20 — помещение для бизнеса", en: "Moscova 20 — space for business" } },
-  { kind: "asset", slug: "moscova-9", caption: { ro: "Moscova 9 — clădire în funcțiune", ru: "Moscova 9 — действующий объект", en: "Moscova 9 — an operating property" } },
-  { kind: "asset", slug: "dacia-31", caption: { ro: "Dacia 31 — o clădire matură în portofoliu", ru: "Dacia 31 — зрелый объект в портфеле", en: "Dacia 31 — a mature building in the portfolio" } },
-  { kind: "use", id: "about.reinvest", caption: { ro: "Următorul proiect începe de la teren", ru: "Следующий проект начинается с земли", en: "The next project starts with the land" } },
-];
-
 export function AboutPage({ locale }: { locale: SiteLocale }) {
   const c = copy[locale];
   const p = (path: string) => localePath(locale, path);
-  const dacia = getProject("dacia-31")!;
+  const moscova20 = getProject("moscova-20")!;
   const ribbon = eras.filter((era) => era.range);
 
   return (
     <PageShell locale={locale} experience>
-      {/* 01 HERO — the model in three words */}
+      {/* 01 HERO — the three business directions */}
       <section className="xp-pagehero ab-hero">
         <div className="xp-shell xp-pagehero__grid">
           <p className="xp-eyebrow" data-reveal><span className="xp-eyebrow__no">{brand.name}</span><span>{c.label}</span></p>
-          {/* The three verbs span the full width so every verb keeps one line (final craft pass). */}
-          <MaskTitle as="h1" className="ab-hero__title" lines={[...verbs[locale]]} />
+          {/* The three directions span the full width, one per line (OWNER brief 2026-10-08). */}
+          <MaskTitle as="h1" className="ab-hero__title" lines={[...directionLines[locale]]} />
           <p className="xp-pagehero__lead" data-reveal>{businessStatement[locale]} {c.lead}</p>
           <div className="xp-pagehero__aside" data-reveal>
             <Ledger locale={locale} className="xp-ledger--pair" items={[
@@ -134,58 +120,21 @@ export function AboutPage({ locale }: { locale: SiteLocale }) {
         </div>
       </section>
 
-      {/* 02 THE MODEL — sticky scene, six stages */}
-      <section className="xp-sec" id="model">
+      {/* 02 THE BUSINESS — three directions, three cinematic scenes (pinned on desktop) */}
+      <section className="xp-sec" id="directions">
         <div className="xp-shell">
           <Opening no="01" label={c.modelLabel} title={c.modelTitle} />
         </div>
-        <div className="xp-scene" data-xp-scene data-steps={lifecycle.length} style={{ "--steps": lifecycle.length } as CSSProperties}>
-          <div className="xp-shell xp-scene__pin">
-            <div className="xp-scene__media" aria-hidden="true">
-              {stageImages.map((frame, index) => {
-                const project = frame.kind === "asset" ? getProject(frame.slug) : null;
-                return (
-                  <figure key={index} className="xp-scene__frame">
-                    {project?.media ? (
-                      <ArtImage media={project.media} alt={`${project.name} — ${lifecycle[index].title[locale]}`} sizes="(min-width: 1024px) 58vw, 100vw" position={project.slug === "vatra" ? "50% 70%" : undefined} />
-                    ) : frame.kind === "use" ? (
-                      <ConceptImage id={frame.id} locale={locale} sizes="(min-width: 1024px) 58vw, 100vw" />
-                    ) : null}
-                    <figcaption className="xp-scene__caption"><span>{String(index + 1).padStart(2, "0")}</span>{frame.caption[locale]}</figcaption>
-                  </figure>
-                );
-              })}
-            </div>
-            <ol className="xp-scene__steps">
-              {lifecycle.map((stage, index) => (
-                <li key={stage.key} className="xp-scene__step" style={{ "--i": index } as CSSProperties}>
-                  {/* Below 1024px the sticky frame is replaced by one image per stage, so the story survives on phones. */}
-                  <figure className="xp-fig xp-scene__thumb" style={{ "--ratio": "3 / 2" } as CSSProperties} aria-hidden="true">
-                    {(() => {
-                      const frame = stageImages[index];
-                      const project = frame.kind === "asset" ? getProject(frame.slug) : null;
-                      if (project?.media) return <ArtImage media={project.media} alt="" sizes="100vw" position={project.slug === "vatra" ? "50% 70%" : undefined} />;
-                      return frame.kind === "use" ? <ConceptImage id={frame.id} locale={locale} sizes="100vw" /> : null;
-                    })()}
-                  </figure>
-                  <span className="xp-scene__no">{String(index + 1).padStart(2, "0")}</span>
-                  <h3 className="xp-scene__title">{stage.title[locale]}</h3>
-                  <p className="xp-scene__short">{stage.short[locale]}</p>
-                  <p className="xp-scene__text">{stage.text[locale]}</p>
-                </li>
-              ))}
-            </ol>
-          </div>
-        </div>
+        <BusinessStage locale={locale} label={<><span className="xp-eyebrow__no">{brand.name}</span><span>{c.modelLabel}</span></>} more={{ href: p("/projects"), text: c.stageMore }} />
       </section>
 
       {/* 03 OWNED PROPERTY OPERATIONS — never a service to third parties */}
       <section className="xp-sec xp-sec--warm" id="operations">
         <div className="xp-shell xp-split xp-split--wide">
-          <Link href={p(`/projects/${dacia.slug}`)} className="xp-piece__figure" data-reveal>
+          <Link href={p(`/projects/${moscova20.slug}`)} className="xp-piece__figure" data-reveal>
             <figure className="xp-fig" style={{ "--ratio": "3 / 2" } as CSSProperties}>
-              <ArtImage media={dacia.media!} alt={`${dacia.name} — ${dacia.format[locale]}`} sizes="(min-width: 1024px) 60vw, 100vw" depth={10} />
-              <figcaption>{dacia.name}</figcaption>
+              <ArtImage media={moscova20.media!} alt={`${moscova20.name} — ${moscova20.format[locale]}`} sizes="(min-width: 1024px) 60vw, 100vw" depth={10} position="50% 74%" />
+              <figcaption>{moscova20.name}</figcaption>
             </figure>
           </Link>
           <div className="xp-split__copy" data-reveal>

@@ -1,5 +1,6 @@
 import { Geist } from "next/font/google";
 import type { ReactNode } from "react";
+import { RouteTransition } from "@/components/route-transition";
 import type { SiteLocale } from "@/lib/site-data";
 
 /**
@@ -21,7 +22,10 @@ const geistSans = Geist({
 export function RootDocument({ locale, children }: { locale: SiteLocale; children: ReactNode }) {
   return (
     <html lang={locale} className={`${geistSans.variable} antialiased`}>
-      <body>{children}</body>
+      <body>
+        <RouteTransition />
+        {children}
+      </body>
     </html>
   );
 }
