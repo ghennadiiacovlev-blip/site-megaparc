@@ -117,7 +117,7 @@ export const portfolioAssets: PortfolioAsset[] = [
     },
     lead: {
       ro: "Clădire independentă de 5.223 m² în sectorul Botanica, pentru o singură organizație. Control unic al accesului, suprafețe mari, infrastructură inginerească existentă și o fațadă vizibilă.",
-      ru: "Отдельно стоящее здание площадью 5 223 м² в секторе Ботаника для одной организации. Единый контроль доступа, крупные площади, готовая инженерная инфраструктура и заметный фасад.",
+      ru: "Отдельно стоящее здание площадью 5 223 м² в секторе Ботаника для одной компании. Единый контроль доступа, крупные площади, готовая инженерная инфраструктура и заметный фасад.",
       en: "A 5,223 m² stand-alone building in Botanica for a single organisation. Single access control, large floor areas, existing building services and a prominent facade.",
     },
     story: {
@@ -128,8 +128,8 @@ export const portfolioAssets: PortfolioAsset[] = [
       ],
       ru: [
         "Dacia 31 — не этаж в бизнес-центре, а отдельное здание. Компания получает собственный вход, единый контроль доступа и фасад, на котором может разместить своё название.",
-        "Крупные площади на четырёх основных уровнях и техническом этаже позволяют разместить все подразделения компании в одном объекте и перестраивать пространство по мере роста.",
-        "Инженерная инфраструктура здания уже есть: сети и системы, воздуховоды, трассы электроснабжения и слаботочных систем. Точные мощности определяются техническим аудитом и адаптируются под требования пользователя.",
+        "Четыре больших уровня и технический этаж: все подразделения — в одном здании, а пространство можно перестраивать по мере роста.",
+        "Инженерия в здании уже есть: сети, воздуховоды, трассы электроснабжения и слаботочных систем. Точные мощности покажет технический аудит — их адаптируют под пользователя.",
       ],
       en: [
         "Dacia 31 is not a floor in a business centre. It is a separate building: the company gets its own entrance, single access control and a facade that can carry its name.",
@@ -210,7 +210,7 @@ export const portfolioAssets: PortfolioAsset[] = [
     },
     caveat: {
       ro: "Capacitățile tehnice și redundanța instalațiilor fac obiectul unui audit tehnic.",
-      ru: "Технические мощности и резервирование инженерных систем определяются техническим аудитом.",
+      ru: "Мощности и резервирование инженерных систем уточнит технический аудит.",
       en: "Technical capacities and the redundancy of building services are subject to a technical audit.",
     },
   },
@@ -250,8 +250,8 @@ export const portfolioAssets: PortfolioAsset[] = [
         "Bulevardul aduce un flux constant de mașini și pietoni, parcare de-a lungul drumului și un cartier rezidențial dens în jur. Fațada lungă de pe prima linie se vede bine din stradă.",
       ],
       ru: [
-        "В торговом центре бренд арендует секцию. На Moscova 9 бренд получает отдельное здание: собственное оформление фасада и вывески, свой вход и свою организацию торгового зала — в рамках согласованных технических и юридических условий.",
-        "Основной торговый зал площадью 737,07 м² дополнен зоной разгрузки с рампой и помещениями для склада, логистики, офиса и охраны. Товары и покупатели движутся по разным маршрутам.",
+        "В торговом центре бренд арендует секцию. На Moscova 9 бренд получает отдельное здание: собственное оформление фасада и вывески, свой вход и свой торговый зал — в рамках согласованных технических и юридических условий.",
+        "Основной торговый зал площадью 737,07 м² дополнен зоной разгрузки с рампой и помещениями для склада, логистики, офиса и охраны. Товар и покупатели не пересекаются.",
         "Бульвар даёт постоянный поток автомобилей и пешеходов, парковку вдоль дороги и плотный жилой район вокруг. Протяжённый фасад на первой линии хорошо виден с улицы.",
       ],
       en: [
@@ -362,7 +362,7 @@ export const portfolioAssets: PortfolioAsset[] = [
       ],
       ru: [
         "Moscova 20 стоит на углу, через который жители района проходят ежедневно: рядом общественный транспорт, плотная жилая застройка, магазины и сервисы, выделенная парковка. Оценочный пешеходный поток — около 5 000 человек в день.",
-        "Панорамный фасад превращает помещение в сплошную витрину. Вход для покупателей и отдельный служебный доступ с рампой разводят обслуживание и покупателей.",
+        "Панорамный фасад превращает помещение в сплошную витрину. Вход для покупателей и отдельный служебный доступ с рампой разводят покупателей и товар.",
         "Помещение занимает первый и цокольный этажи: чистая торговая площадь 458,86 м² и терраса. Подходит для продуктового ритейла, услуг, шоурума или специализированной торговли.",
       ],
       en: [
@@ -442,7 +442,7 @@ export const portfolioAssets: PortfolioAsset[] = [
     },
     caveat: {
       ro: "Fluxul pietonal este o estimare. Puterea electrică este aproximativă și se confirmă tehnic.",
-      ru: "Пешеходный поток — оценка. Электрическая мощность приблизительна и подтверждается технически.",
+      ru: "Пешеходный поток — оценка. Электрическая мощность приблизительная, уточняется.",
       en: "Pedestrian flow is an estimate. Electrical power is approximate and is confirmed technically.",
     },
   },
@@ -534,18 +534,18 @@ export const developmentProjects: DevelopmentProject[] = [
     connectivity: [],
     location: null,
     media: media("development", "vatra", "50% 62%"),
-    status: { ro: "Proiect în dezvoltare", ru: "Проект в стадии развития", en: "Project in development" },
+    status: { ro: "Proiect în dezvoltare", ru: "Проект в работе", en: "Project in development" },
     kind: { ro: "Dezvoltare", ru: "Девелопмент", en: "Development" },
     stage: 4,
     headline: { ro: "Un amplasament în lucru.", ru: "Площадка в работе.", en: "A site under way." },
     lead: {
       ro: "Proiect MEGAPARC în stadiu de dezvoltare. Pagina prezintă materiale reale de pe amplasament și doar informații aprobate pentru publicare.",
-      ru: "Проект MEGAPARC в стадии развития. На странице показаны реальные материалы площадки и только утверждённая для публикации информация.",
+      ru: "Собственный проект MEGAPARC. Здесь — реальные кадры площадки и только согласованная информация.",
       en: "A MEGAPARC project in development. This page shows real site material and only information approved for publication.",
     },
     intro: {
       ro: "VATRA este privit de la început din perspectiva utilizării și a valorii pe termen lung. Dezvoltarea nu se încheie la punerea în funcțiune: după aceea, obiectul intră în faza de exploatare sau în următoarea etapă de investiție, prin decizia MEGAPARC.",
-      ru: "VATRA с самого начала рассматривается с точки зрения использования и долгосрочной стоимости. Девелопмент не заканчивается вводом в эксплуатацию: после него объект переходит в фазу эксплуатации или в следующий инвестиционный этап — по решению MEGAPARC.",
+      ru: "VATRA с самого начала проектируется под реальное использование и долгий срок службы. Завершение стройки — не конец: дальше MEGAPARC оставляет объект у себя или переходит к следующему этапу.",
       en: "VATRA is viewed from the outset in terms of use and long-term value. Development does not end at commissioning: after it, the property enters its operating or next investment phase, as MEGAPARC decides.",
     },
     facts: [],
@@ -554,7 +554,7 @@ export const developmentProjects: DevelopmentProject[] = [
         title: { ro: "De la amplasament la obiect", ru: "От площадки к объекту", en: "From site to building" },
         text: {
           ro: "Etapele proiectului: concept, planificare, execuție și utilizare pe termen lung.",
-          ru: "Этапы проекта: концепция, планирование, реализация и долгосрочное использование.",
+          ru: "Концепция, планирование, стройка — и долгая жизнь здания.",
           en: "The project stages: concept, planning, delivery and long-term use.",
         },
         items: [
@@ -567,10 +567,10 @@ export const developmentProjects: DevelopmentProject[] = [
     ],
     disclaimer: {
       ro: "Imaginile prezintă stadiul real al amplasamentului. Arhitectura finală nu este prezentată public înainte de aprobare.",
-      ru: "Изображения показывают реальное состояние площадки. Итоговая архитектура не публикуется до утверждения.",
+      ru: "На фото — площадка как она есть. Архитектуру покажем после утверждения.",
       en: "Imagery shows the real state of the site. Final architecture is not shown publicly before approval.",
     },
-    statement: { ro: "Construim pentru o exploatare îndelungată.", ru: "Строим для долгой эксплуатации.", en: "We build for long-term use." },
+    statement: { ro: "Construim pentru o exploatare îndelungată.", ru: "Строим, чтобы служило долго.", en: "We build for long-term use." },
   },
   {
     slug: "drochia-gateway",
@@ -585,8 +585,8 @@ export const developmentProjects: DevelopmentProject[] = [
     connectivity: [
       { ro: "Două fronturi stradale", ru: "Два фронта к дорогам", en: "Two road fronts" },
       { ro: "Vizibilitate la intrarea în oraș", ru: "Видимость на въезде в город", en: "Visibility at the entrance to the town" },
-      { ro: "Orientat spre traficul care intră în oraș", ru: "Обращён к въезжающему транспорту", en: "Facing the incoming traffic" },
-      { ro: "Posibilitatea unor accese separate pentru clienți și marfă", ru: "Возможность раздельных подъездов для покупателей и грузов", en: "Potential for separate customer and freight access" },
+      { ro: "Orientat spre traficul care intră în oraș", ru: "Виден всем, кто въезжает в город", en: "Facing the incoming traffic" },
+      { ro: "Posibilitatea unor accese separate pentru clienți și marfă", ru: "Можно развести подъезды для покупателей и грузов", en: "Potential for separate customer and freight access" },
     ],
     media: null,
     status: { ro: "Concept de dezvoltare", ru: "Концепция развития", en: "Development concept" },
@@ -595,12 +595,12 @@ export const developmentProjects: DevelopmentProject[] = [
     headline: { ro: "Un teren de dezvoltare la intrarea în oraș.", ru: "Участок под развитие на въезде в город.", en: "A development site at the entrance to the town." },
     lead: {
       ro: "Teren de 2,0 ha în Drochia, analizat pentru dezvoltare comercială, logistică sau mixtă.",
-      ru: "Участок площадью 2,0 га в Дрокии, рассматриваемый для коммерческого, логистического или смешанного развития.",
+      ru: "Участок 2,0 га в Дрокии — под торговлю, логистику или смешанный формат.",
       en: "A 2.0 ha site in Drochia, under consideration for commercial, logistics or mixed-use development.",
     },
     intro: {
       ro: "Terenul de pe bd. Independenței 65 (20.000 m²) are două fronturi stradale și se vede bine de pe drumul care intră în oraș. Sunt posibile accese separate pentru clienți și pentru transportul de marfă. MEGAPARC analizează concepte de format comercial, logistic și mixt.",
-      ru: "Участок на бул. Индепенденцей 65 (20 000 м²) имеет два фронта к дорогам и хорошо виден с трассы на въезде в город. Возможны раздельные подъезды для покупателей и грузового транспорта. MEGAPARC рассматривает концепции торгового, логистического и смешанного формата.",
+      ru: "Участок 20 000 м² на бул. Индепенденцей, 65 выходит на две дороги и хорошо виден с трассы на въезде в город. Подъезды для покупателей и грузовиков можно развести. MEGAPARC рассматривает торговый, логистический и смешанный форматы.",
       en: "The site at Bd. Independenței 65 (20,000 m²) has two road fronts and is clearly visible from the road into the town. Separate access for customers and freight is possible. MEGAPARC is considering retail, logistics and mixed-use concepts.",
     },
     facts: [
@@ -614,7 +614,7 @@ export const developmentProjects: DevelopmentProject[] = [
         title: { ro: "Concepte analizate", ru: "Рассматриваемые концепции", en: "Concepts under consideration" },
         text: {
           ro: "Trei direcții sunt evaluate în paralel. Alegerea depinde de verificările urbanistice, inginerești și comerciale.",
-          ru: "Три направления оцениваются параллельно. Выбор зависит от градостроительной, инженерной и коммерческой проверки.",
+          ru: "Три направления оцениваются параллельно. Выбор — после градостроительной, инженерной и коммерческой проверки.",
           en: "Three directions are being assessed in parallel. The choice depends on planning, engineering and commercial review.",
         },
         items: [
@@ -626,10 +626,10 @@ export const developmentProjects: DevelopmentProject[] = [
     ],
     disclaimer: {
       ro: "Concept. Parametrii sunt supuși verificărilor urbanistice, inginerești și comerciale.",
-      ru: "Концепция. Параметры подлежат градостроительной, инженерной и коммерческой проверке.",
+      ru: "Это концепция: параметры ещё пройдут градостроительную, инженерную и коммерческую проверку.",
       en: "Concept. Parameters are subject to planning, engineering and commercial review.",
     },
-    statement: { ro: "Un teren la intrarea în oraș, cu potențial de dezvoltare.", ru: "Участок на въезде в город с потенциалом развития.", en: "A site at the entrance to the town, with development potential." },
+    statement: { ro: "Un teren la intrarea în oraș, cu potențial de dezvoltare.", ru: "Ворота города — для торговли и логистики.", en: "A site at the entrance to the town, with development potential." },
   },
 ];
 

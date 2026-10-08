@@ -41,66 +41,72 @@ export const businessStatement: Localized = {
 
 export type LifecycleStage = { key: "acquire" | "develop" | "lease" | "operate" | "decide" | "reinvest"; title: Localized; short: Localized; text: Localized };
 
-/** Lifecycle of an owned asset. The order is the model; "decide" = hold or sell. */
+/**
+ * Lifecycle of an owned asset. The order is the model; "decide" = hold or sell.
+ * `short` is the one-line subtitle under each verb (OWNER microcopy addendum
+ * 2026-10-08: short, natural, never technical); `text` is the supporting
+ * sentence shown with the active stage. Stage 04 keeps the key "operate" but
+ * reads «Поддерживаем» — the owner looks after its buildings and tenants.
+ */
 export const lifecycle: LifecycleStage[] = [
   {
     key: "acquire",
     title: { ro: "Cumpărăm", ru: "Покупаем", en: "Acquire" },
     short: { ro: "Clădiri și terenuri", ru: "Здания и землю", en: "Buildings and land" },
     text: {
-      ro: "Clădiri comerciale existente, clădiri care cer o nouă viață și terenuri pentru dezvoltare.",
-      ru: "Существующие коммерческие здания, здания, которым нужна новая жизнь, и землю под развитие.",
-      en: "Existing commercial buildings, buildings that need a new life and land for development.",
+      ro: "Clădiri comerciale — în funcțiune sau care cer o nouă viață — și terenuri pentru dezvoltare.",
+      ru: "Коммерческие здания — действующие и те, которым нужна новая жизнь, — и участки под развитие.",
+      en: "Commercial buildings — working ones and ones that need a new life — and land for development.",
     },
   },
   {
     key: "develop",
     title: { ro: "Dezvoltăm", ru: "Развиваем", en: "Develop" },
-    short: { ro: "Construim, renovăm, revitalizăm", ru: "Строим, обновляем, возрождаем", en: "Build, renovate, revitalise" },
+    short: { ro: "Construim, reconstruim, regândim", ru: "Строим, реконструируем, переосмысливаем", en: "Build, rebuild, reimagine" },
     text: {
-      ro: "Construim proiecte proprii, renovăm și repoziționăm clădirile pe care le deținem.",
-      ru: "Строим собственные проекты, обновляем и перепрофилируем здания, которыми владеем.",
+      ro: "Construim proiecte proprii, renovăm clădirile noastre și le dăm funcții noi.",
+      ru: "Строим собственные проекты, реконструируем и перепрофилируем свои здания.",
       en: "We build our own projects and renovate and reposition the buildings we own.",
     },
   },
   {
     key: "lease",
     title: { ro: "Închiriem", ru: "Сдаём в аренду", en: "Lease" },
-    short: { ro: "Spațiile noastre", ru: "Свои площади", en: "Our own space" },
+    short: { ro: "Spații pentru afaceri", ru: "Помещения для бизнеса", en: "Space for business" },
     text: {
-      ro: "Închiriem spațiile comerciale din clădirile noastre — retail, birouri, servicii.",
-      ru: "Сдаём коммерческие площади в собственных зданиях — под торговлю, офисы, сервисы.",
-      en: "We lease the commercial space in our own buildings — retail, offices, services.",
+      ro: "Spații pentru comerț, birouri și servicii în clădirile noastre.",
+      ru: "Торговые, офисные и сервисные помещения в наших зданиях.",
+      en: "Retail, office and service space in our own buildings.",
     },
   },
   {
     key: "operate",
-    title: { ro: "Exploatăm", ru: "Эксплуатируем", en: "Operate" },
-    short: { ro: "Ca proprietar", ru: "Как собственник", en: "As the owner" },
+    title: { ro: "Avem grijă", ru: "Поддерживаем", en: "Look after" },
+    short: { ro: "De clădiri și de chiriași", ru: "Качество зданий и комфорт арендаторов", en: "Building quality and tenant comfort" },
     text: {
-      ro: "Ne ocupăm singuri de clădirile noastre: chiriași, întreținere, investiții în îmbunătățire.",
-      ru: "Сами отвечаем за свои здания: арендаторы, обслуживание, вложения в улучшения.",
-      en: "We run our own buildings ourselves: tenants, maintenance, investment in improvements.",
+      ro: "Ne ocupăm singuri de clădiri: întreținere, relația cu chiriașii, investiții în îmbunătățiri.",
+      ru: "Сами обслуживаем свои здания, работаем с арендаторами и вкладываем в улучшения.",
+      en: "We look after our buildings ourselves: maintenance, tenants, investment in improvements.",
     },
   },
   {
     key: "decide",
     title: { ro: "Păstrăm sau vindem", ru: "Держим или продаём", en: "Hold or sell" },
-    short: { ro: "O decizie pentru fiecare obiect", ru: "Решение по каждому объекту", en: "A decision for each asset" },
+    short: { ro: "În funcție de strategia obiectului", ru: "Исходя из стратегии объекта", en: "Guided by each asset's strategy" },
     text: {
-      ro: "Majoritatea obiectelor le păstrăm pe termen lung. Când are sens strategic, putem vinde un obiect.",
-      ru: "Большинство объектов держим долго. Когда это стратегически оправдано, можем продать объект.",
-      en: "Most assets we hold for the long term. When it makes strategic sense, we may sell one.",
+      ro: "Majoritatea obiectelor le păstrăm pe termen lung. Vindem atunci când strategia o cere.",
+      ru: "Большинство объектов держим долго. Продаём, когда этого требует стратегия.",
+      en: "Most assets we hold for the long term. We sell when the strategy calls for it.",
     },
   },
   {
     key: "reinvest",
     title: { ro: "Reinvestim", ru: "Реинвестируем", en: "Reinvest" },
-    short: { ro: "În următoarele obiecte", ru: "В следующие объекты", en: "Into the next assets" },
+    short: { ro: "În proiecte noi", ru: "В новые проекты", en: "In new projects" },
     text: {
-      ro: "Capitalul se întoarce în noi clădiri, terenuri și proiecte.",
-      ru: "Капитал возвращается в новые здания, землю и проекты.",
-      en: "Capital goes back into new buildings, land and projects.",
+      ro: "Capitalul lucrează din nou — în clădiri, terenuri și proiecte noi.",
+      ru: "Капитал снова работает — в новых зданиях, участках и проектах.",
+      en: "Capital goes to work again — in new buildings, land and projects.",
     },
   },
 ];
@@ -148,23 +154,23 @@ export const geography = {
   label: { ro: "Unde căutăm", ru: "Где ищем", en: "Where we look" } satisfies Localized,
   text: {
     ro: "Toate obiectele noastre actuale sunt în Republica Moldova. Analizăm și propuneri din alte țări — fiecare separat.",
-    ru: "Все наши текущие объекты — в Республике Молдова. Предложения из других стран тоже рассматриваем — каждое отдельно.",
+    ru: "Все наши объекты сегодня — в Молдове. Предложения из других стран тоже рассматриваем.",
     en: "All our current properties are in the Republic of Moldova. We also consider offers from other countries — each on its own merits.",
   } satisfies Localized,
 };
 
 /** Property operations of OWNED buildings (never a service to third parties). */
 export const operations = {
-  label: { ro: "Exploatare proprie", ru: "Собственная эксплуатация", en: "Owned property operations" } satisfies Localized,
+  label: { ro: "Exploatare proprie", ru: "Свои здания", en: "Owned property operations" } satisfies Localized,
   title: { ro: "Clădirile noastre le administrăm noi.", ru: "Своими зданиями занимаемся сами.", en: "We run our own buildings ourselves." } satisfies Localized,
   text: {
     ro: "Închirierea, relația cu chiriașii, întreținerea și investițiile în îmbunătățire sunt făcute de echipa MEGAPARC — doar pentru obiectele MEGAPARC. Nu preluăm în administrare clădirile altor proprietari.",
-    ru: "Аренду, работу с арендаторами, обслуживание и вложения в улучшения ведёт команда MEGAPARC — только для объектов MEGAPARC. Здания других собственников в управление не берём.",
+    ru: "Аренду, обслуживание и улучшения ведёт собственная команда MEGAPARC. Здания других собственников в управление не берём.",
     en: "Leasing, tenant relationships, maintenance and investment in improvements are handled by the MEGAPARC team — for MEGAPARC buildings only. We do not take other owners' buildings under management.",
   } satisfies Localized,
   points: [
     { ro: "Închiriere și relația cu chiriașii", ru: "Аренда и работа с арендаторами", en: "Leasing and tenant relationships" },
-    { ro: "Întreținere și exploatare tehnică", ru: "Обслуживание и техническая эксплуатация", en: "Maintenance and technical operations" },
+    { ro: "Întreținere și exploatare tehnică", ru: "Обслуживание и инженерные системы", en: "Maintenance and technical operations" },
     { ro: "Renovare și amenajare pentru chiriași", ru: "Ремонт и подготовка помещений под арендаторов", en: "Renovation and fit-out for tenants" },
     { ro: "Planul fiecărei clădiri pe ani", ru: "План по каждому зданию на годы вперёд", en: "A plan for each building, years ahead" },
   ] as Localized[],

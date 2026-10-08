@@ -28,8 +28,8 @@ const copy = {
   statusTitle: { ro: "Unde se află acum proiectul.", ru: "Где сейчас проект.", en: "Where the project stands now." },
   storyLabel: { ro: "Povestea proiectului", ru: "История проекта", en: "Development story" },
   masterLabel: { ro: "Masterplan", ru: "Мастерплан", en: "Masterplan" },
-  masterPending: { ro: "Masterplanul aprobat va fi publicat după aprobare.", ru: "Утверждённый мастерплан будет опубликован после утверждения.", en: "The approved masterplan will be published after approval." },
-  realityLabel: { ro: "Realitatea de azi", ru: "Текущая реальность", en: "Current reality" },
+  masterPending: { ro: "Publicăm masterplanul după aprobare.", ru: "Мастерплан опубликуем после утверждения.", en: "The masterplan will be published once approved." },
+  realityLabel: { ro: "Realitatea de azi", ru: "Сейчас на площадке", en: "Current reality" },
   visionLabel: { ro: "Viziunea", ru: "Видение", en: "Future vision" },
   visionNote: { ro: "Viziune — nu arhitectură aprobată.", ru: "Видение — не утверждённая архитектура.", en: "A vision — not approved architecture." },
   timelineLabel: { ro: "Calendar", ru: "Таймлайн", en: "Timeline" },
@@ -43,12 +43,12 @@ const copy = {
   status: { ro: "Status", ru: "Статус", en: "Status" },
   now: { ro: "Acum", ru: "Сейчас", en: "Now" },
   started: { ro: "Începutul lucrărilor", ru: "Начало работ", en: "Works started" },
-  completion: { ro: "Finalizare", ru: "Ввод", en: "Completion" },
+  completion: { ro: "Finalizare", ru: "Завершение", en: "Completion" },
   acquiredLand: { ro: "Terenul în proprietatea MEGAPARC", ru: "Земля в собственности MEGAPARC", en: "Land owned by MEGAPARC" },
   evaluation: { ro: "Evaluarea conceptelor", ru: "Оценка концепций", en: "Concept evaluation" },
   decision: { ro: "Decizie privind conceptul", ru: "Решение по концепции", en: "Concept decision" },
   team: { ro: "Pe șantier", ru: "На площадке", en: "On site" },
-  teamText: { ro: "Calitatea se controlează pe șantier, nu în prezentări: echipa urmărește lucrările, bugetul și graficul în fiecare săptămână.", ru: "Качество контролируется на площадке, а не в презентациях: команда каждую неделю следит за работами, бюджетом и графиком.", en: "Quality is controlled on site, not in presentations: the team follows works, budget and schedule every week." },
+  teamText: { ro: "Calitatea se controlează pe șantier, nu în prezentări: echipa urmărește lucrările, bugetul și graficul în fiecare săptămână.", ru: "Качество проверяем на площадке, а не в презентациях: каждую неделю — работы, бюджет и график.", en: "Quality is controlled on site, not in presentations: the team follows works, budget and schedule every week." },
   closeTitle: { ro: "Discutăm proiectul — sau terenul dumneavoastră.", ru: "Обсудим проект — или ваш участок.", en: "Let's talk about the project — or your land." },
   discuss: { ro: "Scrie-ne despre proiect", ru: "Написать о проекте", en: "Write to us about the project" },
   land: { ro: "Propune un teren", ru: "Предложить участок", en: "Offer a site" },
@@ -63,7 +63,7 @@ const copy = {
 const vision: Record<string, Localized> = {
   vatra: {
     ro: "Un cartier de locuințe joase cu spații publice, gândit pentru o viață lungă și pentru o exploatare simplă. Clădirile rămân la MEGAPARC după finalizare sau intră în etapa următoare — prin decizia companiei.",
-    ru: "Малоэтажный квартал с общественными пространствами, рассчитанный на долгую жизнь и простую эксплуатацию. После завершения здания остаются у MEGAPARC или переходят на следующий этап — по решению компании.",
+    ru: "Малоэтажный квартал с общественными пространствами, рассчитанный на долгую жизнь и простую эксплуатацию. После завершения здания остаются у MEGAPARC — или проект переходит на следующий этап.",
     en: "A low-rise neighbourhood with public spaces, designed for a long life and simple operation. Once complete, the buildings stay with MEGAPARC or move to the next stage — as the company decides.",
   },
   "drochia-gateway": {
@@ -111,7 +111,7 @@ export function DevelopmentProjectPage({ locale, project }: { locale: SiteLocale
       ]
     : [
         { label: copy.acquiredLand, value: drochiaProfile.site.value[locale] },
-        { label: copy.evaluation, value: drochiaProfile.status.value[locale], current: true },
+        { label: copy.evaluation, value: copy.now[locale], current: true },
         { label: copy.decision, point: drochiaProfile.decision },
       ];
 

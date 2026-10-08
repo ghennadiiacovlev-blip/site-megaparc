@@ -375,7 +375,7 @@ export const entries: HistoryEntry[] = [
     scope: "group",
     name: "Soiuz Agros-Intex",
     place: L("Republica Moldova", "Молдова", "Moldova"),
-    title: L("Soiuz Agros-Intex — sistem agricol integrat", "Soiuz Agros-Intex — интегрированная агросистема", "Soiuz Agros-Intex — an integrated farm system"),
+    title: L("Soiuz Agros-Intex — sistem agricol integrat", "Soiuz Agros-Intex — агробизнес полного цикла", "Soiuz Agros-Intex — an integrated farm system"),
     text: L(
       "Tot ce îi trebuie fermierului, într-un singur sistem: semințe și îngrășăminte, colectarea recoltei, logistica exportului de cereale.",
       "Всё для фермера в одной системе: семена и удобрения, сбор урожая, логистика экспорта зерна.",
@@ -390,7 +390,7 @@ export const entries: HistoryEntry[] = [
     scope: "group",
     name: "Inseko",
     place: L("Ucraina", "Украина", "Ukraine"),
-    title: L("Inseko — zahăr, ciclu complet", "Inseko — сахар полного цикла", "Inseko — sugar, full cycle"),
+    title: L("Inseko — zahăr, ciclu complet", "Inseko — от свёклы до сахара", "Inseko — sugar, full cycle"),
     text: L(
       "Cultivarea sfeclei de zahăr, procesarea industrială și vânzarea zahărului.",
       "Выращивание сахарной свёклы, промышленная переработка и продажа сахара.",
@@ -600,13 +600,13 @@ export const historyCopy = {
     "Розница, производство, логистика, финансы, агробизнес, международные проекты — и, наконец, недвижимость. Это хроника предпринимателей, из которой выросла MEGAPARC.",
     "Retail, manufacturing, logistics, finance, agribusiness, international projects — and, finally, real estate. This is the chronicle of the entrepreneurs MEGAPARC grew out of.",
   ),
-  draft: L("Variantă editorială a cronicii · formulările se aprobă de OWNER", "Редакционный вариант хроники · формулировки утверждает OWNER", "Editorial draft of the chronicle · wording subject to OWNER approval"),
+  draft: L("Variantă editorială a cronicii · text în curs de aprobare", "Редакционный вариант хроники · текст на согласовании", "Editorial draft of the chronicle · wording subject to OWNER approval"),
   index: L("Capitole", "Главы", "Chapters"),
   chapter: L("Capitolul", "Глава", "Chapter"),
   linesTitle: L("Două linii ale aceleiași istorii.", "Две линии одной истории.", "Two lines of one story."),
   linesText: L(
     "Grupul înseamnă antreprenorii și companiile cu care totul a început în 1991; în 1995 i-a reunit o structură de investiții. MEGAPARC este compania imobiliară fondată de grup în 2005. Din 2020, imobiliarele sunt activitatea principală a grupului, iar MEGAPARC — centrul ei.",
-    "Группа — это предприниматели и компании, с которых всё началось в 1991 году; в 1995-м их объединила инвестиционная структура. MEGAPARC — компания недвижимости, основанная группой в 2005 году. С 2020 года недвижимость — главное дело группы, а MEGAPARC — его центр.",
+    "Группа — это предприниматели и компании, с которых всё началось в 1991 году; в 1995-м их объединила инвестиционная структура. MEGAPARC — компания недвижимости, которую группа основала в 2005 году. С 2020 года недвижимость — главное дело группы, а MEGAPARC — его центр.",
     "The group is the entrepreneurs and companies with which it all began in 1991; in 1995 an investment structure brought them together. MEGAPARC is the real-estate company the group founded in 2005. Since 2020 real estate has been the group's core business, with MEGAPARC at its centre.",
   ),
   lineGroup: L("Grupul · din 1991", "Группа · с 1991", "The group · since 1991"),
@@ -654,9 +654,9 @@ export const historyCopy = {
     en: ["Buy the building nobody wants.", "Make it a place people want to come to."],
   },
   focusStatement: {
-    ro: ["Nu mai multe domenii.", "Unul singur. Imobiliarele."],
-    ru: ["Не много отраслей.", "Одна. Недвижимость."],
-    en: ["Not many industries.", "One. Real estate."],
+    ro: ["Multe domenii au rămas în urmă.", "A rămas unul — imobiliarele."],
+    ru: ["Много отраслей позади.", "Осталась одна — недвижимость."],
+    en: ["Many industries behind us.", "One remains — real estate."],
   },
   todayLinks: [
     ["/projects", L("Proiecte", "Проекты", "Projects")],

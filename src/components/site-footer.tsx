@@ -12,10 +12,10 @@ const copy = {
   editions: { ro: "Limbă", ru: "Язык", en: "Language" },
   legal: {
     ro: "Informații juridice și de confidențialitate disponibile la cerere.",
-    ru: "Юридическая информация и политика конфиденциальности предоставляются по запросу.",
+    ru: "Юридическая информация и политика конфиденциальности — по запросу.",
     en: "Legal and privacy information available on request.",
   },
-  onRequest: { ro: "Date de contact directe la cerere", ru: "Прямые контактные данные по запросу", en: "Direct contact details on request" },
+  onRequest: { ro: "Date de contact directe la cerere", ru: "Контактные данные — по запросу", en: "Direct contact details on request" },
 } satisfies Record<string, Localized>;
 
 /** The three routes every visitor may need, whatever page they finish on. */

@@ -123,7 +123,7 @@ export const spaces: AvailableSpace[] = [
     entrance: L("Intrare de la colț + acces de serviciu cu rampă", "Вход с угла + служебный вход с рампой", "Corner entrance + service access with ramp"),
     visibility: L("Colț, vitrină continuă pe două străzi", "Угол, сплошная витрина на две улицы", "Corner, continuous window on two streets"),
     technical: {
-      power: L("cca. 50 kVA · se confirmă tehnic", "около 50 кВА · подтверждается технически", "approx. 50 kVA · confirmed technically"),
+      power: L("cca. 50 kVA · se confirmă tehnic", "около 50 кВА · уточняется", "approx. 50 kVA · to be confirmed"),
       ventilation: L("Trasee de ventilație existente", "Существующие трассы вентиляции", "Existing ventilation routes"),
       height: L("Parter cca. 2,64 m · demisol cca. 2,67 m", "1-й этаж ок. 2,64 м · цоколь ок. 2,67 м", "Ground approx. 2.64 m · lower ground approx. 2.67 m"),
       condition: L("Gata pentru amenajarea chiriașului", "Готово к отделке под арендатора", "Ready for the tenant's fit-out"),
@@ -171,7 +171,7 @@ export const spaces: AvailableSpace[] = [
     entrance: L("Clădire independentă · două intrări proprii", "Отдельное здание · два собственных входа", "Stand-alone building · two own entrances"),
     visibility: L("Fațadă lungă pe prima linie a bulevardului", "Длинный фасад на первой линии бульвара", "A long first-line boulevard frontage"),
     technical: {
-      power: L("Se confirmă pentru formatul ales", "Подтверждается под выбранный формат", "Confirmed for the chosen format"),
+      power: L("Se confirmă pentru formatul ales", "Уточняется под формат", "To be confirmed for the chosen format"),
       ventilation: L("Ventilație de retail · adaptare la format", "Торговая вентиляция · адаптация под формат", "Retail ventilation · adapted to the format"),
       height: L("cca. 4,0 m în sala de vânzare", "около 4,0 м в торговом зале", "approx. 4.0 m in the sales floor"),
       condition: L("Sală liberă, gata pentru amenajare", "Свободный зал, готов к отделке", "Empty floor, ready for fit-out"),
@@ -255,7 +255,7 @@ export const spaces: AvailableSpace[] = [
     availableFrom: null,
     headline: L(
       "Un spațiu la stradă pentru servicii de cartier sau un cabinet medical.",
-      "Помещение у улицы для районного сервиса или медицинского кабинета.",
+      "Помещение с входом с улицы — для сервиса или медицинского кабинета.",
       "A street-front space for a neighbourhood service or a medical practice.",
     ),
     highlights: [

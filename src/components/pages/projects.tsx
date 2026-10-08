@@ -46,7 +46,7 @@ const copy = {
   ru: {
     label: "Проекты",
     title: "Всё, что MEGAPARC купила, построила и развивает.",
-    lead: "Действующие здания, проект в стадии реализации и земля под развитие. В части из них сейчас сдаются помещения.",
+    lead: "Действующие здания, проект в работе и земля под развитие. В четырёх зданиях сейчас есть свободные помещения.",
     operating: "Действующие",
     development: "Развитие",
     land: "Земля",
@@ -62,7 +62,7 @@ const copy = {
     seeSpaces: "Смотреть помещения",
     cycleLabel: "Цикл проекта",
     cycleTitle: "Каждый объект проходит один и тот же путь.",
-    cycleNote: "Не каждый объект продаётся: решение принимается по каждому отдельно.",
+    cycleNote: "Продаётся не каждый объект — решение принимаем по каждому отдельно.",
     closeLabel: "Следующий шаг",
     closeTitle: "Ищете помещение или хотите предложить объект?",
     routes: [["Что сдаётся сейчас", "/leasing#available"], ["Предложить объект или землю", "/offer"], ["О компании", "/about"]],
@@ -194,7 +194,7 @@ export function ProjectsPage({ locale }: { locale: SiteLocale }) {
             {lifecycle.map((stage) => (
               <li key={stage.key} className="xp-progress__term" data-xp-term>
                 <span className="xp-progress__title">{stage.title[locale]}</span>
-                <span className="xp-progress__text">{stage.text[locale]}</span>
+                <span className="xp-progress__text">{stage.short[locale]}</span>
               </li>
             ))}
           </ol>

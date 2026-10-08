@@ -200,7 +200,7 @@ export const employerBrand = {
     kicker: { ro: "Posturi deschise", ru: "Открытые вакансии", en: "Open vacancies" } satisfies Localized,
     sourceNote: {
       ro: "Posturi publicate de SRL MEGAPARC pe Rabota.md. Detaliile și aplicarea se deschid pe site-ul sursă.",
-      ru: "Вакансии опубликованы SRL MEGAPARC на Rabota.md. Подробности и отклик — на сайте-источнике.",
+      ru: "Вакансии опубликованы на Rabota.md — там же подробности и отклик.",
       en: "Roles published by SRL MEGAPARC on Rabota.md. Full details and applications open on the source site.",
     } satisfies Localized,
     viewRole: { ro: "Vezi postul", ru: "Подробнее", en: "View role" } satisfies Localized,

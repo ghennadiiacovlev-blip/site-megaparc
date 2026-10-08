@@ -43,13 +43,13 @@ const copy = {
   },
   ru: {
     label: "О компании",
-    lead: "MEGAPARC основана в 2005 году. Мы работаем только со своими объектами: покупаем здания и землю, строим и обновляем, сдаём площади в аренду и сами отвечаем за свои здания.",
+    lead: "Компания основана в 2005 году и работает только со своими объектами — от покупки до аренды и обслуживания.",
     founded: "Основана",
     group: "Группа",
     origins: "Истоки бизнеса",
     focus: "Фокус на недвижимости",
     modelLabel: "Как мы работаем",
-    modelTitle: "Шесть шагов, которые проходит каждый объект.",
+    modelTitle: "Шесть этапов жизни объекта.",
     opsLink: "Что сдаётся сейчас",
     principlesLabel: "Как мы решаем",
     principlesTitle: "Четыре правила собственника.",
@@ -145,18 +145,16 @@ export function AboutPage({ locale }: { locale: SiteLocale }) {
                 );
               })}
             </div>
-            <div>
-              <span className="xp-scene__bar" aria-hidden="true" />
-              <ol className="xp-scene__steps">
-                {lifecycle.map((stage, index) => (
-                  <li key={stage.key} className="xp-scene__step">
-                    <span className="xp-scene__no">{String(index + 1).padStart(2, "0")}</span>
-                    <h3 className="xp-scene__title">{stage.title[locale]} <small className="ab-stage__short">· {stage.short[locale]}</small></h3>
-                    <p className="xp-scene__text">{stage.text[locale]}</p>
-                  </li>
-                ))}
-              </ol>
-            </div>
+            <ol className="xp-scene__steps">
+              {lifecycle.map((stage, index) => (
+                <li key={stage.key} className="xp-scene__step" style={{ "--i": index } as CSSProperties}>
+                  <span className="xp-scene__no">{String(index + 1).padStart(2, "0")}</span>
+                  <h3 className="xp-scene__title">{stage.title[locale]}</h3>
+                  <p className="xp-scene__short">{stage.short[locale]}</p>
+                  <p className="xp-scene__text">{stage.text[locale]}</p>
+                </li>
+              ))}
+            </ol>
           </div>
         </div>
       </section>

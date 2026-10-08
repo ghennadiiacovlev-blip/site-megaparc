@@ -40,7 +40,7 @@ const copy = {
   fitTitle: { ro: "Pentru cine lucrează această clădire.", ru: "Для кого работает это здание.", en: "Who this building works for." },
   whyItWorks: { ro: "De ce funcționează", ru: "Почему это работает", en: "Why it works" },
   techLabel: { ro: "Informații tehnice", ru: "Техническая информация", en: "Technical information" },
-  techTitle: { ro: "Ce suportă clădirea.", ru: "Что выдерживает здание.", en: "What the building can take." },
+  techTitle: { ro: "Ce suportă clădirea.", ru: "Технические возможности здания.", en: "What the building can take." },
   improveLabel: { ro: "Ce îmbunătățim ca proprietar", ru: "Что мы улучшаем как собственник", en: "What we improve as the owner" },
   galleryLabel: { ro: "Galerie", ru: "Галерея", en: "Gallery" },
   planLabel: { ro: "Plan", ru: "План", en: "Plan" },
@@ -52,7 +52,7 @@ const copy = {
   repositioned: { ro: "Renovat", ru: "Обновлён", en: "Renovated" },
   nextLabel: { ro: "Următorul proiect", ru: "Следующий проект", en: "Next project" },
   closeTitle: { ro: "Vedeți clădirea cu ochii dumneavoastră.", ru: "Посмотрите здание своими глазами.", en: "See the building for yourself." },
-  closeText: { ro: "Spuneți-ne ce deschideți și ce este critic — pregătim vizionarea cu răspunsurile tehnice la îndemână.", ru: "Расскажите, что вы открываете и что для вас критично, — подготовим просмотр с техническими ответами под рукой.", en: "Tell us what you are opening and what is critical — we prepare the viewing with the technical answers at hand." },
+  closeText: { ro: "Spuneți-ne ce deschideți și ce este critic — pregătim vizionarea cu răspunsurile tehnice la îndemână.", ru: "Расскажите, что вы открываете и что для вас важно, — к просмотру подготовим ответы на технические вопросы.", en: "Tell us what you are opening and what is critical — we prepare the viewing with the technical answers at hand." },
 } satisfies Record<string, Localized>;
 
 const placeKeys: Requirement[] = ["visibility", "parking", "entrance"];

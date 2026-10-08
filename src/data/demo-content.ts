@@ -192,11 +192,11 @@ export const assetProfiles: Record<"dacia-31" | "moscova-9" | "moscova-20" | "cr
 export const creangaProfile = {
   district: demo("asset.creanga-78.district", "PROJECTS", P("creanga-78"), "District", { ro: "Buiucani", ru: "Буюкань", en: "Buiucani" }, "OWNER — confirmed address"),
   headline: demo("asset.creanga-78.headline", "PROJECTS", P("creanga-78"), "Headline", { ro: "O clădire de birouri și servicii într-un cartier vechi al orașului.", ru: "Офисно-сервисное здание в историческом районе города.", en: "An office and services building in an established district of the city." }, "OWNER — approved description"),
-  lead: demo("asset.creanga-78.lead", "PROJECTS", P("creanga-78"), "Lead", { ro: "Clădire de 3.350 m² cu servicii la parter și birouri la etaje, exploatată de MEGAPARC ca un obiect cu mai mulți chiriași.", ru: "Здание площадью 3 350 м² с сервисами на первом этаже и офисами выше; MEGAPARC эксплуатирует его как многоарендный объект.", en: "A 3,350 m² building with services at street level and offices above, run by MEGAPARC as a multi-tenant property." }, "OWNER — approved description"),
+  lead: demo("asset.creanga-78.lead", "PROJECTS", P("creanga-78"), "Lead", { ro: "Clădire de 3.350 m² cu servicii la parter și birouri la etaje, exploatată de MEGAPARC ca un obiect cu mai mulți chiriași.", ru: "Здание площадью 3 350 м² с сервисами на первом этаже и офисами выше; здесь работают многие арендаторы под одной крышей.", en: "A 3,350 m² building with services at street level and offices above, run by MEGAPARC as a multi-tenant property." }, "OWNER — approved description"),
   narrative: demo("asset.creanga-78.narrative", "PROJECTS", P("creanga-78"), "Narrative", { ro: "Multe companii mici, o singură adresă bine întreținută.", ru: "Много небольших компаний — один ухоженный адрес.", en: "Many small companies, one well-kept address." }, "OWNER — approved description"),
   story: demo("asset.creanga-78.story", "PROJECTS", P("creanga-78"), "Story (3 paragraphs)", {
     ro: "Creangă 78 lucrează altfel decât celelalte obiecte MEGAPARC: nu un singur utilizator, ci optsprezece chiriași — birouri mici și medii, servicii, o farmacie și o cafenea la parter. Valoarea clădirii depinde de felul în care acești chiriași funcționează împreună.\n\nExploatarea este concentrată pe spațiile comune, pe planificarea contractelor și pe reamenajarea rapidă a spațiilor eliberate. Un spațiu liber se pregătește pentru următorul chiriaș în câteva săptămâni, nu în câteva luni.\n\nLocația — un cartier cu clădiri de birouri, instituții și locuințe — asigură cerere constantă pentru spații de 80–240 m². Clădirea rămâne căutată pentru companiile care cresc, dar nu au nevoie de o clădire proprie.",
-    ru: "Creangă 78 работает иначе, чем остальные объекты MEGAPARC: не один пользователь, а восемнадцать арендаторов — небольшие и средние офисы, сервисы, аптека и кафе на первом этаже. Стоимость здания зависит от того, как эти арендаторы работают вместе.\n\nЭксплуатация сосредоточена на общих зонах, планировании договоров и быстрой подготовке освободившихся помещений. Свободный блок готовится к следующему арендатору за несколько недель, а не месяцев.\n\nРасположение — район с офисами, учреждениями и жильём — обеспечивает устойчивый спрос на помещения 80–240 м². Здание остаётся востребованным у компаний, которые растут, но которым не нужно отдельное здание.",
+    ru: "Creangă 78 работает иначе, чем остальные объекты MEGAPARC: не один пользователь, а восемнадцать арендаторов — небольшие и средние офисы, сервисы, аптека и кафе на первом этаже. Ценность здания — в том, насколько хорошо они уживаются вместе.\n\nГлавное здесь — общие зоны, договоры, расписанные наперёд, и быстрая подготовка освободившихся помещений: за недели, а не месяцы.\n\nРасположение — район с офисами, учреждениями и жильём — обеспечивает устойчивый спрос на помещения 80–240 м². Здание остаётся востребованным у компаний, которые растут, но которым не нужно отдельное здание.",
     en: "Creangă 78 works differently from the other MEGAPARC properties: not one occupier but eighteen tenants — small and mid-size offices, services, a pharmacy and a café at street level. The building's value depends on how these tenants work together.\n\nOperations concentrate on the common areas, on lease planning and on quickly preparing vacated units. A free unit is ready for the next tenant in weeks, not months.\n\nThe location — a district of offices, institutions and housing — gives steady demand for units of 80–240 m². The building stays in demand with companies that are growing but do not need a building of their own.",
   }, "OWNER — approved description (150–250 words)"),
   location: demo("asset.creanga-78.location", "PROJECTS", P("creanga-78"), "Location text", { ro: "Un cartier consolidat din Chișinău, cu birouri, instituții, locuințe și transport public în apropiere.", ru: "Сложившийся район Кишинёва: офисы, учреждения, жильё и общественный транспорт рядом.", en: "An established Chișinău district with offices, institutions, housing and public transport nearby." }, "OWNER — confirmed address and access"),
@@ -251,7 +251,7 @@ export const tenantFit: Record<"dacia-31" | "moscova-9" | "moscova-20" | "creang
       visibility: cap("dacia-31", "visibility", "strong", { ro: "Fațadă vizibilă, la intrarea în oraș dinspre aeroport", ru: "Заметный фасад на въезде в город со стороны аэропорта", en: "A visible facade at the city's airport entrance" }, "CONFIRMED"),
       ground: cap("dacia-31", "ground", "strong", { ro: "Clădire întreagă, cu acces de la nivelul solului", ru: "Здание целиком, вход с уровня земли", en: "Whole building with access at street level" }, "CONFIRMED"),
       parking: cap("dacia-31", "parking", "strong", { ro: "Aproximativ 60 de locuri pe teren", ru: "Около 60 мест на участке", en: "About 60 spaces on the plot" }, "DEMO"),
-      entrance: cap("dacia-31", "entrance", "strong", { ro: "Intrare proprie, 4+ variante de acces", ru: "Собственный вход, 4+ варианта входов", en: "Own entrance, 4+ entrance options" }, "CONFIRMED"),
+      entrance: cap("dacia-31", "entrance", "strong", { ro: "Intrare proprie, 4+ variante de acces", ru: "Собственный вход · 4+ варианта доступа", en: "Own entrance, 4+ entrance options" }, "CONFIRMED"),
       power: cap("dacia-31", "power", "possible", { ro: "Rețele existente; capacitatea se confirmă prin audit", ru: "Сети есть; мощность подтверждается аудитом", en: "Services in place; capacity confirmed by audit" }, "CONFIRMED"),
       ventilation: cap("dacia-31", "ventilation", "possible", { ro: "Tubulatură existentă; adaptare la utilizator", ru: "Воздуховоды есть; адаптация под пользователя", en: "Ductwork in place; adapted to the occupier" }, "CONFIRMED"),
       delivery: cap("dacia-31", "delivery", "possible", { ro: "Acces auto pe teren pentru livrări", ru: "Подъезд по участку для доставки", en: "Vehicle access on the plot for deliveries" }, "DEMO"),
@@ -276,7 +276,7 @@ export const tenantFit: Record<"dacia-31" | "moscova-9" | "moscova-20" | "creang
       ground: cap("moscova-9", "ground", "strong", { ro: "Sală de vânzare de 737 m² la nivelul străzii", ru: "Торговый зал 737 м² на уровне улицы", en: "A 737 m² sales floor at street level" }, "CONFIRMED"),
       parking: cap("moscova-9", "parking", "possible", { ro: "Parcare de-a lungul bulevardului", ru: "Парковка вдоль бульвара", en: "Parking along the boulevard" }, "CONFIRMED"),
       entrance: cap("moscova-9", "entrance", "strong", { ro: "Clădire independentă, două intrări proprii", ru: "Отдельное здание, два собственных входа", en: "Stand-alone building, two own entrances" }, "CONFIRMED"),
-      power: cap("moscova-9", "power", "possible", { ro: "Capacitatea se confirmă pentru formatul ales", ru: "Мощность подтверждается под выбранный формат", en: "Capacity confirmed for the chosen format" }, "DEMO"),
+      power: cap("moscova-9", "power", "possible", { ro: "Capacitatea se confirmă pentru formatul ales", ru: "Мощность уточняется под формат", en: "Capacity to be confirmed for the chosen format" }, "DEMO"),
       ventilation: cap("moscova-9", "ventilation", "possible", { ro: "Ventilație de retail; adaptare la format", ru: "Торговая вентиляция; адаптация под формат", en: "Retail ventilation; adapted to the format" }, "DEMO"),
       delivery: cap("moscova-9", "delivery", "strong", { ro: "Rampă, 69 m² de descărcare, flux separat", ru: "Рампа, 69 м² разгрузки, отдельный поток", en: "Ramp, 69 m² unloading, separate flow" }, "CONFIRMED"),
       flexible: cap("moscova-9", "flexible", "strong", { ro: "Integral sau o parte convenită", ru: "Целиком или согласованной частью", en: "Whole or an agreed part" }, "CONFIRMED"),
@@ -300,7 +300,7 @@ export const tenantFit: Record<"dacia-31" | "moscova-9" | "moscova-20" | "creang
       ground: cap("moscova-20", "ground", "strong", { ro: "Parter 240,96 m² + demisol 293,70 m²", ru: "1-й этаж 240,96 м² + цоколь 293,70 м²", en: "Ground 240.96 m² + lower ground 293.70 m²" }, "CONFIRMED"),
       parking: cap("moscova-20", "parking", "possible", { ro: "Parcare dedicată în apropiere", ru: "Выделенная парковка рядом", en: "Dedicated parking nearby" }, "CONFIRMED"),
       entrance: cap("moscova-20", "entrance", "strong", { ro: "Intrare de la colț + acces de serviciu cu rampă", ru: "Вход с угла + служебный доступ с рампой", en: "Corner entrance + service access with ramp" }, "CONFIRMED"),
-      power: cap("moscova-20", "power", "possible", { ro: "Aproximativ 50 kVA, se confirmă tehnic", ru: "Около 50 кВА, подтверждается технически", en: "About 50 kVA, confirmed technically" }, "CONFIRMED"),
+      power: cap("moscova-20", "power", "possible", { ro: "Aproximativ 50 kVA, se confirmă tehnic", ru: "Около 50 кВА, уточняется", en: "About 50 kVA, to be confirmed" }, "CONFIRMED"),
       ventilation: cap("moscova-20", "ventilation", "possible", { ro: "Trasee de ventilație existente", ru: "Существующие трассы вентиляции", en: "Existing ventilation routes" }, "CONFIRMED"),
       delivery: cap("moscova-20", "delivery", "strong", { ro: "Acces de serviciu separat, cu rampă", ru: "Отдельный служебный доступ с рампой", en: "Separate service access with ramp" }, "CONFIRMED"),
       flexible: cap("moscova-20", "flexible", "possible", { ro: "Două niveluri; parterul separat — de confirmat", ru: "Два уровня; первый этаж отдельно — уточняется", en: "Two levels; ground floor alone — to be confirmed" }, "DEMO"),
@@ -363,8 +363,8 @@ export const drochiaProfile = {
   site: confirmed("dev.drochia.site", "DEVELOPMENT", "Development · Drochia Gateway", "Site area", { ro: "2,0 ha · 20.000 m²", ru: "2,0 га · 20 000 м²", en: "2.0 ha · 20,000 m²" }),
   fronts: confirmed("dev.drochia.fronts", "DEVELOPMENT", "Development · Drochia Gateway", "Road fronts", "2"),
   potential: demo("dev.drochia.potential", "DEVELOPMENT", "Development · Drochia Gateway", "Potential built area", { ro: "12.000–18.000 m²", ru: "12 000–18 000 м²", en: "12,000–18,000 m²" }, "OWNER — feasibility study (internal site study indicates 7,000–9,000 m² built scenarios; not published)"),
-  status: confirmed("dev.drochia.status", "DEVELOPMENT", "Development · Drochia Gateway", "Status", { ro: "Concept · în evaluare", ru: "Концепция · на стадии оценки", en: "Concept · under evaluation" }),
-  decision: demo("dev.drochia.decision", "DEVELOPMENT", "Development · Drochia Gateway", "Concept decision", { ro: "Decizie privind conceptul — 2027", ru: "Решение по концепции — 2027", en: "Concept decision — 2027" }, "OWNER — project timeline"),
+  status: confirmed("dev.drochia.status", "DEVELOPMENT", "Development · Drochia Gateway", "Status", { ro: "În evaluare", ru: "Идёт оценка", en: "Under evaluation" }),
+  decision: demo("dev.drochia.decision", "DEVELOPMENT", "Development · Drochia Gateway", "Concept decision", "2027", "OWNER — project timeline"),
 };
 
 /* ------------------------------------------------------------------ */
@@ -384,7 +384,7 @@ export const roleStories: RoleStory[] = [
   role("site-engineer", { ro: "Inginer pe șantier", ru: "Инженер на объекте", en: "Site engineer" }, { ro: "Teren", ru: "Объект", en: "Field" }, { ro: "Ziua începe pe șantier: verificarea lucrărilor, a calității și a graficului, apoi decizii împreună cu proiectanții și antreprenorii.", ru: "День начинается на площадке: проверка работ, качества и графика, затем решения вместе с проектировщиками и подрядчиками.", en: "The day starts on site: checking works, quality and schedule, then decisions with designers and contractors." }, { ro: "Calitatea execuției · siguranța · termenele", ru: "Качество исполнения · безопасность · сроки", en: "Build quality · safety · schedule" }),
   role("leasing-manager", { ro: "Manager închiriere și exploatare", ru: "Менеджер по аренде и эксплуатации", en: "Leasing and operations manager" }, { ro: "Birou + obiect", ru: "Офис + объект", en: "Office + property" }, { ro: "Răspunde de clădirile MEGAPARC: spațiile libere, chiriașii, întreținerea și planul fiecărui obiect.", ru: "Отвечает за здания MEGAPARC: свободные помещения, арендаторы, обслуживание и план по каждому объекту.", en: "Looks after MEGAPARC's buildings: vacant space, tenants, maintenance and the plan for each property." }, { ro: "Spațiile libere · chiriașii · planul clădirii", ru: "Свободные площади · арендаторы · план здания", en: "Vacant space · tenants · the building plan" }),
   role("project-manager", { ro: "Manager de proiect", ru: "Менеджер проекта", en: "Project manager" }, { ro: "Birou + teren", ru: "Офис + объект", en: "Office + field" }, { ro: "Conduce un proiect de la concept la predare: buget, autorizații, echipe și comunicarea cu toți participanții.", ru: "Ведёт проект от концепции до сдачи: бюджет, разрешения, команды и связь между всеми участниками.", en: "Leads a project from concept to handover: budget, permits, teams and communication between everyone involved." }, { ro: "Bugetul · graficul · coordonarea", ru: "Бюджет · график · координация", en: "Budget · schedule · coordination" }),
-  role("acquisitions", { ro: "Analist achiziții", ru: "Аналитик по приобретениям", en: "Acquisitions analyst" }, { ro: "Birou + vizite", ru: "Офис + выезды", en: "Office + site visits" }, { ro: "Evaluează clădirile și terenurile propuse companiei: locația, starea, piața și ce poate deveni obiectul.", ru: "Оценивает здания и землю, которые предлагают компании: локацию, состояние, рынок и то, чем объект может стать.", en: "Assesses the buildings and land offered to the company: location, condition, market and what the property could become." }, { ro: "Vizitele · calculele · recomandarea", ru: "Выезды · расчёты · рекомендация", en: "Site visits · numbers · recommendation" }),
+  role("acquisitions", { ro: "Analist achiziții", ru: "Аналитик по приобретениям", en: "Acquisitions analyst" }, { ro: "Birou + vizite", ru: "Офис + выезды", en: "Office + site visits" }, { ro: "Evaluează clădirile și terenurile propuse companiei: locația, starea, piața și ce poate deveni obiectul.", ru: "Оценивает здания и землю, которые предлагают MEGAPARC: локацию, состояние, рынок и то, чем объект может стать.", en: "Assesses the buildings and land offered to the company: location, condition, market and what the property could become." }, { ro: "Vizitele · calculele · recomandarea", ru: "Выезды · расчёты · рекомендация", en: "Site visits · numbers · recommendation" }),
 ];
 
 /* ------------------------------------------------------------------ */
@@ -482,13 +482,61 @@ place("about.reinvest", "About", "Model · reinvest", null, "cv-excavator", "BRA
 place("offer.hero", "Offer a property", "Hero", null, "cv-road", "BRAND", "Land and buildings", "MEDIUM", "Brand landscape / MEGAPARC site visit", A.road);
 place("offer.land", "Offer a property", "What we buy · land", null, "cv-field", "BRAND", "Land for development", "LOW", "Open land at a town entrance", A.field);
 // Careers
-place("careers.hero", "Careers", "Hero", null, "cv-hall", "BRAND", "People and architecture", "HIGH", "MEGAPARC team moving through a MEGAPARC building", A.hall);
 place("careers.team", "Careers", "Pillar · Team", null, "cv-invest", "BRAND", "Team", "MEDIUM", "MEGAPARC team at work", A.invest);
 place("careers.responsibility", "Careers", "Pillar · Project responsibility", null, "cv-hero-2", "BRAND", "Responsibility on site", "MEDIUM", "MEGAPARC engineer on site", A.engineer);
 place("careers.growth", "Careers", "Pillar · Career development", null, "cv-window", "BRAND", "Learning", "LOW", "MEGAPARC office", A.window);
 place("careers.field", "Careers", "Pillar · Field + office", null, "cv-walker", "BRAND", "Field and office", "LOW", "MEGAPARC team between site and office", A.walker);
 
 export const imageUses: readonly ImageUse[] = uses;
+
+/* ------------------------------------------------------------------ */
+/* VIDEO — concept films (OWNER addendum 2026-10-08, careers video)      */
+/* ------------------------------------------------------------------ */
+
+export type ConceptVideo = {
+  key: string;
+  status: "DEMO";
+  type: "CONCEPT_VIDEO";
+  futureReplacement: "REPLACE_WITH_REAL_MEGAPARC_SHOOT";
+  files: string[];
+  licence: string;
+  /** Stock clips in the edit (scripts/careers-video.mjs). None shows MEGAPARC people or property. */
+  credits: { id: number; author: string; shot: string }[];
+};
+
+export const conceptVideos = {
+  "cv-film-careers": {
+    key: "cv-film-careers",
+    status: "DEMO",
+    type: "CONCEPT_VIDEO",
+    futureReplacement: "REPLACE_WITH_REAL_MEGAPARC_SHOOT",
+    files: ["careers-concept.mp4 (1600×900)", "careers-concept-mobile.mp4 (720×1280)", "careers-concept-poster.webp", "careers-concept-mobile-poster.webp"],
+    licence: "Pexels License — free use and modification, no attribution required; must not imply endorsement by the people shown",
+    credits: [
+      { id: 8482303, author: "Thirdman", shot: "Checking a column with a spirit level in an empty, daylit floor" },
+      { id: 7646443, author: "Alena Darmel", shot: "Hands working over an architectural plan" },
+      { id: 4205680, author: "Jozef Papp", shot: "Construction site from above, machinery at work" },
+      { id: 7491472, author: "RDNE Stock project", shot: "A team around drawings on a table" },
+      { id: 12007917, author: "manas patra", shot: "Earthworks on an open plot in daylight" },
+      { id: 7651683, author: "Kindel Media", shot: "Walking through an operating office floor" },
+      { id: 8965526, author: "Mikael Blomkvist", shot: "Two engineers crossing a site (vertical edit)" },
+      { id: 8835657, author: "Yan Krukau", shot: "Marking up a plan at a table (vertical edit)" },
+    ],
+  },
+} satisfies Record<string, ConceptVideo>;
+
+export type VideoUse = { id: string; page: string; section: string; video: keyof typeof conceptVideos; purpose: string; priority: ImageUse["priority"]; recommendedShot: string };
+
+const filmShoot =
+  "MEGAPARC shoot, daylight, people natural (no staged handshakes): engineer walking through a MEGAPARC property · inspection on the VATRA site · plans on the table · team discussing drawings · measuring a building detail · machinery on site · a colleague crossing an operating building · a short building / street transition. 16:9 + 9:16, 15–20 s loop, no audio";
+
+export const videoUses: readonly VideoUse[] = [
+  { id: "home.careers.film", page: "Home", section: "Vacancies · cinematic film", video: "cv-film-careers", purpose: "Atmosphere of real work behind the careers statement", priority: "HIGH", recommendedShot: filmShoot },
+  { id: "careers.hero.film", page: "Careers", section: "Hero · cinematic film", video: "cv-film-careers", purpose: "Opening of the careers page — real work, one call to action", priority: "HIGH", recommendedShot: filmShoot },
+];
+
+/** Shown on the film while it is concept footage — never implies MEGAPARC people or property. */
+export const conceptVideoLabel: Localized = { ro: "Video concept · nu MEGAPARC", ru: "Концепт-видео · не MEGAPARC", en: "Concept video · not MEGAPARC" };
 
 export function imageUse(id: string): ImageUse {
   const found = uses.find((item) => item.id === id);
@@ -503,4 +551,4 @@ export function imageUse(id: string): ImageUse {
 export const dataRegister: readonly DataPoint[] = points;
 
 /** True while the build carries any DEMO value or concept visual: the preview marker shows and robots stay noindex. */
-export const demoContentPresent = points.some((entry) => entry.status === "DEMO") || uses.length > 0;
+export const demoContentPresent = points.some((entry) => entry.status === "DEMO") || uses.length > 0 || videoUses.length > 0;

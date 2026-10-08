@@ -161,7 +161,7 @@ export function Val({ point, locale }: { point: DataPoint; locale: SiteLocale })
 
 const markerNote: Localized = {
   ro: "Previzualizare pentru aprobare. Unele cifre, profiluri și imagini sunt demonstrative și nu reprezintă date MEGAPARC.",
-  ru: "Превью для согласования. Часть цифр, профилей и изображений — демонстрационные и не являются данными MEGAPARC.",
+  ru: "Превью для согласования. Часть цифр, текстов и изображений — демонстрационные, это не данные MEGAPARC.",
   en: "Approval preview. Some figures, profiles and images are demonstrations and are not MEGAPARC data.",
 };
 

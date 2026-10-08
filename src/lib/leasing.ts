@@ -11,7 +11,7 @@ import type { Localized } from "@/lib/site-data";
 
 export const uses: { key: SpaceUse; label: Localized; goal: Localized; typical: SpaceNeed[] }[] = [
   { key: "retail", label: { ro: "Retail", ru: "Магазин", en: "Retail" }, goal: { ro: "Clienți din stradă", ru: "Покупатели с улицы", en: "Customers from the street" }, typical: ["visibility", "flow", "ground", "delivery", "parking"] },
-  { key: "office", label: { ro: "Birou", ru: "Офис", en: "Office" }, goal: { ro: "O echipă care lucrează bine", ru: "Команда, которой удобно работать", en: "A team that works well" }, typical: ["parking", "flexible", "fast", "entrance", "power"] },
+  { key: "office", label: { ro: "Birou", ru: "Офис", en: "Office" }, goal: { ro: "O echipă care lucrează bine", ru: "Удобно работать всей командой", en: "A team that works well" }, typical: ["parking", "flexible", "fast", "entrance", "power"] },
   { key: "showroom", label: { ro: "Showroom", ru: "Шоурум", en: "Showroom" }, goal: { ro: "Produsul la vedere", ru: "Продукт на виду", en: "The product on show" }, typical: ["visibility", "ground", "flexible", "parking", "delivery"] },
   { key: "clinic", label: { ro: "Clinică", ru: "Клиника", en: "Clinic" }, goal: { ro: "Pacienți primiți comod", ru: "Удобный приём пациентов", en: "Patients received with ease" }, typical: ["ground", "entrance", "parking", "power", "ventilation"] },
   { key: "services", label: { ro: "Servicii", ru: "Сервис", en: "Services" }, goal: { ro: "Aproape de clienți", ru: "Рядом с клиентами", en: "Close to customers" }, typical: ["ground", "entrance", "flow", "parking", "fast"] },
@@ -21,12 +21,12 @@ export const uses: { key: SpaceUse; label: Localized; goal: Localized; typical: 
 export const needs: Record<SpaceNeed, { label: Localized; why: Localized }> = {
   visibility: { label: { ro: "Vizibilitate", ru: "Видимость", en: "Visibility" }, why: { ro: "Clienții vă văd înainte să vă caute.", ru: "Клиенты видят вас раньше, чем начинают искать.", en: "Customers see you before they search for you." } },
   flow: { label: { ro: "Flux de clienți", ru: "Поток клиентов", en: "Customer flow" }, why: { ro: "Oamenii trec pe lângă ușa dumneavoastră în fiecare zi.", ru: "Люди проходят мимо вашей двери каждый день.", en: "People pass your door every day." } },
-  parking: { label: { ro: "Parcare", ru: "Парковка", en: "Parking" }, why: { ro: "Clienții și echipa ajung cu mașina fără efort.", ru: "Клиенты и команда приезжают на машине без проблем.", en: "Customers and staff arrive by car without effort." } },
+  parking: { label: { ro: "Parcare", ru: "Парковка", en: "Parking" }, why: { ro: "Clienții și echipa ajung cu mașina fără efort.", ru: "Клиентам и команде удобно приезжать на машине.", en: "Customers and staff arrive by car without effort." } },
   ground: { label: { ro: "Parter", ru: "Первый этаж", en: "Ground floor" }, why: { ro: "Intrare fără scări — pentru clienți, pacienți și marfă.", ru: "Вход без лестниц — для клиентов, пациентов и товара.", en: "Step-free entry for customers, patients and goods." } },
   entrance: { label: { ro: "Intrare separată", ru: "Отдельный вход", en: "Separate entrance" }, why: { ro: "Propria adresă, propriul program, propriul control.", ru: "Свой адрес, свой режим работы, свой контроль.", en: "Your own address, hours and control." } },
-  power: { label: { ro: "Putere electrică", ru: "Электрическая мощность", en: "Power" }, why: { ro: "Echipamente de bucătărie, medicale sau tehnice fără limite.", ru: "Кухонное, медицинское или техническое оборудование без ограничений.", en: "Kitchen, medical or technical equipment without limits." } },
-  ventilation: { label: { ro: "Ventilație", ru: "Вентиляция", en: "Ventilation" }, why: { ro: "Aer, climatizare și evacuare pentru activitatea dumneavoastră.", ru: "Воздух, климат и вытяжка под вашу деятельность.", en: "Air, cooling and extraction for your activity." } },
-  delivery: { label: { ro: "Acces pentru livrări", ru: "Подъезд для доставки", en: "Delivery access" }, why: { ro: "Marfa intră pe alt drum decât clienții.", ru: "Товар заходит другим путём, чем покупатели.", en: "Goods come in by a different route from customers." } },
+  power: { label: { ro: "Putere electrică", ru: "Электрическая мощность", en: "Power" }, why: { ro: "Echipamente de bucătărie, medicale sau tehnice fără limite.", ru: "Хватает мощности для кухни, медицинского или технического оборудования.", en: "Kitchen, medical or technical equipment without limits." } },
+  ventilation: { label: { ro: "Ventilație", ru: "Вентиляция", en: "Ventilation" }, why: { ro: "Aer, climatizare și evacuare pentru activitatea dumneavoastră.", ru: "Вентиляция, климат и вытяжка под ваш формат.", en: "Air, cooling and extraction for your activity." } },
+  delivery: { label: { ro: "Acces pentru livrări", ru: "Подъезд для доставки", en: "Delivery access" }, why: { ro: "Marfa intră pe alt drum decât clienții.", ru: "Товар заходит отдельно от покупателей.", en: "Goods come in by a different route from customers." } },
   flexible: { label: { ro: "Planificare flexibilă", ru: "Гибкая планировка", en: "Flexible layout" }, why: { ro: "Spațiul se schimbă când afacerea crește.", ru: "Пространство меняется, когда бизнес растёт.", en: "The space changes as the business grows." } },
   fast: { label: { ro: "Deschidere rapidă", ru: "Быстрое открытие", en: "Fast opening" }, why: { ro: "Liber acum și gata pentru amenajare.", ru: "Свободно сейчас и готово к отделке.", en: "Free now and ready for fit-out." } },
 };
@@ -62,6 +62,6 @@ export const leasingSteps: { title: Localized; text: Localized }[] = [
 
 export const noPrice: Localized = {
   ro: "Condițiile comerciale se discută direct și nu se publică.",
-  ru: "Коммерческие условия обсуждаются напрямую и не публикуются.",
+  ru: "Условия аренды обсуждаем напрямую — на сайте их нет.",
   en: "Commercial terms are discussed directly and are not published.",
 };

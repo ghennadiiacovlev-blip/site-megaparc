@@ -243,12 +243,6 @@
 .hm-quick a:hover, .hm-quick a:focus-visible { background: var(--ink); border-color: var(--ink); color: white; }
 .hm-quick .btn { margin-left: auto; }
 @media (max-width: 719px) { .hm-quick .btn { margin-left: 0; } }
-.hm-jobs { display: grid; border-top: 1px solid var(--xp-line-strong); }
-.hm-jobs a { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .25rem 1rem; padding: 1.15rem 0; border-bottom: 1px solid var(--xp-line); color: inherit; transition: padding var(--xp-edit) var(--xp-ease); }
-.hm-jobs a:hover, .hm-jobs a:focus-visible { padding-left: .5rem; }
-.hm-jobs__title { font-size: clamp(1.1rem, 1.7vw, 1.45rem); font-weight: 500; letter-spacing: -.015em; }
-.hm-jobs__meta { grid-row: 2; color: var(--muted); font-size: .86rem; }
-.hm-jobs a svg { grid-row: span 2; align-self: center; color: var(--red); }
 
 /* ==================================================================
    ABOUT · OFFER
@@ -256,7 +250,6 @@
 .ab-hero__title { font-size: var(--xp-display); font-weight: 500; line-height: .95; letter-spacing: -.05em; text-transform: uppercase; }
 :lang(ru) .ab-hero__title { font-size: clamp(2.3rem, 6.6vw, 6.2rem); }
 .ab-hero__title .xp-mask__line:nth-child(3) span { color: var(--red); }
-.ab-stage__short { color: var(--muted); font-size: .8em; font-weight: 400; letter-spacing: 0; }
 .of-buy { display: grid; gap: var(--xp-5); }
 .of-buy__list { display: grid; gap: 0; border-top: 1px solid var(--xp-line-strong); }
 .of-buy__list li { display: grid; grid-template-columns: 2.6rem minmax(0, 1fr); gap: .35rem 1rem; padding: 1.3rem 0 1.4rem; border-bottom: 1px solid var(--xp-line); }
@@ -384,5 +377,5 @@
 .cms-tasks p { color: var(--muted); font-size: .88rem; line-height: 1.5; }
 
 @media (prefers-reduced-motion: reduce) {
-  .lx-card, .cms__card, .lx-hero__shortcuts a, .hm-jobs a, .hm-cycle li { transition: none !important; }
+  .lx-card, .cms__card, .lx-hero__shortcuts a, .hm-cycle li { transition: none !important; }
 }

@@ -9,7 +9,7 @@ import { Button, Icon, TextLink } from "@/components/ui";
 import { formatAreaRange, getProject, listProjects, listVacancies, publicSpaces, sortSpaces, spacesCount, spacesFor } from "@/content/source";
 import { drochiaProfile, vatraProfile } from "@/data/demo-content";
 import { businessStatement, lifecycle, verbs } from "@/lib/business";
-import { departmentLabel } from "@/lib/careers";
+import { CareersMoment } from "@/components/careers-moment";
 import { eras, historyCopy } from "@/lib/history";
 import { areaBands } from "@/lib/leasing";
 import { brand, localePath, publicAsset, type SiteLocale } from "@/lib/site-data";
@@ -55,9 +55,6 @@ const copy = {
     completion: "Finalizare",
     historyLabel: "Istoric",
     historyCta: "Citiți cronica",
-    vacanciesLabel: "Cariere",
-    vacanciesTitle: "Lucrați cu clădiri și proiecte reale.",
-    vacanciesAll: "Toate posturile",
     closeLabel: "Contact",
     closeTitle: "Spuneți-ne ce aveți nevoie.",
     closeRoutes: [["Caut un spațiu", "/contact?subject=lease#occupier"], ["Propun un obiect sau un teren", "/offer"], ["Vreau să lucrez la MEGAPARC", "/careers"], ["Altă întrebare", "/contact"]],
@@ -68,9 +65,9 @@ const copy = {
     routesTitle: "С чем вы пришли в MEGAPARC?",
     cycleLabel: "Как работает MEGAPARC",
     routes: {
-      space: ["Ищу помещение", (n: string, range: string) => `Сейчас сдаётся ${n}, ${range}. Фильтр по формату, площади и зданию.`],
-      offer: ["Хочу предложить объект или землю", () => "MEGAPARC покупает здания и землю. Опишите объект — получите первичную оценку."],
-      about: ["Хочу узнать о MEGAPARC", () => "Как мы работаем — покупаем, развиваем, сдаём в аренду — и наша хроника с 1991 года."],
+      space: ["Ищу помещение", (n: string, range: string) => `Сейчас свободно ${n}: ${range}. Подберите по формату, площади и зданию.`],
+      offer: ["Хочу предложить объект или землю", () => "MEGAPARC покупает здания и землю. Опишите объект — ответим, интересен ли он нам."],
+      about: ["Хочу узнать о MEGAPARC", () => "Как мы работаем и с чего всё начиналось — с 1991 года."],
     },
     ctaSpace: "Ищу помещение",
     ctaOffer: "Предложить объект или землю",
@@ -81,21 +78,18 @@ const copy = {
     quick: "Искать по площади",
     projectsLabel: "Проекты",
     projectsTitle: "Здания, которые мы купили и сдаём в аренду.",
-    projectsLead: "Здания под штаб-квартиры, торговля первой линии и районные сервисы — в Кишинёве.",
+    projectsLead: "Штаб-квартиры, торговля на первой линии, районные сервисы — всё в Кишинёве.",
     projectsAll: "Все проекты",
     spacesHere: (n: number) => (n === 1 ? "1 свободное помещение" : n < 5 ? `${n} свободных помещения` : `${n} свободных помещений`),
     devLabel: "Развитие",
     devTitle: "Строим собственные проекты. И покупаем землю для следующих.",
-    devText: "VATRA — собственный проект в стадии реализации. Drochia Gateway — собственный участок 2,0 га на въезде в город, концепция на стадии оценки.",
+    devText: "VATRA уже в работе. Drochia Gateway — наш участок 2,0 га на въезде в город; концепцию сейчас оцениваем.",
     devCta: "Проекты развития",
     stage: "Стадия",
     site: "Участок",
-    completion: "Ввод",
+    completion: "Завершение",
     historyLabel: "История",
     historyCta: "Читать хронику",
-    vacanciesLabel: "Вакансии",
-    vacanciesTitle: "Работайте с реальными зданиями и проектами.",
-    vacanciesAll: "Все вакансии",
     closeLabel: "Контакты",
     closeTitle: "Расскажите, что вам нужно.",
     closeRoutes: [["Ищу помещение", "/contact?subject=lease#occupier"], ["Предлагаю объект или землю", "/offer"], ["Хочу работать в MEGAPARC", "/careers"], ["Другой вопрос", "/contact"]],
@@ -131,9 +125,6 @@ const copy = {
     completion: "Completion",
     historyLabel: "History",
     historyCta: "Read the chronicle",
-    vacanciesLabel: "Careers",
-    vacanciesTitle: "Work on real buildings and projects.",
-    vacanciesAll: "All vacancies",
     closeLabel: "Contact",
     closeTitle: "Tell us what you need.",
     closeRoutes: [["I need a space", "/contact?subject=lease#occupier"], ["I offer a property or land", "/offer"], ["I want to work at MEGAPARC", "/careers"], ["Another question", "/contact"]],
@@ -333,26 +324,8 @@ export function HomePage({ locale }: { locale: SiteLocale }) {
         </div>
       </section>
 
-      {/* 07 VACANCIES */}
-      <section className="xp-sec" id="vacancies">
-        <div className="xp-shell">
-          <Opening no="06" label={c.vacanciesLabel} title={c.vacanciesTitle} className="xp-opening--split" />
-          <ul className="hm-jobs" data-reveal>
-            {vacancies.slice(0, 4).map((job) => (
-              <li key={job.slug}>
-                <Link href={`${p("/careers")}#${job.slug}`}>
-                  <span className="hm-jobs__title">{job.title[locale]}</span>
-                  <span className="hm-jobs__meta">{departmentLabel[job.department][locale]} · {job.location[locale]}</span>
-                  <Icon name="arrow" size={18} />
-                </Link>
-              </li>
-            ))}
-          </ul>
-          <div className="xp-actions xp-actions--top" data-reveal>
-            <Button href={p("/careers")}>{c.vacanciesAll} · {String(vacancies.length).padStart(2, "0")}</Button>
-          </div>
-        </div>
-      </section>
+      {/* 07 VACANCIES — cinematic film moment (concept footage, labelled) */}
+      <CareersMoment locale={locale} variant="section" href={`${p("/careers")}#positions`} no="06" count={vacancies.length} />
 
       {/* 08 CONTACT — red signature */}
       <section className="xp-sec xp-sec--red" id="next">

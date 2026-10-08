@@ -1,16 +1,14 @@
-import { existsSync } from "node:fs";
-import { join } from "node:path";
 import Link from "next/link";
 import type { CSSProperties } from "react";
-import { CareersFilm } from "@/components/careers-film";
-import { ConceptImage, DemoMark, MaskTitle, Opening, conceptMedia } from "@/components/experience";
+import { CareersMoment } from "@/components/careers-moment";
+import { ConceptImage, DemoMark, Opening } from "@/components/experience";
 import { PageShell } from "@/components/page-shell";
 import { ArtImage } from "@/components/primitives";
 import { Button, Icon, TextLink } from "@/components/ui";
 import { company, cultureStatement, roleStories } from "@/data/demo-content";
 import { formatDate, listProjects, listVacancies } from "@/content/source";
 import { departmentLabel, employerBrand } from "@/lib/careers";
-import { localePath, publicAsset, type SiteLocale } from "@/lib/site-data";
+import { localePath, type SiteLocale } from "@/lib/site-data";
 
 /**
  * CAREERS — emotional contrast to the institutional pages (2026-10-07).
@@ -19,14 +17,8 @@ import { localePath, publicAsset, type SiteLocale } from "@/lib/site-data";
  * walking rhythm, then role stories (DEMO: work described, never a person),
  * then the real Rabota.md vacancies as a clean list.
  */
-const FILM = "/assets/careers/megaparc-careers-film.mp4";
-
 const copy = {
   ro: {
-    title: ["Construim echipa", "care construiește viitorul."],
-    lead: "Clădiri reale, proiecte reale, responsabilitate reală — de la șantier la decizia de a cumpăra un obiect.",
-    roles: "Posturi deschise",
-    work: "Ce veți face",
     workLabel: "La ce veți lucra",
     workTitle: "Pe obiecte și proiecte pe care le puteți vizita mâine.",
     workLines: {
@@ -57,33 +49,29 @@ const copy = {
     applyCta: "Trimite CV-ul",
   },
   ru: {
-    title: ["Строим команду,", "которая строит будущее."],
-    lead: "Реальные здания, реальные проекты, реальная ответственность — от стройплощадки до решения о покупке объекта.",
-    roles: "Открытые вакансии",
-    work: "Чем вы будете заниматься",
     workLabel: "Над чем вы будете работать",
     workTitle: "На объектах и проектах, которые можно увидеть завтра.",
     workLines: {
       "dacia-31": "Подготовка здания к новому пользователю с 2027 года: аудит, инженерия, планировки.",
       "moscova-9": "Работа с брендом-арендатором: фасад, логистика, эксплуатация.",
       "moscova-20": "Запуск помещения под новый формат с августа 2026 года.",
-      "creanga-78": "Эксплуатация многоарендного здания.",
+      "creanga-78": "Здание, где много арендаторов: обслуживание и сервис.",
       vatra: "Строительство: качество, бюджет, график.",
       "drochia-gateway": "Оценка участка: градостроительство, концепции, экономика.",
     } as Record<string, string>,
     pillars: [
       ["Команда", "Приобретения, финансы, девелопмент, строительство, аренда и эксплуатация — за одним столом. Хорошему решению нужны все."],
       ["Ответственность за проект", "У каждого проекта есть человек, который за него отвечает: за бюджет, сроки и качество, которое остаётся после сдачи."],
-      ["Профессиональный рост", "Вы работаете на всём жизненном цикле объекта — от анализа до строительства и эксплуатации. Так вырастают специалисты широкого профиля."],
+      ["Профессиональный рост", "Вы видите весь путь объекта — от анализа до стройки и эксплуатации. Так вырастают специалисты широкого профиля."],
       ["Объект + офис", "Часть дня — на площадке или в здании, часть — над расчётами и решениями. Результат виден на улице, а не только в отчёте."],
     ],
     pillarsLabel: "Как работают в MEGAPARC",
     storiesLabel: "Роли — как выглядит работа",
-    storiesTitle: "Четыре роли — через то, что вы делаете, а не через должности.",
+    storiesTitle: "Четыре роли — о работе, а не о должностях.",
     storiesNote: "Примеры ролей для превью: описывают работу, а не реальных людей.",
     owns: "Вы отвечаете за",
     positionsLabel: "Открытые вакансии",
-    positionsTitle: (n: number) => `${String(n).padStart(2, "0")} открытых вакансий сейчас.`,
+    positionsTitle: (n: number) => `${String(n).padStart(2, "0")} открытых вакансий.`,
     view: "Вакансия на Rabota.md",
     applyLabel: "Отклик",
     applyTitle: "Не нашли свою роль?",
@@ -91,10 +79,6 @@ const copy = {
     applyCta: "Отправить резюме",
   },
   en: {
-    title: ["We build the team", "that builds the future."],
-    lead: "Real buildings, real projects, real responsibility — from the building site to the decision to buy a property.",
-    roles: "Open vacancies",
-    work: "What you would work on",
     workLabel: "What you will work on",
     workTitle: "On properties and projects you could visit tomorrow.",
     workLines: {
@@ -128,37 +112,16 @@ const copy = {
 
 const pillarImages = ["careers.team", "careers.responsibility", "careers.growth", "careers.field"];
 
-function filmSource() {
-  return existsSync(join(process.cwd(), "public", FILM)) ? publicAsset(FILM) : null;
-}
-
 export function CareersPage({ locale }: { locale: SiteLocale }) {
   const c = copy[locale];
   const p = (path: string) => localePath(locale, path);
-  const film = filmSource();
   const work = listProjects().map((project) => ({ key: project.slug, name: project.name, href: p(`/projects/${project.slug}`), media: project.media }));
   const vacancies = listVacancies();
 
   return (
     <PageShell locale={locale} variant="overlay" experience>
-      {/* HERO — people and architecture (brand film when supplied) */}
-      <section className="xp-hero" data-xp-hero id="careers-hero">
-        <div className="xp-hero__media">
-          <div className="xp-hero__frame is-active">
-            {film ? <CareersFilm src={film} poster={conceptMedia("cv-hall").src} alt="" /> : <ConceptImage id="careers.hero" locale={locale} priority />}
-          </div>
-        </div>
-        <div className="xp-hero__veil" aria-hidden="true" />
-        <div className="xp-shell xp-hero__copy">
-          <p className="xp-hero__line">{employerBrand.kicker[locale]}</p>
-          <MaskTitle as="h1" className="xp-hero__title xp-hero__title--soft" lines={[...c.title]} />
-          <p className="xp-hero__lead">{c.lead}</p>
-          <div className="xp-actions">
-            <Button href="#positions" variant="light">{c.roles}</Button>
-            <Button href="#work" variant="ghost-light">{c.work}</Button>
-          </div>
-        </div>
-      </section>
+      {/* HERO — cinematic film, one statement, one action (concept footage, labelled) */}
+      <CareersMoment locale={locale} variant="hero" href="#positions" />
 
       {/* VACANCIES — real, Rabota.md */}
       <section className="xp-sec" id="positions">

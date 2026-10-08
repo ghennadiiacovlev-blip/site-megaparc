@@ -25,7 +25,7 @@ export const ownerIntents: { key: OwnerIntent; label: Localized; thinking: Local
   {
     key: "sell",
     label: { ro: "Să vând", ru: "Продать", en: "Sell" },
-    thinking: { ro: "Ne uităm la ce poate deveni obiectul în mâinile noastre — de aici vine o ofertă argumentată, nu o cifră aruncată.", ru: "Смотрим, чем объект может стать в наших руках, — отсюда аргументированное предложение, а не случайная цифра.", en: "We look at what the property could become in our hands — that is where a reasoned offer comes from, not a random figure." },
+    thinking: { ro: "Ne uităm la ce poate deveni obiectul în mâinile noastre — de aici vine o ofertă argumentată, nu o cifră aruncată.", ru: "Смотрим, чем объект может стать у нас, — поэтому предлагаем обоснованную цену, а не случайную цифру.", en: "We look at what the property could become in our hands — that is where a reasoned offer comes from, not a random figure." },
     assess: [{ ro: "Situația juridică", ru: "Юридический статус", en: "Legal status" }, { ro: "Starea tehnică", ru: "Техническое состояние", en: "Technical condition" }, { ro: "Potențialul locației", ru: "Потенциал локации", en: "Location potential" }],
   },
   {
@@ -37,14 +37,14 @@ export const ownerIntents: { key: OwnerIntent; label: Localized; thinking: Local
   {
     key: "unsure",
     label: { ro: "Încă nu știu", ru: "Пока не знаю", en: "Not sure yet" },
-    thinking: { ro: "Cel mai des începem exact de aici. O primă evaluare arată ce variantă are sens — vânzare sau dezvoltare împreună.", ru: "Чаще всего разговор начинается именно здесь. Первичная оценка покажет, какой вариант имеет смысл: продажа или совместное развитие.", en: "Most conversations start right here. A first assessment shows which option makes sense — a sale or developing together." },
+    thinking: { ro: "Cel mai des începem exact de aici. O primă evaluare arată ce variantă are sens — vânzare sau dezvoltare împreună.", ru: "Чаще всего разговор начинается именно так. Оценка покажет, что разумнее: продажа или совместное развитие.", en: "Most conversations start right here. A first assessment shows which option makes sense — a sale or developing together." },
     assess: [{ ro: "Ce aveți", ru: "Что у вас есть", en: "What you have" }, { ro: "Ce vă doriți", ru: "Чего вы хотите", en: "What you want" }, { ro: "Ce permite piața", ru: "Что позволяет рынок", en: "What the market allows" }],
   },
 ];
 
 const compassCopy: Record<SiteLocale, { have: string; consider: string; thinking: string; assess: string; proof: string; submit: string; proofTitle: string; proofText: string; proofCta: string }> = {
   ro: { have: "Ce aveți?", consider: "Ce luați în calcul?", thinking: "Cum gândește MEGAPARC", assess: "Ce verificăm mai întâi", proof: "Exemplu real", submit: "Trimite obiectul", proofTitle: "Drochia Gateway, 2,0 ha.", proofText: "Un teren al MEGAPARC la intrarea în oraș, cu două fronturi stradale — trei concepte se evaluează în paralel.", proofCta: "Vezi proiectul" },
-  ru: { have: "Что у вас есть?", consider: "Что вы рассматриваете?", thinking: "Как думает MEGAPARC", assess: "Что проверяем в первую очередь", proof: "Реальный пример", submit: "Отправить объект", proofTitle: "Drochia Gateway, 2,0 га.", proofText: "Участок MEGAPARC на въезде в город с двумя фронтами к дорогам — три концепции оцениваются параллельно.", proofCta: "Смотреть проект" },
+  ru: { have: "Что у вас есть?", consider: "Что вы рассматриваете?", thinking: "Как думает MEGAPARC", assess: "Что проверяем в первую очередь", proof: "Реальный пример", submit: "Отправить объект", proofTitle: "Drochia Gateway, 2,0 га.", proofText: "Участок MEGAPARC на въезде в город выходит на две дороги. Сейчас параллельно оцениваем три концепции.", proofCta: "Смотреть проект" },
   en: { have: "What do you have?", consider: "What are you considering?", thinking: "How MEGAPARC thinks", assess: "What we check first", proof: "A real example", submit: "Send the property", proofTitle: "Drochia Gateway, 2.0 ha.", proofText: "MEGAPARC's own site at the town entrance with two road fronts — three concepts are assessed in parallel.", proofCta: "View the project" },
 };
 

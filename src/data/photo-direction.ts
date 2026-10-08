@@ -163,7 +163,7 @@ export const propertyBriefs: PropertyBrief[] = [
     name: "Creangă 78",
     status: "Operating property · no approved public data or photography yet. Every value in the preview is DEMO; the preview uses a labelled concept image.",
     mood: L("Mai întâi confirmăm clădirea (adresă, destinație, suprafață). Până atunci: o clădire urbană îngrijită, cu viață la stradă.", "Сначала подтверждаем здание (адрес, назначение, площадь). До тех пор: ухоженное городское здание с жизнью у улицы.", "Confirm the building first (address, use, area). Until then: a well-kept city building with life at street level."),
-    avoid: L("Orice imagine înainte de confirmarea OWNER; siglele chiriașilor fără permisiune.", "Любые снимки до подтверждения OWNER; логотипы арендаторов без разрешения.", "Any image before the OWNER confirms the property; tenants' logos without permission."),
+    avoid: L("Orice imagine înainte de confirmarea MEGAPARC; siglele chiriașilor fără permisiune.", "Любые съёмки до подтверждения MEGAPARC; логотипы арендаторов без разрешения.", "Any image before MEGAPARC confirms the property; tenants' logos without permission."),
     notApplicable: [],
     covered: [],
     mustShow: {
