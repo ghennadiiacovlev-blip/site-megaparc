@@ -1,18 +1,22 @@
 import type { Metadata } from "next";
+import { formatArea, getProject, getSpace } from "@/content/source";
 import { demoContentPresent } from "@/data/demo-content";
-import { getAsset, getProject } from "@/lib/assets";
 import { brand, isPreviewBuild, localePath, locales, type Localized, type SiteLocale } from "@/lib/site-data";
 
 /**
  * SEO metadata — plain, search-oriented and factual (editorial source: RU).
+ * Business model (OWNER correction 2026-10-08): MEGAPARC buys real estate and
+ * land, develops its own projects and leases its own commercial space. No
+ * asset-management service wording anywhere in titles or descriptions.
  * This module must never import src/lib/public-financial-metrics.ts:
  * temporary review-only figures stay out of titles, descriptions, Open Graph
  * and structured data by construction.
  *
  * Robots: GitHub Pages OWNER preview (GITHUB_PAGES=true) is noindex, nofollow;
- * so is ANY build that still carries demo content (src/data/demo-content.ts —
- * full-experience prototype 2026-10-07). Production megaparc.md is index,
- * follow only after OWNER approval and a passing `npm run gate:production`.
+ * so is ANY build that still carries demo content (src/data/demo-content.ts).
+ * Internal review routes (brand system, CMS workflow) are always noindex.
+ * Production megaparc.md is index, follow only after OWNER approval and a
+ * passing `npm run gate:production`.
  */
 
 export const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://megaparc.md").replace(/\/$/, "");
@@ -29,144 +33,135 @@ type PageCopy = { title: Localized; description: Localized };
 export const pageSeo = {
   home: {
     title: {
-      ro: "MEGAPARC — investiții, dezvoltare și administrare imobiliară",
-      ru: "MEGAPARC — инвестиции, девелопмент и управление недвижимостью",
-      en: "MEGAPARC — real estate investment, development and asset management",
+      ro: "MEGAPARC — cumpărăm, dezvoltăm și închiriem imobiliare comerciale",
+      ru: "MEGAPARC — покупаем, развиваем и сдаём в аренду коммерческую недвижимость",
+      en: "MEGAPARC — we acquire, develop and lease commercial real estate",
     },
     description: {
-      ro: "MEGAPARC investește în imobiliare, dezvoltă proiecte și administrează obiecte comerciale. Analizează oportunități de investiții pe piețele internaționale.",
-      ru: "MEGAPARC инвестирует в недвижимость, развивает проекты и управляет коммерческими активами. Рассматривает инвестиционные возможности на международных рынках.",
-      en: "MEGAPARC invests in real estate, develops projects and manages commercial properties. It evaluates investment opportunities across international markets.",
-    },
-  },
-  approach: {
-    title: { ro: "Abordarea noastră — cum lucrează MEGAPARC", ru: "Наш подход — как работает MEGAPARC", en: "Our approach — how MEGAPARC works" },
-    description: {
-      ro: "Cum evaluăm un obiect, unde analizăm investiții, cum creăm valoare, cum dezvoltăm și administrăm imobiliare și ce principii urmăm.",
-      ru: "Как мы оцениваем объект, где рассматриваем инвестиции, как создаём стоимость, как развиваем и управляем недвижимостью и какие принципы используем.",
-      en: "How we assess a property, where we consider investments, how we create value, how we develop and manage real estate and which principles we follow.",
+      ro: "MEGAPARC investește în imobiliare și terenuri, dezvoltă proiecte proprii și închiriază spații comerciale în Chișinău. Vedeți spațiile libere acum.",
+      ru: "MEGAPARC инвестирует в недвижимость и землю, развивает собственные проекты и сдаёт коммерческие площади в Кишинёве. Смотрите, что сдаётся сейчас.",
+      en: "MEGAPARC invests in real estate and land, develops its own projects and leases commercial space in Chișinău. See what is available now.",
     },
   },
   about: {
-    title: { ro: "Despre MEGAPARC", ru: "О компании MEGAPARC", en: "About MEGAPARC" },
+    title: { ro: "Despre MEGAPARC — cum lucrăm", ru: "О компании MEGAPARC — как мы работаем", en: "About MEGAPARC — how we work" },
     description: {
-      ro: "MEGAPARC investește în imobiliare, dezvoltă proiecte și administrează obiecte. Fondată în 2005, pe experiența antreprenorială a grupului din 1995.",
-      ru: "MEGAPARC инвестирует в недвижимость, развивает проекты и управляет объектами. Основана в 2005 году, опирается на предпринимательский опыт группы с 1995 года.",
-      en: "MEGAPARC invests in real estate, develops projects and manages properties. Founded in 2005, building on the group's entrepreneurial experience since 1995.",
+      ro: "MEGAPARC cumpără clădiri și terenuri, dezvoltă și renovează proiecte proprii, închiriază și exploatează propriile clădiri. Fondată în 2005.",
+      ru: "MEGAPARC покупает здания и землю, развивает и обновляет собственные проекты, сдаёт в аренду и эксплуатирует свои здания. Основана в 2005 году.",
+      en: "MEGAPARC buys buildings and land, develops and renovates its own projects, leases and operates its own buildings. Founded in 2005.",
     },
   },
-  portfolio: {
-    title: { ro: "Portofoliul imobiliar MEGAPARC", ru: "Портфель недвижимости MEGAPARC", en: "MEGAPARC real estate portfolio" },
+  history: {
+    title: { ro: "Istoric — cronica grupului și a MEGAPARC", ru: "История — хроника группы и MEGAPARC", en: "History — the chronicle of the group and MEGAPARC" },
     description: {
-      ro: "Obiecte comerciale în funcțiune și proiecte de dezvoltare în Chișinău: Dacia 31, Moscova 9, Moscova 20, Creangă 78, VATRA, Drochia Gateway.",
-      ru: "Действующие коммерческие объекты и проекты развития в Кишинёве: Dacia 31, Moscova 9, Moscova 20, Creangă 78, VATRA, Drochia Gateway.",
-      en: "Operating commercial properties and development projects in Chișinău: Dacia 31, Moscova 9, Moscova 20, Creangă 78, VATRA, Drochia Gateway.",
+      ro: "Din 1991: comerț, producție, logistică, finanțe, agrobusiness, proiecte internaționale. MEGAPARC, fondată în 2005; imobiliarele — focus din 2020.",
+      ru: "С 1991 года: розница, производство, логистика, финансы, агробизнес, международные проекты. MEGAPARC основана в 2005 году; с 2020-го — фокус на недвижимости.",
+      en: "Since 1991: retail, manufacturing, logistics, finance, agribusiness, international projects. MEGAPARC founded in 2005; real estate the focus since 2020.",
     },
   },
-  development: {
-    title: { ro: "Dezvoltare — proiecte MEGAPARC", ru: "Девелопмент — проекты MEGAPARC", en: "Development — MEGAPARC projects" },
+  projects: {
+    title: { ro: "Proiecte MEGAPARC — obiecte, dezvoltare, terenuri", ru: "Проекты MEGAPARC — объекты, девелопмент, земля", en: "MEGAPARC projects — properties, development, land" },
     description: {
-      ro: "Proiecte de dezvoltare MEGAPARC, de la teren la punerea în funcțiune: VATRA și Drochia Gateway.",
-      ru: "Проекты развития MEGAPARC — от участка до ввода в эксплуатацию: VATRA и Drochia Gateway.",
-      en: "MEGAPARC development projects, from site to commissioning: VATRA and Drochia Gateway.",
+      ro: "Obiectele comerciale MEGAPARC din Chișinău, proiectul VATRA și terenul Drochia Gateway: Dacia 31, Moscova 9, Moscova 20, Creangă 78.",
+      ru: "Коммерческие объекты MEGAPARC в Кишинёве, проект VATRA и участок Drochia Gateway: Dacia 31, Moscova 9, Moscova 20, Creangă 78.",
+      en: "MEGAPARC's commercial properties in Chișinău, the VATRA project and the Drochia Gateway site: Dacia 31, Moscova 9, Moscova 20, Creangă 78.",
     },
   },
-  opportunities: {
-    title: { ro: "Colaborare cu MEGAPARC — închiriere, obiecte, parteneriat", ru: "Сотрудничество с MEGAPARC — аренда, объекты, партнёрство", en: "Working with MEGAPARC — leasing, properties, partnership" },
+  leasing: {
+    title: { ro: "Închiriere spații comerciale în Chișinău — MEGAPARC", ru: "Аренда коммерческих помещений в Кишинёве — MEGAPARC", en: "Commercial space to let in Chișinău — MEGAPARC" },
     description: {
-      ro: "Închiriere de spații, propunerea de obiecte și parteneriat cu MEGAPARC.",
-      ru: "Аренда, предложение объектов и партнёрство с MEGAPARC.",
-      en: "Leasing, property proposals and partnership with MEGAPARC.",
+      ro: "Spații libere acum: retail, birouri, showroom, servicii, clinici, HoReCa. Suprafață, etaj, acces, parcare și plan pentru fiecare spațiu.",
+      ru: "Что сдаётся сейчас: торговля, офисы, шоурумы, сервисы, клиники, HoReCa. Площадь, этаж, вход, парковка и план по каждому помещению.",
+      en: "What is available now: retail, offices, showrooms, services, clinics, food and drink. Area, floor, access, parking and plan for every space.",
+    },
+  },
+  offer: {
+    title: { ro: "Propuneți un obiect sau un teren — MEGAPARC cumpără", ru: "Предложите объект или землю — MEGAPARC покупает", en: "Offer a property or land — MEGAPARC buys" },
+    description: {
+      ro: "MEGAPARC cumpără clădiri comerciale, clădiri de renovat și terenuri pentru dezvoltare. Trimiteți obiectul — primiți o primă evaluare.",
+      ru: "MEGAPARC покупает коммерческие здания, здания под реконструкцию и землю под развитие. Отправьте объект — получите первичную оценку.",
+      en: "MEGAPARC buys commercial buildings, buildings to renovate and land for development. Send us the property — get a first assessment.",
     },
   },
   careers: {
-    title: { ro: "Cariere — MEGAPARC", ru: "Карьера — MEGAPARC", en: "Careers — MEGAPARC" },
+    title: { ro: "Cariere — posturi deschise la MEGAPARC", ru: "Вакансии MEGAPARC", en: "Careers — open vacancies at MEGAPARC" },
     description: {
-      ro: "Posturi deschise la MEGAPARC în investiții, dezvoltare, administrare imobiliară și exploatare.",
-      ru: "Открытые вакансии MEGAPARC в инвестициях, девелопменте, управлении недвижимостью и эксплуатации.",
-      en: "Open vacancies at MEGAPARC in investment, development, asset management and operations.",
+      ro: "Posturi deschise la MEGAPARC: dezvoltare și construcții, închiriere și exploatare, juridic, conducere.",
+      ru: "Открытые вакансии MEGAPARC: девелопмент и строительство, аренда и эксплуатация, юридический отдел, руководство.",
+      en: "Open vacancies at MEGAPARC: development and construction, leasing and operations, legal, leadership.",
     },
   },
   contact: {
     title: { ro: "Contact — MEGAPARC", ru: "Контакты — MEGAPARC", en: "Contact — MEGAPARC" },
     description: {
-      ro: "Contactați MEGAPARC: închiriere, propunerea unui obiect, parteneriat sau carieră.",
-      ru: "Связаться с MEGAPARC: аренда, предложение объекта, партнёрство или карьера.",
-      en: "Contact MEGAPARC: leasing, a property proposal, partnership or careers.",
+      ro: "Contactați MEGAPARC: închirierea unui spațiu, propunerea unui obiect sau teren, carieră.",
+      ru: "Связаться с MEGAPARC: аренда помещения, предложение объекта или земли, вакансии.",
+      en: "Contact MEGAPARC: leasing a space, offering a property or land, careers.",
     },
   },
   brandSystem: {
-    title: { ro: "Brand System 2.0 — revizuire internă", ru: "Brand System 2.0 — внутренний обзор", en: "Brand System 2.0 — internal review" },
+    title: { ro: "Brand System — revizuire internă", ru: "Brand System — внутренний обзор", en: "Brand System — internal review" },
     description: {
       ro: "Pagină internă de revizuire a sistemului de brand MEGAPARC.",
       ru: "Внутренняя страница обзора бренд-системы MEGAPARC.",
       en: "Internal review page for the MEGAPARC brand system.",
     },
   },
+  cmsWorkflow: {
+    title: { ro: "Cum se actualizează site-ul — prototip CMS (intern)", ru: "Как обновляется сайт — прототип CMS (внутренний)", en: "How the site is updated — CMS prototype (internal)" },
+    description: {
+      ro: "Prototip intern: cum un angajat MEGAPARC schimbă statutul unui spațiu în WordPress fără cod.",
+      ru: "Внутренний прототип: как сотрудник MEGAPARC меняет статус помещения в WordPress без кода.",
+      en: "Internal prototype: how a MEGAPARC employee changes a space's status in WordPress without code.",
+    },
+  },
 } satisfies Record<string, PageCopy>;
 
 export type PageId = keyof typeof pageSeo;
+
+const internal: PageId[] = ["brandSystem", "cmsWorkflow"];
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 const metaPath = (src: string) => (basePath && src.startsWith(basePath) ? src.slice(basePath.length) : src);
 const ogImage = "/assets/portfolio/dacia-31-wide.webp";
 
-export function buildMetadata(locale: SiteLocale, path: string, copy: PageCopy, options?: { noindex?: boolean }): Metadata {
+export function buildMetadata(locale: SiteLocale, path: string, copy: PageCopy, options?: { noindex?: boolean; image?: string }): Metadata {
   const languages: Record<string, string> = {};
   for (const l of locales) languages[hreflang[l]] = localePath(l, path);
   languages["x-default"] = localePath("ro", path);
   const title = copy.title[locale];
   const description = copy.description[locale];
+  const image = options?.image ? metaPath(options.image) : ogImage;
   return {
     title: { absolute: title },
     description,
     robots: options?.noindex ? { index: false, follow: false } : robotsPolicy,
     alternates: { canonical: localePath(locale, path), languages },
-    openGraph: {
-      title,
-      description,
-      type: "website",
-      locale: ogLocale[locale],
-      siteName: brand.name,
-      url: localePath(locale, path),
-      images: [ogImage],
-    },
-    twitter: { card: "summary_large_image", title, description, images: [ogImage] },
+    openGraph: { title, description, type: "website", locale: ogLocale[locale], siteName: brand.name, url: localePath(locale, path), images: [image] },
+    twitter: { card: "summary_large_image", title, description, images: [image] },
   };
 }
 
 export function pageMetadata(locale: SiteLocale, id: PageId, path: string) {
-  return buildMetadata(locale, path, pageSeo[id], { noindex: id === "brandSystem" });
-}
-
-export function assetMetadata(locale: SiteLocale, slug: string): Metadata {
-  const asset = getAsset(slug);
-  if (!asset) return {};
-  const title: Localized = {
-    ro: `${asset.name} — ${asset.positioning.ro} · MEGAPARC`,
-    ru: `${asset.name} — ${asset.positioning.ru} · MEGAPARC`,
-    en: `${asset.name} — ${asset.positioning.en} · MEGAPARC`,
-  };
-  const meta = buildMetadata(locale, `/portfolio/${asset.slug}`, { title, description: asset.lead });
-  if (asset.media) {
-    meta.openGraph = { ...meta.openGraph, images: [metaPath(asset.media.wide)] };
-    meta.twitter = { ...meta.twitter, images: [metaPath(asset.media.wide)] };
-  }
-  return meta;
+  return buildMetadata(locale, path, pageSeo[id], { noindex: internal.includes(id) });
 }
 
 export function projectMetadata(locale: SiteLocale, slug: string): Metadata {
   const project = getProject(slug);
   if (!project) return {};
   const title: Localized = {
-    ro: `${project.name} — ${project.status.ro} · MEGAPARC`,
-    ru: `${project.name} — ${project.status.ru} · MEGAPARC`,
-    en: `${project.name} — ${project.status.en} · MEGAPARC`,
+    ro: `${project.name} — ${project.format.ro} · MEGAPARC`,
+    ru: `${project.name} — ${project.format.ru} · MEGAPARC`,
+    en: `${project.name} — ${project.format.en} · MEGAPARC`,
   };
-  const meta = buildMetadata(locale, `/development/${project.slug}`, { title, description: project.lead });
-  if (project.media) {
-    meta.openGraph = { ...meta.openGraph, images: [metaPath(project.media.wide)] };
-    meta.twitter = { ...meta.twitter, images: [metaPath(project.media.wide)] };
-  }
-  return meta;
+  const description = project.asset?.lead ?? project.development!.lead;
+  return buildMetadata(locale, `/projects/${project.slug}`, { title, description }, { image: project.media?.wide });
+}
+
+export function spaceMetadata(locale: SiteLocale, id: string): Metadata {
+  const space = getSpace(id);
+  if (!space) return {};
+  const project = getProject(space.project)!;
+  const title = Object.fromEntries((["ro", "ru", "en"] as SiteLocale[]).map((l) => [l, `${project.name} · ${formatArea(space.area, l)} — ${space.unit[l]} · MEGAPARC`])) as Localized;
+  return buildMetadata(locale, `/leasing/${space.id}`, { title, description: space.headline }, { image: project.media?.wide });
 }

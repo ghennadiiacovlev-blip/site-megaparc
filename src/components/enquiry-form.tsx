@@ -5,15 +5,17 @@ import { Icon } from "@/components/ui";
 import type { SiteLocale } from "@/lib/site-data";
 
 /**
- * Enquiry form — five subjects, each asking what qualifies the request
- * (OWNER addendum: "the form should produce a QUALIFIED LEAD").
+ * Enquiry form — four subjects, each asking what qualifies the request
+ * (OWNER addendum: "the form should produce a QUALIFIED LEAD"). OWNER
+ * correction 2026-10-08: lease (with the exact space) · offer a property or
+ * land · careers · partnership / other. No investment-management subject.
  *
  * PREVIEW RULE: nothing is sent anywhere. Submission validates, then shows a
  * local confirmation with the summary of the request. No fetch, no mailto, no
  * storage. Destination mailboxes shown are DEMO (src/data/demo-content.ts).
  */
 
-export type Subject = "lease" | "property" | "capital" | "partnership" | "careers";
+export type Subject = "lease" | "property" | "partnership" | "careers";
 type Option = { value: string; label: string };
 type Field =
   | { name: string; label: string; kind: "text" | "email" | "tel" | "url" | "month"; required?: boolean; placeholder?: string; half?: boolean; hint?: string }
@@ -24,6 +26,7 @@ type Field =
 
 export type FormOptions = {
   properties: Option[];
+  spaces: Option[];
   businessTypes: Option[];
   areas: Option[];
   districts: Option[];
@@ -37,15 +40,14 @@ export type FormOptions = {
   reply: string;
 };
 
-const anchors: Record<Subject, string> = { lease: "occupier", property: "opportunity", capital: "investors", partnership: "partnership", careers: "careers" };
+const anchors: Record<Subject, string> = { lease: "occupier", property: "opportunity", careers: "careers", partnership: "partnership" };
 
 const T = {
   ro: {
-    subjects: { lease: "Caut un spațiu", property: "Propun un obiect sau teren", capital: "Investiții și finanțare", partnership: "Parteneriat", careers: "Carieră" },
+    subjects: { lease: "Caut un spațiu", property: "Propun un obiect sau teren", careers: "Carieră", partnership: "Parteneriat sau altă întrebare" },
     intro: {
-      lease: "Spuneți-ne ce trebuie să facă spațiul pentru afacerea dumneavoastră. Verificăm portofoliul și vă recomandăm variantele potrivite.",
+      lease: "Spuneți-ne ce trebuie să facă spațiul pentru afacerea dumneavoastră. Verificăm spațiile libere și vă recomandăm variantele potrivite.",
       property: "Descrieți obiectul sau terenul și ce luați în calcul. Primiți o primă evaluare, nu un formular automat.",
-      capital: "Spuneți-ne cine sunteți și ce vă interesează — finanțare, co-investiție sau achiziție.",
       partnership: "Câteva rânduri despre organizație și propunere sunt suficiente pentru o primă discuție.",
       careers: "Indicați direcția sau postul și un link spre CV. Datele candidaților se folosesc doar pentru recrutare.",
     },
@@ -56,12 +58,9 @@ const T = {
       organisation: "Organizația", kind: "Tipul organizației", interest: "Ce vă interesează?", ticket: "Volumul orientativ", category: "Categoria", proposal: "Ce propuneți?", where: "Unde (oraș / regiune)",
       discipline: "Direcția", role: "Postul", cv: "Link spre CV (opțional dacă atașați fișierul)", cvPh: "https://…",
       name: "Nume și prenume", email: "E-mail", phone: "Telefon (opțional)", message: "Mesaj (opțional)", consent: "Sunt de acord ca datele mele să fie folosite pentru a răspunde la această solicitare.",
-      any: "Oricare", anyProperty: "Orice obiect potrivit", choose: "Alegeți",
+      any: "Oricare", anyProperty: "Orice obiect potrivit", choose: "Alegeți", space: "Spațiul", anySpace: "Orice spațiu potrivit",
       price: "Preț orientativ (opțional)", status: "Calitatea dumneavoastră", statuses: ["Proprietar", "Broker autorizat", "Consultant", "Altceva"], description: "Descriere scurtă", documents: "Documente (opțional)", docsHint: "În previzualizare fișierele nu se încarcă — rămân pe dispozitivul dumneavoastră.", company2: "Companie (opțional)", role2: "Rolul dumneavoastră", cvFile: "CV (fișier)", cvEither: "Adăugați un fișier sau un link spre CV.",
     },
-    kinds: ["Bancă", "Investitor privat", "Family office", "Fond", "Altă organizație"],
-    interests: ["Finanțarea proiectelor", "Co-investiție", "Achiziție", "Dezvoltare comună"],
-    tickets: ["sub 1 mil. €", "1–5 mil. €", "5–10 mil. €", "peste 10 mil. €"],
     openRole: "Candidatură spontană",
     send: "Trimite solicitarea", sending: "Se verifică…",
     errors: { required: "Completați acest câmp.", email: "Introduceți o adresă de e-mail validă.", consent: "Este necesar acordul pentru a răspunde.", summary: "Verificați câmpurile marcate:" },
@@ -69,11 +68,10 @@ const T = {
     required: "obligatoriu",
   },
   ru: {
-    subjects: { lease: "Ищу помещение", property: "Предлагаю объект или землю", capital: "Инвестиции и финансирование", partnership: "Партнёрство", careers: "Карьера" },
+    subjects: { lease: "Ищу помещение", property: "Предлагаю объект или землю", careers: "Вакансии", partnership: "Партнёрство или другой вопрос" },
     intro: {
-      lease: "Расскажите, что помещение должно делать для вашего бизнеса. Мы проверим портфель и предложим подходящие варианты.",
+      lease: "Расскажите, что помещение должно делать для вашего бизнеса. Мы проверим свободные помещения и предложим подходящие варианты.",
       property: "Опишите объект или участок и то, что вы рассматриваете. Вы получите первичную оценку, а не автоматический ответ.",
-      capital: "Расскажите, кто вы и что вас интересует: финансирование, соинвестиции или покупка.",
       partnership: "Нескольких строк об организации и предложении достаточно для первого разговора.",
       careers: "Укажите направление или вакансию и ссылку на резюме. Данные кандидатов используются только для подбора.",
     },
@@ -84,12 +82,9 @@ const T = {
       organisation: "Организация", kind: "Тип организации", interest: "Что вас интересует?", ticket: "Ориентировочный объём", category: "Категория", proposal: "Что вы предлагаете?", where: "Где (город / регион)",
       discipline: "Направление", role: "Вакансия", cv: "Ссылка на резюме (если нет файла)", cvPh: "https://…",
       name: "Имя и фамилия", email: "E-mail", phone: "Телефон (необязательно)", message: "Сообщение (необязательно)", consent: "Согласен(на) на использование моих данных для ответа на этот запрос.",
-      any: "Любой", anyProperty: "Любой подходящий объект", choose: "Выберите",
+      any: "Любой", anyProperty: "Любой подходящий объект", choose: "Выберите", space: "Помещение", anySpace: "Любое подходящее помещение",
       price: "Ориентировочная цена (необязательно)", status: "Кто вы по отношению к объекту", statuses: ["Собственник", "Уполномоченный брокер", "Консультант", "Другое"], description: "Краткое описание", documents: "Документы (необязательно)", docsHint: "В превью файлы не загружаются — они остаются на вашем устройстве.", company2: "Компания (необязательно)", role2: "Ваша роль", cvFile: "Резюме (файл)", cvEither: "Добавьте файл или ссылку на резюме.",
     },
-    kinds: ["Банк", "Частный инвестор", "Семейный офис", "Фонд", "Другая организация"],
-    interests: ["Финансирование проектов", "Соинвестиции", "Покупка", "Совместное развитие"],
-    tickets: ["до 1 млн €", "1–5 млн €", "5–10 млн €", "более 10 млн €"],
     openRole: "Инициативный отклик",
     send: "Отправить запрос", sending: "Проверяем…",
     errors: { required: "Заполните это поле.", email: "Введите корректный e-mail.", consent: "Нужно согласие, чтобы мы могли ответить.", summary: "Проверьте отмеченные поля:" },
@@ -97,11 +92,10 @@ const T = {
     required: "обязательно",
   },
   en: {
-    subjects: { lease: "I need a space", property: "I have a property or land", capital: "Investment and finance", partnership: "Partnership", careers: "Careers" },
+    subjects: { lease: "I need a space", property: "I have a property or land", careers: "Careers", partnership: "Partnership or another question" },
     intro: {
-      lease: "Tell us what the space needs to do for your business. We'll check the portfolio and recommend suitable options.",
+      lease: "Tell us what the space needs to do for your business. We will check the available spaces and recommend suitable options.",
       property: "Describe the property or land and what you are considering. You get a first assessment, not an automatic reply.",
-      capital: "Tell us who you are and what interests you — financing, co-investment or acquisition.",
       partnership: "A few lines about your organisation and proposal are enough for a first conversation.",
       careers: "Name the area or role and add a link to your CV. Candidate data is used for recruitment only.",
     },
@@ -112,12 +106,9 @@ const T = {
       organisation: "Organisation", kind: "Type of organisation", interest: "What interests you?", ticket: "Indicative size", category: "Category", proposal: "What do you propose?", where: "Where (city / region)",
       discipline: "Area", role: "Role", cv: "Link to your CV (if no file)", cvPh: "https://…",
       name: "Full name", email: "E-mail", phone: "Telephone (optional)", message: "Message (optional)", consent: "I agree that my data may be used to answer this request.",
-      any: "Any", anyProperty: "Any suitable property", choose: "Choose",
+      any: "Any", anyProperty: "Any suitable property", choose: "Choose", space: "Space", anySpace: "Any suitable space",
       price: "Indicative price (optional)", status: "Your position", statuses: ["Owner", "Authorised broker", "Adviser", "Other"], description: "Short description", documents: "Documents (optional)", docsHint: "In the preview files are not uploaded — they stay on your device.", company2: "Company (optional)", role2: "Your role", cvFile: "CV (file)", cvEither: "Add a file or a link to your CV.",
     },
-    kinds: ["Bank", "Private investor", "Family office", "Fund", "Other organisation"],
-    interests: ["Project financing", "Co-investment", "Acquisition", "Joint development"],
-    tickets: ["under €1M", "€1–5M", "€5–10M", "over €10M"],
     openRole: "Open application",
     send: "Send the request", sending: "Checking…",
     errors: { required: "Please fill in this field.", email: "Please enter a valid e-mail.", consent: "We need your consent to reply.", summary: "Please check the marked fields:" },
@@ -147,6 +138,7 @@ function groupsFor(subject: Subject, t: (typeof T)["ro"], o: FormOptions): { tit
           { name: "area", label: t.f.area, kind: "select", options: o.areas, required: true, half: true },
           { name: "location", label: t.f.location, kind: "select", options: [{ value: "any", label: t.f.any }, ...o.districts], half: true },
           { name: "property", label: t.f.property, kind: "select", options: [{ value: "any", label: t.f.anyProperty }, ...o.properties], half: true },
+          { name: "space", label: t.f.space, kind: "select", options: [{ value: "any", label: t.f.anySpace }, ...o.spaces], half: true },
           { name: "date", label: t.f.date, kind: "month", half: true },
           { name: "critical", label: t.f.critical, kind: "checks", options: [...o.requirements, { value: "other", label: t.f.other }] },
           message,
@@ -168,17 +160,6 @@ function groupsFor(subject: Subject, t: (typeof T)["ro"], o: FormOptions): { tit
           { name: "materials", label: t.f.materials, kind: "url", hint: t.f.materialsHint },
         ] },
         { title: t.groups.contact, fields: [...contact, { name: "company", label: t.f.company2, kind: "text", half: true }] },
-      ];
-    case "capital":
-      return [
-        { title: t.groups.org, fields: [
-          { name: "organisation", label: t.f.organisation, kind: "text", required: true, half: true },
-          { name: "kind", label: t.f.kind, kind: "select", options: opts(t.kinds), required: true, half: true },
-          { name: "interest", label: t.f.interest, kind: "checks", options: opts(t.interests), required: true },
-          { name: "ticket", label: t.f.ticket, kind: "select", options: opts(t.tickets), half: true },
-          message,
-        ] },
-        { title: t.groups.contact, fields: contact },
       ];
     case "partnership":
       return [
@@ -205,7 +186,7 @@ function groupsFor(subject: Subject, t: (typeof T)["ro"], o: FormOptions): { tit
   }
 }
 
-export function EnquiryForm({ locale, options, initial = "lease" }: { locale: SiteLocale; options: FormOptions; initial?: Subject }) {
+export function EnquiryForm({ locale, options, initial = "lease", only }: { locale: SiteLocale; options: FormOptions; initial?: Subject; only?: Subject[] }) {
   const t = T[locale];
   const [subject, setSubject] = useState<Subject>(initial);
   const [prefill, setPrefill] = useState<Record<string, string | string[]>>({});
@@ -215,7 +196,7 @@ export function EnquiryForm({ locale, options, initial = "lease" }: { locale: Si
   const summaryRef = useRef<HTMLDivElement>(null);
   const doneRef = useRef<HTMLDivElement>(null);
   const groups = groupsFor(subject, t, options);
-  const subjects = Object.keys(anchors) as Subject[];
+  const subjects = only ?? (Object.keys(anchors) as Subject[]);
 
   // Deep links: #occupier / #opportunity / #investors / #partnership / #careers and ?subject=…&property=…&type=…
   useEffect(() => {
@@ -228,6 +209,7 @@ export function EnquiryForm({ locale, options, initial = "lease" }: { locale: Si
       if (next) setSubject(next);
       const values: Record<string, string | string[]> = {};
       if (params.get("property")) values.property = params.get("property")!;
+      if (params.get("space")) values.space = params.get("space")!;
       if (params.get("type")) values.opening = params.get("type")!;
       if (params.get("area")) values.area = params.get("area")!;
       if (params.get("needs")) values.critical = params.get("needs")!.split(",");

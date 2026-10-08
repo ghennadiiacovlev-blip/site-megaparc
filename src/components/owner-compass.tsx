@@ -23,12 +23,15 @@ export function OwnerCompass({
   copy,
   proof,
   contactHref,
+  reload = false,
 }: {
   assets: { key: string; label: string }[];
   intents: { key: string; label: string; thinking: string; assess: string[] }[];
   copy: CompassCopy;
   proof: { title: string; text: string; href: string; cta: string };
   contactHref: string;
+  /** The form is on the same page: a plain link reloads it so the form reads the choice from the URL. */
+  reload?: boolean;
 }) {
   const [have, setHave] = useState(assets[0].key);
   const [intent, setIntent] = useState(intents[intents.length - 1].key);
@@ -76,7 +79,11 @@ export function OwnerCompass({
           <p><b>{proof.title}</b> {proof.text}</p>
           <Link className="tlink" href={proof.href}><span>{proof.cta}</span><Icon /></Link>
         </div>
-        <Link className="btn" href={href}><span>{copy.submit}</span><Icon /></Link>
+        {reload ? (
+          <a className="btn" href={href}><span>{copy.submit}</span><Icon /></a>
+        ) : (
+          <Link className="btn" href={href}><span>{copy.submit}</span><Icon /></Link>
+        )}
       </div>
     </div>
   );

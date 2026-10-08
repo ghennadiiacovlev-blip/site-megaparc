@@ -1,13 +1,13 @@
 import Link from "next/link";
 import { LanguageSwitcher } from "@/components/language-switcher";
 import { SiteNav } from "@/components/site-nav";
-import { clientJourneys } from "@/lib/client-journeys";
+import { verbs } from "@/lib/business";
 import { brand, localePath, type Localized, type SiteLocale } from "@/lib/site-data";
 
 const copy = {
   navigate: { ro: "Navigare", ru: "Навигация", en: "Navigate" },
   corporate: { ro: "Companie", ru: "Компания", en: "Company" },
-  work: { ro: "Colaborare", ru: "Сотрудничество", en: "Work with us" },
+  work: { ro: "Pentru dumneavoastră", ru: "Для вас", en: "For you" },
   contact: { ro: "Contact", ru: "Контакты", en: "Contact" },
   editions: { ro: "Limbă", ru: "Язык", en: "Language" },
   legal: {
@@ -18,10 +18,15 @@ const copy = {
   onRequest: { ro: "Date de contact directe la cerere", ru: "Прямые контактные данные по запросу", en: "Direct contact details on request" },
 } satisfies Record<string, Localized>;
 
-const lines = ["Real Estate Investment", "Development", "Asset Management"];
+/** The three routes every visitor may need, whatever page they finish on. */
+const routes: { path: string; label: Localized }[] = [
+  { path: "/leasing#available", label: { ro: "Spații libere acum", ru: "Сейчас сдаётся", en: "Available now" } },
+  { path: "/offer", label: { ro: "Propune un obiect sau teren", ru: "Предложить объект или землю", en: "Offer a property or land" } },
+  { path: "/careers", label: { ro: "Posturi deschise", ru: "Открытые вакансии", en: "Open vacancies" } },
+];
 
 /**
- * Final brand moment: MEGAPARC, the three lines, WE BUILD THE FUTURE, then navigation, contact, languages, legal.
+ * Final brand moment: MEGAPARC, the three verbs (acquire · develop · lease), WE BUILD THE FUTURE, then navigation, routes, contact, languages, legal.
  * `statement={false}` omits WE BUILD THE FUTURE on a page that has just closed on it (About).
  */
 export function SiteFooter({ locale, statement = true }: { locale: SiteLocale; statement?: boolean }) {
@@ -30,9 +35,9 @@ export function SiteFooter({ locale, statement = true }: { locale: SiteLocale; s
       <div className="shell">
         <div className="ftr__brand">
           <p className="ftr__wordmark" aria-hidden="true">{brand.name}</p>
-          <ul className="ftr__lines" lang="en" aria-label={brand.positioning}>
-            {lines.map((line) => (
-              <li key={line}>{line}</li>
+          <ul className="ftr__lines" aria-label={brand.positioning[locale]}>
+            {verbs[locale].map((line) => (
+              <li key={line}>{line.replace(/.$/, "")}</li>
             ))}
           </ul>
           {statement ? <p className="ftr__future" lang="en">We build the future.</p> : null}
@@ -48,11 +53,14 @@ export function SiteFooter({ locale, statement = true }: { locale: SiteLocale; s
           <div className="ftr__col">
             <span className="ftr__label">{copy.work[locale]}</span>
             <ul className="ftr__list">
-              {clientJourneys.map((journey) => (
-                <li key={journey.key}>
-                  <Link href={`${localePath(locale, journey.path)}#${journey.anchor}`}>{journey.title[locale]}</Link>
-                </li>
-              ))}
+              {routes.map((route) => {
+                const [path, hash] = route.path.split("#");
+                return (
+                  <li key={route.path}>
+                    <Link href={`${localePath(locale, path)}${hash ? `#${hash}` : ""}`}>{route.label[locale]}</Link>
+                  </li>
+                );
+              })}
             </ul>
           </div>
           <div className="ftr__col">

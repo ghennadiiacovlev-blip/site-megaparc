@@ -35,11 +35,11 @@ export function BrandSystemPage({ locale }: { locale: SiteLocale }) {
           <Facts
             items={[
               { label: "Brand idea", value: `${brandLayers.statement[locale]} · WE BUILD THE FUTURE` },
-              { label: "Investment philosophy", value: `${brandLayers.strategicIdea[locale]} · REAL ESTATE MANAGED AS CAPITAL` },
+              { label: "Owner philosophy", value: brandLayers.strategicIdea[locale] },
               { label: "Business model", value: brandLayers.model[locale] },
               { label: "Positioning", value: brandLayers.platform[locale] },
-              { label: "Capabilities", value: brand.positioning },
-              { label: "Heritage", value: `${brand.since} · 2005 MEGAPARC · 2020 Strategic Real Estate Focus` },
+              { label: "Capabilities", value: brand.positioning[locale] },
+              { label: "Chronology", value: `1991 business origins · ${brand.since} group investment structure · 2005 MEGAPARC founded · 2020 real-estate focus` },
             ]}
           />
         </div>
@@ -105,9 +105,9 @@ export function BrandSystemPage({ locale }: { locale: SiteLocale }) {
         <div className="shell">
           <Head kicker="Sistem CTA" title="Buton compact, link text cu săgeată SVG." text="Mișcare: reveal lent, count-up, depth ±16px · prefers-reduced-motion respectat. Săgețile sunt SVG cu stroke currentColor, niciodată glife Unicode." />
           <div className="sec__actions" data-reveal>
-            <Button href={localePath(locale, "/contact")}>Discută despre acest activ</Button>
+            <Button href={localePath(locale, "/leasing")}>Vezi spațiile libere</Button>
             <Button href={localePath(locale, "/contact")} variant="ghost">Solicită detalii</Button>
-            <TextLink href={localePath(locale, "/portfolio")}>Vezi portofoliul</TextLink>
+            <TextLink href={localePath(locale, "/projects")}>Vezi proiectele</TextLink>
           </div>
           <p className="note">{employerBrand.direction[locale].join(" ")}</p>
         </div>

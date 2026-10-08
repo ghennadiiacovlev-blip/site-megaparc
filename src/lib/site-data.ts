@@ -36,9 +36,9 @@ export type Localized = Record<SiteLocale, string>;
 export const brand = {
   name: "MEGAPARC",
   wordmark: "Megaparc",
-  /** English positioning line is a brand device and is kept in English on every locale. */
-  positioning: "Real Estate Investment · Development · Asset Management",
-  /** OWNER-approved group heritage marker. Kept in English in every locale. 2005 is the MEGAPARC founding year. */
+  /** Business positioning (OWNER correction 2026-10-08): acquire · develop · lease — localised. */
+  positioning: { ro: "Cumpărăm · Dezvoltăm · Închiriem", ru: "Покупаем · Развиваем · Сдаём в аренду", en: "Acquire · Develop · Lease" } satisfies Localized,
+  /** OWNER-approved group heritage marker (group investment structure, 1995). Kept in English in every locale. 1991 = business origins; 2005 = MEGAPARC founded. */
   since: "Since 1995",
   tagline: { ro: "Construim viitorul", ru: "Строим будущее", en: "We build the future" } satisfies Localized,
   city: { ro: "Chișinău · Republica Moldova", ru: "Кишинёв · Республика Молдова", en: "Chișinău · Republic of Moldova" } satisfies Localized,
@@ -49,40 +49,49 @@ export const brand = {
 /* Navigation                                                           */
 /* ------------------------------------------------------------------ */
 
-export type NavItem = { label: string; path: string };
+/** `also`: further route prefixes that mark the item active (History lives under About). */
+export type NavItem = { label: string; path: string; also?: string[] };
 
+/**
+ * Primary navigation — OWNER correction 2026-10-08:
+ * HOME · ABOUT · PROJECTS · LEASING · OFFER A PROPERTY · CAREERS · CONTACT.
+ * Careers is in the top navigation, not only in the footer.
+ */
 export const navigation: Record<SiteLocale, NavItem[]> = {
   ro: [
-    { label: "Portofoliu", path: "/portfolio" },
-    { label: "Dezvoltare", path: "/development" },
-    { label: "Abordarea noastră", path: "/approach" },
-    { label: "Despre", path: "/about" },
-    { label: "Colaborare", path: "/opportunities" },
+    { label: "Acasă", path: "/" },
+    { label: "Despre companie", path: "/about", also: ["/history"] },
+    { label: "Proiecte", path: "/projects" },
+    { label: "Închiriere", path: "/leasing" },
+    { label: "Propune un obiect", path: "/offer" },
+    { label: "Cariere", path: "/careers" },
     { label: "Contact", path: "/contact" },
   ],
   ru: [
-    { label: "Портфель", path: "/portfolio" },
-    { label: "Девелопмент", path: "/development" },
-    { label: "Наш подход", path: "/approach" },
-    { label: "О компании", path: "/about" },
-    { label: "Сотрудничество", path: "/opportunities" },
+    { label: "Главная", path: "/" },
+    { label: "О компании", path: "/about", also: ["/history"] },
+    { label: "Проекты", path: "/projects" },
+    { label: "Аренда", path: "/leasing" },
+    { label: "Предложить объект", path: "/offer" },
+    { label: "Вакансии", path: "/careers" },
     { label: "Контакты", path: "/contact" },
   ],
   en: [
-    { label: "Portfolio", path: "/portfolio" },
-    { label: "Development", path: "/development" },
-    { label: "Our approach", path: "/approach" },
-    { label: "About", path: "/about" },
-    { label: "Work with us", path: "/opportunities" },
+    { label: "Home", path: "/" },
+    { label: "About", path: "/about", also: ["/history"] },
+    { label: "Projects", path: "/projects" },
+    { label: "Leasing", path: "/leasing" },
+    { label: "Offer a property", path: "/offer" },
+    { label: "Careers", path: "/careers" },
     { label: "Contact", path: "/contact" },
   ],
 };
 
-/** Secondary corporate routes (footer, About, mobile menu). */
+/** Secondary routes (mobile menu, footer): the company history. */
 export const secondaryNavigation: Record<SiteLocale, NavItem[]> = {
-  ro: [{ label: "Cariere", path: "/careers" }],
-  ru: [{ label: "Карьера", path: "/careers" }],
-  en: [{ label: "Careers", path: "/careers" }],
+  ro: [{ label: "Istoric", path: "/history" }],
+  ru: [{ label: "История", path: "/history" }],
+  en: [{ label: "History", path: "/history" }],
 };
 
 export const ui = {
@@ -98,13 +107,8 @@ export const ui = {
   exploreProject: { ro: "Vezi proiectul", ru: "Открыть проект", en: "View project" },
   photoPending: { ro: "Fotografie în pregătire", ru: "Фотография готовится", en: "Photography in preparation" },
   onRequest: { ro: "Informații suplimentare la cerere", ru: "Дополнительная информация по запросу", en: "Additional information on request" },
-  operating: { ro: "Obiecte în funcțiune", ru: "Действующие объекты", en: "Operating properties" },
-  development: { ro: "Proiecte de dezvoltare", ru: "Проекты развития", en: "Development projects" },
-  opportunities: { ro: "Colaborare", ru: "Сотрудничество", en: "Work with us" },
   location: { ro: "Localizare", ru: "Расположение", en: "Location" },
   status: { ro: "Status", ru: "Статус", en: "Status" },
-  role: { ro: "Portofoliu", ru: "Портфель", en: "Portfolio" },
-  portfolioLine: { ro: "Portofoliul MEGAPARC", ru: "Портфель MEGAPARC", en: "MEGAPARC portfolio" },
   use: { ro: "Destinație", ru: "Назначение", en: "Use" },
   availability: { ro: "Disponibilitate", ru: "Доступность", en: "Availability" },
   totalArea: { ro: "Suprafață", ru: "Площадь", en: "Area" },
@@ -117,10 +121,7 @@ export const ui = {
   discussAsset: { ro: "Discută despre acest obiect", ru: "Обсудить объект", en: "Discuss this property" },
   discussProject: { ro: "Discută despre proiect", ru: "Обсудить проект", en: "Discuss the project" },
   contactUs: { ro: "Contactează-ne", ru: "Связаться с нами", en: "Contact us" },
-  viewOpportunities: { ro: "Vezi opțiunile de colaborare", ru: "Варианты сотрудничества", en: "Ways to work with us" },
-  viewPortfolio: { ro: "Vezi portofoliul", ru: "Смотреть портфель", en: "View the portfolio" },
-  viewApproach: { ro: "Cum lucrăm", ru: "Как мы работаем", en: "How we work" },
-  backToDevelopment: { ro: "Înapoi la Dezvoltare", ru: "Назад к девелопменту", en: "Back to Development" },
+  viewProjects: { ro: "Vezi proiectele", ru: "Смотреть проекты", en: "View the projects" },
   concept: { ro: "Concept în discuție", ru: "Концепция", en: "Concept" },
   siteArea: { ro: "Suprafața terenului", ru: "Площадь участка", en: "Site area" },
   developer: { ro: "Dezvoltator", ru: "Девелопер", en: "Developer" },

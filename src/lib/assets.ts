@@ -459,14 +459,14 @@ export const portfolioAssets: PortfolioAsset[] = [
     use: { ro: "Comercial", ru: "Коммерческий", en: "Commercial" },
     audience: { ro: "", ru: "", en: "" },
     lead: {
-      ro: "Obiect în funcțiune din portofoliul MEGAPARC, în Chișinău. Informațiile publice detaliate vor fi publicate după aprobarea datelor și a fotografiilor.",
-      ru: "Действующий объект в портфеле MEGAPARC в Кишинёве. Подробная публичная информация будет опубликована после утверждения данных и фотографий.",
-      en: "An operating property in the MEGAPARC portfolio, in Chișinău. Detailed public information will be published once the data and photography are approved.",
+      ro: "Obiect MEGAPARC în funcțiune, în Chișinău. Informațiile publice detaliate vor fi publicate după aprobarea datelor și a fotografiilor.",
+      ru: "Действующий объект MEGAPARC в Кишинёве. Подробная публичная информация будет опубликована после утверждения данных и фотографий.",
+      en: "An operating MEGAPARC property in Chișinău. Detailed public information will be published once the data and photography are approved.",
     },
     story: {
-      ro: ["Creangă 78 face parte din portofoliul MEGAPARC ca obiect în funcțiune. Datele despre localizare, clădire și destinație vor fi publicate pe măsură ce sunt aprobate."],
-      ru: ["Creangă 78 входит в портфель MEGAPARC как действующий объект. Сведения о расположении, здании и назначении будут опубликованы по мере утверждения."],
-      en: ["Creangă 78 is part of the MEGAPARC portfolio as an operating property. Details on location, building and use will be published as they are approved."],
+      ro: ["Creangă 78 este un obiect MEGAPARC în funcțiune. Datele despre localizare, clădire și destinație vor fi publicate pe măsură ce sunt aprobate."],
+      ru: ["Creangă 78 — действующий объект MEGAPARC. Сведения о расположении, здании и назначении будут опубликованы по мере утверждения."],
+      en: ["Creangă 78 is an operating MEGAPARC property. Details on location, building and use will be published as they are approved."],
     },
     keyFacts: [],
     location: {

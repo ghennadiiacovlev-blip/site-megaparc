@@ -1,168 +1,178 @@
 import Link from "next/link";
 import type { CSSProperties } from "react";
-import { CompanyFacts } from "@/components/company-facts";
-import { ConceptImage, DemoMark, Ledger, MaskTitle, Opening, conceptMedia } from "@/components/experience";
-import { AudienceRouterBlock } from "@/components/journey-blocks";
+import { AudienceRouter } from "@/components/audience-router";
+import { ConceptImage, DemoMark, Ledger, MaskTitle, Opening } from "@/components/experience";
+import { UnitCard } from "@/components/leasing/unit-card";
 import { PageShell } from "@/components/page-shell";
 import { ArtImage } from "@/components/primitives";
 import { Button, Icon, TextLink } from "@/components/ui";
-import { creangaProfile, imageUse, tenantFit, vatraProfile } from "@/data/demo-content";
-import { audienceIntro } from "@/data/journeys";
-import { developmentProjects, portfolioAssets } from "@/lib/assets";
-import { openVacancies } from "@/lib/careers";
-import { investmentMandate } from "@/lib/strategy";
-import { brand, localePath, type SiteLocale } from "@/lib/site-data";
+import { formatAreaRange, getProject, listProjects, listVacancies, publicSpaces, sortSpaces, spacesCount, spacesFor } from "@/content/source";
+import { drochiaProfile, vatraProfile } from "@/data/demo-content";
+import { businessStatement, lifecycle, verbs } from "@/lib/business";
+import { departmentLabel } from "@/lib/careers";
+import { eras, historyCopy } from "@/lib/history";
+import { areaBands } from "@/lib/leasing";
+import { brand, localePath, publicAsset, type SiteLocale } from "@/lib/site-data";
 
 /**
- * HOME — the strongest brand expression and the start of every journey
- * (full-experience prototype 2026-10-07).
- *
- * Light / dark rhythm: daylight hero → warm "first ten seconds" (invest ·
- * develop · manage) → white audience routing → warm facts board → white
- * collection → INK development moment → image band (mandate) → warm people →
- * RED closing routes → footer.
- * Imagery: hero, trio, band and people use registered concept visuals
- * (src/data/demo-content.ts); portfolio and development use real MEGAPARC
- * photographs, Creangă 78 its labelled concept placement.
+ * HOME — OWNER correction 2026-10-08. The business in ten seconds:
+ *   MEGAPARC · ПОКУПАЕМ. РАЗВИВАЕМ. СДАЁМ В АРЕНДУ. · one sentence ·
+ *   three routes (I need a space · I want to offer a property or land · I want
+ *   to know MEGAPARC) → AVAILABLE NOW → PROJECTS → DEVELOPMENT → HISTORY →
+ *   VACANCIES → CONTACT.
+ * Light / dark rhythm: daylight hero → white routes → warm available-now →
+ * white projects → INK development → paper history → white vacancies → RED close.
  */
-
 const copy = {
   ro: {
-    title: ["Investim în imobiliare.", "Dezvoltăm proiecte.", "Administrăm active."],
-    lead: "MEGAPARC cumpără, dezvoltă și administrează imobiliare comerciale — cu portofoliul în Moldova și oportunități analizate la nivel internațional.",
-    ctaA: "Vezi portofoliul",
-    ctaB: "Propune un obiect",
     scroll: "Derulează",
-    since: "Since 1995 · Chișinău",
-    whoLabel: "MEGAPARC în zece secunde",
-    who: ["MEGAPARC ", "investește", " în imobiliare, ", "dezvoltă", " proiecte și ", "administrează", " obiecte ca pe o afacere care trebuie să lucreze ani la rând."],
-    trio: [
-      ["Investiții", "Căutăm obiecte și terenuri cu o economie clară și un drum realist spre creșterea valorii.", "/approach", "Cum luăm decizii"],
-      ["Dezvoltare", "Ducem proiectele de la teren și concept până la clădirea care funcționează.", "/development", "Proiectele"],
-      ["Administrare", "Chiriași, exploatare, îmbunătățiri — obiectul rămâne căutat și după ani.", "/portfolio", "Portofoliul"],
-    ],
-    routerLabel: audienceIntro.kicker.ro,
-    collectionLabel: "Portofoliu",
-    collectionTitle: "Patru obiecte în funcțiune. Fiecare cu rolul lui.",
-    collectionLead: "Clădiri pentru sedii, comerț pe prima linie și servicii de cartier — în Chișinău.",
-    all: "Tot portofoliul",
-    fit: "Găsește spațiul potrivit",
+    routesLabel: "Începeți de aici",
+    routesTitle: "Cu ce ați venit la MEGAPARC?",
+    cycleLabel: "Cum lucrează MEGAPARC",
+    routes: {
+      space: ["Caut un spațiu", (n: string, range: string) => `Acum se închiriază ${n}, ${range}. Filtre după format, suprafață și clădire.`],
+      offer: ["Vreau să propun un obiect sau un teren", () => "MEGAPARC cumpără clădiri și terenuri. Descrieți obiectul — primiți o primă evaluare."],
+      about: ["Vreau să cunosc MEGAPARC", () => "Cum lucrăm — cumpărăm, dezvoltăm, închiriem — și cronica noastră din 1991."],
+    },
+    ctaSpace: "Caut un spațiu",
+    ctaOffer: "Propun un obiect sau teren",
+    ctaAbout: "Despre MEGAPARC",
+    availableLabel: "Acum se închiriază",
+    availableTitle: "Spații libere în clădirile noastre.",
+    availableAll: "Toate spațiile",
+    quick: "Căutați după suprafață",
+    projectsLabel: "Proiecte",
+    projectsTitle: "Clădirile pe care le-am cumpărat și le închiriem.",
+    projectsLead: "Clădiri pentru sedii, comerț pe prima linie și servicii de cartier — în Chișinău.",
+    projectsAll: "Toate proiectele",
+    spacesHere: (n: number) => (n === 1 ? "1 spațiu liber" : `${n} spații libere`),
     devLabel: "Dezvoltare",
-    devTitle: "De la teren la clădirea care lucrează.",
-    devText: "VATRA este un proiect în realizare. Drochia Gateway este un teren de 2,0 ha la intrarea în oraș, în evaluare.",
-    devCta: "Vezi dezvoltarea",
+    devTitle: "Construim proiecte proprii. Și cumpărăm teren pentru următoarele.",
+    devText: "VATRA este un proiect propriu în realizare. Drochia Gateway este un teren propriu de 2,0 ha la intrarea în oraș, cu concept în evaluare.",
+    devCta: "Proiectele de dezvoltare",
     stage: "Etapă",
     site: "Teren",
     completion: "Finalizare",
-    drochia: "Drochia Gateway · concept în evaluare",
-    mandateCta: "Cum investim",
-    peopleLabel: "Oameni",
-    peopleTitle: "Echipa care construiește viitorul lucrează cu obiecte reale.",
-    peopleText: "Investiții, finanțe, dezvoltare, construcție și exploatare — la aceeași masă și pe aceleași șantiere.",
-    roles: (n: number) => `${String(n).padStart(2, "0")} posturi deschise`,
-    peopleCta: "Ce veți face la MEGAPARC",
-    closeLabel: "Pasul următor",
-    closeTitle: "Spuneți-ne ce aveți nevoie. Vă arătăm ce putem face.",
-    routes: [["Găsește un spațiu", "/opportunities#occupier"], ["Propune un obiect sau un teren", "/opportunities#owners"], ["Investiții și finanțare", "/approach#investors"], ["Scrie-ne", "/contact"]],
+    historyLabel: "Istoric",
+    historyCta: "Citiți cronica",
+    vacanciesLabel: "Cariere",
+    vacanciesTitle: "Lucrați cu clădiri și proiecte reale.",
+    vacanciesAll: "Toate posturile",
+    closeLabel: "Contact",
+    closeTitle: "Spuneți-ne ce aveți nevoie.",
+    closeRoutes: [["Caut un spațiu", "/contact?subject=lease#occupier"], ["Propun un obiect sau un teren", "/offer"], ["Vreau să lucrez la MEGAPARC", "/careers"], ["Altă întrebare", "/contact"]],
   },
   ru: {
-    title: ["Инвестируем в недвижимость.", "Развиваем проекты.", "Управляем активами."],
-    lead: "MEGAPARC покупает, развивает и управляет коммерческой недвижимостью: портфель — в Молдове, новые возможности — по всему миру.",
-    ctaA: "Смотреть портфель",
-    ctaB: "Предложить объект",
     scroll: "Листайте",
-    since: "Since 1995 · Chișinău",
-    whoLabel: "MEGAPARC за десять секунд",
-    who: ["MEGAPARC ", "инвестирует", " в недвижимость, ", "развивает", " проекты и ", "управляет", " объектами как бизнесом, который должен работать годами."],
-    trio: [
-      ["Инвестиции", "Ищем объекты и участки с понятной экономикой и реалистичным путём к росту стоимости.", "/approach", "Как мы принимаем решения"],
-      ["Девелопмент", "Ведём проекты от участка и концепции до здания, которое работает.", "/development", "Проекты"],
-      ["Управление", "Арендаторы, эксплуатация, улучшения — объект остаётся востребованным через годы.", "/portfolio", "Портфель"],
-    ],
-    routerLabel: audienceIntro.kicker.ru,
-    collectionLabel: "Портфель",
-    collectionTitle: "Четыре действующих объекта. У каждого своя роль.",
-    collectionLead: "Здания под штаб-квартиры, торговля первой линии и сервисы районного масштаба — в Кишинёве.",
-    all: "Весь портфель",
-    fit: "Подобрать помещение",
-    devLabel: "Девелопмент",
-    devTitle: "От участка до здания, которое работает.",
-    devText: "VATRA — проект в стадии реализации. Drochia Gateway — участок 2,0 га на въезде в город, на стадии оценки.",
-    devCta: "Смотреть девелопмент",
+    routesLabel: "Начните отсюда",
+    routesTitle: "С чем вы пришли в MEGAPARC?",
+    cycleLabel: "Как работает MEGAPARC",
+    routes: {
+      space: ["Ищу помещение", (n: string, range: string) => `Сейчас сдаётся ${n}, ${range}. Фильтр по формату, площади и зданию.`],
+      offer: ["Хочу предложить объект или землю", () => "MEGAPARC покупает здания и землю. Опишите объект — получите первичную оценку."],
+      about: ["Хочу узнать о MEGAPARC", () => "Как мы работаем — покупаем, развиваем, сдаём в аренду — и наша хроника с 1991 года."],
+    },
+    ctaSpace: "Ищу помещение",
+    ctaOffer: "Предложить объект или землю",
+    ctaAbout: "О компании",
+    availableLabel: "Сейчас сдаётся",
+    availableTitle: "Свободные помещения в наших зданиях.",
+    availableAll: "Все помещения",
+    quick: "Искать по площади",
+    projectsLabel: "Проекты",
+    projectsTitle: "Здания, которые мы купили и сдаём в аренду.",
+    projectsLead: "Здания под штаб-квартиры, торговля первой линии и районные сервисы — в Кишинёве.",
+    projectsAll: "Все проекты",
+    spacesHere: (n: number) => (n === 1 ? "1 свободное помещение" : n < 5 ? `${n} свободных помещения` : `${n} свободных помещений`),
+    devLabel: "Развитие",
+    devTitle: "Строим собственные проекты. И покупаем землю для следующих.",
+    devText: "VATRA — собственный проект в стадии реализации. Drochia Gateway — собственный участок 2,0 га на въезде в город, концепция на стадии оценки.",
+    devCta: "Проекты развития",
     stage: "Стадия",
     site: "Участок",
     completion: "Ввод",
-    drochia: "Drochia Gateway · концепция на стадии оценки",
-    mandateCta: "Как мы инвестируем",
-    peopleLabel: "Люди",
-    peopleTitle: "Команда, которая строит будущее, работает с реальными объектами.",
-    peopleText: "Инвестиции, финансы, девелопмент, строительство и эксплуатация — за одним столом и на одних площадках.",
-    roles: (n: number) => `${String(n).padStart(2, "0")} открытых вакансий`,
-    peopleCta: "Чем вы будете заниматься",
-    closeLabel: "Следующий шаг",
-    closeTitle: "Расскажите, что вам нужно. Покажем, что мы можем сделать.",
-    routes: [["Подобрать помещение", "/opportunities#occupier"], ["Предложить объект или землю", "/opportunities#owners"], ["Инвестиции и финансирование", "/approach#investors"], ["Написать нам", "/contact"]],
+    historyLabel: "История",
+    historyCta: "Читать хронику",
+    vacanciesLabel: "Вакансии",
+    vacanciesTitle: "Работайте с реальными зданиями и проектами.",
+    vacanciesAll: "Все вакансии",
+    closeLabel: "Контакты",
+    closeTitle: "Расскажите, что вам нужно.",
+    closeRoutes: [["Ищу помещение", "/contact?subject=lease#occupier"], ["Предлагаю объект или землю", "/offer"], ["Хочу работать в MEGAPARC", "/careers"], ["Другой вопрос", "/contact"]],
   },
   en: {
-    title: ["We invest in real estate.", "We develop projects.", "We manage assets."],
-    lead: "MEGAPARC buys, develops and manages commercial real estate — a portfolio in Moldova and opportunities considered worldwide.",
-    ctaA: "View the portfolio",
-    ctaB: "Submit a property",
     scroll: "Scroll",
-    since: "Since 1995 · Chișinău",
-    whoLabel: "MEGAPARC in ten seconds",
-    who: ["MEGAPARC ", "invests", " in real estate, ", "develops", " projects and ", "manages", " properties as businesses that have to work for years."],
-    trio: [
-      ["Invest", "We look for properties and land with clear economics and a realistic path to value growth.", "/approach", "How we decide"],
-      ["Develop", "We take projects from site and concept to a building that works.", "/development", "Projects"],
-      ["Manage", "Tenants, operations, improvements — the property stays in demand for years.", "/portfolio", "Portfolio"],
-    ],
-    routerLabel: audienceIntro.kicker.en,
-    collectionLabel: "Portfolio",
-    collectionTitle: "Four operating properties. Each with its own role.",
-    collectionLead: "Headquarters buildings, first-line retail and neighbourhood services — in Chișinău.",
-    all: "The whole portfolio",
-    fit: "Find the right space",
+    routesLabel: "Start here",
+    routesTitle: "What brings you to MEGAPARC?",
+    cycleLabel: "How MEGAPARC works",
+    routes: {
+      space: ["I need a space", (n: string, range: string) => `${n} to lease now, ${range}. Filter by format, area and building.`],
+      offer: ["I want to offer a property or land", () => "MEGAPARC buys buildings and land. Describe the property — get a first assessment."],
+      about: ["I want to know MEGAPARC", () => "How we work — we acquire, develop and lease — and our chronicle since 1991."],
+    },
+    ctaSpace: "I need a space",
+    ctaOffer: "Offer a property or land",
+    ctaAbout: "About MEGAPARC",
+    availableLabel: "Available now",
+    availableTitle: "Free space in our buildings.",
+    availableAll: "All spaces",
+    quick: "Search by area",
+    projectsLabel: "Projects",
+    projectsTitle: "The buildings we bought and lease.",
+    projectsLead: "Headquarters buildings, first-line retail and neighbourhood services — in Chișinău.",
+    projectsAll: "All projects",
+    spacesHere: (n: number) => (n === 1 ? "1 space available" : `${n} spaces available`),
     devLabel: "Development",
-    devTitle: "From a site to a building that works.",
-    devText: "VATRA is a project in delivery. Drochia Gateway is a 2.0 ha site at the entrance to the town, under evaluation.",
-    devCta: "View development",
+    devTitle: "We build our own projects. And buy land for the next ones.",
+    devText: "VATRA is our own project in delivery. Drochia Gateway is our own 2.0 ha site at the town entrance, with a concept under evaluation.",
+    devCta: "Development projects",
     stage: "Stage",
     site: "Site",
     completion: "Completion",
-    drochia: "Drochia Gateway · concept under evaluation",
-    mandateCta: "How we invest",
-    peopleLabel: "People",
-    peopleTitle: "The team that builds the future works on real properties.",
-    peopleText: "Investment, finance, development, construction and operations — at one table and on the same sites.",
-    roles: (n: number) => `${String(n).padStart(2, "0")} open vacancies`,
-    peopleCta: "What you would work on",
-    closeLabel: "Next step",
-    closeTitle: "Tell us what you need. We'll show you what we can do.",
-    routes: [["Find a space", "/opportunities#occupier"], ["Submit a property or land", "/opportunities#owners"], ["Investment and finance", "/approach#investors"], ["Write to us", "/contact"]],
+    historyLabel: "History",
+    historyCta: "Read the chronicle",
+    vacanciesLabel: "Careers",
+    vacanciesTitle: "Work on real buildings and projects.",
+    vacanciesAll: "All vacancies",
+    closeLabel: "Contact",
+    closeTitle: "Tell us what you need.",
+    closeRoutes: [["I need a space", "/contact?subject=lease#occupier"], ["I offer a property or land", "/offer"], ["I want to work at MEGAPARC", "/careers"], ["Another question", "/contact"]],
   },
 } as const;
 
 const heroFrames = ["home.hero.1", "home.hero.2", "home.hero.3"];
-const trioImages = ["home.do.invest", "home.do.develop", "home.do.manage"];
+const ribbon = ["1991", "1995", "2005", "2020"];
 
 export function HomePage({ locale }: { locale: SiteLocale }) {
   const c = copy[locale];
   const p = (path: string) => localePath(locale, path);
-  const [dacia, moscova9, moscova20, creanga] = portfolioAssets;
-  const [vatra, drochia] = developmentProjects;
-  const mandate = investmentMandate.statement[locale];
-  const sky = imageUse("home.mandate");
-  const pieces = [
-    { asset: dacia, ratio: "4 / 5" },
-    { asset: moscova20, ratio: "4 / 5" },
-    { asset: creanga, ratio: "4 / 5" },
+  const href = (value: string) => {
+    const [pathQuery, hash] = value.split("#");
+    const [path, query] = pathQuery.split("?");
+    return `${p(path)}${query ? `?${query}` : ""}${hash ? `#${hash}` : ""}`;
+  };
+  const spaces = sortSpaces(publicSpaces);
+  const min = Math.min(...spaces.map((s) => s.areaMin ?? s.area));
+  const max = Math.max(...spaces.map((s) => s.area));
+  const range = formatAreaRange(min, max, locale);
+  const projects = listProjects();
+  const lead = getProject("moscova-9")!;
+  const pieces = ["dacia-31", "moscova-20", "creanga-78"].map((slug) => getProject(slug)!);
+  const vatra = getProject("vatra")!;
+  const drochia = getProject("drochia-gateway")!;
+  const vacancies = listVacancies();
+  const moscova20 = getProject("moscova-20")!;
+
+  const routes = [
+    { key: "space", no: "01", title: c.routes.space[0], next: c.routes.space[1](spacesCount(spaces.length, locale), range), href: `${p("/leasing")}#available`, media: <ArtImage media={moscova20.media!} alt={moscova20.name} sizes="(min-width: 1024px) 40vw, 100vw" /> },
+    { key: "offer", no: "02", title: c.routes.offer[0], next: c.routes.offer[1](), href: p("/offer"), media: <ConceptImage id="home.route.owner" locale={locale} sizes="(min-width: 1024px) 40vw, 100vw" /> },
+    { key: "about", no: "03", title: c.routes.about[0], next: c.routes.about[1](), href: p("/about"), media: <ConceptImage id="home.route.about" locale={locale} sizes="(min-width: 1024px) 40vw, 100vw" /> },
   ];
 
   return (
     <PageShell locale={locale} variant="overlay" experience>
-      {/* 01 HERO — three daylight frames, masked headline, two actions */}
-      <section className="xp-hero" id="home" data-xp-hero>
+      {/* 01 HERO — MEGAPARC · acquire · develop · lease */}
+      <section className="xp-hero hm-hero" id="home" data-xp-hero>
         <div className="xp-hero__media" data-xp-seq data-interval="6500">
           {heroFrames.map((id, index) => (
             <div key={id} className={`xp-hero__frame${index === 0 ? " is-active" : ""}`} data-xp-frame data-defer={index > 0 ? "" : undefined}>
@@ -172,107 +182,110 @@ export function HomePage({ locale }: { locale: SiteLocale }) {
         </div>
         <div className="xp-hero__veil" aria-hidden="true" />
         <div className="xp-shell xp-hero__copy">
-          <p className="xp-hero__line" lang="en">{brand.positioning}</p>
-          <MaskTitle as="h1" className="xp-hero__title" lines={[...c.title]} />
-          <p className="xp-hero__lead">{c.lead}</p>
+          <p className="xp-hero__line">{brand.name} · <span lang="en">{brand.since}</span></p>
+          <MaskTitle as="h1" className="xp-hero__title hm-hero__title" lines={[...verbs[locale]]} />
+          <p className="xp-hero__lead">{businessStatement[locale]}</p>
           <div className="xp-actions">
-            <Button href={p("/portfolio")} variant="light">{c.ctaA}</Button>
-            <Button href={`${p("/opportunities")}#owners`} variant="ghost-light">{c.ctaB}</Button>
+            <Button href={`${p("/leasing")}#available`} variant="light">{c.ctaSpace}</Button>
+            <Button href={p("/offer")} variant="ghost-light">{c.ctaOffer}</Button>
+            <TextLink href={p("/about")} className="tlink--light">{c.ctaAbout}</TextLink>
           </div>
         </div>
         <div className="xp-hero__foot">
           <div className="xp-shell xp-hero__bar">
-            <a className="xp-hero__cue" href="#who">{c.scroll}<Icon name="down" /></a>
+            <a className="xp-hero__cue" href="#start">{c.scroll}<Icon name="down" /></a>
             <span className="xp-hero__progress" aria-hidden="true"><i /><i /><i /></span>
-            <span lang="en" className="xp-hero__since">{c.since}</span>
+            <span className="xp-hero__since">{brand.positioning[locale]}</span>
           </div>
         </div>
       </section>
 
-      {/* 02 FIRST TEN SECONDS — invest · develop · manage */}
-      <section className="xp-sec xp-sec--warm" id="who">
-        <div className="xp-shell">
-          <p className="xp-eyebrow" data-reveal><span className="xp-eyebrow__no">01</span><span>{c.whoLabel}</span></p>
-          <p className="xp-statement" data-reveal>
-            {c.who.map((part, i) => (i % 2 === 1 ? <em key={i}>{part}</em> : <span key={i}>{part}</span>))}
-          </p>
-          <ol className="xp-trio">
-            {c.trio.map(([word, text, path, cta], i) => (
-              <li key={word} className="xp-trio__item" data-reveal>
-                <Link href={p(path)} aria-label={`${word} — ${cta}`}>
-                  <figure className="xp-fig">
-                    <ConceptImage id={trioImages[i]} locale={locale} sizes="(min-width: 720px) 30vw, 100vw" depth={8} />
-                  </figure>
-                  <span className="xp-trio__no">0{i + 1}</span>
-                  <span className="xp-trio__word">{word}</span>
-                </Link>
-                <p>{text}</p>
-                <TextLink href={p(path)}>{cta}</TextLink>
-              </li>
-            ))}
-          </ol>
-        </div>
-      </section>
-
-      {/* 03 AUDIENCE ROUTING — what brings you to MEGAPARC */}
+      {/* 02 ROUTES — three situations + the model in one line */}
       <section className="xp-sec" id="start">
         <div className="xp-shell">
-          <Opening no="02" label={c.routerLabel} title={audienceIntro.title[locale]} lead={audienceIntro.text[locale]} className="xp-opening--split" />
-          <AudienceRouterBlock locale={locale} />
+          <Opening no="01" label={c.routesLabel} title={c.routesTitle} className="xp-opening--split">
+            <ol className="hm-cycle" data-xp-progress aria-label={c.cycleLabel}>
+              {lifecycle.map((stage) => (
+                <li key={stage.key} data-xp-term>{stage.title[locale]}</li>
+              ))}
+            </ol>
+          </Opening>
+          <AudienceRouter items={routes} label={c.routesTitle} />
         </div>
       </section>
 
-      {/* 04 FACTS — light board, verified scale + DEMO indicators */}
-      <CompanyFacts locale={locale} tone="light" />
-
-      {/* 05 COLLECTION — real assets at different scales */}
-      <section className="xp-sec" id="portfolio">
+      {/* 03 AVAILABLE NOW */}
+      <section className="xp-sec xp-sec--warm" id="available">
         <div className="xp-shell">
-          <Opening no="04" label={c.collectionLabel} title={c.collectionTitle} lead={c.collectionLead} className="xp-opening--split" />
-          <Link href={p(`/portfolio/${moscova9.slug}`)} className="xp-showcase__lead" data-reveal>
+          <Opening no="02" label={c.availableLabel} title={c.availableTitle} lead={`${spacesCount(spaces.length, locale)} · ${range}`} className="xp-opening--split" />
+          <div className="lx-rail lx-rail--home">
+            {spaces.slice(0, 4).map((space, i) => (
+              <UnitCard key={space.id} space={space} locale={locale} compact priority={i === 0} />
+            ))}
+          </div>
+          <div className="hm-quick" data-reveal>
+            <span className="xp-label">{c.quick}</span>
+            <ul>
+              {areaBands.map((band) => (
+                <li key={band.key}><Link href={`${p("/leasing")}?area=${band.key}#available`}>{band.label[locale]}</Link></li>
+              ))}
+            </ul>
+            <Button href={`${p("/leasing")}#available`}>{c.availableAll}</Button>
+          </div>
+        </div>
+      </section>
+
+      {/* 04 PROJECTS */}
+      <section className="xp-sec" id="projects">
+        <div className="xp-shell">
+          <Opening no="03" label={c.projectsLabel} title={c.projectsTitle} lead={c.projectsLead} className="xp-opening--split" />
+          <Link href={p(`/projects/${lead.slug}`)} className="xp-showcase__lead" data-reveal>
             <figure className="xp-fig" style={{ "--ratio": "21 / 9" } as CSSProperties}>
-              <ArtImage media={moscova9.media!} alt={`${moscova9.name} — ${moscova9.positioning[locale]}`} sizes="100vw" depth={14} />
+              <ArtImage media={lead.media!} alt={`${lead.name} — ${lead.format[locale]}`} sizes="100vw" depth={14} />
             </figure>
             <span className="xp-showcase__caption">
-              <span className="xp-showcase__name">{moscova9.name}</span>
-              <span className="xp-showcase__reason">{tenantFit[moscova9.slug].reason[locale]}</span>
-              <span className="xp-showcase__meta">{moscova9.district[locale]} · {moscova9.positioning[locale]}<Icon name="arrow" /></span>
+              <span className="xp-showcase__name">{lead.name}</span>
+              <span className="xp-showcase__reason">{lead.line[locale]}</span>
+              <span className="xp-showcase__meta">{lead.district[locale]} · {lead.format[locale]}{spacesFor(lead.slug).length ? ` · ${c.spacesHere(spacesFor(lead.slug).length)}` : ""}<Icon name="arrow" /></span>
             </span>
           </Link>
           <ul className="xp-showcase">
-            {pieces.map(({ asset, ratio }) => (
-              <li key={asset.slug} data-reveal>
-                <Link href={p(`/portfolio/${asset.slug}`)} className="xp-showcase__item">
-                  <figure className="xp-fig" style={{ "--ratio": ratio } as CSSProperties}>
-                    {asset.media ? (
-                      <ArtImage media={asset.media} alt={`${asset.name} — ${asset.positioning[locale]}`} sizes="(min-width: 720px) 33vw, 100vw" depth={10} />
+            {pieces.map((project) => (
+              <li key={project.slug} data-reveal>
+                <Link href={p(`/projects/${project.slug}`)} className="xp-showcase__item">
+                  <figure className="xp-fig" style={{ "--ratio": "4 / 5" } as CSSProperties}>
+                    {project.media ? (
+                      <ArtImage media={project.media} alt={`${project.name} — ${project.format[locale]}`} sizes="(min-width: 720px) 33vw, 100vw" depth={10} />
                     ) : (
-                      <ConceptImage id="home.portfolio.creanga-78" locale={locale} sizes="(min-width: 720px) 33vw, 100vw" depth={10} />
+                      <ConceptImage id="home.projects.creanga-78" locale={locale} sizes="(min-width: 720px) 33vw, 100vw" depth={10} />
                     )}
                   </figure>
-                  <span className="xp-showcase__name">{asset.name}</span>
-                  <span className="xp-showcase__reason">{tenantFit[asset.slug].reason[locale]}</span>
-                  <span className="xp-showcase__meta">{asset.media ? asset.district[locale] : creangaProfile.district.value[locale]} · {asset.media ? asset.positioning[locale] : creangaProfile.use.value[locale]}{asset.media ? null : <DemoMark />}<Icon name="arrow" /></span>
+                  <span className="xp-showcase__name">{project.name}</span>
+                  <span className="xp-showcase__reason">{project.line[locale]}</span>
+                  <span className="xp-showcase__meta">
+                    {project.district[locale]} · {spacesFor(project.slug).length ? c.spacesHere(spacesFor(project.slug).length) : project.format[locale]}
+                    {project.formatDemo ? <DemoMark /> : null}
+                    <Icon name="arrow" />
+                  </span>
                 </Link>
               </li>
             ))}
           </ul>
           <div className="xp-actions xp-actions--top" data-reveal>
-            <Button href={p("/portfolio")}>{c.all}</Button>
-            <TextLink href={`${p("/opportunities")}#occupier`}>{c.fit}</TextLink>
+            <Button href={p("/projects")}>{c.projectsAll} · {String(projects.length).padStart(2, "0")}</Button>
           </div>
         </div>
       </section>
 
-      {/* 06 DEVELOPMENT — the dark moment */}
+      {/* 05 DEVELOPMENT — the dark moment */}
       <section className="xp-sec xp-sec--ink" id="development">
         <div className="xp-shell">
-          <Opening no="05" label={c.devLabel} title={c.devTitle} lead={c.devText} tone="dark" className="xp-opening--split" />
+          <Opening no="04" label={c.devLabel} title={c.devTitle} lead={c.devText} tone="dark" className="xp-opening--split" />
           <div className="xp-feature">
-            <Link href={p(`/development/${vatra.slug}`)} className="xp-piece__figure" data-reveal>
+            <Link href={p(`/projects/${vatra.slug}`)} className="xp-piece__figure" data-reveal>
               <figure className="xp-fig" style={{ "--ratio": "16 / 10" } as CSSProperties}>
-                <ArtImage media={vatra.media!} alt={`${vatra.name} — ${vatra.status[locale]}`} sizes="(min-width: 1024px) 58vw, 100vw" depth={16} position="50% 70%" />
-                <figcaption>{vatra.name} · {vatra.status[locale]}</figcaption>
+                <ArtImage media={vatra.media!} alt={`${vatra.name} — ${vatra.format[locale]}`} sizes="(min-width: 1024px) 58vw, 100vw" depth={16} position="50% 70%" />
+                <figcaption>{vatra.name} · {vatra.format[locale]}</figcaption>
               </figure>
             </Link>
             <div className="xp-split__copy" data-reveal>
@@ -281,57 +294,76 @@ export function HomePage({ locale }: { locale: SiteLocale }) {
                 { label: c.stage, point: vatraProfile.stage },
                 { label: c.site, point: vatraProfile.site },
                 { label: c.completion, point: vatraProfile.completion },
-                { label: "GBA", point: vatraProfile.gba },
+                { label: drochia.name, point: drochiaProfile.site },
               ]} />
-              <TextLink href={p(`/development/${drochia.slug}`)} className="tlink--light">{c.drochia}</TextLink>
-              <Button href={p("/development")} variant="light">{c.devCta}</Button>
+              <TextLink href={p(`/projects/${drochia.slug}`)} className="tlink--light">{drochia.name} · {drochiaProfile.status.value[locale]}</TextLink>
+              <Button href={`${p("/projects")}#collection`} variant="light">{c.devCta}</Button>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 07 MANDATE — image band */}
-      <section className="xp-band" id="mandate" aria-label={investmentMandate.kicker[locale]}>
-        <ArtImage media={conceptMedia(sky.visual)} alt={sky.alt[locale]} depth={18} />
-        <div className="xp-shell xp-band__copy" data-reveal>
-          <p className="xp-eyebrow"><span className="xp-eyebrow__no">06</span><span>{investmentMandate.kicker[locale]}</span></p>
-          <p className="xp-band__title">{mandate[0]} {mandate[1]}</p>
-          <p className="xp-band__text">{investmentMandate.text[locale]}</p>
-          <div className="xp-actions">
-            <Button href={`${p("/opportunities")}#owners`} variant="light">{c.ctaB}</Button>
-            <TextLink href={`${p("/approach")}#investors`} className="tlink--light">{c.mandateCta}</TextLink>
+      {/* 06 HISTORY — archival teaser */}
+      <section className="hs-teaser" id="history">
+        <div className="xp-shell hs-teaser__grid">
+          <div className="hs-teaser__copy" data-reveal>
+            <p className="xp-eyebrow"><span className="xp-eyebrow__no">05</span><span>{c.historyLabel}</span></p>
+            <h2 className="hs-teaser__title">{historyCopy.title[locale].join(" ")}</h2>
+            <p className="hs-teaser__lead">{historyCopy.lead[locale]}</p>
+            <ol className="hs-teaser__ribbon" aria-label={c.historyLabel}>
+              {ribbon.map((year) => {
+                const era = eras.find((item) => item.range.startsWith(year)) ?? eras.find((item) => item.range === year)!;
+                return (
+                  <li key={year} className={era.scope === "megaparc" ? "is-megaparc" : undefined}>
+                    <span>{year}</span>
+                    <small>{era.label[locale]}</small>
+                  </li>
+                );
+              })}
+            </ol>
+            <Button href={p("/history")}>{c.historyCta}</Button>
+          </div>
+          <figure className="hs-teaser__figure" data-reveal>
+            <picture>
+              <source media="(min-width: 721px)" srcSet={publicAsset("/assets/history/era-port.webp")} />
+              <img src={publicAsset("/assets/history/era-port-mobile.webp")} alt="" loading="lazy" decoding="async" />
+            </picture>
+            <figcaption>{historyCopy.illustration(locale === "ru" ? "портовые краны" : locale === "ro" ? "macarale de port" : "port cranes", "1946", locale)}</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      {/* 07 VACANCIES */}
+      <section className="xp-sec" id="vacancies">
+        <div className="xp-shell">
+          <Opening no="06" label={c.vacanciesLabel} title={c.vacanciesTitle} className="xp-opening--split" />
+          <ul className="hm-jobs" data-reveal>
+            {vacancies.slice(0, 4).map((job) => (
+              <li key={job.slug}>
+                <Link href={`${p("/careers")}#${job.slug}`}>
+                  <span className="hm-jobs__title">{job.title[locale]}</span>
+                  <span className="hm-jobs__meta">{departmentLabel[job.department][locale]} · {job.location[locale]}</span>
+                  <Icon name="arrow" size={18} />
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <div className="xp-actions xp-actions--top" data-reveal>
+            <Button href={p("/careers")}>{c.vacanciesAll} · {String(vacancies.length).padStart(2, "0")}</Button>
           </div>
         </div>
       </section>
 
-      {/* 08 PEOPLE */}
-      <section className="xp-sec xp-sec--warm" id="people">
-        <div className="xp-shell xp-split xp-split--wide">
-          <Link href={`${p("/careers")}#work`} className="xp-piece__figure" data-reveal>
-            <figure className="xp-fig" style={{ "--ratio": "3 / 2" } as CSSProperties}>
-              <ConceptImage id="careers.hero" locale={locale} sizes="(min-width: 1024px) 60vw, 100vw" depth={10} />
-            </figure>
-          </Link>
-          <div className="xp-split__copy" data-reveal>
-            <p className="xp-eyebrow"><span className="xp-eyebrow__no">07</span><span>{c.peopleLabel}</span></p>
-            <h2 className="xp-split__title">{c.peopleTitle}</h2>
-            <p>{c.peopleText}</p>
-            <p className="xp-label">{c.roles(openVacancies.length)}</p>
-            <Button href={`${p("/careers")}#work`}>{c.peopleCta}</Button>
-          </div>
-        </div>
-      </section>
-
-      {/* 09 CLOSING — red signature, specific next steps */}
+      {/* 08 CONTACT — red signature */}
       <section className="xp-sec xp-sec--red" id="next">
         <div className="xp-shell xp-close">
           <div data-reveal>
-            <p className="xp-eyebrow"><span className="xp-eyebrow__no">08</span><span>{c.closeLabel}</span></p>
+            <p className="xp-eyebrow"><span className="xp-eyebrow__no">07</span><span>{c.closeLabel}</span></p>
             <h2 className="xp-close__title">{c.closeTitle}</h2>
           </div>
           <nav className="xp-close__routes" aria-label={c.closeLabel} data-reveal>
-            {c.routes.map(([label, href]) => (
-              <Link key={href} href={`${p(href.split("#")[0])}${href.includes("#") ? `#${href.split("#")[1]}` : ""}`}>
+            {c.closeRoutes.map(([label, value]) => (
+              <Link key={label} href={href(value)}>
                 {label}
                 <Icon name="arrow" size={18} />
               </Link>
@@ -342,4 +374,3 @@ export function HomePage({ locale }: { locale: SiteLocale }) {
     </PageShell>
   );
 }
-

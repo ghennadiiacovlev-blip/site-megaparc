@@ -1,9 +1,0 @@
-import type { Metadata } from "next";
-import { PortfolioIndexPage } from "@/components/pages/portfolio";
-import { pageMetadata } from "@/lib/seo";
-
-export const metadata: Metadata = pageMetadata("en", "portfolio", "/portfolio");
-
-export default function Page() {
-  return <PortfolioIndexPage locale="en" />;
-}

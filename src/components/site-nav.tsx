@@ -7,7 +7,7 @@ import { localePath, navigation, secondaryNavigation, ui, type SiteLocale } from
 /**
  * Primary navigation with route-aware active state.
  * Used by the header (desktop + mobile panel) and the footer.
- * `secondary` renders the corporate routes (Careers) that stay out of the primary bar.
+ * `secondary` renders the secondary routes (History) that stay out of the primary bar.
  */
 export function SiteNav({
   locale,
@@ -27,7 +27,9 @@ export function SiteNav({
       {items.map((item) => {
         const href = localePath(locale, item.path);
         const normalized = pathname.replace(/\/$/, "") || "/";
-        const active = normalized === href || normalized.startsWith(`${href}/`);
+        // Home is active only on itself; other items also cover their sub-routes and `also` prefixes.
+        const prefixes = item.path === "/" ? [] : [href, ...(item.also ?? []).map((path) => localePath(locale, path))];
+        const active = normalized === href || prefixes.some((prefix) => normalized === prefix || normalized.startsWith(`${prefix}/`));
         return (
           <Link key={item.path} href={href} aria-current={active ? "page" : undefined}>
             {item.label}

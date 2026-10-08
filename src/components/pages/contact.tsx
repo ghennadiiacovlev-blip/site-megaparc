@@ -6,7 +6,8 @@ import { brand, type SiteLocale } from "@/lib/site-data";
 
 /**
  * CONTACT — extremely clean, almost no motion (2026-10-07).
- * One light screen: the routing (five subjects), the form that adapts to the
+ * One light screen: the routing (four subjects: space · property or land ·
+ * careers · partnership or other — OWNER correction 2026-10-08), the form that adapts to the
  * subject, the details and what happens next. Mailboxes and telephone are DEMO
  * and shown as plain text — no mailto, no tel, nothing is routed anywhere.
  */
@@ -19,7 +20,7 @@ const copy = {
     company: "Companie",
     office: "Birou",
     general: "General",
-    investments: "Investiții",
+    acquisitions: "Propuneri de obiecte",
     leasing: "Închiriere",
     careers: "Cariere",
     phone: "Telefon",
@@ -35,7 +36,7 @@ const copy = {
     company: "Компания",
     office: "Офис",
     general: "Общие вопросы",
-    investments: "Инвестиции",
+    acquisitions: "Предложения объектов",
     leasing: "Аренда",
     careers: "Карьера",
     phone: "Телефон",
@@ -51,7 +52,7 @@ const copy = {
     company: "Company",
     office: "Office",
     general: "General",
-    investments: "Investment",
+    acquisitions: "Property offers",
     leasing: "Leasing",
     careers: "Careers",
     phone: "Telephone",
@@ -68,7 +69,7 @@ export function ContactPage({ locale }: { locale: SiteLocale }) {
     [c.office, company.city],
     [c.general, company.emails.office],
     [c.leasing, company.emails.leasing],
-    [c.investments, company.emails.investments],
+    [c.acquisitions, company.emails.acquisitions],
     [c.careers, company.emails.careers],
     [c.phone, company.phone],
     [c.hours, company.hours],

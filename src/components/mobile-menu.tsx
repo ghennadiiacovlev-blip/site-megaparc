@@ -54,7 +54,7 @@ export function MobileMenu({ locale }: { locale: SiteLocale }) {
           </div>
           <div className="menu__foot">
             <LanguageSwitcher locale={locale} variant="mobile" />
-            <span className="menu__positioning" lang="en">{brand.positioning}</span>
+            <span className="menu__positioning">{brand.positioning[locale]}</span>
           </div>
         </div>
       </div>

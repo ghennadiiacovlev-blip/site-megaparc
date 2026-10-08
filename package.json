@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "demo:register": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/demo-register.mjs",
+    "gate:production": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/demo-register.mjs --check",
+    "photo:shotlist": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/photo-shotlist.mjs"
   },
   "dependencies": {
     "next": "16.3.6",

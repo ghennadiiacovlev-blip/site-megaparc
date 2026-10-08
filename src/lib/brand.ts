@@ -6,56 +6,60 @@ import type { Localized } from "@/lib/site-data";
  *
  * The production logo is not redrawn here. The text lock-up in the header
  * remains provisional until the OWNER supplies the production SVG.
+ *
+ * OWNER correction 2026-10-08: the model is ACQUIRE · DEVELOP · LEASE own real
+ * estate (then operate, hold or sell, reinvest). MEGAPARC is not a third-party
+ * asset manager — no "asset management" line anywhere in the brand register.
  */
 
 export const brandLayers = {
   /** Emotional, future-facing brand idea (unchanged). */
   statement: { ro: "Construim viitorul.", ru: "Строим будущее.", en: "We build the future." } satisfies Localized,
-  /** Investment philosophy. */
+  /** Owner philosophy. */
   strategicIdea: {
-    ro: "Imobiliarele ca activ de business",
-    ru: "Недвижимость как бизнес-актив",
-    en: "Real estate as a business asset",
+    ro: "Imobiliare proprii, construite și exploatate pentru mult timp",
+    ru: "Собственная недвижимость, построенная и эксплуатируемая надолго",
+    en: "Our own real estate, built and run for the long term",
   } satisfies Localized,
-  /** Business model. */
+  /** Business model (lifecycle of an owned asset). */
   model: {
-    ro: "Investim · Dezvoltăm · Administrăm · Creăm valoare",
-    ru: "Инвестируем · Развиваем · Управляем · Создаём стоимость",
-    en: "Invest · Develop · Manage · Create value",
+    ro: "Cumpărăm · Dezvoltăm · Închiriem · Exploatăm · Păstrăm sau vindem · Reinvestim",
+    ru: "Покупаем · Развиваем · Сдаём в аренду · Эксплуатируем · Держим или продаём · Реинвестируем",
+    en: "Acquire · Develop · Lease · Operate · Hold or sell · Reinvest",
   } satisfies Localized,
   /** Positioning. */
   platform: {
-    ro: "Investiții, dezvoltare și administrare imobiliară",
-    ru: "Инвестиции, девелопмент и управление недвижимостью",
-    en: "Real estate investment, development and asset management",
+    ro: "Cumpărăm, dezvoltăm și închiriem imobiliare comerciale proprii",
+    ru: "Покупаем, развиваем и сдаём в аренду собственную коммерческую недвижимость",
+    en: "We acquire, develop and lease our own commercial real estate",
   } satisfies Localized,
-  /** Investment geography (OWNER addendum). Current portfolio in Moldova; opportunities considered worldwide. */
+  /** Geography (OWNER addendum 2026-09-26). Current portfolio in Moldova; offers from other countries considered. */
   mandate: {
-    ro: "Portofoliul actual este în Moldova. Analizăm oportunități de investiții la nivel internațional.",
-    ru: "Действующий портфель — в Молдове. Инвестиционные возможности рассматриваем по всему миру.",
-    en: "The current portfolio is in Moldova. We consider investment opportunities worldwide.",
+    ro: "Toate obiectele actuale sunt în Republica Moldova. Analizăm și propuneri din alte țări.",
+    ru: "Все текущие объекты — в Республике Молдова. Рассматриваем и предложения из других стран.",
+    en: "All current properties are in the Republic of Moldova. We also consider offers from other countries.",
   } satisfies Localized,
-  /** Capabilities line, localised for body use. The English line is also a brand device. */
+  /** Capabilities line, localised. */
   capabilities: {
-    ro: "Investiții imobiliare · Dezvoltare · Administrarea activelor",
-    ru: "Инвестиции в недвижимость · Девелопмент · Управление активами",
-    en: "Real Estate Investment · Development · Asset Management",
+    ro: "Cumpărăm · Dezvoltăm · Închiriem",
+    ru: "Покупаем · Развиваем · Сдаём в аренду",
+    en: "Acquire · Develop · Lease",
   } satisfies Localized,
 };
 
 /** Signature red brand moment — four words, one per line. */
 export const signatureWords: Record<"ro" | "ru" | "en", string[]> = {
-  ro: ["Investim.", "Dezvoltăm.", "Administrăm.", "Creăm valoare."],
-  ru: ["Инвестируем.", "Развиваем.", "Управляем.", "Создаём стоимость."],
-  en: ["Invest.", "Develop.", "Manage.", "Create value."],
+  ro: ["Cumpărăm.", "Dezvoltăm.", "Închiriem.", "Reinvestim."],
+  ru: ["Покупаем.", "Развиваем.", "Сдаём в аренду.", "Реинвестируем."],
+  en: ["Acquire.", "Develop.", "Lease.", "Reinvest."],
 };
 
 export const brandEssence = {
   title: { ro: "Esența brandului", ru: "Суть бренда", en: "Brand essence" } satisfies Localized,
   text: {
-    ro: "MEGAPARC privește imobiliarele ca pe un activ de business care trebuie administrat responsabil și pe termen lung. Nu clădiri predate, ci obiecte care funcționează.",
-    ru: "MEGAPARC рассматривает недвижимость как бизнес-актив, которым нужно управлять ответственно и надолго. Не сданные здания, а работающие объекты.",
-    en: "MEGAPARC treats real estate as a business asset to be managed responsibly and for the long term. Not buildings handed over, but properties that work.",
+    ro: "MEGAPARC își construiește și își exploatează singură clădirile, pe termen lung. Nu clădiri predate, ci obiecte care funcționează.",
+    ru: "MEGAPARC сама строит и эксплуатирует свои здания — надолго. Не сданные здания, а работающие объекты.",
+    en: "MEGAPARC builds and runs its own buildings, for the long term. Not buildings handed over, but properties that work.",
   } satisfies Localized,
   words: {
     ro: ["Profesionist", "Arhitectural", "Consecvent", "Pe termen lung", "Proprietar"],

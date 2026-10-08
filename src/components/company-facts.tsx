@@ -1,129 +1,115 @@
 import { CountUp } from "@/components/count-up";
 import { DemoLegend, DemoMark } from "@/components/experience";
-import { portfolioFigures } from "@/data/demo-content";
 import { Head, Section, TextLink } from "@/components/ui";
+import { publicSpaces } from "@/content/source";
+import { portfolioFigures } from "@/data/demo-content";
 import { developmentProjects, portfolioAssets } from "@/lib/assets";
 import { signatureWords } from "@/lib/brand";
 import { scaleMetrics } from "@/lib/metrics";
-import { historyAnchors, historyCopy } from "@/lib/strategy";
 import { brand, localePath, type SiteLocale } from "@/lib/site-data";
 
 /**
- * COMPANY FACTS — editorial fact board on Home (final visual pass 2026-09-27).
- *
- * Asymmetric twelve-column board, annual-report tone:
- *   row 1  1995 group heritage (burgundy, six columns, the dominant fact) ·
- *          2005 MEGAPARC established (black) · 2020 real-estate focus (graphite)
- *   row 2  04 operating properties (black) · 02 development projects (graphite) ·
- *          20 000+ m² development land (deep graphite, six columns)
- *   row 3  the one red field of the page: Invest · Develop · Manage · Create value
- * plus a "we work with" sequence and a link to About.
- *
- * Factual rules: every year, count and area comes from the shared data modules;
- * nothing numeric is typed into JSX. "30+ years" / "20+ years" are derived from
- * the approved 1995 (group heritage) and 2005 (MEGAPARC established) anchors,
- * rounded down to a multiple of five. Descriptors are shortened from the
- * approved chronology texts. The review-only financial figures are NOT shown.
+ * COMPANY FACTS — editorial fact board (final visual pass 2026-09-27), moved to
+ * About and re-anchored by the OWNER correction of 2026-10-08:
+ *   row 1  1991 business origins (burgundy, wide; 1995 group investment
+ *          structure in its text) · 2005 MEGAPARC founded (black, red numeral) ·
+ *          2020 real-estate focus (graphite)
+ *   row 2  04 operating properties · 02 development projects · 20 000+ m² land
+ *   row 2b lettable area (DEMO) · spaces available now (live from the content source)
+ *   row 3  the one red field: Acquire · Develop · Lease · Reinvest
+ * Every year, count and area comes from the shared data modules; "35+ / 20+"
+ * are derived from the 1991 and 2005 anchors, rounded down to a multiple of five.
  */
+
+const anchors = { origins: "1991", holding: "1995", established: "2005", focus: "2020" };
 
 const copy = {
   ro: {
     id: "fapte",
     kicker: "MEGAPARC în fapte",
-    title: (group: number, mp: number, focus: string) => [
-      `${group}+ ani de experiență antreprenorială.`,
-      `${mp}+ ani MEGAPARC.`,
-      `Imobiliarele — focus strategic din ${focus}.`,
-    ],
+    title: (origins: number, mp: number, focus: string) => [`${origins}+ ani de experiență antreprenorială.`, `${mp}+ ani MEGAPARC.`, `Imobiliarele — activitatea principală din ${focus}.`],
     years: (n: number) => `${n}+ ani`,
-    heritageText: "Retail, investiții, producție, servicii financiare.",
-    establishedText: "Achiziția și modernizarea obiectelor comerciale.",
-    focusText: "Administrarea obiectelor, dezvoltare, mediu urban.",
-    portfolio: "Portofoliu",
+    originsScope: "Originile afacerii",
+    originsTitle: "Primele afaceri ale fondatorilor",
+    originsText: `Comerț, producție, logistică. ${anchors.holding} — structura de investiții a grupului.`,
+    establishedTitle: "Este fondată MEGAPARC",
+    establishedText: "Cumpărarea clădirilor comerciale și transformarea lor în spații de închiriat.",
+    focusTitle: "Imobiliarele devin activitatea principală",
+    focusText: "Cumpărăm, dezvoltăm și închiriem imobiliare proprii.",
+    portfolio: "Proiecte",
     development: "Dezvoltare",
     operatingTitle: "obiecte în funcțiune",
     projectsTitle: "proiecte de dezvoltare",
     landTitle: "teren pentru dezvoltare",
     model: "Modelul nostru",
     with: "Lucrăm cu",
-    partners: ["chiriași", "proprietari", "bănci", "investitori", "dezvoltatori", "parteneri"],
-    cta: "Despre MEGAPARC",
-    indicators: "Indicatori de portofoliu",
+    partners: ["chiriași", "proprietari de clădiri și terenuri", "constructori", "arhitecți", "bănci"],
+    cta: "Cronica completă",
+    indicators: "Închiriere",
     gla: "suprafață închiriabilă",
-    tenants: "chiriași",
-    occupancy: "grad de ocupare",
+    spaces: "spații libere acum",
   },
   ru: {
     id: "fakty",
     kicker: "MEGAPARC в фактах",
-    title: (group: number, mp: number, focus: string) => [
-      `${group}+ лет предпринимательского опыта.`,
-      `${mp}+ лет MEGAPARC.`,
-      `Недвижимость — стратегический фокус с ${focus} года.`,
-    ],
+    title: (origins: number, mp: number, focus: string) => [`${origins}+ лет предпринимательского опыта.`, `${mp}+ лет MEGAPARC.`, `Недвижимость — главное дело с ${focus} года.`],
     years: (n: number) => `${n}+ лет`,
-    heritageText: "Розница, инвестиции, производство, финансовые услуги.",
-    establishedText: "Покупка и модернизация коммерческих объектов.",
-    focusText: "Управление объектами, девелопмент, городская среда.",
-    portfolio: "Портфель",
-    development: "Девелопмент",
+    originsScope: "Истоки бизнеса",
+    originsTitle: "Первые бизнесы основателей",
+    originsText: `Розница, производство, логистика. ${anchors.holding} — инвестиционная структура группы.`,
+    establishedTitle: "Основана MEGAPARC",
+    establishedText: "Покупка коммерческих зданий и превращение их в пространства для аренды.",
+    focusTitle: "Недвижимость становится главным делом",
+    focusText: "Покупаем, развиваем и сдаём в аренду собственную недвижимость.",
+    portfolio: "Проекты",
+    development: "Развитие",
     operatingTitle: "действующих объекта",
     projectsTitle: "проекта развития",
     landTitle: "земля под развитие",
     model: "Наша модель",
     with: "Работаем с",
-    partners: ["арендаторами", "собственниками", "банками", "инвесторами", "девелоперами", "партнёрами"],
-    cta: "О компании",
-    indicators: "Показатели портфеля",
+    partners: ["арендаторами", "владельцами зданий и земли", "подрядчиками", "архитекторами", "банками"],
+    cta: "Вся хроника",
+    indicators: "Аренда",
     gla: "арендуемая площадь",
-    tenants: "арендаторов",
-    occupancy: "заполняемость",
+    spaces: "помещений свободно сейчас",
   },
   en: {
     id: "facts",
     kicker: "MEGAPARC in facts",
-    title: (group: number, mp: number, focus: string) => [
-      `${group}+ years of entrepreneurial experience.`,
-      `${mp}+ years of MEGAPARC.`,
-      `Real estate as the strategic focus since ${focus}.`,
-    ],
+    title: (origins: number, mp: number, focus: string) => [`${origins}+ years of entrepreneurial experience.`, `${mp}+ years of MEGAPARC.`, `Real estate as the core business since ${focus}.`],
     years: (n: number) => `${n}+ years`,
-    heritageText: "Retail, investment, manufacturing, financial services.",
-    establishedText: "Acquiring and modernising commercial properties.",
-    focusText: "Property management, development, urban renewal.",
-    portfolio: "Portfolio",
+    originsScope: "Business origins",
+    originsTitle: "The founders' first businesses",
+    originsText: `Retail, manufacturing, logistics. ${anchors.holding} — the group's investment structure.`,
+    establishedTitle: "MEGAPARC is founded",
+    establishedText: "Buying commercial buildings and turning them into space to lease.",
+    focusTitle: "Real estate becomes the core business",
+    focusText: "We acquire, develop and lease our own real estate.",
+    portfolio: "Projects",
     development: "Development",
     operatingTitle: "operating properties",
     projectsTitle: "development projects",
     landTitle: "development land",
     model: "Our model",
     with: "We work with",
-    partners: ["tenants", "owners", "banks", "investors", "developers", "partners"],
-    cta: "About MEGAPARC",
-    indicators: "Portfolio indicators",
+    partners: ["tenants", "owners of buildings and land", "contractors", "architects", "banks"],
+    cta: "The full chronicle",
+    indicators: "Leasing",
     gla: "lettable area",
-    tenants: "tenants",
-    occupancy: "occupancy",
+    spaces: "spaces available now",
   },
 } as const;
 
-/** Whole years since an anchor, rounded down to a multiple of five ("30+"). */
+/** Whole years since an anchor, rounded down to a multiple of five ("35+"). */
 function yearsSince(year: string) {
   const elapsed = new Date().getFullYear() - Number(year);
   return Math.max(5, Math.floor(elapsed / 5) * 5);
 }
 
-/**
- * tone="light" (full-experience prototype 2026-10-07): warm field, the years keep
- * their burgundy / black / graphite cards, counts and land turn light, and a row
- * of DEMO portfolio indicators (src/data/demo-content.ts) follows the verified
- * scale — each value with its demo ring and the legend.
- */
-export function CompanyFacts({ locale, tone = "dark" }: { locale: SiteLocale; tone?: "dark" | "light" }) {
+export function CompanyFacts({ locale, tone = "light" }: { locale: SiteLocale; tone?: "dark" | "light" }) {
   const light = tone === "light";
-  const f = portfolioFigures;
   const c = copy[locale];
-  const [heritage, established, focus] = historyAnchors;
   const metrics = scaleMetrics();
   const operating = metrics.find((metric) => metric.key === "operating");
   const projects = metrics.find((metric) => metric.key === "projects");
@@ -131,58 +117,43 @@ export function CompanyFacts({ locale, tone = "dark" }: { locale: SiteLocale; to
   const city = portfolioAssets[0]?.city[locale];
   const projectNames = developmentProjects.map((project) => project.name).join(" · ");
   const landProject = developmentProjects.find((project) => project.slug === "drochia-gateway")?.name;
-  const groupYears = yearsSince(heritage.year);
-  const megaparcYears = yearsSince(established.year);
-  const titleLines = c.title(groupYears, megaparcYears, focus.year);
+  const originYears = yearsSince(anchors.origins);
+  const megaparcYears = yearsSince(anchors.established);
+  const titleLines = c.title(originYears, megaparcYears, anchors.focus);
 
   return (
     <Section tone={light ? "paper" : "ink"} id={c.id} className={`keyfacts${light ? " keyfacts--light" : ""}`} label={c.kicker}>
       <div className="shell">
-        <Head
-          kicker={c.kicker}
-          title={
-            <>
-              {titleLines[0]}
-              <br />
-              {titleLines[1]}
-              <br />
-              {titleLines[2]}
-            </>
-          }
-        />
+        <Head kicker={c.kicker} title={<>{titleLines[0]}<br />{titleLines[1]}<br />{titleLines[2]}</>} />
 
         <ul className="kf">
-          {/* ROW 1 — 1995 group heritage: the dominant fact */}
           <li className="kf__card kf__card--burgundy kf__card--heritage kf__card--wide" data-reveal>
-            <span className="kf__scope">{historyCopy.group[locale]} · {c.years(groupYears)}</span>
-            <span className="kf__value kf__value--xl">{heritage.year}</span>
+            <span className="kf__scope">{c.originsScope} · {c.years(originYears)}</span>
+            <span className="kf__value kf__value--xl">{anchors.origins}</span>
             <div className="kf__body">
-              <span className="kf__title">{heritage.title[locale]}</span>
-              <p className="kf__text">{c.heritageText}</p>
+              <span className="kf__title">{c.originsTitle}</span>
+              <p className="kf__text">{c.originsText}</p>
             </div>
           </li>
 
-          {/* 2005 — MEGAPARC established */}
           <li className="kf__card kf__card--black kf__card--est" data-reveal>
             <span className="kf__scope">{brand.name}<span className="kf__scope-extra"> · {c.years(megaparcYears)}</span></span>
-            <span className="kf__value kf__value--lg kf__value--red">{established.year}</span>
+            <span className="kf__value kf__value--lg kf__value--red">{anchors.established}</span>
             <div className="kf__body">
-              <span className="kf__title">{established.title[locale]}</span>
+              <span className="kf__title">{c.establishedTitle}</span>
               <p className="kf__text">{c.establishedText}</p>
             </div>
           </li>
 
-          {/* 2020 — strategic real-estate focus: a transition, not a hero */}
           <li className="kf__card kf__card--graphite kf__card--focus" data-reveal>
             <span className="kf__scope">{brand.name}</span>
-            <span className="kf__value kf__value--lg">{focus.year}</span>
+            <span className="kf__value kf__value--lg">{anchors.focus}</span>
             <div className="kf__body">
-              <span className="kf__title">{focus.title[locale]}</span>
+              <span className="kf__title">{c.focusTitle}</span>
               <p className="kf__text">{c.focusText}</p>
             </div>
           </li>
 
-          {/* ROW 2 — verified scale from the asset registers */}
           {operating ? (
             <li className={`kf__card ${light ? "kf__card--paper" : "kf__card--black"} kf__card--count`} data-reveal>
               <span className="kf__scope">{c.portfolio}</span>
@@ -220,27 +191,21 @@ export function CompanyFacts({ locale, tone = "dark" }: { locale: SiteLocale; to
             </li>
           ) : null}
 
-          {/* ROW 2b — DEMO portfolio indicators (light board only) */}
-          {light
-            ? [
-                [f.gla, c.gla],
-                [f.tenants, c.tenants],
-                [f.occupancy, c.occupancy],
-              ].map(([point, title]) => (
-                <li key={(point as typeof f.gla).key} className={`kf__card kf__card--paper kf__card--demo${point === f.gla ? " kf__card--demo-lead" : ""}`} data-reveal>
-                  <span className="kf__scope">{c.indicators}</span>
-                  <span className="kf__value kf__value--lg">
-                    {(point as typeof f.gla).value[locale]}
-                    <DemoMark />
-                  </span>
-                  <div className="kf__body">
-                    <span className="kf__title kf__title--caps">{title as string}</span>
-                  </div>
-                </li>
-              ))
-            : null}
+          {light ? (
+            <>
+              <li className="kf__card kf__card--paper kf__card--demo kf__card--demo-lead" data-reveal>
+                <span className="kf__scope">{c.indicators}</span>
+                <span className="kf__value kf__value--lg">{portfolioFigures.gla.value[locale]}<DemoMark /></span>
+                <div className="kf__body"><span className="kf__title kf__title--caps">{c.gla}</span></div>
+              </li>
+              <li className="kf__card kf__card--paper kf__card--demo" data-reveal>
+                <span className="kf__scope">{c.indicators}</span>
+                <span className="kf__value kf__value--lg">{String(publicSpaces.length).padStart(2, "0")}</span>
+                <div className="kf__body"><span className="kf__title kf__title--caps">{c.spaces}</span></div>
+              </li>
+            </>
+          ) : null}
 
-          {/* ROW 3 — the one red field on the page: business-model signature */}
           <li className="kf__card kf__card--red kf__card--model" data-reveal>
             <span className="kf__scope">{c.model}</span>
             <p className="kf__words" aria-label={signatureWords[locale].join(" ")}>
@@ -258,7 +223,7 @@ export function CompanyFacts({ locale, tone = "dark" }: { locale: SiteLocale; to
               <li key={partner}>{partner}</li>
             ))}
           </ul>
-          <TextLink href={localePath(locale, "/about")} className={light ? undefined : "tlink--light"}>{c.cta}</TextLink>
+          <TextLink href={localePath(locale, "/history")} className={light ? undefined : "tlink--light"}>{c.cta}</TextLink>
         </div>
         {light ? <DemoLegend locale={locale} /> : null}
       </div>

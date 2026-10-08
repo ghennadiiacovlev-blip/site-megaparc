@@ -4,13 +4,12 @@ import Link from "next/link";
 import type { CSSProperties } from "react";
 import { CareersFilm } from "@/components/careers-film";
 import { ConceptImage, DemoMark, MaskTitle, Opening, conceptMedia } from "@/components/experience";
-import { disciplineLabel } from "@/components/journey-blocks";
 import { PageShell } from "@/components/page-shell";
 import { ArtImage } from "@/components/primitives";
 import { Button, Icon, TextLink } from "@/components/ui";
 import { company, cultureStatement, roleStories } from "@/data/demo-content";
-import { developmentProjects, portfolioAssets } from "@/lib/assets";
-import { employerBrand, openVacancies } from "@/lib/careers";
+import { formatDate, listProjects, listVacancies } from "@/content/source";
+import { departmentLabel, employerBrand } from "@/lib/careers";
 import { localePath, publicAsset, type SiteLocale } from "@/lib/site-data";
 
 /**
@@ -25,7 +24,7 @@ const FILM = "/assets/careers/megaparc-careers-film.mp4";
 const copy = {
   ro: {
     title: ["Construim echipa", "care construiește viitorul."],
-    lead: "Obiecte reale, proiecte reale, responsabilitate reală — de la șantier la decizia de investiție.",
+    lead: "Clădiri reale, proiecte reale, responsabilitate reală — de la șantier la decizia de a cumpăra un obiect.",
     roles: "Posturi deschise",
     work: "Ce veți face",
     workLabel: "La ce veți lucra",
@@ -34,12 +33,12 @@ const copy = {
       "dacia-31": "Pregătirea clădirii pentru un nou utilizator din 2027: audit, instalații, planificare.",
       "moscova-9": "Lucrul cu un brand-chiriaș: fațadă, logistică, exploatare.",
       "moscova-20": "Lansarea spațiului pentru un nou format din august 2026.",
-      "creanga-78": "Administrarea unei clădiri cu mulți chiriași.",
+      "creanga-78": "Exploatarea unei clădiri cu mulți chiriași.",
       vatra: "Construcție: calitate, buget, grafic.",
       "drochia-gateway": "Evaluarea terenului: urbanism, concepte, economie.",
     } as Record<string, string>,
     pillars: [
-      ["Echipă", "Investiții, finanțe, dezvoltare, construcție și exploatare stau la aceeași masă. O decizie bună are nevoie de toate cinci."],
+      ["Echipă", "Achiziții, finanțe, dezvoltare, construcție, închiriere și exploatare stau la aceeași masă. O decizie bună are nevoie de toate."],
       ["Responsabilitate pe proiect", "Fiecare proiect are un om care răspunde de el — de buget, de termene și de calitatea care rămâne după predare."],
       ["Dezvoltare profesională", "Lucrați pe toată durata de viață a unui obiect: de la analiză la construcție și exploatare. Asta formează specialiști compleți."],
       ["Teren + birou", "O parte a zilei pe șantier sau în clădire, o parte la calcule și decizii. Rezultatul se vede pe stradă, nu doar în raport."],
@@ -59,7 +58,7 @@ const copy = {
   },
   ru: {
     title: ["Строим команду,", "которая строит будущее."],
-    lead: "Реальные объекты, реальные проекты, реальная ответственность — от стройплощадки до инвестиционного решения.",
+    lead: "Реальные здания, реальные проекты, реальная ответственность — от стройплощадки до решения о покупке объекта.",
     roles: "Открытые вакансии",
     work: "Чем вы будете заниматься",
     workLabel: "Над чем вы будете работать",
@@ -68,12 +67,12 @@ const copy = {
       "dacia-31": "Подготовка здания к новому пользователю с 2027 года: аудит, инженерия, планировки.",
       "moscova-9": "Работа с брендом-арендатором: фасад, логистика, эксплуатация.",
       "moscova-20": "Запуск помещения под новый формат с августа 2026 года.",
-      "creanga-78": "Управление многоарендным зданием.",
+      "creanga-78": "Эксплуатация многоарендного здания.",
       vatra: "Строительство: качество, бюджет, график.",
       "drochia-gateway": "Оценка участка: градостроительство, концепции, экономика.",
     } as Record<string, string>,
     pillars: [
-      ["Команда", "Инвестиции, финансы, девелопмент, строительство и эксплуатация — за одним столом. Хорошему решению нужны все пять."],
+      ["Команда", "Приобретения, финансы, девелопмент, строительство, аренда и эксплуатация — за одним столом. Хорошему решению нужны все."],
       ["Ответственность за проект", "У каждого проекта есть человек, который за него отвечает: за бюджет, сроки и качество, которое остаётся после сдачи."],
       ["Профессиональный рост", "Вы работаете на всём жизненном цикле объекта — от анализа до строительства и эксплуатации. Так вырастают специалисты широкого профиля."],
       ["Объект + офис", "Часть дня — на площадке или в здании, часть — над расчётами и решениями. Результат виден на улице, а не только в отчёте."],
@@ -93,7 +92,7 @@ const copy = {
   },
   en: {
     title: ["We build the team", "that builds the future."],
-    lead: "Real properties, real projects, real responsibility — from the building site to the investment decision.",
+    lead: "Real buildings, real projects, real responsibility — from the building site to the decision to buy a property.",
     roles: "Open vacancies",
     work: "What you would work on",
     workLabel: "What you will work on",
@@ -107,7 +106,7 @@ const copy = {
       "drochia-gateway": "Assessing the site: planning, concepts, economics.",
     } as Record<string, string>,
     pillars: [
-      ["Team", "Investment, finance, development, construction and operations at one table. A good decision needs all five."],
+      ["Team", "Acquisitions, finance, development, construction, leasing and operations at one table. A good decision needs all of them."],
       ["Project responsibility", "Every project has a person accountable for it — for budget, schedule and the quality that stays after handover."],
       ["Career development", "You work across a property's whole life: from analysis to construction and operation. That is how all-round specialists grow."],
       ["Field + office", "Part of the day on site or in the building, part on numbers and decisions. The result shows on the street, not only in a report."],
@@ -137,10 +136,8 @@ export function CareersPage({ locale }: { locale: SiteLocale }) {
   const c = copy[locale];
   const p = (path: string) => localePath(locale, path);
   const film = filmSource();
-  const work = [
-    ...portfolioAssets.map((asset) => ({ key: asset.slug, name: asset.name, href: p(`/portfolio/${asset.slug}`), media: asset.media })),
-    ...developmentProjects.map((project) => ({ key: project.slug, name: project.name, href: p(`/development/${project.slug}`), media: project.media })),
-  ];
+  const work = listProjects().map((project) => ({ key: project.slug, name: project.name, href: p(`/projects/${project.slug}`), media: project.media }));
+  const vacancies = listVacancies();
 
   return (
     <PageShell locale={locale} variant="overlay" experience>
@@ -163,11 +160,41 @@ export function CareersPage({ locale }: { locale: SiteLocale }) {
         </div>
       </section>
 
+      {/* VACANCIES — real, Rabota.md */}
+      <section className="xp-sec" id="positions">
+        <div className="xp-shell">
+          <Opening no="01" label={c.positionsLabel} title={c.positionsTitle(vacancies.length)} lead={employerBrand.positions.sourceNote[locale]} className="xp-opening--split" />
+          {vacancies.length ? null : (
+            <div className="xp-split__copy" data-reveal>
+              <h3 className="xp-split__title">{employerBrand.positions.emptyTitle[locale]}</h3>
+              <p>{employerBrand.positions.emptyText[locale]}</p>
+            </div>
+          )}
+          <ul className="xp-vacancies" data-reveal>
+            {vacancies.map((vacancy) => (
+              <li key={vacancy.slug} id={vacancy.slug}>
+                <a href={vacancy.externalUrl} target="_blank" rel="noopener noreferrer">
+                  <span className="xp-vacancies__meta"><b>{departmentLabel[vacancy.department][locale]}</b><span>{vacancy.location[locale]}</span>{vacancy.publishedAt ? <span>{formatDate(vacancy.publishedAt, locale)}</span> : null}</span>
+                  <h3>{vacancy.title[locale]}</h3>
+                  <p>{vacancy.summary[locale]}</p>
+                  {vacancy.full ? <p className="xp-vacancies__full">{vacancy.full[locale]}</p> : null}
+                  <span className="xp-vacancies__go" aria-hidden="true"><Icon name="up-right" size={18} /></span>
+                  <span className="sr-only">{c.view}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+          <div className="xp-actions xp-actions--top" data-reveal>
+            <TextLink href={employerBrand.positions.allRolesUrl} external>{employerBrand.positions.allRoles[locale]}</TextLink>
+          </div>
+        </div>
+      </section>
+
       {/* WHAT YOU WILL WORK ON — real assets and projects */}
       <section className="xp-sec xp-sec--warm" id="work">
         <div className="xp-shell">
           <p className="xp-statement xp-culture" data-reveal>{cultureStatement.value[locale]}<DemoMark /></p>
-          <Opening no="01" label={c.workLabel} title={c.workTitle} lead={employerBrand.lead[locale]} className="xp-opening--split" />
+          <Opening no="02" label={c.workLabel} title={c.workTitle} lead={employerBrand.lead[locale]} className="xp-opening--split" />
           <ul className="xp-index" data-reveal>
             {work.map((item) => (
               <li key={item.key}>
@@ -188,7 +215,7 @@ export function CareersPage({ locale }: { locale: SiteLocale }) {
       {/* FOUR PILLARS — walking rhythm */}
       <section className="xp-sec" id="how">
         <div className="xp-shell">
-          <p className="xp-eyebrow xp-eyebrow--gap" data-reveal><span className="xp-eyebrow__no">02</span><span>{c.pillarsLabel}</span></p>
+          <p className="xp-eyebrow xp-eyebrow--gap" data-reveal><span className="xp-eyebrow__no">03</span><span>{c.pillarsLabel}</span></p>
           <div className="xp-rhythm">
             {c.pillars.map(([title, text], i) => (
               <article key={title} className={`xp-split${i % 2 ? " xp-split--flip" : ""}`}>
@@ -209,7 +236,7 @@ export function CareersPage({ locale }: { locale: SiteLocale }) {
       {/* ROLE STORIES — DEMO */}
       <section className="xp-sec xp-sec--stone" id="roles">
         <div className="xp-shell">
-          <Opening no="03" label={c.storiesLabel} title={c.storiesTitle} lead={c.storiesNote} className="xp-opening--split" />
+          <Opening no="04" label={c.storiesLabel} title={c.storiesTitle} lead={c.storiesNote} className="xp-opening--split" />
           <div className="xp-roles" data-reveal>
             {roleStories.map((story) => (
               <article key={story.key}>
@@ -219,35 +246,6 @@ export function CareersPage({ locale }: { locale: SiteLocale }) {
                 <p><b>{c.owns}:</b> {story.owns[locale]}</p>
               </article>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* VACANCIES — real, Rabota.md */}
-      <section className="xp-sec" id="positions">
-        <div className="xp-shell">
-          <Opening no="04" label={c.positionsLabel} title={c.positionsTitle(openVacancies.length)} lead={employerBrand.positions.sourceNote[locale]} className="xp-opening--split" />
-          {openVacancies.length ? null : (
-            <div className="xp-split__copy" data-reveal>
-              <h3 className="xp-split__title">{employerBrand.positions.emptyTitle[locale]}</h3>
-              <p>{employerBrand.positions.emptyText[locale]}</p>
-            </div>
-          )}
-          <ul className="xp-vacancies" data-reveal>
-            {openVacancies.map((vacancy) => (
-              <li key={vacancy.slug}>
-                <a href={vacancy.externalUrl} target="_blank" rel="noopener noreferrer">
-                  <span className="xp-vacancies__meta"><b>{disciplineLabel(vacancy.area, locale)}</b><span>{vacancy.location[locale]}</span></span>
-                  <h3>{vacancy.title[locale]}</h3>
-                  <p>{vacancy.summary[locale]}</p>
-                  <span className="xp-vacancies__go" aria-hidden="true"><Icon name="up-right" size={18} /></span>
-                  <span className="sr-only">{c.view}</span>
-                </a>
-              </li>
-            ))}
-          </ul>
-          <div className="xp-actions xp-actions--top" data-reveal>
-            <TextLink href={employerBrand.positions.allRolesUrl} external>{employerBrand.positions.allRoles[locale]}</TextLink>
           </div>
         </div>
       </section>
