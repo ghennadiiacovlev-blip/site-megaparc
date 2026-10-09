@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { LanguageSwitcher } from "@/components/language-switcher";
 import { SiteNav } from "@/components/site-nav";
+import { company, contactLinks } from "@/data/demo-content";
 import { directionLines } from "@/lib/business";
 import { brand, localePath, type Localized, type SiteLocale } from "@/lib/site-data";
 
@@ -65,6 +66,12 @@ export function SiteFooter({ locale, statement = true }: { locale: SiteLocale; s
           <div className="ftr__col">
             <span className="ftr__label">{copy.contact[locale]}</span>
             <p className="ftr__text">{brand.name} SRL<br />{brand.city[locale]}</p>
+            {/* OWNER-confirmed public contacts (2026-10-09) */}
+            <ul className="ftr__contacts">
+              <li><a href={contactLinks.email}>{company.email.value[locale]}</a></li>
+              <li><a href={contactLinks.mobile}>{company.mobile.value[locale]}</a></li>
+              <li><a href={contactLinks.landline}>{company.landline.value[locale]}</a></li>
+            </ul>
             <Link className="ftr__link" href={localePath(locale, "/contact")}>{copy.contact[locale]}</Link>
           </div>
           <div className="ftr__col">

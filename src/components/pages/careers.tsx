@@ -5,7 +5,7 @@ import { ConceptImage, DemoMark, Opening } from "@/components/experience";
 import { PageShell } from "@/components/page-shell";
 import { ArtImage } from "@/components/primitives";
 import { Button, Icon } from "@/components/ui";
-import { company, cultureStatement, roleStories } from "@/data/demo-content";
+import { company, contactLinks, cultureStatement, roleStories } from "@/data/demo-content";
 import { formatDate, listProjects, listVacancies } from "@/content/source";
 import { departmentLabel, employerBrand } from "@/lib/careers";
 import { localePath, type SiteLocale } from "@/lib/site-data";
@@ -116,7 +116,7 @@ const copy = {
 const pillarImages = ["careers.team", "careers.responsibility", "careers.growth", "careers.field"];
 
 /** Projects without an approved photograph use their registered concept image (DEMO, src/data/demo-content.ts). */
-const workConcept: Partial<Record<string, string>> = { "creanga-78": "asset.creanga-78.hero", "drochia-gateway": "project.drochia.road" };
+const workConcept: Partial<Record<string, string>> = { "drochia-gateway": "project.drochia.road" };
 
 export function CareersPage({ locale }: { locale: SiteLocale }) {
   const c = copy[locale];
@@ -229,7 +229,7 @@ export function CareersPage({ locale }: { locale: SiteLocale }) {
           </div>
           <div className="xp-split__copy" data-reveal>
             <p className="xp-lead">{c.applyText}</p>
-            <p className="xp-muted">{company.emails.careers.value[locale]}<DemoMark /></p>
+            <p className="xp-muted"><a href={contactLinks.email}>{company.email.value[locale]}</a></p>
             <Button href={`${p("/contact")}?subject=careers#careers`}>{c.applyCta}</Button>
           </div>
         </div>

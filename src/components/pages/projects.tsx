@@ -7,7 +7,8 @@ import { PageShell } from "@/components/page-shell";
 import { ProjectEditorial, ProjectFacts, ProjectNow } from "@/components/project-facts";
 import { ArtImage } from "@/components/primitives";
 import { Button, Icon, TextLink } from "@/components/ui";
-import { formatAreaRange, listProjects, projectTags, publicSpaces, spacesFor, type ProjectEntry } from "@/content/source";
+import { formatAreaRange, kindLabel, listLand, listProjects, projectTags, publicSpaces, spacesFor, type ProjectEntry } from "@/content/source";
+import { landTotalExact, portfolioFigures } from "@/data/demo-content";
 import { brand, localePath, type SiteLocale } from "@/lib/site-data";
 
 /**
@@ -17,6 +18,10 @@ import { brand, localePath, type SiteLocale } from "@/lib/site-data";
  * can be leased now are surfaced on each project. Filters: all · operating ·
  * development · land · available to lease (· for sale, only when a project
  * carries the CMS "for sale" flag — none does today).
+ * OWNER asset data 2026-10-09: operating property · development project · land
+ * plot are distinct; a record without a photograph (Dacia 31 · Development)
+ * gets a typographic programme plate, never a stand-in building; land plots are
+ * listed as land, never as vacant buildings.
  */
 const copy = {
   ro: {
@@ -24,8 +29,13 @@ const copy = {
     title: "Imobiliarele MEGAPARC.",
     lead: "Clădiri comerciale în funcțiune, proiecte de dezvoltare și terenuri.",
     figOperating: "Clădiri în funcțiune",
-    figDevelopment: "Proiect de dezvoltare",
-    figLand: "Teren pentru dezvoltare",
+    figDevelopment: "Proiecte de dezvoltare",
+    figLand: "Terenuri",
+    landTitle: "Terenuri",
+    landLead: "Terenuri din portofoliul MEGAPARC. Planurile pentru fiecare teren se publică după aprobare.",
+    landTotal: "Total",
+    landOpen: "Vezi proiectul",
+    planned: "planificat",
     figSpaces: "Spații libere",
     seeAll: "Vezi spațiile libere",
     operating: "În funcțiune",
@@ -52,9 +62,14 @@ const copy = {
     title: "Недвижимость MEGAPARC.",
     lead: "Действующие коммерческие объекты, проекты развития и земельные участки.",
     figOperating: "Действующие объекты",
-    figDevelopment: "Проект развития",
-    figLand: "Земля под развитие",
-    figSpaces: "Свободных помещений",
+    figDevelopment: "Проекты развития",
+    figLand: "Земельные участки",
+    landTitle: "Земельные участки",
+    landLead: `Земельные участки в портфеле MEGAPARC. Планы по участкам публикуем после утверждения.`,
+    landTotal: "Всего",
+    landOpen: "Открыть проект",
+    planned: "план",
+    figSpaces: "Свободные помещения",
     seeAll: "Смотреть свободные помещения",
     operating: "Действующие",
     development: "Развитие",
@@ -80,8 +95,13 @@ const copy = {
     title: "MEGAPARC real estate.",
     lead: "Operating commercial properties, development projects and land.",
     figOperating: "Operating properties",
-    figDevelopment: "Development project",
-    figLand: "Land for development",
+    figDevelopment: "Development projects",
+    figLand: "Land plots",
+    landTitle: "Land plots",
+    landLead: "Land plots in the MEGAPARC portfolio. Plans for each plot are published once approved.",
+    landTotal: "Total",
+    landOpen: "View the project",
+    planned: "planned",
     figSpaces: "Available spaces",
     seeAll: "See the available spaces",
     operating: "Operating",
@@ -110,14 +130,34 @@ const layout: Record<string, { layout: Layout; ratio: string }> = {
   "moscova-9": { layout: "feature", ratio: "21 / 9" },
   "dacia-31": { layout: "split", ratio: "4 / 5" },
   "moscova-20": { layout: "compact", ratio: "3 / 4" },
-  "creanga-78": { layout: "flip", ratio: "4 / 5" },
+  "creanga-78": { layout: "flip", ratio: "4 / 3" },
   vatra: { layout: "wide", ratio: "21 / 8" },
+  "dacia-31-development": { layout: "split", ratio: "4 / 3" },
   "drochia-gateway": { layout: "flip", ratio: "4 / 5" },
 };
 
 function ProjectFigure({ project, locale, sizes, priority = false }: { project: ProjectEntry; locale: SiteLocale; sizes: string; priority?: boolean }) {
   if (project.media) return <ArtImage media={project.media} alt={`${project.name} — ${project.format[locale]}`} sizes={sizes} depth={14} priority={priority} position={project.slug === "vatra" ? "50% 70%" : undefined} />;
-  return <ConceptImage id={project.conceptUse!} locale={locale} sizes={sizes} depth={14} />;
+  if (project.conceptUse) return <ConceptImage id={project.conceptUse} locale={locale} sizes={sizes} depth={14} />;
+  return <ProgrammePlate project={project} locale={locale} />;
+}
+
+/** A record without a photograph or concept: the confirmed programme as type on stone. */
+function ProgrammePlate({ project, locale }: { project: ProjectEntry; locale: SiteLocale }) {
+  const programme = project.programme;
+  return (
+    <span className="pj-plate" aria-hidden="true">
+      <span className="pj-plate__kicker">{kindLabel[project.kind][locale]}</span>
+      {programme ? (
+        <>
+          <span className="pj-plate__value">{programme.buildings.value[locale]} × {programme.each.value[locale]}</span>
+          <span className="pj-plate__note">{programme.total.value[locale]} · {copy[locale].planned}</span>
+        </>
+      ) : (
+        <span className="pj-plate__value">{project.card.size[locale]}</span>
+      )}
+    </span>
+  );
 }
 
 export function ProjectsPage({ locale }: { locale: SiteLocale }) {
@@ -125,7 +165,6 @@ export function ProjectsPage({ locale }: { locale: SiteLocale }) {
   const p = (path: string) => localePath(locale, path);
   const projects = listProjects();
   const count = (tag: string) => projects.filter((project) => projectTags(project).includes(tag)).length;
-  const drochiaProject = projects.find((project) => project.slug === "drochia-gateway")!;
   const filterKeys = ["operating", "development", "land", "leasing", ...(count("sale") ? ["sale"] : [])];
 
   return (
@@ -140,7 +179,7 @@ export function ProjectsPage({ locale }: { locale: SiteLocale }) {
             <HeroFigures className="xp-figures--caps xp-figures--four" items={[
               { value: String(count("operating")).padStart(2, "0"), label: c.figOperating },
               { value: String(count("development")).padStart(2, "0"), label: c.figDevelopment },
-              { value: drochiaProject.card.size[locale], label: c.figLand },
+              { value: portfolioFigures.land.value[locale], label: c.figLand },
               { value: String(publicSpaces.length).padStart(2, "0"), label: c.figSpaces },
             ]} />
             <div className="xp-actions">
@@ -154,7 +193,7 @@ export function ProjectsPage({ locale }: { locale: SiteLocale }) {
       <section className="xp-sec" id="collection">
         <div className="xp-shell">
           <Opening no="01" label={c.collectionLabel} title={c.collectionTitle} />
-          <CollectionFilter label={c.filter} options={[{ key: "all", label: c.all, count: projects.length }, ...filterKeys.map((key) => ({ key, label: c.tags[key], count: count(key) }))]}>
+          <CollectionFilter label={c.filter} options={[{ key: "all", label: c.all, count: projects.length }, ...filterKeys.map((key) => ({ key, label: c.tags[key], count: key === "land" ? listLand().length : count(key) }))]}>
             <div className="xp-collection">
               {projects.map((project, index) => {
                 const { layout: kind, ratio } = layout[project.slug];
@@ -203,6 +242,30 @@ export function ProjectsPage({ locale }: { locale: SiteLocale }) {
                   </article>
                 );
               })}
+              {/* LAND PLOTS — listed as land (OWNER 2026-10-09); Drochia Gateway links to its page, no concepts invented for the others */}
+              <article className="xp-piece xp-piece--land" data-category="land">
+                <div className="pj-land" data-reveal>
+                  <p className="xp-eyebrow"><span>{kindLabel.land[locale]}</span></p>
+                  <h2 className="xp-piece__name">{c.landTitle}</h2>
+                  <p className="xp-piece__reason">{c.landLead}</p>
+                  <ul className="pj-land__list">
+                    {listLand().map((plot) => (
+                      <li key={plot.slug}>
+                        <span className="pj-land__name">{plot.name[locale]}</span>
+                        <span className="pj-land__area">{plot.point.value[locale]}</span>
+                        <span className="pj-land__kind">{kindLabel.land[locale]}</span>
+                        {plot.project ? <TextLink href={p(`/projects/${plot.project}`)}>{c.landOpen}</TextLink> : <span aria-hidden="true" />}
+                      </li>
+                    ))}
+                    <li className="pj-land__total">
+                      <span className="pj-land__name">{c.landTotal}</span>
+                      <span className="pj-land__area">{landTotalExact[locale]}</span>
+                      <span />
+                      <span />
+                    </li>
+                  </ul>
+                </div>
+              </article>
             </div>
           </CollectionFilter>
         </div>

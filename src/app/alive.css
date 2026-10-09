@@ -444,3 +444,70 @@ html.al-nav main { animation: alRoute .55s var(--al-ease) both; }
 @media (min-width: 1024px) {
   .xp-showcase__lead--editorial .xp-showcase__caption { width: 42%; padding: 1.9rem 2.4rem 1.7rem 0; }
 }
+
+/* OWNER-confirmed public contacts (2026-10-09) — footer, contact hero, details */
+.ftr__contacts { display: grid; gap: .3rem; margin: .9rem 0 1rem; padding: 0; list-style: none; font-size: var(--t-small, .9rem); }
+.ftr__contacts a { color: white; text-decoration: none; border-bottom: 1px solid rgba(255, 255, 255, .25); transition: border-color .25s ease, color .25s ease; }
+.ftr__contacts a:hover, .ftr__contacts a:focus-visible { color: white; border-bottom-color: var(--signal); }
+.xp-contact__direct { display: flex; flex-wrap: wrap; gap: .4rem 1.4rem; margin: 1.2rem 0 0; padding: 0; list-style: none; }
+.xp-contact__direct a { color: var(--ink); font-size: 1.05rem; font-weight: 500; text-decoration: none; border-bottom: 1px solid var(--xp-line-strong); white-space: nowrap; transition: border-color var(--xp-ui) ease, color var(--xp-ui) ease; }
+.xp-contact__direct a:hover, .xp-contact__direct a:focus-visible { color: var(--brand); border-bottom-color: var(--brand); }
+.xp-details__link { color: inherit; text-decoration: none; border-bottom: 1px solid var(--xp-line-strong); }
+.xp-details__link:hover, .xp-details__link:focus-visible { color: var(--brand); border-bottom-color: var(--brand); }
+
+/* ------------------------------------------------------------------ */
+/* OWNER-CONFIRMED ASSET DATA (2026-10-09)                               */
+/* ------------------------------------------------------------------ */
+/* Creangă 78 — the real photograph is 960 px wide: a contained hero, never upscaled full-bleed */
+.pp-hero--contained { padding-top: clamp(1rem, 3vw, 2.2rem); }
+.pp-hero--contained .pp-hero__media { width: min(100% - 2 * clamp(1rem, 3.4vw, 3rem), 960px); height: auto; aspect-ratio: 4 / 3; margin-inline: auto; }
+@media (min-width: 1024px) { .pp-hero--contained .pp-hero__media { aspect-ratio: 16 / 10; } }
+@media (max-width: 719px) { .pp-hero--contained .pp-hero__media { width: 100%; aspect-ratio: 4 / 5; height: auto; } }
+
+/* programme plate — a record without a photograph shows its confirmed programme as type, not a stand-in building */
+.pj-plate { position: absolute; inset: 0; display: grid; align-content: end; gap: .5rem; padding: clamp(1.2rem, 3vw, 2.4rem); background: var(--stone, #e7e3dc); color: var(--ink); }
+.pj-plate::before { content: ""; position: absolute; inset: clamp(1rem, 2.4vw, 1.8rem); border-top: 1px solid var(--xp-line-strong); pointer-events: none; }
+.pj-plate__kicker { color: var(--brand); font-size: var(--xp-label); font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+.pj-plate__value { font-size: clamp(1.8rem, 3.6vw, 3.4rem); font-weight: 500; line-height: 1; letter-spacing: -.035em; }
+.pj-plate__note { color: var(--muted); font-size: .95rem; }
+
+/* land plots — listed as land, never as vacant buildings */
+.xp-piece--land { grid-template-columns: minmax(0, 1fr); }
+.pj-land { display: grid; gap: 1rem; align-content: start; max-width: 60rem; }
+.pj-land__list { display: grid; margin: .6rem 0 0; padding: 0; list-style: none; border-top: 1px solid var(--xp-line-strong); }
+.pj-land__list li { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.3fr) minmax(0, 1fr) 11rem; gap: .4rem 1.2rem; align-items: baseline; padding: 1rem 0 1.05rem; border-bottom: 1px solid var(--xp-line); }
+.pj-land__name { font-size: clamp(1.1rem, 1.6vw, 1.4rem); font-weight: 500; letter-spacing: -.015em; }
+.pj-land__area { font-size: .98rem; font-variant-numeric: tabular-nums; }
+.pj-land__kind { color: var(--brand); font-size: var(--xp-label); font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+.pj-land__total .pj-land__name, .pj-land__total .pj-land__area { color: var(--muted); font-size: .95rem; font-weight: 500; }
+@media (max-width: 719px) {
+  .pj-land__list li { grid-template-columns: minmax(0, 1fr) auto; }
+  .pj-land__kind { grid-column: 1; grid-row: 2; }
+}
+
+/* programme page — the operating building beside the development record */
+@media (max-width: 1279px) {
+  .pg-figures { grid-auto-flow: row; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .pg-figures .xp-figures__item:nth-child(2n + 1) { padding-left: 0; border-left: 0; }
+  .pg-figures .xp-figures__item:nth-child(n + 3) { margin-top: .9rem; border-top: 1px solid var(--xp-line); }
+}
+.pg-related { display: grid; gap: .7rem; justify-items: start; align-content: start; }
+.pg-related__name { font-size: var(--xp-h3); font-weight: 500; letter-spacing: -.02em; }
+.pg-related__text { max-width: 30rem; color: var(--muted); line-height: 1.55; }
+
+/* History today — five current properties */
+@media (min-width: 720px) { .hc-today { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (min-width: 1200px) { .hc-today { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
+
+/* Partnership · development — the rest of the pipeline in one quiet row */
+.pt-more { display: grid; gap: 0; margin-top: clamp(2.4rem, 5vw, 3.6rem); border-top: 1px solid rgba(255, 255, 255, .28); }
+.pt-more__item { display: grid; gap: .35rem; padding: 1.2rem 0 1.3rem; border-bottom: 1px solid rgba(255, 255, 255, .14); color: inherit; }
+.pt-more__kind { color: var(--signal); font-size: var(--xp-label); font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+.pt-more__name { font-size: clamp(1.2rem, 1.8vw, 1.6rem); font-weight: 500; letter-spacing: -.02em; }
+.pt-more__value { color: rgba(255, 255, 255, .72); font-size: .95rem; line-height: 1.5; }
+a.pt-more__item:hover .pt-more__name { color: #fff; text-decoration: underline; text-underline-offset: .2em; }
+@media (min-width: 1024px) { .pt-more { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--xp-6); } }
+
+/* Creangă 78 — 960 px original: no detail zoom */
+.pp-access__media--native img, .motion-ready .pp-access__media--native[data-reveal]:not(.is-revealed) img { transform: scale(1.02); }
+.pg-figures dd { font-size: clamp(1.5rem, 2.2vw, 2.6rem); }

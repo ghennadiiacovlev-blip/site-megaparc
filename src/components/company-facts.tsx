@@ -1,9 +1,9 @@
 import { CountUp } from "@/components/count-up";
-import { DemoLegend, DemoMark } from "@/components/experience";
+import { DemoLegend } from "@/components/experience";
 import { Head, Section, TextLink } from "@/components/ui";
-import { publicSpaces } from "@/content/source";
+import { listLand, listProjects, publicSpaces } from "@/content/source";
 import { portfolioFigures } from "@/data/demo-content";
-import { developmentProjects, portfolioAssets } from "@/lib/assets";
+import { portfolioAssets } from "@/lib/assets";
 import { signatureWords } from "@/lib/brand";
 import { scaleMetrics } from "@/lib/metrics";
 import { brand, localePath, type SiteLocale } from "@/lib/site-data";
@@ -40,14 +40,14 @@ const copy = {
     development: "Dezvoltare",
     operatingTitle: "obiecte în funcțiune",
     projectsTitle: "proiecte de dezvoltare",
-    landTitle: "teren pentru dezvoltare",
+    landTitle: "terenuri",
     model: "Modelul nostru",
     with: "Lucrăm cu",
     partners: ["chiriași", "proprietari de clădiri și terenuri", "constructori", "arhitecți", "bănci"],
     cta: "Cronica completă",
     indicators: "Închiriere",
-    gla: "suprafață închiriabilă",
-    spaces: "spații libere acum",
+    gla: "suprafața obiectelor în funcțiune",
+    spaces: "spații libere",
   },
   ru: {
     id: "fakty",
@@ -65,14 +65,14 @@ const copy = {
     development: "Развитие",
     operatingTitle: "действующих объекта",
     projectsTitle: "проекта развития",
-    landTitle: "земля под развитие",
+    landTitle: "земельные участки",
     model: "Наша модель",
     with: "Работаем с",
     partners: ["арендаторами", "владельцами зданий и земли", "подрядчиками", "архитекторами", "банками"],
     cta: "Вся хроника",
     indicators: "Аренда",
-    gla: "арендуемая площадь",
-    spaces: "помещений свободно сейчас",
+    gla: "площадь действующих объектов",
+    spaces: "свободные помещения",
   },
   en: {
     id: "facts",
@@ -90,14 +90,14 @@ const copy = {
     development: "Development",
     operatingTitle: "operating properties",
     projectsTitle: "development projects",
-    landTitle: "development land",
+    landTitle: "land plots",
     model: "Our model",
     with: "We work with",
     partners: ["tenants", "owners of buildings and land", "contractors", "architects", "banks"],
     cta: "The full chronicle",
     indicators: "Leasing",
-    gla: "lettable area",
-    spaces: "spaces available now",
+    gla: "operating property area",
+    spaces: "available spaces",
   },
 } as const;
 
@@ -115,8 +115,8 @@ export function CompanyFacts({ locale, tone = "light" }: { locale: SiteLocale; t
   const projects = metrics.find((metric) => metric.key === "projects");
   const land = metrics.find((metric) => metric.key === "land");
   const city = portfolioAssets[0]?.city[locale];
-  const projectNames = developmentProjects.map((project) => project.name).join(" · ");
-  const landProject = developmentProjects.find((project) => project.slug === "drochia-gateway")?.name;
+  const projectNames = listProjects().filter((project) => project.kind === "development").map((project) => project.name).join(" · ");
+  const landProject = listLand().map((plot) => plot.name[locale]).join(" · ");
   const originYears = yearsSince(anchors.origins);
   const megaparcYears = yearsSince(anchors.established);
   const titleLines = c.title(originYears, megaparcYears, anchors.focus);
@@ -195,7 +195,7 @@ export function CompanyFacts({ locale, tone = "light" }: { locale: SiteLocale; t
             <>
               <li className="kf__card kf__card--paper kf__card--demo kf__card--demo-lead" data-reveal>
                 <span className="kf__scope">{c.indicators}</span>
-                <span className="kf__value kf__value--lg">{portfolioFigures.gla.value[locale]}<DemoMark /></span>
+                <span className="kf__value kf__value--lg">{portfolioFigures.area.value[locale]}</span>
                 <div className="kf__body"><span className="kf__title kf__title--caps">{c.gla}</span></div>
               </li>
               <li className="kf__card kf__card--paper kf__card--demo" data-reveal>

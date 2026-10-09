@@ -6,8 +6,8 @@ import { PageShell } from "@/components/page-shell";
 import { ProjectFacts, ProjectNow } from "@/components/project-facts";
 import { ArtImage } from "@/components/primitives";
 import { Button, Icon, TextLink } from "@/components/ui";
-import { getProject, listProjects, publicSpaces, spacesFor } from "@/content/source";
-import { caseStudy, drochiaProfile, partnershipProcess, portfolioFigures, vatraProfile } from "@/data/demo-content";
+import { getProject, kindLabel, listLand, listProjects, publicSpaces, spacesFor } from "@/content/source";
+import { caseStudy, daciaDevelopment, drochiaProfile, partnershipProcess, portfolioFigures, vatraProfile } from "@/data/demo-content";
 import { acquisitionTypes, developmentStages } from "@/lib/business";
 import { localePath, type SiteLocale } from "@/lib/site-data";
 
@@ -35,7 +35,7 @@ const copy = {
     projects: "Proiectele",
     assetsLabel: "Imobile proprii",
     assetsTitle: "Activele MEGAPARC în funcțiune.",
-    record: { years: "ani de experiență a grupului", founded: "este fondată MEGAPARC", operating: "obiecte în funcțiune", development: "proiecte de dezvoltare", gla: "suprafață închiriabilă" },
+    record: { years: "ani de experiență a grupului", founded: "este fondată MEGAPARC", operating: "obiecte în funcțiune", development: "proiecte de dezvoltare", area: "suprafața obiectelor în funcțiune" },
     owned: "Proprietate MEGAPARC",
     spaces: (n: number) => (n === 1 ? "1 spațiu liber" : `${n} spații libere`),
     leased: "Spațiile sunt închiriate",
@@ -48,6 +48,7 @@ const copy = {
     valueLabel: "Cum se creează valoarea",
     valueTitle: "Trei direcții de creare a valorii.",
     devLabel: "Dezvoltare",
+    landPlots: "Terenuri",
     devTitle: "Proiectele de dezvoltare în curs.",
     devLead: "Fiecare proiect trece prin aceleași șase etape; mai jos — unde se află astăzi.",
     stage: "Etapă",
@@ -87,7 +88,7 @@ const copy = {
     projects: "Проекты",
     assetsLabel: "Собственная недвижимость",
     assetsTitle: "Действующие активы MEGAPARC.",
-    record: { years: "лет опыта группы", founded: "основана MEGAPARC", operating: "действующих объекта", development: "проекта развития", gla: "арендуемая площадь" },
+    record: { years: "лет опыта группы", founded: "основана MEGAPARC", operating: "действующих объекта", development: "проекта развития", area: "площадь действующих объектов" },
     owned: "Собственность MEGAPARC",
     spaces: (n: number) => (n === 1 ? "1 свободное помещение" : n < 5 ? `${n} свободных помещения` : `${n} свободных помещений`),
     leased: "Помещения сданы",
@@ -100,6 +101,7 @@ const copy = {
     valueLabel: "Как создаётся стоимость",
     valueTitle: "Три направления создания стоимости.",
     devLabel: "Развитие",
+    landPlots: "Земельные участки",
     devTitle: "Текущие проекты развития.",
     devLead: `Каждый проект проходит одни и${N}те${N}же шесть стадий; ниже — где они сейчас.`,
     stage: "Стадия",
@@ -139,7 +141,7 @@ const copy = {
     projects: "Projects",
     assetsLabel: "Our own real estate",
     assetsTitle: "MEGAPARC's operating assets.",
-    record: { years: "years of the group's experience", founded: "MEGAPARC founded", operating: "operating properties", development: "development projects", gla: "lettable area" },
+    record: { years: "years of the group's experience", founded: "MEGAPARC founded", operating: "operating properties", development: "development projects", area: "operating property area" },
     owned: "Owned by MEGAPARC",
     spaces: (n: number) => (n === 1 ? "1 space available" : `${n} spaces available`),
     leased: "Spaces leased",
@@ -152,6 +154,7 @@ const copy = {
     valueLabel: "How value is created",
     valueTitle: "Three directions of value creation.",
     devLabel: "Development",
+    landPlots: "Land plots",
     devTitle: "Current development projects.",
     devLead: "Every project goes through the same six stages; below — where each stands today.",
     stage: "Stage",
@@ -197,9 +200,10 @@ export function PartnershipPage({ locale }: { locale: SiteLocale }) {
   };
   const projects = listProjects();
   const operating = projects.filter((project) => project.kind === "operating");
-  const development = projects.filter((project) => project.kind !== "operating");
+  const development = projects.filter((project) => project.kind === "development");
   const vatra = getProject("vatra")!;
   const drochia = getProject("drochia-gateway")!;
+  const daciaDev = getProject("dacia-31-development")!;
   const caseProject = getProject(caseStudy.slug)!;
   const caseSpace = publicSpaces.find((space) => space.project === caseStudy.slug);
   const stageOf = (slug: string) => getProject(slug)!.development!.stage;
@@ -236,7 +240,7 @@ export function PartnershipPage({ locale }: { locale: SiteLocale }) {
               { value: "2005", label: c.record.founded },
               { value: portfolioFigures.operating.value[locale], label: c.record.operating },
               { value: String(development.length).padStart(2, "0"), label: c.record.development },
-              { value: portfolioFigures.gla.value[locale], label: c.record.gla },
+              { value: portfolioFigures.area.value[locale], label: c.record.area },
             ]} />
           </div>
           <ul className="pt-assets">
@@ -349,6 +353,19 @@ export function PartnershipPage({ locale }: { locale: SiteLocale }) {
                 { label: c.status, point: drochiaProfile.status },
               ]} />
             </Link>
+          </div>
+          {/* Also in the portfolio (OWNER 2026-10-09): Dacia 31 · Development (programme only, no stage published) and the land plots */}
+          <div className="pt-more" data-reveal>
+            <Link href={p(`/projects/${daciaDev.slug}`)} className="pt-more__item">
+              <span className="pt-more__kind">{kindLabel.development[locale]}</span>
+              <span className="pt-more__name">{daciaDev.name}</span>
+              <span className="pt-more__value">{daciaDevelopment.buildings.value[locale]} × {daciaDevelopment.each.value[locale]} · {daciaDevelopment.total.value[locale]}</span>
+            </Link>
+            <div className="pt-more__item">
+              <span className="pt-more__kind">{kindLabel.land[locale]}</span>
+              <span className="pt-more__name">{c.landPlots}</span>
+              <span className="pt-more__value">{listLand().map((plot) => `${plot.name[locale]} · ${plot.point.value[locale].split(" · ")[0]}`).join(" — ")}</span>
+            </div>
           </div>
         </div>
       </section>

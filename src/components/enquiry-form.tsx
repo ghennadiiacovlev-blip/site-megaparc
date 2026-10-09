@@ -12,7 +12,8 @@ import type { SiteLocale } from "@/lib/site-data";
  *
  * PREVIEW RULE: nothing is sent anywhere. Submission validates, then shows a
  * local confirmation with the summary of the request. No fetch, no mailto, no
- * storage. Destination mailboxes shown are DEMO (src/data/demo-content.ts).
+ * storage. The confirmation names the OWNER-confirmed public mailbox
+ * (receptie@imc.md, src/data/demo-content.ts → company.email).
  */
 
 export type Subject = "lease" | "partnership" | "property" | "careers" | "general";

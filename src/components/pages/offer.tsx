@@ -6,7 +6,7 @@ import { PageShell } from "@/components/page-shell";
 import { ArtImage } from "@/components/primitives";
 import { Button, Icon, TextLink } from "@/components/ui";
 import { getProject } from "@/content/source";
-import { acquisitionProcess, company } from "@/data/demo-content";
+import { acquisitionProcess, company, contactLinks } from "@/data/demo-content";
 import { acquisitionCriteria, acquisitionTypes, geography } from "@/lib/business";
 import { isPreviewBuild, localePath, publicAsset, type SiteLocale } from "@/lib/site-data";
 
@@ -174,7 +174,7 @@ export function OfferPage({ locale }: { locale: SiteLocale }) {
           </ol>
           <dl className="lx-facts" data-reveal>
             <div><dt>{c.reply}</dt><dd><Val point={acquisitionProcess.reply} locale={locale} /></dd></div>
-            <div><dt>{c.mailbox}</dt><dd><Val point={company.emails.acquisitions} locale={locale} /></dd></div>
+            <div><dt>{c.mailbox}</dt><dd><a href={contactLinks.email}>{company.email.value[locale]}</a></dd></div>
           </dl>
         </div>
       </section>

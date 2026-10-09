@@ -69,7 +69,7 @@ export function BrandSystemPage({ locale }: { locale: SiteLocale }) {
             {typeScale.map((style) => (
               <div key={style.token}>
                 <span>{style.name}<small>{style.token} · {style.use[locale]}</small></span>
-                <p className={style.className}>{style.name === "Metric" ? "€25M+ · 5,223 m² · 2.0 ha" : "Imobiliarele ca activ de business"}</p>
+                <p className={style.className}>{style.name === "Metric" ? "€25M+ · 10,939 m² · 5.05 ha" : "Imobiliarele ca activ de business"}</p>
               </div>
             ))}
           </div>

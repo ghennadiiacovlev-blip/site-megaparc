@@ -131,7 +131,7 @@ export const typeScale: TypeStyle[] = [
 export const glyphSample = {
   ro: "Ăă Ââ Îî Șș Țț — Chișinău · Rîșcani · Creangă",
   ru: "Ёё Жж Щщ Ыы Ъъ — Кишинёв · Рышкань · Дрокия",
-  en: "€25M+ · 5,223 m² · 2.0 ha · 1995 → 2030 · 04 / 02",
+  en: "€25M+ · 10,939 m² · 5.05 ha · 1995 → 2030 · 04 / 02",
 };
 
 /** Graphic devices of the identity (documented; used across sections). */

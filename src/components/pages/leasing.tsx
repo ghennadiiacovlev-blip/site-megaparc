@@ -8,7 +8,7 @@ import { PageShell } from "@/components/page-shell";
 import { Icon } from "@/components/ui";
 import { availabilityLabel, availabilityOf, formatArea, formatAreaRange, getProject, listProjects, publicSpaces, sortSpaces, spacesFor } from "@/content/source";
 import { leasingProcess } from "@/data/demo-content";
-import { areaBands, leasingSteps, needOrder, needs, noPrice, uses } from "@/lib/leasing";
+import { areaBands, fitsBand, leasingSteps, needOrder, needs, noPrice, uses } from "@/lib/leasing";
 import { brand, localePath, type SiteLocale } from "@/lib/site-data";
 
 /**
@@ -29,7 +29,7 @@ const copy = {
     boardLabel: "Liber acum",
     boardAll: "Toate spațiile",
     buildings: ["obiect", "obiecte", "obiecte"],
-    shortcutArea: "Spații de 120–300 m²",
+    shortcutArea: "Spații de",
     shortcutFood: "Pentru cafenea sau restaurant",
     shortcutAll: "Toate spațiile",
     availableLabel: "Acum se închiriază",
@@ -56,7 +56,7 @@ const copy = {
     boardLabel: "Свободно сейчас",
     boardAll: "Все помещения",
     buildings: ["объект", "объекта", "объектов"],
-    shortcutArea: "Помещения 120–300 м²",
+    shortcutArea: "Помещения",
     shortcutFood: "Для кафе и ресторана",
     shortcutAll: "Все помещения",
     availableLabel: "Сейчас сдаётся",
@@ -83,7 +83,7 @@ const copy = {
     boardLabel: "Available now",
     boardAll: "All spaces",
     buildings: ["property", "properties", "properties"],
-    shortcutArea: "Spaces of 120–300 m²",
+    shortcutArea: "Spaces:",
     shortcutFood: "For a café or restaurant",
     shortcutAll: "All spaces",
     availableLabel: "Available now",
@@ -119,6 +119,7 @@ export function LeasingPage({ locale }: { locale: SiteLocale }) {
   const c = copy[locale];
   const p = (path: string) => localePath(locale, path);
   const list = sortSpaces(publicSpaces);
+  const shortcutBand = areaBands.find((band) => list.some((space) => fitsBand(band, space.area, space.areaMin)));
   const nowCount = list.filter((s) => availabilityOf(s).key === "now").length;
   const withSpace = listProjects().filter((project) => spacesFor(project.slug).length);
 
@@ -163,8 +164,9 @@ export function LeasingPage({ locale }: { locale: SiteLocale }) {
           </div>
           {/* Same page, new filter: plain relative links reload the page so the inventory and the advisor read the URL. */}
           <nav className="xp-sh__foot lx-hero__shortcuts" aria-label={c.label} data-reveal>
-            <a href="?area=120-300#available">{c.shortcutArea}<Icon /></a>
-            <a href="?use=fnb#advisor">{c.shortcutFood}<Icon /></a>
+            {/* shortcuts follow the published inventory (OWNER 2026-10-09): only a band and a use that hold a space */}
+            {shortcutBand ? <a href={`?area=${shortcutBand.key}#available`}>{c.shortcutArea} {shortcutBand.label[locale]}<Icon /></a> : null}
+            {list.some((space) => space.uses.includes("fnb")) ? <a href="?use=fnb#advisor">{c.shortcutFood}<Icon /></a> : null}
             <a href="#available">{c.shortcutAll}<Icon name="down" /></a>
           </nav>
         </div>

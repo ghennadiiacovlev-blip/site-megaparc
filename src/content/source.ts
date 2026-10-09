@@ -1,4 +1,4 @@
-import { assetProfiles, creangaProfile, drochiaProfile, projectNow, tenantFit, vatraProfile, type DataPoint } from "@/data/demo-content";
+import { assetProfiles, creangaProfile, daciaDevelopment, drochiaProfile, projectNow, publicLand, tenantFit, vatraProfile, type DataPoint } from "@/data/demo-content";
 import { spaces, type AvailableSpace, type SpaceField, type SpaceProject } from "@/data/leasing-inventory";
 import { developmentProjects, portfolioAssets, type AssetMedia, type DevelopmentProject, type PortfolioAsset } from "@/lib/assets";
 import { openVacancies, type Vacancy } from "@/lib/careers";
@@ -121,7 +121,8 @@ export type ProjectEntry = {
   slug: string;
   name: string;
   kind: ProjectKind;
-  template: "income" | "development";
+  /** income = operating property page · development = VATRA / Drochia template · programme = a development record with an OWNER-confirmed programme only (Dacia 31 · Development). */
+  template: "income" | "development" | "programme";
   /** CMS flag "for sale" — false for every project today (not every asset is for sale). */
   forSale: boolean;
   district: Localized;
@@ -149,6 +150,8 @@ export type ProjectEntry = {
   editorial?: { headline: Localized; scope: Localized };
   asset?: PortfolioAsset;
   development?: DevelopmentProject;
+  /** OWNER-confirmed programme of a development record without a stage, timeline or design yet. */
+  programme?: { buildings: DataPoint; each: DataPoint; total: DataPoint; related: string };
 };
 
 const label = {
@@ -161,8 +164,16 @@ const label = {
 const cardStatus = {
   operating: { ro: "Clădire în funcțiune", ru: "Действующий объект", en: "Operating property" },
   development: { ro: "Etapa: realizare", ru: "Стадия: реализация", en: "Stage: delivery" },
-  land: { ro: "Teren · concept", ru: "Земля · концепция", en: "Land · concept" },
+  programme: { ro: "Proiect de dezvoltare", ru: "Проект развития", en: "Development project" },
+  land: { ro: "Teren", ru: "Земельный участок", en: "Land plot" },
 } satisfies Record<string, Localized>;
+
+/** Public kind labels (OWNER 2026-10-09): operating property · development project · land plot. */
+export const kindLabel: Record<ProjectKind, Localized> = {
+  operating: { ro: "Obiect în funcțiune", ru: "Действующий объект", en: "Operating property" },
+  development: { ro: "Proiect de dezvoltare", ru: "Проект развития", en: "Development project" },
+  land: { ro: "Teren", ru: "Земельный участок", en: "Land plot" },
+};
 
 const asset = (slug: SpaceProject) => portfolioAssets.find((a) => a.slug === slug)!;
 const dev = (slug: string) => developmentProjects.find((p) => p.slug === slug)!;
@@ -170,7 +181,7 @@ const dev = (slug: string) => developmentProjects.find((p) => p.slug === slug)!;
 const operatingEntry = (slug: SpaceProject): ProjectEntry => {
   const a = asset(slug);
   const profile = assetProfiles[slug];
-  const isCreanga = !a.media;
+  const isCreanga = slug === "creanga-78";
   return {
     slug,
     name: a.name,
@@ -184,7 +195,6 @@ const operatingEntry = (slug: SpaceProject): ProjectEntry => {
     line: tenantFit[slug].reason,
     now: projectNow[slug],
     media: a.media,
-    conceptUse: isCreanga ? "portfolio.creanga-78" : undefined,
     facts: [{ label: label.area, point: profile.area }],
     card: { place: a.city, size: profile.area.value, sizeDemo: profile.area.status === "DEMO", status: cardStatus.operating },
     asset: a,
@@ -197,7 +207,8 @@ export const projects: ProjectEntry[] = [
     ...operatingEntry("dacia-31"),
     editorial: {
       headline: { ro: "Clădire de birouri independentă pentru o singură companie.", ru: "Отдельное офисное здание для одной компании.", en: "A stand-alone office building for one company." },
-      scope: { ro: "Întreaga clădire", ru: "Всё здание", en: "Whole building" },
+      // the public offer (5 223 m² from 1 Jan 2027) is not the total property area (5 541 m², OWNER 2026-10-09) — labelled as the area offered
+      scope: { ro: "Suprafață oferită", ru: "Предлагаемая площадь", en: "Area offered" },
     },
   },
   operatingEntry("moscova-20"),
@@ -218,6 +229,24 @@ export const projects: ProjectEntry[] = [
     facts: [{ label: label.stage, point: vatraProfile.stage }, { label: label.site, point: vatraProfile.site }],
     card: { place: { ro: "Moldova", ru: "Молдова", en: "Moldova" }, size: vatraProfile.site.value, sizeDemo: vatraProfile.site.status === "DEMO", status: cardStatus.development },
     development: dev("vatra"),
+  },
+  {
+    // OWNER 2026-10-09: a separate development record at Dacia 31 — never merged with the operating building
+    slug: "dacia-31-development",
+    name: "Dacia 31 · Development",
+    kind: "development",
+    template: "programme",
+    forSale: false,
+    district: { ro: "Chișinău", ru: "Кишинёв", en: "Chișinău" },
+    city: { ro: "Chișinău", ru: "Кишинёв", en: "Chișinău" },
+    format: { ro: "Proiect de dezvoltare · 3 clădiri", ru: "Проект развития · 3 здания", en: "Development project · 3 buildings" },
+    formatDemo: false,
+    line: { ro: "Un proiect de dezvoltare separat la Dacia 31: trei clădiri de ≈ 1.600 m² fiecare.", ru: "Отдельный проект развития на Dacia 31: три здания по ≈ 1 600 м².", en: "A separate development project at Dacia 31: three buildings of ≈ 1,600 m² each." },
+    now: projectNow["dacia-31-development"],
+    media: null,
+    facts: [{ label: { ro: "Clădiri", ru: "Здания", en: "Buildings" }, point: daciaDevelopment.buildings }, { label: { ro: "Suprafață planificată", ru: "Планируемая площадь", en: "Planned area" }, point: daciaDevelopment.total }],
+    card: { place: { ro: "Chișinău", ru: "Кишинёв", en: "Chișinău" }, size: daciaDevelopment.total.value, sizeDemo: false, status: cardStatus.programme },
+    programme: { buildings: daciaDevelopment.buildings, each: daciaDevelopment.each, total: daciaDevelopment.total, related: "dacia-31" },
   },
   {
     slug: "drochia-gateway",
@@ -241,6 +270,11 @@ export const projects: ProjectEntry[] = [
 
 export function listProjects() {
   return projects;
+}
+
+/** Published land plots (OWNER 2026-10-09): Drochia Gateway (its own page), Florilor 32/2, Orhei. Hîncești stays internal until its area is supplied. */
+export function listLand() {
+  return publicLand;
 }
 
 export function getProject(slug: string) {

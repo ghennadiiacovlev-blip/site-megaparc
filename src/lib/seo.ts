@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { formatArea, getProject, getSpace } from "@/content/source";
-import { demoContentPresent } from "@/data/demo-content";
+import { creangaProfile, demoContentPresent } from "@/data/demo-content";
 import { brand, isPreviewBuild, localePath, locales, type Localized, type SiteLocale } from "@/lib/site-data";
 
 /**
@@ -162,7 +162,7 @@ export function projectMetadata(locale: SiteLocale, slug: string): Metadata {
     ru: `${project.name} — ${project.format.ru} · MEGAPARC`,
     en: `${project.name} — ${project.format.en} · MEGAPARC`,
   };
-  const description = project.asset?.lead ?? project.development!.lead;
+  const description = project.slug === "creanga-78" ? creangaProfile.lead.value : project.asset?.lead ?? project.development?.lead ?? project.line;
   return buildMetadata(locale, `/projects/${project.slug}`, { title, description }, { image: project.media?.wide });
 }
 

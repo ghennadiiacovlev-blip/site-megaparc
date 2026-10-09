@@ -79,7 +79,7 @@ export function UnitPage({ locale, space }: { locale: SiteLocale; space: Availab
   const reserved = space.status === "reserved";
   const when = availabilityOf(space);
   const useList = space.uses.map((key) => labelOfUse(key, locale)).join(" · ");
-  const delivery = tenantFit[space.project].capabilities.delivery;
+  const delivery = tenantFit[space.project].capabilities?.delivery;
   const anyDemo = space.dataStatus !== "CONFIRMED" && space.confirmed.length < 13;
 
   return (
@@ -131,7 +131,7 @@ export function UnitPage({ locale, space }: { locale: SiteLocale; space: Availab
               <Row label={t.parking[locale]} value={space.parking[locale]} demo={demo("parking")} />
               <Row label={t.entrance[locale]} value={space.entrance[locale]} demo={demo("entrance")} />
               <Row label={t.visibility[locale]} value={space.visibility[locale]} demo={demo("visibility")} />
-              <Row label={t.delivery[locale]} value={delivery.note[locale]} demo={delivery.status === "DEMO"} />
+              {delivery ? <Row label={t.delivery[locale]} value={delivery.note[locale]} demo={delivery.status === "DEMO"} /> : null}
             </dl>
             <p className="lx-data__updated">{t.updated[locale]}: {space.updated.split("-").reverse().join(".")} · {space.code}</p>
           </div>

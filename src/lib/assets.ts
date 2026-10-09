@@ -116,9 +116,9 @@ export const portfolioAssets: PortfolioAsset[] = [
       en: "Companies that need a building of their own for their offices: technology, services or administrative organisations with several departments.",
     },
     lead: {
-      ro: "Clădire independentă de 5.223 m² în sectorul Botanica, pentru o singură organizație. Control unic al accesului, suprafețe mari, infrastructură inginerească existentă și o fațadă vizibilă.",
-      ru: "Отдельно стоящее здание площадью 5 223 м² в секторе Ботаника для одной компании. Единый контроль доступа, крупные площади, готовая инженерная инфраструктура и заметный фасад.",
-      en: "A 5,223 m² stand-alone building in Botanica for a single organisation. Single access control, large floor areas, existing building services and a prominent facade.",
+      ro: "Clădire independentă de 5.541 m² în sectorul Botanica, pentru o singură organizație. Control unic al accesului, suprafețe mari, infrastructură inginerească existentă și o fațadă vizibilă.",
+      ru: "Отдельно стоящее здание площадью 5 541 м² в секторе Ботаника для одной компании. Единый контроль доступа, крупные площади, готовая инженерная инфраструктура и заметный фасад.",
+      en: "A 5,541 m² stand-alone building in Botanica for a single organisation. Single access control, large floor areas, existing building services and a prominent facade.",
     },
     story: {
       ro: [
@@ -138,7 +138,7 @@ export const portfolioAssets: PortfolioAsset[] = [
       ],
     },
     keyFacts: [
-      { label: { ro: "Suprafață totală", ru: "Общая площадь", en: "Total area" }, value: { ro: "5.223 m²", ru: "5 223 м²", en: "5,223 m²" } },
+      { label: { ro: "Suprafața totală a obiectului", ru: "Общая площадь объекта", en: "Total property area" }, value: { ro: "5.541 m²", ru: "5 541 м²", en: "5,541 m²" } },
       { label: { ro: "Format", ru: "Формат", en: "Format" }, value: { ro: "Clădire independentă", ru: "Отдельно стоящее здание", en: "Stand-alone building" } },
       { label: { ro: "Niveluri", ru: "Уровни", en: "Levels" }, value: { ro: "Demisol + 3 etaje + etaj tehnic", ru: "Цоколь + 3 этажа + технический", en: "Lower ground + 3 floors + technical" } },
       { label: { ro: "Accese / circulații", ru: "Входы / коммуникации", en: "Entrances / circulation" }, value: { ro: "4+ posibilități", ru: "4+ варианта", en: "4+ possibilities" } },
@@ -201,9 +201,9 @@ export const portfolioAssets: PortfolioAsset[] = [
     },
     availability: {
       headline: {
-        ro: "Întreaga clădire este disponibilă de la 1 ianuarie 2027 pentru sediul unei singure companii.",
-        ru: "Всё здание доступно с 1 января 2027 года для размещения одной компании.",
-        en: "The whole building is available from 1 January 2027 for a single company's headquarters.",
+        ro: "5.223 m² sunt disponibili de la 1 ianuarie 2027 pentru sediul unei singure companii.",
+        ru: "5 223 м² доступны с 1 января 2027 года для размещения одной компании.",
+        en: "5,223 m² are available from 1 January 2027 for a single company's headquarters.",
       },
       area: { ro: "5.223 m²", ru: "5 223 м²", en: "5,223 m²" },
       from: { ro: "1 ianuarie 2027", ru: "1 января 2027", en: "1 January 2027" },
@@ -261,7 +261,7 @@ export const portfolioAssets: PortfolioAsset[] = [
       ],
     },
     keyFacts: [
-      { label: { ro: "Suprafață totală", ru: "Общая площадь", en: "Total area" }, value: { ro: "1.289,93 m²", ru: "1 289,93 м²", en: "1,289.93 m²" } },
+      { label: { ro: "Spațiu comercial", ru: "Торговое помещение", en: "Retail premises" }, value: { ro: "1.289,93 m²", ru: "1 289,93 м²", en: "1,289.93 m²" } },
       { label: { ro: "Sală principală de vânzare", ru: "Основной торговый зал", en: "Main sales floor" }, value: { ro: "737,07 m²", ru: "737,07 м²", en: "737.07 m²" } },
       { label: { ro: "Zonă de descărcare", ru: "Зона разгрузки", en: "Loading zone" }, value: { ro: "69,46 m² · rampă", ru: "69,46 м² · рампа", en: "69.46 m² · ramp" } },
       { label: { ro: "Intrări clienți", ru: "Входы для покупателей", en: "Customer entrances" }, value: { ro: "2, dinspre bulevard", ru: "2, с бульвара", en: "2, from the boulevard" } },
@@ -315,14 +315,7 @@ export const portfolioAssets: PortfolioAsset[] = [
       ru: "Отдельное здание на первой линии бульвара остаётся востребованным при любом торговом формате.",
       en: "A separate building on the boulevard's first line stays in demand whatever the retail format.",
     },
-    availability: {
-      headline: {
-        ro: "Proprietatea poate fi închiriată integral sau într-o parte convenită.",
-        ru: "Помещение может быть арендовано полностью или согласованной частью.",
-        en: "The property can be leased as a whole or as an agreed part.",
-      },
-      area: { ro: "până la 1.289,93 m²", ru: "до 1 289,93 м²", en: "up to 1,289.93 m²" },
-    },
+    availability: null, // OWNER 2026-10-09: 100 % occupied
     caveat: null,
   },
   {
@@ -372,7 +365,7 @@ export const portfolioAssets: PortfolioAsset[] = [
       ],
     },
     keyFacts: [
-      { label: { ro: "Suprafață totală", ru: "Общая площадь", en: "Total area" }, value: { ro: "625,7 m²", ru: "625,7 м²", en: "625.7 m²" } },
+      { label: { ro: "Spațiu comercial", ru: "Торговое помещение", en: "Retail premises" }, value: { ro: "625,7 m²", ru: "625,7 м²", en: "625.7 m²" } },
       { label: { ro: "Suprafață netă de vânzare", ru: "Чистая торговая площадь", en: "Net sales area" }, value: { ro: "458,86 m²", ru: "458,86 м²", en: "458.86 m²" } },
       { label: { ro: "Flux pietonal (estimat)", ru: "Пешеходный поток (оценка)", en: "Pedestrian flow (estimated)" }, value: { ro: "cca. 5.000 / zi", ru: "около 5 000 / день", en: "approx. 5,000 / day" } },
       { label: { ro: "Putere electrică (aprox.)", ru: "Электрическая мощность (ок.)", en: "Electrical power (approx.)" }, value: { ro: "cca. 50 kVA", ru: "около 50 кВА", en: "approx. 50 kVA" } },
@@ -451,7 +444,7 @@ export const portfolioAssets: PortfolioAsset[] = [
     name: "Creangă 78",
     district: { ro: "Chișinău", ru: "Кишинёв", en: "Chișinău" },
     city: { ro: "Chișinău", ru: "Кишинёв", en: "Chișinău" },
-    media: null,
+    media: media("portfolio", "creanga-78", "64% 50%"),
     status: operating,
     positioning: operating,
     headline: { ro: "Un obiect în funcțiune în Chișinău.", ru: "Действующий объект в Кишинёве.", en: "An operating property in Chișinău." },

@@ -2,7 +2,7 @@ import Link from "next/link";
 import { DemoLegend, Opening, Val } from "@/components/experience";
 import { EnquiryFormBlock } from "@/components/journey-blocks";
 import { PageShell } from "@/components/page-shell";
-import { company, leasingProcess } from "@/data/demo-content";
+import { company, contactLinks, leasingProcess } from "@/data/demo-content";
 import { Icon } from "@/components/ui";
 import { brand, localePath, type SiteLocale } from "@/lib/site-data";
 
@@ -11,8 +11,9 @@ import { brand, localePath, type SiteLocale } from "@/lib/site-data";
  * The first screen is a statement and three routes (leasing · offer a property
  * or land · vacancies); the form follows as the fourth way in, adapting to its
  * subject (space · property or land · careers · partnership or other), with the
- * details and what happens next. Mailboxes and telephone are DEMO
- * and shown as plain text — no mailto, no tel, nothing is routed anywhere.
+ * details and what happens next. Public contacts are OWNER-confirmed
+ * (2026-10-09): one general mailbox and two telephones, clickable (mailto / tel);
+ * department mailboxes are not published until the OWNER supplies them.
  */
 const copy = {
   ro: {
@@ -25,11 +26,9 @@ const copy = {
     details: "Date de contact",
     company: "Companie",
     office: "Birou",
-    general: "General",
-    acquisitions: "Propuneri de obiecte",
-    leasing: "Închiriere",
-    careers: "Cariere",
-    phone: "Telefon",
+    email: "E-mail",
+    mobile: "Mobil",
+    landline: "Telefon",
     hours: "Program",
     nextLabel: "Ce urmează",
     next: [["Citim solicitarea", "O persoană din echipa responsabilă, nu un robot."], ["Vă răspundem", "Cu întrebări concrete sau o primă propunere."], ["Ne întâlnim", "Pe obiect, la birou sau online — cum vă este comod."]],
@@ -44,11 +43,9 @@ const copy = {
     details: "Контактные данные",
     company: "Компания",
     office: "Офис",
-    general: "Общие вопросы",
-    acquisitions: "Предложения объектов",
-    leasing: "Аренда",
-    careers: "Карьера",
-    phone: "Телефон",
+    email: "E-mail",
+    mobile: "Мобильный",
+    landline: "Телефон",
     hours: "Часы работы",
     nextLabel: "Что будет дальше",
     next: [["Читаем запрос", "Его читает человек из ответственной команды, а не робот."], ["Отвечаем", "С конкретными вопросами или первым предложением."], ["Встречаемся", "На объекте, в офисе или онлайн — как вам удобно."]],
@@ -63,11 +60,9 @@ const copy = {
     details: "Contact details",
     company: "Company",
     office: "Office",
-    general: "General",
-    acquisitions: "Property offers",
-    leasing: "Leasing",
-    careers: "Careers",
-    phone: "Telephone",
+    email: "E-mail",
+    mobile: "Mobile",
+    landline: "Telephone",
     hours: "Hours",
     nextLabel: "What happens next",
     next: [["We read your request", "A person from the team responsible, not a robot."], ["We reply", "With specific questions or a first proposal."], ["We meet", "On site, at the office or online — as suits you."]],
@@ -79,11 +74,12 @@ export function ContactPage({ locale }: { locale: SiteLocale }) {
   const rows = [
     [c.company, company.legalName],
     [c.office, company.city],
-    [c.general, company.emails.office],
-    [c.leasing, company.emails.leasing],
-    [c.acquisitions, company.emails.acquisitions],
-    [c.careers, company.emails.careers],
     [c.hours, company.hours],
+  ] as const;
+  const direct = [
+    [c.email, company.email, contactLinks.email],
+    [c.mobile, company.mobile, contactLinks.mobile],
+    [c.landline, company.landline, contactLinks.landline],
   ] as const;
 
   return (
@@ -92,7 +88,14 @@ export function ContactPage({ locale }: { locale: SiteLocale }) {
         <div className="xp-shell xp-sh__grid">
           <p className="xp-eyebrow xp-sh__eyebrow"><span className="xp-eyebrow__no">{brand.name}</span><span>{c.label}</span></p>
           <h1 className="xp-display-title xp-sh__title">{c.title}</h1>
-          <p className="xp-pagehero__lead xp-sh__lead">{c.lead}</p>
+          <div className="xp-sh__lead">
+            <p className="xp-pagehero__lead">{c.lead}</p>
+            <ul className="xp-contact__direct">
+              {direct.map(([label, point, href]) => (
+                <li key={href}><a href={href} aria-label={`${label}: ${point.value[locale]}`}>{point.value[locale]}</a></li>
+              ))}
+            </ul>
+          </div>
           <nav className="xp-sh__aside xp-routes" aria-label={c.label}>
             {c.routes.map(([label, action, href]) => {
               const [path, hash] = href.split("#");
@@ -116,6 +119,12 @@ export function ContactPage({ locale }: { locale: SiteLocale }) {
           <aside className="xp-contact__aside">
             <p className="xp-label">{c.details}</p>
             <dl className="xp-details">
+              {direct.map(([label, point, href]) => (
+                <div key={href}>
+                  <dt>{label}</dt>
+                  <dd><a className="xp-details__link" href={href}>{point.value[locale]}</a></dd>
+                </div>
+              ))}
               {rows.map(([label, point]) => (
                 <div key={label}>
                   <dt>{label}</dt>

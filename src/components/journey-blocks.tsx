@@ -94,11 +94,11 @@ export function EnquiryFormBlock({ locale, initial, only }: { locale: SiteLocale
     vacancies: listVacancies().map((v) => ({ value: v.slug, label: v.title[locale] })),
     disciplines: departments.map((d) => ({ value: d, label: departmentLabel[d][locale] })),
     mailboxes: {
-      lease: company.emails.leasing.value[locale],
-      property: company.emails.acquisitions.value[locale],
-      partnership: company.emails.office.value[locale],
-      careers: company.emails.careers.value[locale],
-      general: company.emails.office.value[locale],
+      lease: company.email.value[locale],
+      property: company.email.value[locale],
+      partnership: company.email.value[locale],
+      careers: company.email.value[locale],
+      general: company.email.value[locale],
     },
     // One promise per route, so the form never contradicts the page it sits on.
     reply: {

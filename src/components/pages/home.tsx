@@ -8,11 +8,11 @@ import { PageShell } from "@/components/page-shell";
 import { ArtImage } from "@/components/primitives";
 import { Button, Icon, TextLink } from "@/components/ui";
 import { formatAreaRange, getProject, listProjects, listVacancies, publicSpaces, sortSpaces, spacesCount, spacesFor } from "@/content/source";
-import { drochiaProfile, portfolioFigures, vatraProfile } from "@/data/demo-content";
+import { daciaDevelopment, drochiaProfile, portfolioFigures, vatraProfile } from "@/data/demo-content";
 import { CareersMoment } from "@/components/careers-moment";
 import { ProjectEditorial, ProjectFacts, ProjectNow } from "@/components/project-facts";
 import { eras, historyCopy } from "@/lib/history";
-import { areaBands } from "@/lib/leasing";
+import { areaBands, fitsBand } from "@/lib/leasing";
 import { brand, localePath, publicAsset, type Localized, type SiteLocale } from "@/lib/site-data";
 
 /**
@@ -60,7 +60,7 @@ const copy = {
     spacesHere: (n: number) => (n === 1 ? "1 spațiu liber" : `${n} spații libere`),
     devLabel: "Dezvoltare",
     devTitle: "Construim proiecte proprii. Și cumpărăm teren pentru următoarele.",
-    devText: "VATRA este un proiect propriu în realizare. Drochia Gateway este un teren propriu de 2,0 ha la intrarea în oraș, cu concept în evaluare.",
+    devText: "VATRA este un proiect propriu în realizare. La Dacia 31 planificăm trei clădiri de ≈ 1.600 m². Drochia Gateway este un teren propriu de 2,0 ha la intrarea în oraș, cu concept în evaluare.",
     devCta: "Proiectele de dezvoltare",
     stage: "Etapă",
     site: "Teren",
@@ -69,7 +69,7 @@ const copy = {
     proofCta: "Discutăm o oportunitate",
     proofCase: "Studiu de caz · Moscova 9",
     proofTitle: "Experiență confirmată de obiecte.",
-    proof: { years: "ani de experiență a grupului", founded: "este fondată MEGAPARC", operating: "obiecte în funcțiune", gla: "suprafață închiriabilă", land: "teren pentru dezvoltare" },
+    proof: { years: "ani de experiență a grupului", founded: "este fondată MEGAPARC", operating: "obiecte în funcțiune", area: "suprafața obiectelor în funcțiune", land: "terenuri" },
     historyLabel: "Istoric",
     historyCta: "Citiți cronica",
     closeLabel: "Contact",
@@ -106,7 +106,7 @@ const copy = {
     spacesHere: (n: number) => (n === 1 ? "1 свободное помещение" : n < 5 ? `${n} свободных помещения` : `${n} свободных помещений`),
     devLabel: "Развитие",
     devTitle: `Строим собственные проекты. И${N}покупаем землю для следующих.`,
-    devText: `VATRA уже в${N}работе. Drochia Gateway — наш участок 2,0${N}га на${N}въезде в${N}город; концепцию сейчас оцениваем.`,
+    devText: `VATRA уже в${N}работе. На${N}Dacia 31 планируем три здания по${N}≈${N}1${N}600${N}м². Drochia Gateway${N}— наш участок 2,0${N}га на${N}въезде в${N}город; концепцию сейчас оцениваем.`,
     devCta: "Проекты развития",
     stage: "Стадия",
     site: "Участок",
@@ -115,7 +115,7 @@ const copy = {
     proofCta: "Обсудить возможность",
     proofCase: "Кейс · Moscova 9",
     proofTitle: "Опыт, подтверждённый объектами.",
-    proof: { years: "лет опыта группы", founded: "основана MEGAPARC", operating: "действующих объекта", gla: "арендуемая площадь", land: "земли под развитие" },
+    proof: { years: "лет опыта группы", founded: "основана MEGAPARC", operating: "действующих объекта", area: "площадь действующих объектов", land: "земельные участки" },
     historyLabel: "История",
     historyCta: "Читать хронику",
     closeLabel: "Контакты",
@@ -152,7 +152,7 @@ const copy = {
     spacesHere: (n: number) => (n === 1 ? "1 space available" : `${n} spaces available`),
     devLabel: "Development",
     devTitle: "We build our own projects. And buy land for the next ones.",
-    devText: "VATRA is our own project in delivery. Drochia Gateway is our own 2.0 ha site at the town entrance, with a concept under evaluation.",
+    devText: "VATRA is our own project in delivery. At Dacia 31 we are planning three buildings of ≈ 1,600 m². Drochia Gateway is our own 2.0 ha site at the town entrance, with a concept under evaluation.",
     devCta: "Development projects",
     stage: "Stage",
     site: "Site",
@@ -161,7 +161,7 @@ const copy = {
     proofCta: "Discuss an opportunity",
     proofCase: "Case study · Moscova 9",
     proofTitle: "Experience proven by property.",
-    proof: { years: "years of the group's experience", founded: "MEGAPARC founded", operating: "operating properties", gla: "lettable area", land: "development land" },
+    proof: { years: "years of the group's experience", founded: "MEGAPARC founded", operating: "operating properties", area: "operating property area", land: "land plots" },
     historyLabel: "History",
     historyCta: "Read the chronicle",
     closeLabel: "Contact",
@@ -196,6 +196,7 @@ export function HomePage({ locale }: { locale: SiteLocale }) {
   const pieces = ["moscova-9", "moscova-20", "creanga-78"].map((slug) => getProject(slug)!);
   const vatra = getProject("vatra")!;
   const drochia = getProject("drochia-gateway")!;
+  const daciaDev = getProject("dacia-31-development")!;
   const vacancies = listVacancies();
   const moscova20 = getProject("moscova-20")!;
   const routes = [
@@ -274,7 +275,7 @@ export function HomePage({ locale }: { locale: SiteLocale }) {
                     {project.media ? (
                       <ArtImage media={project.media} alt={`${project.name} — ${project.format[locale]}`} sizes="(min-width: 720px) 33vw, 100vw" depth={10} position={project.slug === "moscova-20" ? "50% 74%" : undefined} />
                     ) : (
-                      <ConceptImage id="home.projects.creanga-78" locale={locale} sizes="(min-width: 720px) 33vw, 100vw" depth={10} />
+                      project.conceptUse ? <ConceptImage id={project.conceptUse} locale={locale} sizes="(min-width: 720px) 33vw, 100vw" depth={10} /> : null
                     )}
                   </figure>
                   <span className="xp-showcase__name">{project.name}</span>
@@ -307,7 +308,7 @@ export function HomePage({ locale }: { locale: SiteLocale }) {
           <div className="hm-quick" data-reveal>
             <span className="xp-label">{c.quick}</span>
             <ul>
-              {areaBands.map((band) => (
+              {areaBands.filter((band) => spaces.some((space) => fitsBand(band, space.area, space.areaMin))).map((band) => (
                 <li key={band.key}><Link href={`${p("/leasing")}?area=${band.key}#available`}>{band.label[locale]}</Link></li>
               ))}
             </ul>
@@ -332,7 +333,7 @@ export function HomePage({ locale }: { locale: SiteLocale }) {
               <Ledger locale={locale} tone="dark" className="xp-ledger--pair" items={[
                 { label: c.stage, point: vatraProfile.stage },
                 { label: c.site, point: vatraProfile.site },
-                { label: c.completion, point: vatraProfile.completion },
+                { label: daciaDev.name, point: daciaDevelopment.total },
                 { label: drochia.name, point: drochiaProfile.site },
               ]} />
               <TextLink href={p(`/projects/${drochia.slug}`)} className="tlink--light">{drochia.name} · {drochiaProfile.status.value[locale]}</TextLink>
@@ -386,8 +387,8 @@ export function HomePage({ locale }: { locale: SiteLocale }) {
               { value: `${groupYears}+`, label: c.proof.years },
               { value: "2005", label: c.proof.founded },
               { value: portfolioFigures.operating.value[locale], label: c.proof.operating },
-              { value: portfolioFigures.gla.value[locale], label: c.proof.gla },
-              { value: locale === "en" ? "2.0 ha" : `2,0${N}${locale === "ru" ? "га" : "ha"}`, label: c.proof.land },
+              { value: portfolioFigures.area.value[locale], label: c.proof.area },
+              { value: portfolioFigures.land.value[locale], label: c.proof.land },
             ]} />
           </div>
           <div className="xp-actions" data-reveal>

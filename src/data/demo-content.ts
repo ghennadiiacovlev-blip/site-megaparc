@@ -59,18 +59,84 @@ const provisional = (key: string, group: DemoGroup, page: string, field: string,
 /* COMPANY · CONTACT                                                    */
 /* ------------------------------------------------------------------ */
 
+/** Clickable forms of the public contacts. */
+export const contactLinks = { email: "mailto:receptie@imc.md", mobile: "tel:+37378803010", landline: "tel:+37322882035" } as const;
+
 export const company = {
   legalName: provisional("company.legalName", "COMPANY", "Contact · Footer", "Legal entity", "MEGAPARC SRL", "OWNER — legal entity name and IDNO"),
   city: confirmed("company.city", "COMPANY", "Contact", "Office city", { ro: "Chișinău, Republica Moldova", ru: "Кишинёв, Республика Молдова", en: "Chișinău, Republic of Moldova" }, "Confirmed — src/lib/site-data.ts"),
   hours: demo("company.hours", "CONTACT", "Contact", "Office hours", { ro: "Luni – vineri · 9:00 – 18:00", ru: "Пн – пт · 9:00 – 18:00", en: "Mon – Fri · 9:00 – 18:00" }, "OWNER — office hours"),
-  phone: demo("contact.phone", "CONTACT", "Contact", "Telephone", "+373 XX XXX XXX", "OWNER — public telephone"),
-  emails: {
-    office: demo("contact.email.office", "CONTACT", "Contact", "General e-mail", "office@megaparc.md", "OWNER — verified mailbox (not routed in the preview)"),
-    acquisitions: demo("contact.email.acquisitions", "CONTACT", "Contact · Offer a property", "Acquisitions e-mail (property and land offers)", "acquisitions@megaparc.md", "OWNER — verified mailbox (not routed in the preview)"),
-    leasing: demo("contact.email.leasing", "CONTACT", "Contact", "Leasing e-mail", "leasing@megaparc.md", "OWNER — verified mailbox (not routed in the preview)"),
-    careers: demo("contact.email.careers", "CONTACT", "Contact · Careers", "Careers e-mail", "careers@megaparc.md", "OWNER — verified mailbox (not routed in the preview)"),
-  },
+  /** OWNER-confirmed public contacts (2026-10-09): one general mailbox until department mailboxes are supplied. */
+  email: confirmed("contact.email", "CONTACT", "Contact · Footer · Forms", "Public e-mail", "receptie@imc.md", "OWNER 2026-10-09 — general public contact"),
+  mobile: confirmed("contact.phone.mobile", "CONTACT", "Contact · Footer", "Mobile telephone", "+373 78 803 010", "OWNER 2026-10-09"),
+  landline: confirmed("contact.phone.landline", "CONTACT", "Contact · Footer", "Landline", "+373 22 882 035", "OWNER 2026-10-09"),
   responseTime: demo("contact.response", "CONTACT", "Contact", "First reply", { ro: "Răspuns în 2 zile lucrătoare", ru: "Ответ в течение 2 рабочих дней", en: "Reply within 2 working days" }, "OWNER — service standard"),
+};
+
+/* ------------------------------------------------------------------ */
+/* OWNER-CONFIRMED ASSET DATA (2026-10-09)                               */
+/* ------------------------------------------------------------------ */
+
+const NB = "\u00a0";
+const group = (n: number, sep: string) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, sep);
+/** m² in the three editions: 5.541 m² · 5 541 м² · 5,541 m². */
+export const m2 = (n: number): Localized => ({ ro: `${group(n, ".")} m²`, ru: `${group(n, NB)}${NB}м²`, en: `${group(n, ",")} m²` });
+const pct = (v: number): Localized => { const t = (Math.round(v * 10) / 10).toFixed(1).replace(/\.0$/, ""); return { ro: `${t.replace(".", ",")} %`, ru: `${t.replace(".", ",")}${NB}%`, en: `${t}%` }; };
+/** Hectares with the square metres in brackets: 0,847 га · 8 470 м². */
+const ha = (m: number): Localized => { const r = m / 10000; const v = Number.isInteger(r) ? r.toFixed(1) : String(r); const loc = { ro: v.replace(".", ","), ru: v.replace(".", ","), en: v }; return { ro: `${loc.ro} ha · ${m2(m).ro}`, ru: `${loc.ru}${NB}га · ${m2(m).ru}`, en: `${loc.en} ha · ${m2(m).en}` }; };
+
+export type OperatingSlug = "dacia-31" | "moscova-9" | "moscova-20" | "creanga-78";
+
+/**
+ * OWNER-confirmed occupancy record (2026-10-09). Separate concepts, never
+ * interchangeable: total property area · occupied area · occupancy (derived) ·
+ * physical vacancy (derived). Physical vacancy is NOT marketed availability —
+ * the public offer (area, date, status) lives in the leasing inventory
+ * (src/data/leasing-inventory.ts → public_available_area / date / status).
+ */
+export const assetOccupancy: Record<OperatingSlug, { total: number; occupied: number }> = {
+  "dacia-31": { total: 5541, occupied: 551 },
+  "moscova-9": { total: 2536, occupied: 2536 },
+  "moscova-20": { total: 704, occupied: 78 },
+  "creanga-78": { total: 2158, occupied: 2158 },
+};
+export const occupancyOf = (slug: OperatingSlug) => {
+  const { total, occupied } = assetOccupancy[slug];
+  return { total, occupied, vacancy: total - occupied, percent: (occupied / total) * 100, fullyLet: occupied >= total };
+};
+/** Sum of the four total property areas — NOT a GLA (no uniform methodology confirmed yet). */
+export const operatingArea = Object.values(assetOccupancy).reduce((sum, a) => sum + a.total, 0);
+
+const occupancyPoints = (slug: OperatingSlug) => {
+  const o = occupancyOf(slug);
+  const src = "OWNER 2026-10-09";
+  return {
+    area: confirmed(`asset.${slug}.area`, "PROJECTS", P(slug), "Total property area", m2(o.total), src),
+    occupied: confirmed(`asset.${slug}.occupied`, "PROJECTS", P(slug), "Occupied area", m2(o.occupied), o.fullyLet ? `${src} — 100 % occupied` : src),
+    occupancy: confirmed(`asset.${slug}.occupancy`, "PROJECTS", P(slug), "Occupancy (derived)", pct(o.percent), `${src} — derived`),
+    vacancy: confirmed(`asset.${slug}.vacancy`, "PROJECTS", P(slug), "Physical vacancy (derived; not marketed availability)", m2(o.vacancy), `${src} — derived`),
+  };
+};
+
+export type LandRecord = { slug: string; name: Localized; area: number | null; published: boolean; project?: string; point: DataPoint };
+/** Land plots (OWNER 2026-10-09). Hîncești exists but its area is pending: kept internal, never published or totalled. No project concepts are invented. */
+export const landRecords: LandRecord[] = [
+  { slug: "drochia-gateway", name: { ro: "Drochia Gateway", ru: "Drochia Gateway", en: "Drochia Gateway" }, area: 20000, published: true, project: "drochia-gateway", point: confirmed("land.drochia.area", "DEVELOPMENT", "Land · Drochia Gateway", "Land area", ha(20000), "Confirmed — same parcel as dev.drochia.site") },
+  { slug: "florilor-32-2", name: { ro: "Florilor 32/2", ru: "Florilor 32/2", en: "Florilor 32/2" }, area: 8470, published: true, point: confirmed("land.florilor-32-2.area", "DEVELOPMENT", "Land · Florilor 32/2", "Land area", ha(8470), "OWNER 2026-10-09") },
+  { slug: "orhei", name: { ro: "Orhei", ru: "Орхей", en: "Orhei" }, area: 22000, published: true, point: confirmed("land.orhei.area", "DEVELOPMENT", "Land · Orhei", "Land area", ha(22000), "OWNER 2026-10-09") },
+  { slug: "hincesti", name: { ro: "Hîncești", ru: "Хынчешты", en: "Hîncești" }, area: null, published: false, point: confirmed("land.hincesti.exists", "DEVELOPMENT", "Land · Hîncești (internal)", "Land asset exists — area pending, not published", "—", "OWNER 2026-10-09 — area to be supplied") },
+];
+export const publicLand = landRecords.filter((plot) => plot.published && plot.area);
+export const landTotal = publicLand.reduce((sum, plot) => sum + (plot.area ?? 0), 0);
+/** Headline figure rounded to two decimals (5,05 га); the exact total is landTotalExact (5,047 га · 50 470 м²). */
+export const landTotalLabel: Localized = (() => { const t = (Math.round((landTotal / 10000) * 100) / 100).toFixed(2); return { ro: `${t.replace(".", ",")} ha`, ru: `${t.replace(".", ",")}${NB}га`, en: `${t} ha` }; })();
+export const landTotalExact: Localized = ha(landTotal);
+
+/** Dacia 31 · Development — a separate record from the operating Dacia 31 building (OWNER 2026-10-09). No timeline, CAPEX, use mix, permits or completion date until supplied. */
+export const daciaDevelopment = {
+  buildings: confirmed("dev.dacia-31.buildings", "DEVELOPMENT", "Development · Dacia 31", "Buildings", "3", "OWNER 2026-10-09"),
+  each: confirmed("dev.dacia-31.each", "DEVELOPMENT", "Development · Dacia 31", "Planned area per building", { ro: "≈ 1.600 m²", ru: `≈ 1${NB}600${NB}м²`, en: "≈ 1,600 m²" }, "OWNER 2026-10-09 — approximately / planned"),
+  total: confirmed("dev.dacia-31.total", "DEVELOPMENT", "Development · Dacia 31", "Planned total area", { ro: "≈ 4.800 m²", ru: `≈ 4${NB}800${NB}м²`, en: "≈ 4,800 m²" }, "OWNER 2026-10-09 — derived 3 × 1 600 m²"),
 };
 
 /* ------------------------------------------------------------------ */
@@ -78,16 +144,16 @@ export const company = {
 /* ------------------------------------------------------------------ */
 
 /**
- * Consistency: GLA ≈ 10 500 m² = confirmed 7 138.63 m² (Dacia 31, Moscova 9,
- * Moscova 20) + DEMO 3 350 m² for Creangă 78. Tenants 20+ = 1 + 1 + 1 + 18.
- * Occupancy 94 % is the area-weighted DEMO occupancy of the four profiles below.
+ * Headline figures (OWNER 2026-10-09). "area" is the sum of the four total
+ * property areas — published as «площадь действующих объектов», never as GLA.
+ * "land" totals the published land plots only (Hîncești excluded until its
+ * area is supplied). The earlier DEMO GLA, tenant count and occupancy rows are
+ * retired.
  */
 export const portfolioFigures = {
-  operating: confirmed("portfolio.operating", "PROJECTS", "Home · Portfolio", "Operating properties", "04", "Confirmed — count of src/lib/assets.ts"),
-  gla: demo("portfolio.gla", "PROJECTS", "Home · Portfolio", "Lettable area (GLA)", { ro: "≈ 10.500 m²", ru: "≈ 10 500 м²", en: "≈ 10,500 m²" }, "OWNER — confirmed area of all four properties (Creangă 78 missing)"),
-  tenants: demo("portfolio.tenants", "PROJECTS", "Home · Portfolio", "Tenants", "20+", "OWNER — tenant count"),
-  occupancy: demo("portfolio.occupancy", "PROJECTS", "Home · Portfolio", "Occupancy", "94%", "OWNER — occupancy by area"),
-  land: confirmed("portfolio.land", "PROJECTS", "Home · Portfolio", "Development land", { ro: "20.000+ m²", ru: "20 000+ м²", en: "20,000+ m²" }, "Confirmed — Drochia Gateway 2.0 ha (src/lib/metrics.ts)"),
+  operating: confirmed("portfolio.operating", "PROJECTS", "Home · Portfolio", "Operating properties", "04", "Confirmed — count of src/lib/assets.ts"),
+  area: confirmed("portfolio.area", "PROJECTS", "Home · Partnership · History", "Operating property area (not GLA)", m2(operatingArea), "OWNER 2026-10-09 — sum of total property areas"),
+  land: confirmed("portfolio.land", "PROJECTS", "Home · Projects", "Land plots", landTotalLabel, "OWNER 2026-10-09 — Drochia 2.0 ha + Florilor 32/2 0.847 ha + Orhei 2.2 ha"),
 };
 
 /* ------------------------------------------------------------------ */
@@ -99,11 +165,18 @@ export type AssetCategory = "office" | "retail" | "mixed";
 export type AssetProfile = {
   category: AssetCategory;
   format: DataPoint;
+  /** total_property_area (OWNER 2026-10-09). */
   area: DataPoint;
+  /** occupied_area. */
+  occupied: DataPoint;
+  /** occupancy_percent (derived). */
+  occupancy: DataPoint;
+  /** physical_vacancy_area (derived) — not marketed availability. */
+  vacancy: DataPoint;
   land: DataPoint;
   parking: DataPoint;
-  tenants: DataPoint;
-  occupancy: DataPoint;
+  /** DEMO tenant counts are internal only; Creangă 78 has none (no count invented). */
+  tenants?: DataPoint;
   acquired: DataPoint;
   repositioned: DataPoint;
   availability: DataPoint;
@@ -121,14 +194,13 @@ export const assetProfiles: Record<"dacia-31" | "moscova-9" | "moscova-20" | "cr
   "dacia-31": {
     category: "office",
     format: confirmed("asset.dacia-31.format", "PROJECTS", P("dacia-31"), "Format", { ro: "Clădire de birouri independentă", ru: "Отдельное офисное здание", en: "Stand-alone office building" }),
-    area: confirmed("asset.dacia-31.area", "PROJECTS", P("dacia-31"), "Total area", { ro: "5.223 m²", ru: "5 223 м²", en: "5,223 m²" }),
+    ...occupancyPoints("dacia-31"),
     land: demo("asset.dacia-31.land", "PROJECTS", P("dacia-31"), "Land plot", { ro: "0,42 ha", ru: "0,42 га", en: "0.42 ha" }, "OWNER — cadastre extract"),
     parking: demo("asset.dacia-31.parking", "PROJECTS", P("dacia-31"), "Parking", { ro: "60 locuri", ru: "60 мест", en: "60 spaces" }, "OWNER — site plan"),
     tenants: demo("asset.dacia-31.tenants", "PROJECTS", P("dacia-31"), "Tenants", { ro: "1 · un singur utilizator", ru: "1 · единый пользователь", en: "1 · single occupier" }, "OWNER — current lease schedule"),
-    occupancy: demo("asset.dacia-31.occupancy", "PROJECTS", P("dacia-31"), "Occupancy", { ro: "100% până la 31.12.2026", ru: "100% до 31.12.2026", en: "100% until 31.12.2026" }, "OWNER — current lease schedule"),
     acquired: demo("asset.dacia-31.acquired", "PROJECTS", P("dacia-31"), "Acquired", "2007", "OWNER — acquisition date"),
     repositioned: demo("asset.dacia-31.repositioned", "PROJECTS", P("dacia-31"), "Repositioned", "2021", "OWNER — last major works"),
-    availability: confirmed("asset.dacia-31.availability", "LEASING", P("dacia-31"), "Availability", { ro: "Întreaga clădire din 1 ianuarie 2027", ru: "Всё здание с 1 января 2027", en: "Whole building from 1 January 2027" }),
+    availability: confirmed("asset.dacia-31.availability", "LEASING", P("dacia-31"), "Availability", { ro: "5.223 m² din 1 ianuarie 2027", ru: "5 223 м² с 1 января 2027", en: "5,223 m² from 1 January 2027" }, "Confirmed public offer — kept separate from the total property area (5 541 m², OWNER 2026-10-09)"),
     levers: [
       lever("single-occupier", "dacia-31", { ro: "Un sediu pentru o singură companie", ru: "Штаб-квартира для одной компании", en: "A headquarters for one company" }, { ro: "Pregătim clădirea pentru următorul utilizator unic din 2027: acces propriu, nume pe fațadă, etaje organizate pe funcții.", ru: "Готовим здание к следующему единому пользователю с 2027 года: собственный вход, название на фасаде, этажи под функции компании.", en: "Preparing the building for its next single occupier from 2027: own entrance, name on the facade, floors arranged by function." }),
       lever("services", "dacia-31", { ro: "Audit tehnic și modernizarea instalațiilor", ru: "Технический аудит и обновление инженерии", en: "Technical audit and services upgrade" }, { ro: "Capacitățile reale și redundanța se confirmă prin audit, apoi se adaptează la cerințele utilizatorului.", ru: "Реальные мощности и резервирование подтверждаются аудитом и адаптируются под требования пользователя.", en: "Actual capacities and redundancy are confirmed by audit and then adapted to the occupier's requirements." }),
@@ -138,14 +210,13 @@ export const assetProfiles: Record<"dacia-31" | "moscova-9" | "moscova-20" | "cr
   "moscova-9": {
     category: "retail",
     format: confirmed("asset.moscova-9.format", "PROJECTS", P("moscova-9"), "Format", { ro: "Obiect comercial independent", ru: "Отдельно стоящий торговый объект", en: "Stand-alone retail building" }),
-    area: confirmed("asset.moscova-9.area", "PROJECTS", P("moscova-9"), "Total area", { ro: "1.289,93 m²", ru: "1 289,93 м²", en: "1,289.93 m²" }),
+    ...occupancyPoints("moscova-9"),
     land: demo("asset.moscova-9.land", "PROJECTS", P("moscova-9"), "Land plot", { ro: "0,31 ha", ru: "0,31 га", en: "0.31 ha" }, "OWNER — cadastre extract"),
     parking: demo("asset.moscova-9.parking", "PROJECTS", P("moscova-9"), "Parking", { ro: "25 de locuri de-a lungul bulevardului", ru: "25 мест вдоль бульвара", en: "25 spaces along the boulevard" }, "OWNER — site plan (parking along the boulevard is confirmed, the count is not)"),
     tenants: demo("asset.moscova-9.tenants", "PROJECTS", P("moscova-9"), "Tenants", { ro: "1 chiriaș", ru: "1 арендатор", en: "1 tenant" }, "OWNER — current lease schedule"),
-    occupancy: demo("asset.moscova-9.occupancy", "PROJECTS", P("moscova-9"), "Occupancy", "100%", "OWNER — current lease schedule"),
     acquired: demo("asset.moscova-9.acquired", "PROJECTS", P("moscova-9"), "Acquired", "2006", "OWNER — acquisition date"),
     repositioned: demo("asset.moscova-9.repositioned", "PROJECTS", P("moscova-9"), "Repositioned", "2019", "OWNER — last major works"),
-    availability: confirmed("asset.moscova-9.availability", "LEASING", P("moscova-9"), "Availability", { ro: "Integral sau parțial · până la 1.289,93 m²", ru: "Целиком или частью · до 1 289,93 м²", en: "Whole or in part · up to 1,289.93 m²" }),
+    availability: confirmed("asset.moscova-9.availability", "LEASING", P("moscova-9"), "Availability", { ro: "Fără spații libere · ocupat 100 %", ru: `Свободных помещений нет · занят на 100 %`, en: "No space available · 100% occupied" }, "OWNER 2026-10-09"),
     levers: [
       lever("frontage", "moscova-9", { ro: "Fațada ca vitrină a brandului", ru: "Фасад как витрина бренда", en: "The facade as a brand window" }, { ro: "Fațada lungă de pe prima linie poate purta identitatea completă a unui brand — firmă, vitrine, iluminat.", ru: "Протяжённый фасад первой линии может нести полную идентичность бренда — вывеска, витрины, подсветка.", en: "The long first-line frontage can carry a brand's full identity — signage, windows, lighting." }),
       lever("split", "moscova-9", { ro: "Integral sau în două blocuri", ru: "Целиком или двумя блоками", en: "Whole or as two units" }, { ro: "Două intrări pentru clienți permit închirierea către un singur brand sau împărțirea în două spații independente.", ru: "Два входа для покупателей позволяют сдать объект одному бренду или разделить его на два независимых помещения.", en: "Two customer entrances allow one brand to take the whole or the space to be split into two independent units." }),
@@ -155,11 +226,10 @@ export const assetProfiles: Record<"dacia-31" | "moscova-9" | "moscova-20" | "cr
   "moscova-20": {
     category: "retail",
     format: confirmed("asset.moscova-20.format", "PROJECTS", P("moscova-20"), "Format", { ro: "Spațiu comercial pe prima linie", ru: "Торговое помещение первой линии", en: "First-line retail space" }),
-    area: confirmed("asset.moscova-20.area", "PROJECTS", P("moscova-20"), "Total area", { ro: "625,7 m²", ru: "625,7 м²", en: "625.7 m²" }),
+    ...occupancyPoints("moscova-20"),
     land: demo("asset.moscova-20.land", "PROJECTS", P("moscova-20"), "Land plot", { ro: "Spațiu în clădire", ru: "Помещение в здании", en: "Premises within a building" }, "OWNER — title / cadastre"),
     parking: demo("asset.moscova-20.parking", "PROJECTS", P("moscova-20"), "Parking", { ro: "12 locuri dedicate", ru: "12 выделенных мест", en: "12 dedicated spaces" }, "OWNER — site plan (dedicated parking is confirmed, the count is not)"),
     tenants: demo("asset.moscova-20.tenants", "PROJECTS", P("moscova-20"), "Tenants", { ro: "1 chiriaș", ru: "1 арендатор", en: "1 tenant" }, "OWNER — current lease schedule"),
-    occupancy: demo("asset.moscova-20.occupancy", "PROJECTS", P("moscova-20"), "Occupancy", { ro: "100% până la 16.08.2026", ru: "100% до 16.08.2026", en: "100% until 16.08.2026" }, "OWNER — current lease schedule"),
     acquired: demo("asset.moscova-20.acquired", "PROJECTS", P("moscova-20"), "Acquired", "2011", "OWNER — acquisition date"),
     repositioned: demo("asset.moscova-20.repositioned", "PROJECTS", P("moscova-20"), "Repositioned", "2023", "OWNER — last major works"),
     availability: confirmed("asset.moscova-20.availability", "LEASING", P("moscova-20"), "Availability", { ro: "625,7 m² din 17 august 2026", ru: "625,7 м² с 17 августа 2026", en: "625.7 m² from 17 August 2026" }),
@@ -171,37 +241,23 @@ export const assetProfiles: Record<"dacia-31" | "moscova-9" | "moscova-20" | "cr
   },
   "creanga-78": {
     category: "mixed",
-    format: demo("asset.creanga-78.format", "PROJECTS", P("creanga-78"), "Format", { ro: "Clădire de birouri și comerț", ru: "Офисно-торговое здание", en: "Office and retail building" }, "OWNER — approved property description"),
-    area: demo("asset.creanga-78.area", "PROJECTS", P("creanga-78"), "Total area", { ro: "3.350 m²", ru: "3 350 м²", en: "3,350 m²" }, "OWNER — confirmed area"),
+    format: confirmed("asset.creanga-78.format", "PROJECTS", P("creanga-78"), "Format", { ro: "Imobil comercial", ru: "Коммерческий объект", en: "Commercial property" }, "OWNER 2026-10-09 — operating commercial property; detailed format pending"),
+    ...occupancyPoints("creanga-78"),
     land: demo("asset.creanga-78.land", "PROJECTS", P("creanga-78"), "Land plot", { ro: "0,28 ha", ru: "0,28 га", en: "0.28 ha" }, "OWNER — cadastre extract"),
     parking: demo("asset.creanga-78.parking", "PROJECTS", P("creanga-78"), "Parking", { ro: "40 de locuri", ru: "40 мест", en: "40 spaces" }, "OWNER — site plan"),
-    tenants: demo("asset.creanga-78.tenants", "PROJECTS", P("creanga-78"), "Tenants", { ro: "18 chiriași", ru: "18 арендаторов", en: "18 tenants" }, "OWNER — current lease schedule"),
-    occupancy: demo("asset.creanga-78.occupancy", "PROJECTS", P("creanga-78"), "Occupancy", "82%", "OWNER — current lease schedule"),
     acquired: demo("asset.creanga-78.acquired", "PROJECTS", P("creanga-78"), "Acquired", "2014", "OWNER — acquisition date"),
     repositioned: demo("asset.creanga-78.repositioned", "PROJECTS", P("creanga-78"), "Repositioned", "2022", "OWNER — last major works"),
-    availability: demo("asset.creanga-78.availability", "LEASING", P("creanga-78"), "Availability", { ro: "Spații de 80–240 m² la cerere", ru: "Блоки 80–240 м² по запросу", en: "Units of 80–240 m² on request" }, "OWNER — current vacancy schedule"),
-    levers: [
-      lever("mix", "creanga-78", { ro: "Un mix echilibrat de chiriași", ru: "Сбалансированный состав арендаторов", en: "A balanced tenant mix" }, { ro: "Servicii la parter, birouri mici și medii la etaje — fiecare chiriaș aduce clienți celorlalți.", ru: "Сервисы на первом этаже, малые и средние офисы выше — каждый арендатор приводит клиентов остальным.", en: "Services on the ground floor, small and mid-size offices above — each tenant brings customers to the others." }),
-      lever("common", "creanga-78", { ro: "Spații comune reînnoite", ru: "Обновлённые общие зоны", en: "Renewed common areas" }, { ro: "Holul, circulațiile și semnalistica fac clădirea mai ușor de înțeles și de închiriat.", ru: "Холл, коммуникации и навигация делают здание понятнее для посетителей и арендаторов.", en: "Lobby, circulation and wayfinding make the building easier to use and to lease." }),
-      lever("terms", "creanga-78", { ro: "Contracte mai lungi", ru: "Более длинные договоры", en: "Longer leases" }, { ro: "Spații adaptate la nevoile chiriașilor existenți îi motivează să rămână și să crească în aceeași clădire.", ru: "Помещения, адаптированные под нужды текущих арендаторов, мотивируют их оставаться и расти в том же здании.", en: "Space adapted to existing tenants encourages them to stay and grow in the same building." }),
-    ],
+    availability: confirmed("asset.creanga-78.availability", "LEASING", P("creanga-78"), "Availability", { ro: "Fără spații libere · ocupat 100 %", ru: `Свободных помещений нет · занят на 100 %`, en: "No space available · 100% occupied" }, "OWNER 2026-10-09"),
+    levers: [],
   },
 };
 
-/** Creangă 78 has no approved public description: the whole profile below is DEMO. */
+/** Creangă 78: OWNER-confirmed area and occupancy (2026-10-09); district and location text stay DEMO; the earlier DEMO multi-tenant office profile is retired. */
 export const creangaProfile = {
   district: demo("asset.creanga-78.district", "PROJECTS", P("creanga-78"), "District", { ro: "Buiucani", ru: "Буюкань", en: "Buiucani" }, "OWNER — confirmed address"),
-  headline: demo("asset.creanga-78.headline", "PROJECTS", P("creanga-78"), "Headline", { ro: "O clădire de birouri și servicii într-un cartier vechi al orașului.", ru: "Офисно-сервисное здание в историческом районе города.", en: "An office and services building in an established district of the city." }, "OWNER — approved description"),
-  lead: demo("asset.creanga-78.lead", "PROJECTS", P("creanga-78"), "Lead", { ro: "Clădire de 3.350 m² cu servicii la parter și birouri la etaje, exploatată de MEGAPARC ca un obiect cu mai mulți chiriași.", ru: "Здание площадью 3 350 м² с сервисами на первом этаже и офисами выше; здесь работают многие арендаторы под одной крышей.", en: "A 3,350 m² building with services at street level and offices above, run by MEGAPARC as a multi-tenant property." }, "OWNER — approved description"),
-  narrative: demo("asset.creanga-78.narrative", "PROJECTS", P("creanga-78"), "Narrative", { ro: "Multe companii mici, o singură adresă bine întreținută.", ru: "Много небольших компаний — один ухоженный адрес.", en: "Many small companies, one well-kept address." }, "OWNER — approved description"),
-  story: demo("asset.creanga-78.story", "PROJECTS", P("creanga-78"), "Story (3 paragraphs)", {
-    ro: "Creangă 78 lucrează altfel decât celelalte obiecte MEGAPARC: nu un singur utilizator, ci optsprezece chiriași — birouri mici și medii, servicii, o farmacie și o cafenea la parter. Valoarea clădirii depinde de felul în care acești chiriași funcționează împreună.\n\nExploatarea este concentrată pe spațiile comune, pe planificarea contractelor și pe reamenajarea rapidă a spațiilor eliberate. Un spațiu liber se pregătește pentru următorul chiriaș în câteva săptămâni, nu în câteva luni.\n\nLocația — un cartier cu clădiri de birouri, instituții și locuințe — asigură cerere constantă pentru spații de 80–240 m². Clădirea rămâne căutată pentru companiile care cresc, dar nu au nevoie de o clădire proprie.",
-    ru: "Creangă 78 работает иначе, чем остальные объекты MEGAPARC: не один пользователь, а восемнадцать арендаторов — небольшие и средние офисы, сервисы, аптека и кафе на первом этаже. Ценность здания — в том, насколько хорошо они уживаются вместе.\n\nГлавное здесь — общие зоны, договоры, расписанные наперёд, и быстрая подготовка освободившихся помещений: за недели, а не месяцы.\n\nРасположение — район с офисами, учреждениями и жильём — обеспечивает устойчивый спрос на помещения 80–240 м². Здание остаётся востребованным у компаний, которые растут, но которым не нужно отдельное здание.",
-    en: "Creangă 78 works differently from the other MEGAPARC properties: not one occupier but eighteen tenants — small and mid-size offices, services, a pharmacy and a café at street level. The building's value depends on how these tenants work together.\n\nOperations concentrate on the common areas, on lease planning and on quickly preparing vacated units. A free unit is ready for the next tenant in weeks, not months.\n\nThe location — a district of offices, institutions and housing — gives steady demand for units of 80–240 m². The building stays in demand with companies that are growing but do not need a building of their own.",
-  }, "OWNER — approved description (150–250 words)"),
+  lead: confirmed("asset.creanga-78.lead", "PROJECTS", P("creanga-78"), "Lead", { ro: "Creangă 78 este un obiect comercial MEGAPARC în funcțiune din Chișinău, cu o suprafață de 2.158 m². Obiectul este ocupat 100 %.", ru: `Creangă 78 — действующий коммерческий объект MEGAPARC в Кишинёве площадью 2 158 м². Объект занят на 100 %.`, en: "Creangă 78 is an operating MEGAPARC commercial property in Chișinău, with a total area of 2,158 m². It is 100% occupied." }, "OWNER 2026-10-09"),
+  narrative: confirmed("asset.creanga-78.narrative", "PROJECTS", P("creanga-78"), "Narrative", { ro: "Un obiect în funcțiune, ocupat integral.", ru: "Действующий объект, занятый полностью.", en: "An operating property, fully let." }, "OWNER 2026-10-09"),
   location: demo("asset.creanga-78.location", "PROJECTS", P("creanga-78"), "Location text", { ro: "Un cartier consolidat din Chișinău, cu birouri, instituții, locuințe și transport public în apropiere.", ru: "Сложившийся район Кишинёва: офисы, учреждения, жильё и общественный транспорт рядом.", en: "An established Chișinău district with offices, institutions, housing and public transport nearby." }, "OWNER — confirmed address and access"),
-  use: demo("asset.creanga-78.use", "PROJECTS", P("creanga-78"), "Use", { ro: "Birouri · servicii · comerț la parter", ru: "Офисы · сервисы · торговля на первом этаже", en: "Offices · services · ground-floor retail" }, "OWNER — approved description"),
-  audience: demo("asset.creanga-78.audience", "PROJECTS", P("creanga-78"), "Who it suits", { ro: "Companiilor de servicii, birourilor regionale și echipelor de 5–40 de persoane.", ru: "Сервисным компаниям, региональным офисам и командам от 5 до 40 человек.", en: "Service companies, regional offices and teams of 5–40 people." }, "OWNER — approved description"),
 };
 
 /* ------------------------------------------------------------------ */
@@ -221,7 +277,8 @@ export type TenantFit = {
   /** Business types that are plausible but not stated in approved copy. */
   bestForStatus: DataStatus;
   why: Localized[];
-  capabilities: Record<Requirement, Capability>;
+  /** null when a property's capability profile is retired (Creangă 78, OWNER 2026-10-09). */
+  capabilities: Record<Requirement, Capability> | null;
   /** Leasable range in m² used by the matcher (whole building = one value). */
   area: { min: number; max: number; status: DataStatus; note?: Localized };
   /** ISO date the space can be occupied; null = on request / now. */
@@ -310,26 +367,13 @@ export const tenantFit: Record<"dacia-31" | "moscova-9" | "moscova-20" | "creang
     district: { ro: "Rîșcani", ru: "Рышкань", en: "Rîșcani" },
   },
   "creanga-78": {
-    reason: { ro: "Pentru o echipă în creștere care are nevoie de un birou bun, nu de o clădire întreagă.", ru: "Для растущей команды, которой нужен хороший офис, а не целое здание.", en: "For a growing team that needs a good office, not a whole building." },
-    bestFor: ["office", "services", "clinic"],
-    bestForStatus: "DEMO",
-    why: [
-      { ro: "Spații de 80–240 m², pregătite rapid", ru: "Блоки 80–240 м², готовятся быстро", en: "Units of 80–240 m², prepared quickly" },
-      { ro: "Servicii la parter, birouri la etaje", ru: "Сервисы на первом этаже, офисы выше", en: "Services at street level, offices above" },
-      { ro: "Parcare pe teren", ru: "Парковка на участке", en: "Parking on the plot" },
-      { ro: "Echipă de exploatare la fața locului", ru: "Эксплуатация на месте", en: "On-site operations team" },
-    ],
-    capabilities: {
-      visibility: cap("creanga-78", "visibility", "possible", { ro: "Fațadă la stradă pentru spațiile de la parter", ru: "Фасад на улицу у помещений первого этажа", en: "Street frontage for ground-floor units" }, "DEMO"),
-      ground: cap("creanga-78", "ground", "possible", { ro: "Câteva spații la parter", ru: "Несколько помещений на первом этаже", en: "Several ground-floor units" }, "DEMO"),
-      parking: cap("creanga-78", "parking", "strong", { ro: "Aproximativ 40 de locuri pe teren", ru: "Около 40 мест на участке", en: "About 40 spaces on the plot" }, "DEMO"),
-      entrance: cap("creanga-78", "entrance", "possible", { ro: "Intrare din stradă la parter; hol comun la etaje", ru: "Вход с улицы на первом этаже; общий холл выше", en: "Street entrance at ground level; shared lobby above" }, "DEMO"),
-      power: cap("creanga-78", "power", "possible", { ro: "Capacitate standard de birou; extindere la cerere", ru: "Стандартная офисная мощность; увеличение по запросу", en: "Standard office capacity; upgrade on request" }, "DEMO"),
-      ventilation: cap("creanga-78", "ventilation", "possible", { ro: "Ventilare și climatizare pe spații", ru: "Вентиляция и кондиционирование по блокам", en: "Ventilation and cooling per unit" }, "DEMO"),
-      delivery: cap("creanga-78", "delivery", "limited", { ro: "Fără rampă; livrări mici din parcare", ru: "Без рампы; небольшие доставки со стоянки", en: "No ramp; small deliveries from the car park" }, "DEMO"),
-      flexible: cap("creanga-78", "flexible", "strong", { ro: "Spații de 80–240 m², unire posibilă", ru: "Блоки 80–240 м², возможно объединение", en: "Units of 80–240 m², can be combined" }, "DEMO"),
-    },
-    area: { min: 80, max: 240, status: "DEMO" },
+    reason: { ro: "Obiect comercial MEGAPARC în funcțiune.", ru: "Действующий коммерческий объект MEGAPARC.", en: "An operating MEGAPARC commercial property." },
+    bestFor: [],
+    bestForStatus: "CONFIRMED",
+    why: [],
+    /** Retired with the DEMO multi-tenant profile (OWNER 2026-10-09): no capability claims until the OWNER supplies them. */
+    capabilities: null,
+    area: { min: 0, max: 0, status: "CONFIRMED", note: { ro: "Ocupat 100 %", ru: "Занят на 100 %", en: "100% occupied" } },
     from: null,
     district: { ro: "Buiucani", ru: "Буюкань", en: "Buiucani" },
   },
@@ -356,10 +400,11 @@ const NOW = (slug: string, value: Localized, status: "CONFIRMED" | "DEMO", sourc
   status === "CONFIRMED" ? confirmed(`project.${slug}.now`, "PROJECTS", `Project · ${slug}`, "What MEGAPARC is doing now", value) : demo(`project.${slug}.now`, "PROJECTS", `Project · ${slug}`, "What MEGAPARC is doing now", value, source);
 
 export const projectNow: Record<string, DataPoint> = {
-  "moscova-9": NOW("moscova-9", { ro: "Închiriem clădirea integral sau parțial — până la 1.289,93 m².", ru: `Сдаём здание целиком или частью — до 1 289,93 м².`, en: "Leasing the building whole or in part — up to 1,289.93 m²." }, "CONFIRMED"),
-  "dacia-31": NOW("dacia-31", { ro: "Pregătim clădirea pentru următorul chiriaș unic — integral, din 1 ianuarie 2027.", ru: `Готовим здание к следующему арендатору — целиком, с 1 января 2027.`, en: "Preparing the building for its next single occupier — whole, from 1 January 2027." }, "DEMO", "OWNER — confirm the preparation works (availability itself is confirmed)"),
+  "moscova-9": NOW("moscova-9", { ro: "Obiectul este ocupat 100 %.", ru: `Объект занят на 100 %.`, en: "The property is 100% occupied." }, "CONFIRMED"),
+  "dacia-31": NOW("dacia-31", { ro: "Oferim spre închiriere 5.223 m² — din 1 ianuarie 2027.", ru: `Предлагаем в аренду 5 223 м² — с 1 января 2027.`, en: "Offering 5,223 m² for lease — from 1 January 2027." }, "CONFIRMED"),
   "moscova-20": NOW("moscova-20", { ro: "Închiriem spațiul de colț de 625,7 m² cu vitrină pe două străzi.", ru: `Сдаём угловое помещение 625,7 м² с витриной на две улицы.`, en: "Leasing the 625.7 m² corner space with windows on two streets." }, "CONFIRMED"),
-  "creanga-78": NOW("creanga-78", { ro: "Închiriem spații de birouri și servicii în clădirea în funcțiune.", ru: `Сдаём офисы и помещения для сервисов в действующем здании.`, en: "Leasing offices and service units in the operating building." }, "DEMO", "OWNER — current vacancy schedule"),
+  "creanga-78": NOW("creanga-78", { ro: "Obiectul este ocupat 100 %.", ru: `Объект занят на 100 %.`, en: "The property is 100% occupied." }, "CONFIRMED"),
+  "dacia-31-development": NOW("dacia-31-development", { ro: "Planificăm 3 clădiri de ≈ 1.600 m² fiecare.", ru: `Планируем 3 здания по ≈ 1 600 м².`, en: "Planning 3 buildings of ≈ 1,600 m² each." }, "CONFIRMED"),
   vatra: NOW("vatra", { ro: "Construim: etapa 05 din 06 — realizare.", ru: `Строим: стадия 05 из 06 — реализация.`, en: "Building: stage 05 of 06 — delivery." }, "CONFIRMED"),
   "drochia-gateway": NOW("drochia-gateway", { ro: "Evaluăm conceptul terenului de 2,0 ha.", ru: `Оцениваем концепцию участка 2,0 га.`, en: "Evaluating the concept for the 2.0 ha site." }, "CONFIRMED"),
 };
@@ -386,9 +431,9 @@ export const caseStudy: { slug: "moscova-9"; stages: CaseStage[] } = {
       key: "start",
       label: { ro: "Punctul de plecare", ru: "Исходная точка", en: "Starting point" },
       text: C("start", "Starting point", {
-        ro: "O clădire comercială independentă pe prima linie a bulevardului Moscova, în afara centrelor comerciale: 1.289,93 m², sală principală de 737,07 m², zonă de descărcare cu rampă, două intrări dinspre bulevard.",
-        ru: "Отдельно стоящее торговое здание на первой линии бульвара Москова, вне торговых центров: 1 289,93 м², основной зал 737,07 м², зона разгрузки с рампой, два входа с бульвара.",
-        en: "A stand-alone retail building on the first line of Moscova Boulevard, outside the malls: 1,289.93 m², a 737.07 m² main hall, a loading zone with a ramp, two entrances from the boulevard.",
+        ro: "O clădire comercială independentă pe prima linie a bulevardului Moscova, în afara centrelor comerciale: suprafața obiectului 2.536 m²; spațiul comercial de 1.289,93 m² cu sala principală de 737,07 m², zonă de descărcare cu rampă, două intrări dinspre bulevard.",
+        ru: "Отдельно стоящее торговое здание на первой линии бульвара Москова, вне торговых центров: площадь объекта 2 536 м²; торговое помещение 1 289,93 м² с основным залом 737,07 м², зона разгрузки с рампой, два входа с бульвара.",
+        en: "A stand-alone retail building on the first line of Moscova Boulevard, outside the malls: a total property area of 2,536 m²; the 1,289.93 m² retail premises with a 737.07 m² main hall, a loading zone with a ramp, two entrances from the boulevard.",
       }, "CONFIRMED"),
     },
     {
@@ -431,19 +476,19 @@ export const caseStudy: { slug: "moscova-9"; stages: CaseStage[] } = {
       key: "leasing",
       label: { ro: "Închiriere", ru: "Аренда", en: "Leasing" },
       text: C("leasing", "Leasing", {
-        ro: "Se închiriază integral sau o parte convenită, unui singur brand; fluxul clienților este separat de cel al mărfurilor.",
-        ru: "Сдаётся целиком или согласованной частью одному бренду; поток покупателей отделён от товарного.",
-        en: "Leased as a whole or as an agreed part to one brand; the customer flow is kept apart from the goods flow.",
-      }, "CONFIRMED"),
+        ro: "Obiectul este închiriat; fluxul clienților este separat de cel al mărfurilor.",
+        ru: "Объект сдан в аренду; поток покупателей отделён от товарного.",
+        en: "The property is leased; the customer flow is kept apart from the goods flow.",
+      }, "CONFIRMED", "OWNER 2026-10-09 — 100 % occupied"),
     },
     {
       key: "status",
       label: { ro: "Statutul actual", ru: "Текущий статус", en: "Current status" },
       text: C("status", "Current status", {
-        ro: "În etapa actuală obiectul se oferă spre închiriere integral sau parțial — până la 1.289,93 m².",
-        ru: "На текущем этапе объект предлагается в аренду целиком или частью — до 1 289,93 м².",
-        en: "At this stage the property is offered for lease as a whole or in part — up to 1,289.93 m².",
-      }, "DEMO", "OWNER — current lease status (leasing inventory)"),
+        ro: "Obiectul este ocupat 100 %.",
+        ru: "Объект занят на 100 %.",
+        en: "The property is 100% occupied.",
+      }, "CONFIRMED", "OWNER 2026-10-09"),
     },
     {
       key: "strategy",
@@ -603,9 +648,7 @@ place("business.development.inset", "About", "Business · 02 development inset",
 place("business.leasing.inset", "About", "Business · 03 leasing inset", null, "cv-entrance", "BRAND", "Tenant activity", "HIGH", "Tenant activity inside a MEGAPARC property", A.entrance);
 place("partnership.hero", "Partnership", "Hero", null, "cv-urban-plot", "BRAND", "Opportunity — a plot under works in a city", "HIGH", "MEGAPARC site from above (drone), daylight", A.urbanPlot);
 place("home.route.owner", "Home", "Routes · offer a property or land", null, "cv-field", "BRAND", "Owner route — land", "MEDIUM", "Land at a town entrance (MEGAPARC site visit)", A.field);
-place("home.projects.creanga-78", "Home", "Projects · card", "Creangă 78", "cv-office-building", "PROPERTY_DIRECTION", "Stands in for the Creangă 78 photograph", "HIGH", "Creangă 78 FACADE 3/4, morning light (shot list)", A.officeBuilding);
 // Projects
-place("portfolio.creanga-78", "Projects", "Collection · Creangă 78", "Creangă 78", "cv-office-building", "PROPERTY_DIRECTION", "Stands in for the Creangă 78 photograph", "HIGH", "Creangă 78 HERO / FACADE 3/4", A.officeBuilding);
 place("development.drochia", "Projects", "Collection · Drochia Gateway", "Drochia Gateway", "cv-field", "PROPERTY_DIRECTION", "Site context direction — not the site", "HIGH", "Drochia Gateway DRONE — the real site, both road fronts", A.field);
 // Project pages and leasing units
 place("asset.dacia-31.gallery.1", "Projects · Dacia 31", "Gallery · Leasing", "Dacia 31", "cv-office-light", "PROPERTY_DIRECTION", "Interior direction", "HIGH", "Dacia 31 INTERIOR / AVAILABLE UNIT", A.officeLight);
@@ -614,9 +657,6 @@ place("asset.moscova-9.gallery.1", "Projects · Moscova 9", "Gallery · Leasing"
 place("asset.moscova-9.gallery.2", "Projects · Moscova 9", "Gallery · Leasing", "Moscova 9", "cv-boutique", "PROPERTY_DIRECTION", "Shopfront ready for a tenant", "MEDIUM", "Moscova 9 AVAILABLE UNIT — the frontage from the boulevard", A.boutique);
 place("asset.moscova-20.gallery.1", "Projects · Moscova 20", "Gallery · Leasing", "Moscova 20", "cv-cafe", "PROPERTY_DIRECTION", "Tenant activity direction", "HIGH", "Moscova 20 TENANT ACTIVITY", A.cafe);
 place("asset.moscova-20.gallery.2", "Projects · Moscova 20", "Gallery · Leasing", "Moscova 20", "cv-manage", "PROPERTY_DIRECTION", "Street corner activity direction", "MEDIUM", "Moscova 20 ENTRANCE / corner at street level", A.street);
-place("asset.creanga-78.hero", "Projects · Creangă 78", "Hero · Leasing", "Creangă 78", "cv-office-building", "PROPERTY_DIRECTION", "Stands in for the property hero", "HIGH", "Creangă 78 HERO + MOBILE VERTICAL", A.officeBuilding, "50% 40%");
-place("asset.creanga-78.gallery.1", "Projects · Creangă 78", "Gallery · Leasing", "Creangă 78", "cv-meeting-room", "PROPERTY_DIRECTION", "Office floor direction", "HIGH", "Creangă 78 AVAILABLE UNIT — office floor", A.meeting);
-place("asset.creanga-78.gallery.2", "Projects · Creangă 78", "Gallery · Leasing", "Creangă 78", "cv-office-tenants", "PROPERTY_DIRECTION", "Tenant activity direction", "MEDIUM", "Creangă 78 TENANT ACTIVITY — office floor", A.officeTenants);
 place("project.vatra.team", "Projects · VATRA", "Current reality · on site", "VATRA", "cv-rebar-crew", "PROPERTY_DIRECTION", "Construction team direction", "MEDIUM", "VATRA HUMAN SCALE — construction team, morning", A.rebarCrew);
 place("project.drochia.hero", "Projects · Drochia Gateway", "Hero", "Drochia Gateway", "cv-field", "PROPERTY_DIRECTION", "Site context direction — not the site", "HIGH", "Drochia Gateway HERO — the real site from the entrance road", A.field, "50% 62%");
 place("project.drochia.road", "Projects · Drochia Gateway", "Current reality · the land", "Drochia Gateway", "cv-field", "PROPERTY_DIRECTION", "The site as it is today — open land", "HIGH", "Drochia Gateway ACCESS — approach road and visibility", A.field, "50% 78%");

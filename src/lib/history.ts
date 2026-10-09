@@ -687,8 +687,8 @@ export const historyCopy = {
   todayFigures: {
     operating: L("obiecte în funcțiune", "действующих объекта", "operating properties"),
     development: L("proiecte de dezvoltare", "проекта развития", "development projects"),
-    gla: L("suprafață închiriabilă", "арендуемая площадь", "lettable area"),
-    spaces: L("spații libere acum", "свободных помещений сейчас", "spaces available now"),
+    area: L("suprafața obiectelor în funcțiune", "площадь действующих объектов", "operating property area"),
+    spaces: L("spații libere", "свободные помещения", "available spaces"),
   },
   indexTitle: L("Toată cronica, pe o pagină.", "Вся хроника на одной странице.", "The whole chronicle on one page."),
   indexAll: L("Toate", "Все", "All"),

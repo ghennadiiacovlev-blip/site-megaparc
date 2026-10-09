@@ -1,4 +1,5 @@
-import { developmentProjects, portfolioAssets } from "@/lib/assets";
+import { landRecords, landTotal, operatingArea } from "@/data/demo-content";
+import { portfolioAssets } from "@/lib/assets";
 import type { Localized } from "@/lib/site-data";
 
 /**
@@ -9,19 +10,20 @@ import type { Localized } from "@/lib/site-data";
  */
 export const portfolioMetrics = {
   /**
-   * Total real-estate portfolio area (m²). Hidden: Creangă 78 and VATRA have no
-   * confirmed area, so a complete, like-for-like total cannot be stated yet.
-   * Confirmed partial sum (Dacia 31 + Moscova 9 + Moscova 20) is 7,138.63 m².
+   * Area of the four operating properties (m², OWNER 2026-10-09): 5 541 + 2 158 +
+   * 2 536 + 704 = 10 939 m². A sum of total property areas — never called GLA.
    */
-  totalAssetArea: null as number | null,
+  totalAssetArea: operatingArea as number | null,
   /**
-   * Development land (m²). Confirmed: Drochia Gateway site, 2.0 ha.
-   * Published as a minimum ("+") because VATRA land area is not confirmed.
+   * Land plots (m², OWNER 2026-10-09): Drochia 20 000 + Florilor 32/2 8 470 +
+   * Orhei 22 000 = 50 470 m². Published as a minimum ("+") because Hîncești
+   * exists but its area is not supplied yet.
    */
-  developmentLandArea: 20000 as number | null,
-  developmentLandIsMinimum: true,
+  developmentLandArea: landTotal as number | null,
+  developmentLandIsMinimum: landRecords.some((plot) => plot.area === null),
   operatingAssets: portfolioAssets.length,
-  developmentProjects: developmentProjects.length,
+  /** VATRA + Dacia 31 · Development (land plots are counted as land, not as projects). */
+  developmentProjects: 2,
   heritageSince: 1995,
 };
 
@@ -46,9 +48,9 @@ export function scaleMetrics(): ScaleMetric[] {
       : {
           key: "total",
           value: portfolioMetrics.totalAssetArea,
-          plus: true,
+          plus: false,
           unit: m2,
-          label: { ro: "Portofoliu imobiliar total", ru: "Общий портфель недвижимости", en: "Total real estate portfolio" },
+          label: { ro: "Suprafața obiectelor în funcțiune", ru: "Площадь действующих объектов", en: "Operating property area" },
         },
     portfolioMetrics.developmentLandArea === null
       ? null
@@ -58,11 +60,11 @@ export function scaleMetrics(): ScaleMetric[] {
           plus: portfolioMetrics.developmentLandIsMinimum,
           unit: m2,
           secondary: {
-            ro: `${(portfolioMetrics.developmentLandArea / 10000).toFixed(1).replace(".", ",")} ha`,
-            ru: `${(portfolioMetrics.developmentLandArea / 10000).toFixed(1).replace(".", ",")} га`,
-            en: `${(portfolioMetrics.developmentLandArea / 10000).toFixed(1)} ha`,
+            ro: `${(portfolioMetrics.developmentLandArea / 10000).toFixed(2).replace(".", ",")} ha`,
+            ru: `${(portfolioMetrics.developmentLandArea / 10000).toFixed(2).replace(".", ",")} га`,
+            en: `${(portfolioMetrics.developmentLandArea / 10000).toFixed(2)} ha`,
           },
-          label: { ro: "Teren pentru dezvoltare", ru: "Земля под развитие", en: "Development land" },
+          label: { ro: "Terenuri", ru: "Земельные участки", en: "Land plots" },
         },
     {
       key: "operating",

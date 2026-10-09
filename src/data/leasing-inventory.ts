@@ -154,7 +154,7 @@ export const spaces: AvailableSpace[] = [
     area: 1289.93,
     areaMin: 400,
     uses: ["retail", "showroom"],
-    status: "available",
+    status: "leased", // OWNER 2026-10-09: property 100 % occupied — no public availability
     availableFrom: null,
     headline: L(
       "O clădire proprie pe bulevard: fațadă lungă, două intrări, rampă de descărcare.",
@@ -251,7 +251,7 @@ export const spaces: AvailableSpace[] = [
     floorLabel: L("Parter", "1‑й этаж", "Ground floor"),
     area: 120,
     uses: ["services", "clinic", "retail"],
-    status: "available",
+    status: "leased", // OWNER 2026-10-09: property 100 % occupied — no public availability
     availableFrom: null,
     headline: L(
       "Un spațiu la stradă pentru servicii de cartier sau un cabinet medical.",
@@ -275,7 +275,7 @@ export const spaces: AvailableSpace[] = [
     },
     fit: { visibility: "possible", flow: "possible", parking: "strong", ground: "strong", entrance: "strong", power: "possible", ventilation: "possible", delivery: "limited", flexible: "possible", fast: "strong" },
     plan: creangaPlate("101", L("Parter", "1‑й этаж", "Ground floor"), ["102", "103", "104", "101"]),
-    photos: [{ kind: "use", id: "asset.creanga-78.hero" }, { kind: "use", id: "asset.creanga-78.gallery.2" }],
+    photos: [{ kind: "asset", slug: "creanga-78" }],
     dataStatus: "DEMO",
     confirmed: [],
     updated: "2026-10-05",
@@ -290,7 +290,7 @@ export const spaces: AvailableSpace[] = [
     floorLabel: L("Etajul 2", "2‑й этаж", "2nd floor"),
     area: 210,
     uses: ["office"],
-    status: "available",
+    status: "leased", // OWNER 2026-10-09: property 100 % occupied — no public availability
     availableFrom: null,
     headline: L(
       "Un birou pentru o echipă de 15–25 de oameni, cu lumină pe două laturi.",
@@ -314,7 +314,7 @@ export const spaces: AvailableSpace[] = [
     },
     fit: { visibility: "limited", flow: "limited", parking: "strong", ground: "limited", entrance: "possible", power: "possible", ventilation: "strong", delivery: "limited", flexible: "strong", fast: "strong" },
     plan: creangaPlate("204", L("Etajul 2", "2‑й этаж", "2nd floor"), ["204", "205", "206", "207"]),
-    photos: [{ kind: "use", id: "asset.creanga-78.gallery.1" }, { kind: "use", id: "asset.creanga-78.gallery.2" }],
+    photos: [{ kind: "asset", slug: "creanga-78" }],
     dataStatus: "DEMO",
     confirmed: [],
     updated: "2026-10-05",
@@ -329,7 +329,7 @@ export const spaces: AvailableSpace[] = [
     floorLabel: L("Etajul 3", "3‑й этаж", "3rd floor"),
     area: 85,
     uses: ["office", "services"],
-    status: "available",
+    status: "leased", // OWNER 2026-10-09: property 100 % occupied — no public availability
     availableFrom: "2026-12-01",
     headline: L(
       "Un birou compact pentru o echipă mică — liber din decembrie.",
@@ -352,7 +352,7 @@ export const spaces: AvailableSpace[] = [
     },
     fit: { visibility: "limited", flow: "limited", parking: "possible", ground: "limited", entrance: "possible", power: "possible", ventilation: "possible", delivery: "limited", flexible: "possible", fast: "possible" },
     plan: creangaPlate("305", L("Etajul 3", "3‑й этаж", "3rd floor"), ["303", "304", "306", "305"]),
-    photos: [{ kind: "use", id: "asset.creanga-78.gallery.2" }, { kind: "use", id: "asset.creanga-78.gallery.1" }],
+    photos: [{ kind: "asset", slug: "creanga-78" }],
     dataStatus: "DEMO",
     confirmed: [],
     updated: "2026-10-02",
@@ -367,7 +367,7 @@ export const spaces: AvailableSpace[] = [
     floorLabel: L("Parter", "1‑й этаж", "Ground floor"),
     area: 95,
     uses: ["fnb", "services"],
-    status: "reserved",
+    status: "leased", // OWNER 2026-10-09: property 100 % occupied — no public availability
     availableFrom: null,
     headline: L(
       "Spațiu pentru o cafenea de cartier, cu terasă la stradă.",
@@ -390,7 +390,7 @@ export const spaces: AvailableSpace[] = [
     },
     fit: { visibility: "strong", flow: "possible", parking: "possible", ground: "strong", entrance: "strong", power: "strong", ventilation: "strong", delivery: "possible", flexible: "limited", fast: "possible" },
     plan: creangaPlate("110", L("Parter", "1‑й этаж", "Ground floor"), ["110", "102", "104", "101"]),
-    photos: [{ kind: "use", id: "asset.creanga-78.hero" }, { kind: "use", id: "asset.moscova-20.gallery.1" }],
+    photos: [{ kind: "asset", slug: "creanga-78" }],
     dataStatus: "DEMO",
     confirmed: [],
     updated: "2026-10-07",
@@ -421,7 +421,7 @@ export const spaces: AvailableSpace[] = [
     },
     fit: { visibility: "limited", flow: "limited", parking: "possible", ground: "limited", entrance: "possible", power: "possible", ventilation: "strong", delivery: "limited", flexible: "possible", fast: "limited" },
     plan: creangaPlate("402", L("Etajul 4", "4‑й этаж", "4th floor"), ["402", "403", "404", "405"]),
-    photos: [{ kind: "use", id: "asset.creanga-78.gallery.1" }],
+    photos: [{ kind: "asset", slug: "creanga-78" }],
     dataStatus: "DEMO",
     confirmed: [],
     updated: "2026-09-30",

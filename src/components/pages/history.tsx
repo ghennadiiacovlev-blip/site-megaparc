@@ -26,7 +26,8 @@ import { localePath, publicAsset, type SiteLocale } from "@/lib/site-data";
  * no oversized decorative years on the page (provenance: historyImages).
  */
 
-const todaySlugs = ["dacia-31", "moscova-9", "moscova-20", "vatra"];
+/** Current properties in colour — Creangă 78 joins with its real photograph (OWNER 2026-10-09). */
+const todaySlugs = ["dacia-31", "moscova-9", "moscova-20", "creanga-78", "vatra"];
 const byId = (id: string) => entries.find((entry) => entry.id === id)!;
 
 function EpisodeImage({ entry, locale, sizes, eager = false }: { entry: HistoryEntry; locale: SiteLocale; sizes: string; eager?: boolean }) {
@@ -255,8 +256,8 @@ export function HistoryPage({ locale }: { locale: SiteLocale }) {
                 <div data-reveal>
                   <HeroFigures className="hc-today__figures" items={[
                     { value: portfolioFigures.operating.value[locale], label: h.todayFigures.operating[locale] },
-                    { value: String(listProjects().filter((project) => project.kind !== "operating").length).padStart(2, "0"), label: h.todayFigures.development[locale] },
-                    { value: portfolioFigures.gla.value[locale], label: h.todayFigures.gla[locale] },
+                    { value: String(listProjects().filter((project) => project.kind === "development").length).padStart(2, "0"), label: h.todayFigures.development[locale] },
+                    { value: portfolioFigures.area.value[locale], label: h.todayFigures.area[locale] },
                     { value: String(publicSpaces.length).padStart(2, "0"), label: h.todayFigures.spaces[locale] },
                   ]} />
                 </div>
