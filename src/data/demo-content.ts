@@ -346,6 +346,125 @@ export const acquisitionProcess = {
   reply: demo("acquisitions.reply", "ACQUISITIONS", "Offer a property", "First reply to a property or land offer", { ro: "în 10 zile lucrătoare", ru: "в течение 10 рабочих дней", en: "within 10 working days" }, "OWNER — service standard"),
 };
 
+/**
+ * WHAT MEGAPARC IS DOING NOW — one line per project card and page (OWNER brief
+ * "TRUST & PROOF PASS": every project answers what · where · stage · why ·
+ * available · what MEGAPARC is doing). Lines that only restate a confirmed
+ * availability or stage are CONFIRMED; the rest are DEMO.
+ */
+const NOW = (slug: string, value: Localized, status: "CONFIRMED" | "DEMO", source = "OWNER — confirm the current action on the property") =>
+  status === "CONFIRMED" ? confirmed(`project.${slug}.now`, "PROJECTS", `Project · ${slug}`, "What MEGAPARC is doing now", value) : demo(`project.${slug}.now`, "PROJECTS", `Project · ${slug}`, "What MEGAPARC is doing now", value, source);
+
+export const projectNow: Record<string, DataPoint> = {
+  "moscova-9": NOW("moscova-9", { ro: "Închiriem clădirea integral sau parțial — până la 1.289,93 m².", ru: `Сдаём здание целиком или частью — до 1 289,93 м².`, en: "Leasing the building whole or in part — up to 1,289.93 m²." }, "CONFIRMED"),
+  "dacia-31": NOW("dacia-31", { ro: "Pregătim clădirea pentru următorul chiriaș unic — integral, din 1 ianuarie 2027.", ru: `Готовим здание к следующему арендатору — целиком, с 1 января 2027.`, en: "Preparing the building for its next single occupier — whole, from 1 January 2027." }, "DEMO", "OWNER — confirm the preparation works (availability itself is confirmed)"),
+  "moscova-20": NOW("moscova-20", { ro: "Închiriem spațiul de colț de 625,7 m² cu vitrină pe două străzi.", ru: `Сдаём угловое помещение 625,7 м² с витриной на две улицы.`, en: "Leasing the 625.7 m² corner space with windows on two streets." }, "CONFIRMED"),
+  "creanga-78": NOW("creanga-78", { ro: "Închiriem spații de birouri și servicii în clădirea în funcțiune.", ru: `Сдаём офисы и помещения для сервисов в действующем здании.`, en: "Leasing offices and service units in the operating building." }, "DEMO", "OWNER — current vacancy schedule"),
+  vatra: NOW("vatra", { ro: "Construim: etapa 05 din 06 — realizare.", ru: `Строим: стадия 05 из 06 — реализация.`, en: "Building: stage 05 of 06 — delivery." }, "CONFIRMED"),
+  "drochia-gateway": NOW("drochia-gateway", { ro: "Evaluăm conceptul terenului de 2,0 ha.", ru: `Оцениваем концепцию участка 2,0 га.`, en: "Evaluating the concept for the 2.0 ha site." }, "CONFIRMED"),
+};
+
+/* ------------------------------------------------------------------ */
+/* CASE STUDY + PARTNERSHIP PROCESS (OWNER brief "TRUST & PROOF PASS")   */
+/* ------------------------------------------------------------------ */
+
+/**
+ * One case study on an existing MEGAPARC asset — Moscova 9. Every stage is a
+ * governed point: confirmed facts come from src/lib/assets.ts and the
+ * availability record; the decision year, the scope of works, the latest works
+ * year and the next option are DEMO until the OWNER confirms them. No financial
+ * figures: the case demonstrates discipline, execution and value creation.
+ */
+export type CaseStage = { key: string; label: Localized; text: DataPoint };
+const C = (key: string, field: string, value: Localized, status: "CONFIRMED" | "DEMO", futureSource = "OWNER — confirm the case-study stage") =>
+  status === "CONFIRMED" ? confirmed(`case.moscova-9.${key}`, "PROJECTS", "Partnership · case study", field, value) : demo(`case.moscova-9.${key}`, "PROJECTS", "Partnership · case study", field, value, futureSource);
+
+export const caseStudy: { slug: "moscova-9"; stages: CaseStage[] } = {
+  slug: "moscova-9",
+  stages: [
+    {
+      key: "start",
+      label: { ro: "Punctul de plecare", ru: "Исходная точка", en: "Starting point" },
+      text: C("start", "Starting point", {
+        ro: "O clădire comercială independentă pe prima linie a bulevardului Moscova, în afara centrelor comerciale: 1.289,93 m², sală principală de 737,07 m², zonă de descărcare cu rampă, două intrări dinspre bulevard.",
+        ru: "Отдельно стоящее торговое здание на первой линии бульвара Москова, вне торговых центров: 1 289,93 м², основной зал 737,07 м², зона разгрузки с рампой, два входа с бульвара.",
+        en: "A stand-alone retail building on the first line of Moscova Boulevard, outside the malls: 1,289.93 m², a 737.07 m² main hall, a loading zone with a ramp, two entrances from the boulevard.",
+      }, "CONFIRMED"),
+    },
+    {
+      key: "opportunity",
+      label: { ro: "Oportunitatea", ru: "Возможность", en: "The opportunity" },
+      text: C("opportunity", "Opportunity", {
+        ro: "Fațadă și intrare proprii pe un bulevard cu flux constant — un format pe care centrele comerciale nu îl oferă.",
+        ru: "Собственный фасад и вход на бульваре с постоянным потоком — формат, которого не дают торговые центры.",
+        en: "Its own facade and entrance on a boulevard with a steady flow — a format the malls do not offer.",
+      }, "CONFIRMED"),
+    },
+    {
+      key: "decision",
+      label: { ro: "Decizia MEGAPARC", ru: "Решение MEGAPARC", en: "MEGAPARC's decision" },
+      text: C("decision", "Decision", {
+        ro: "Achiziția clădirii în întregime, pentru a răspunde ca proprietar de fațadă, intrări și logistică. Achiziționată în 2006.",
+        ru: "Приобрести здание целиком, чтобы как собственник отвечать за фасад, входы и логистику. Приобретено в 2006 году.",
+        en: "Acquire the whole building, so as to be responsible, as owner, for its facade, entrances and logistics. Acquired in 2006.",
+      }, "DEMO", "OWNER — acquisition year (asset.moscova-9.acquired)"),
+    },
+    {
+      key: "capex",
+      label: { ro: "Investiții", ru: "Инвестиции", en: "Investment" },
+      text: C("capex", "Investment / capex", {
+        ro: "Renovarea fațadei, a instalațiilor și a zonei de descărcare. Volumul investițiilor îl prezentăm la discutarea unui proiect concret.",
+        ru: "Обновление фасада, инженерных систем и зоны разгрузки. Объём инвестиций раскрываем при обсуждении конкретного проекта.",
+        en: "Renewal of the facade, building services and the loading zone. The investment volume is shared when a specific project is discussed.",
+      }, "DEMO", "OWNER — scope of works (no figures published)"),
+    },
+    {
+      key: "reposition",
+      label: { ro: "Repoziționare", ru: "Репозиционирование", en: "Repositioning" },
+      text: C("reposition", "Development / repositioning", {
+        ro: "Clădirea a fost adusă la formatul unui magazin independent: sală deschisă, rampă, spații auxiliare. Ultimele lucrări majore — în 2019.",
+        ru: "Здание приведено к формату отдельно стоящего магазина: открытый зал, рампа, вспомогательные помещения. Последние крупные работы — 2019 год.",
+        en: "The building was brought to the format of a stand-alone store: an open hall, a ramp, support rooms. The latest major works — 2019.",
+      }, "DEMO", "OWNER — latest major works (asset.moscova-9.repositioned)"),
+    },
+    {
+      key: "leasing",
+      label: { ro: "Închiriere", ru: "Аренда", en: "Leasing" },
+      text: C("leasing", "Leasing", {
+        ro: "Se închiriază integral sau o parte convenită, unui singur brand; fluxul clienților este separat de cel al mărfurilor.",
+        ru: "Сдаётся целиком или согласованной частью одному бренду; поток покупателей отделён от товарного.",
+        en: "Leased as a whole or as an agreed part to one brand; the customer flow is kept apart from the goods flow.",
+      }, "CONFIRMED"),
+    },
+    {
+      key: "result",
+      label: { ro: "Rezultatul astăzi", ru: "Результат сегодня", en: "The result today" },
+      text: C("result", "Current result", {
+        ro: "Un obiect gata de lucru pe prima linie, independent de centrele comerciale: liber acum, până la 1.289,93 m².",
+        ru: "Готовый объект первой линии, независимый от торговых центров: свободен сейчас, до 1 289,93 м².",
+        en: "A ready first-line property, independent of the malls: available now, up to 1,289.93 m².",
+      }, "DEMO", "OWNER — current lease status (leasing inventory)"),
+    },
+    {
+      key: "next",
+      label: { ro: "Opțiunea următoare", ru: "Следующий вариант", en: "The next option" },
+      text: C("next", "Next strategic option", {
+        ro: "Închiriere pe termen lung unui brand flagship sau împărțirea în două blocuri; decizia de păstrare sau vânzare — după strategia obiectului.",
+        ru: "Долгосрочная аренда флагманскому бренду или разделение на два блока; решение о владении или продаже — по стратегии объекта.",
+        en: "A long lease to a flagship brand, or a split into two units; the decision to hold or sell follows the property's strategy.",
+      }, "DEMO", "OWNER — strategy for Moscova 9"),
+    },
+  ],
+};
+
+/** How a partnership conversation starts — a process statement, DEMO until the OWNER confirms it. */
+export const partnershipProcess: DataPoint[] = [
+  demo("partnership.process.1", "COMPANY", "Partnership", "Process · first contact", { ro: "Câteva rânduri despre interes sau proiect — prin formular sau e-mail.", ru: "Несколько строк об интересе или проекте — через форму или по e‑mail.", en: "A few lines about your interest or the project — through the form or by e-mail." }, "OWNER — confirm the partnership process"),
+  demo("partnership.process.2", "COMPANY", "Partnership", "Process · meeting", { ro: "Întâlnire și vizită la obiecte sau la proiect.", ru: "Встреча и осмотр объектов или проекта.", en: "A meeting and a visit to the properties or the project." }, "OWNER — confirm the partnership process"),
+  demo("partnership.process.3", "COMPANY", "Partnership", "Process · documents", { ro: "Documentele proiectului — drepturi, planuri, date tehnice, statutul închirierii — după un acord de confidențialitate.", ru: "Документы по проекту — права, планы, технические данные, статус аренды — после соглашения о конфиденциальности.", en: "Project documents — title, plans, technical data, leasing status — after a confidentiality agreement." }, "OWNER — confirm the partnership process"),
+  demo("partnership.process.4", "COMPANY", "Partnership", "Process · terms", { ro: "Condițiile — individual, pentru proiectul concret.", ru: "Условия — индивидуально, под конкретный проект.", en: "Terms — individually, for the specific project." }, "OWNER — confirm the partnership process"),
+];
+
 /* ------------------------------------------------------------------ */
 /* DEVELOPMENT                                                          */
 /* ------------------------------------------------------------------ */

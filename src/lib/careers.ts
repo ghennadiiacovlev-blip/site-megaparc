@@ -203,7 +203,7 @@ export const employerBrand = {
       ru: "Вакансии опубликованы на Rabota.md — там же подробности и отклик.",
       en: "Roles published by SRL MEGAPARC on Rabota.md. Full details and applications open on the source site.",
     } satisfies Localized,
-    viewRole: { ro: "Vezi postul", ru: "Подробнее", en: "View role" } satisfies Localized,
+    viewRole: { ro: "Vezi postul", ru: "Смотреть вакансию", en: "View role" } satisfies Localized,
     allRoles: { ro: "Toate posturile pe Rabota.md", ru: "Все вакансии на Rabota.md", en: "All roles on Rabota.md" } satisfies Localized,
     allRolesUrl: "https://www.rabota.md/ro/companies/imc-group",
     emptyTitle: {

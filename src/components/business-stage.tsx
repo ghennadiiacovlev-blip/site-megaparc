@@ -101,20 +101,21 @@ export function BusinessStage({ locale, label, more }: { locale: SiteLocale; lab
  * Human-scale images — people at work — so the company never feels empty; the
  * real buildings follow in Projects. Hover: the image settles, the arrow moves.
  */
-export function DirectionTiles({ locale, href, cta }: { locale: SiteLocale; href: string; cta: string }) {
+/** Three direction tiles; each leads to its own destination with a specific action (TRUST & PROOF PASS). */
+export function DirectionTiles({ locale, links }: { locale: SiteLocale; links: Record<DirectionKey, { href: string; cta: string }> }) {
   const tiles: Record<DirectionKey, string> = { investment: "home.direction.investment", development: "home.direction.development", leasing: "home.direction.leasing" };
   return (
     <ul className="dt">
       {directions.map((d, index) => (
         <li key={d.key} data-reveal style={{ "--i": index } as CSSProperties}>
-          <Link href={href} className="dt__link">
+          <Link href={links[d.key].href} className="dt__link">
             <figure className="dt__media">
               <ConceptImage id={tiles[d.key]} locale={locale} sizes="(min-width: 1024px) 33vw, 100vw" />
             </figure>
             <span className="dt__no">{d.no}</span>
             <span className="dt__title">{d.title[locale]}</span>
             <span className="dt__text">{d.short[locale]}</span>
-            <span className="dt__cta">{cta}<Icon name="arrow" size={18} /></span>
+            <span className="dt__cta">{links[d.key].cta}<Icon name="arrow" size={18} /></span>
           </Link>
         </li>
       ))}

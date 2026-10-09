@@ -6,7 +6,7 @@ import { UnitPlan } from "@/components/leasing/unit-plan";
 import { PageShell } from "@/components/page-shell";
 import { Button, Icon, TextLink } from "@/components/ui";
 import { availabilityCopy, availabilityOf, formatAreaRange, formatDate, getProject, isDemoField, publicSpaces, sortSpaces } from "@/content/source";
-import { leasingProcess } from "@/data/demo-content";
+import { leasingProcess, tenantFit } from "@/data/demo-content";
 import type { AvailableSpace, SpaceField } from "@/data/leasing-inventory";
 import { fitCopy, leasingSteps, needOrder, needs, noPrice, uses } from "@/lib/leasing";
 import { localePath, type Localized, type SiteLocale } from "@/lib/site-data";
@@ -15,7 +15,8 @@ import { localePath, type Localized, type SiteLocale } from "@/lib/site-data";
  * UNIT PAGE — one available space, every field a tenant needs (OWNER correction
  * 2026-10-08, "LEASING INVENTORY"): property · unit · available area · floor ·
  * use · availability date · status · key features · parking · entrance ·
- * visibility · technical features · plan · photos · call to action.
+ * visibility · deliveries (from the property's capabilities, TRUST & PROOF
+ * PASS 2026-10-09) · technical features · plan · photos · call to action.
  * Generated only for published spaces: a space set to LEASED in the CMS has no
  * page (and no card, no count).
  */
@@ -35,6 +36,7 @@ const t = {
   parking: { ro: "Parcare", ru: "Парковка", en: "Parking" },
   entrance: { ro: "Intrare", ru: "Вход", en: "Entrance" },
   visibility: { ro: "Vizibilitate", ru: "Видимость", en: "Visibility" },
+  delivery: { ro: "Livrări", ru: "Доставка и разгрузка", en: "Deliveries" },
   power: { ro: "Putere electrică", ru: "Электрическая мощность", en: "Power" },
   ventilation: { ro: "Ventilație", ru: "Вентиляция", en: "Ventilation" },
   height: { ro: "Înălțime", ru: "Высота", en: "Ceiling height" },
@@ -77,6 +79,7 @@ export function UnitPage({ locale, space }: { locale: SiteLocale; space: Availab
   const reserved = space.status === "reserved";
   const when = availabilityOf(space);
   const useList = space.uses.map((key) => labelOfUse(key, locale)).join(" · ");
+  const delivery = tenantFit[space.project].capabilities.delivery;
   const anyDemo = space.dataStatus !== "CONFIRMED" && space.confirmed.length < 13;
 
   return (
@@ -128,6 +131,7 @@ export function UnitPage({ locale, space }: { locale: SiteLocale; space: Availab
               <Row label={t.parking[locale]} value={space.parking[locale]} demo={demo("parking")} />
               <Row label={t.entrance[locale]} value={space.entrance[locale]} demo={demo("entrance")} />
               <Row label={t.visibility[locale]} value={space.visibility[locale]} demo={demo("visibility")} />
+              <Row label={t.delivery[locale]} value={delivery.note[locale]} demo={delivery.status === "DEMO"} />
             </dl>
             <p className="lx-data__updated">{t.updated[locale]}: {space.updated.split("-").reverse().join(".")} · {space.code}</p>
           </div>

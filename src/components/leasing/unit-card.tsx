@@ -13,7 +13,7 @@ import { localePath, type Localized, type SiteLocale } from "@/lib/site-data";
  */
 
 export const leasingUi = {
-  details: { ro: "Vezi spațiul", ru: "Подробнее", en: "View the space" },
+  details: { ro: "Vezi spațiul", ru: "Смотреть помещение", en: "View the space" },
   viewing: { ro: "Solicită o vizionare", ru: "Запросить просмотр", en: "Request a viewing" },
   waitlist: { ro: "Anunțați-mă dacă se eliberează", ru: "Сообщить, если освободится", en: "Tell me if it frees up" },
   floor: { ro: "Etaj", ru: "Этаж", en: "Floor" },

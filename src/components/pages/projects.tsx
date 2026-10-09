@@ -4,7 +4,7 @@ import { DirectionsLine } from "@/components/business-stage";
 import { CollectionFilter } from "@/components/collection-filter";
 import { ConceptImage, DemoMark, HeroFigures, Opening } from "@/components/experience";
 import { PageShell } from "@/components/page-shell";
-import { ProjectFacts } from "@/components/project-facts";
+import { ProjectFacts, ProjectNow } from "@/components/project-facts";
 import { ArtImage } from "@/components/primitives";
 import { Button, Icon, TextLink } from "@/components/ui";
 import { formatAreaRange, listProjects, projectTags, publicSpaces, spacesFor, type ProjectEntry } from "@/content/source";
@@ -37,14 +37,14 @@ const copy = {
     all: "Toate",
     tags: { operating: "În funcțiune", development: "Dezvoltare", land: "Teren", leasing: "Se închiriază", sale: "De vânzare" } as Record<string, string>,
     collectionLabel: "Colecția",
-    collectionTitle: "Fiecare proiect cu rolul lui.",
+    collectionTitle: "Clădiri în funcțiune, proiecte în lucru și teren.",
     open: "Vezi proiectul",
     available: (n: number) => (n === 1 ? "1 spațiu liber" : `${n} spații libere`),
     seeSpaces: "Vezi spațiile",
     cycleLabel: "Direcții",
     cycleTitle: "Cum lucrăm cu fiecare obiect.",
     closeLabel: "Pasul următor",
-    closeTitle: "Căutați un spațiu sau aveți un obiect de propus?",
+    closeTitle: "Alegeți pasul următor.",
     routes: [["Spații libere acum", "/leasing#available"], ["Parteneriat investițional", "/partnership"], ["Propuneți un obiect sau un teren", "/offer"], ["Despre MEGAPARC", "/about"]],
   },
   ru: {
@@ -65,14 +65,14 @@ const copy = {
     all: "Все",
     tags: { operating: "Действующие", development: "Развитие", land: "Земля", leasing: "Есть в аренду", sale: "Продажа" } as Record<string, string>,
     collectionLabel: "Коллекция",
-    collectionTitle: "У каждого проекта своя роль.",
+    collectionTitle: `Действующие здания, проекты в работе и земля.`,
     open: "Открыть проект",
     available: (n: number) => (n === 1 ? "1 свободное помещение" : n < 5 ? `${n} свободных помещения` : `${n} свободных помещений`),
     seeSpaces: "Смотреть помещения",
     cycleLabel: "Направления",
     cycleTitle: `Как мы работаем с каждым объектом.`,
     closeLabel: "Следующий шаг",
-    closeTitle: "Ищете помещение или предлагаете объект?",
+    closeTitle: "Выберите следующий шаг.",
     routes: [["Что сдаётся сейчас", "/leasing#available"], ["Инвестиционное партнёрство", "/partnership"], ["Предложить объект или землю", "/offer"], ["О компании", "/about"]],
   },
   en: {
@@ -93,14 +93,14 @@ const copy = {
     all: "All",
     tags: { operating: "Operating", development: "Development", land: "Land", leasing: "Space to lease", sale: "For sale" } as Record<string, string>,
     collectionLabel: "The collection",
-    collectionTitle: "Each project with its own role.",
+    collectionTitle: "Operating buildings, projects under way and land.",
     open: "View the project",
     available: (n: number) => (n === 1 ? "1 space available" : `${n} spaces available`),
     seeSpaces: "See the spaces",
     cycleLabel: "Directions",
     cycleTitle: "How we work with every property.",
     closeLabel: "Next step",
-    closeTitle: "Looking for a space, or have a property to offer?",
+    closeTitle: "Choose the next step.",
     routes: [["What is available now", "/leasing#available"], ["Investment partnership", "/partnership"], ["Offer a property or land", "/offer"], ["About MEGAPARC", "/about"]],
   },
 } as const;
@@ -181,6 +181,7 @@ export function ProjectsPage({ locale }: { locale: SiteLocale }) {
                         </ul>
                       ) : null}
                       <p className="xp-piece__reason">{project.line[locale]}</p>
+                      <ProjectNow project={project} locale={locale} />
                       {own.length ? (
                         <Link className="pj-available" href={`${p("/leasing")}?project=${project.slug}#available`}>
                           <span className="pj-available__dot" aria-hidden="true" />

@@ -42,7 +42,7 @@ const copy = {
     historyCta: "Citiți cronica",
     closeLabel: "Mai departe",
     closeTitle: "Ce vă interesează?",
-    routes: [["Proiectele noastre", "/projects"], ["Spații de închiriat", "/leasing"], ["Propuneți un obiect", "/offer"], ["Cariere", "/careers"]],
+    routes: [["Proiectele noastre", "/projects"], ["Spații libere", "/leasing#available"], ["Parteneriat investițional", "/partnership"], ["Propuneți un obiect sau un teren", "/offer"], ["Vezi posturile", "/careers#positions"]],
   },
   ru: {
     label: "О компании",
@@ -66,7 +66,7 @@ const copy = {
     historyCta: "Читать хронику",
     closeLabel: "Дальше",
     closeTitle: "Что вас интересует?",
-    routes: [["Наши проекты", "/projects"], ["Помещения в аренду", "/leasing"], ["Предложить объект", "/offer"], ["Вакансии", "/careers"]],
+    routes: [["Наши проекты", "/projects"], ["Свободные помещения", "/leasing#available"], ["Инвестиционное партнёрство", "/partnership"], ["Предложить объект или землю", "/offer"], ["Смотреть вакансии", "/careers#positions"]],
   },
   en: {
     label: "About",
@@ -90,7 +90,7 @@ const copy = {
     historyCta: "Read the chronicle",
     closeLabel: "Next",
     closeTitle: "What are you interested in?",
-    routes: [["Our projects", "/projects"], ["Space to lease", "/leasing"], ["Offer a property", "/offer"], ["Careers", "/careers"]],
+    routes: [["Our projects", "/projects"], ["Available spaces", "/leasing#available"], ["Investment partnership", "/partnership"], ["Offer a property or land", "/offer"], ["See vacancies", "/careers#positions"]],
   },
 } as const;
 

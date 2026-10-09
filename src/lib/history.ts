@@ -671,10 +671,25 @@ export const historyCopy = {
     en: ["Many industries behind us.", "One remains — real estate."],
   },
   todayLinks: [
-    ["/projects", L("Proiecte", "Проекты", "Projects")],
-    ["/leasing", L("Închiriere", "Аренда", "Leasing")],
-    ["/offer", L("Propune un obiect", "Предложить объект", "Offer a property")],
+    ["/projects", L("Toate proiectele", "Все проекты", "All projects")],
+    ["/leasing#available", L("Spații libere", "Свободные помещения", "Available spaces")],
+    ["/partnership", L("Parteneriat investițional", "Инвестиционное партнёрство", "Investment partnership")],
+    ["/offer", L("Propuneți un obiect sau un teren", "Предложить объект или землю", "Offer a property or land")],
   ] as [string, Localized][],
+  /** The end transition (TRUST & PROOF PASS 2026-10-09): history → MEGAPARC → real estate → today → current projects. */
+  todayChain: [
+    ["#origins", L("Istoria grupului", "История группы", "The group's history")],
+    ["#megaparc", L("MEGAPARC", "MEGAPARC", "MEGAPARC")],
+    ["#focus", L("Imobiliare", "Недвижимость", "Real estate")],
+    ["#today", L("Astăzi", "Сегодня", "Today")],
+    ["#today-projects", L("Proiectele actuale", "Текущие проекты", "Current projects")],
+  ] as [string, Localized][],
+  todayFigures: {
+    operating: L("obiecte în funcțiune", "действующих объекта", "operating properties"),
+    development: L("proiecte de dezvoltare", "проекта развития", "development projects"),
+    gla: L("suprafață închiriabilă", "арендуемая площадь", "lettable area"),
+    spaces: L("spații libere acum", "свободных помещений сейчас", "spaces available now"),
+  },
   indexTitle: L("Toată cronica, pe o pagină.", "Вся хроника на одной странице.", "The whole chronicle on one page."),
   indexAll: L("Toate", "Все", "All"),
   closeTitle: L("Experiența multor domenii — într-o singură afacere.", "Опыт многих отраслей — в одном деле.", "The experience of many industries — in one business."),

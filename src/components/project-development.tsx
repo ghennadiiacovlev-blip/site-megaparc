@@ -3,6 +3,7 @@ import type { CSSProperties } from "react";
 import { ConceptImage, DemoMark, Ledger, MaskTitle, Opening, Val } from "@/components/experience";
 import { LocationSection } from "@/components/location-section";
 import { PageShell } from "@/components/page-shell";
+import { ProjectNow } from "@/components/project-facts";
 import { ArtImage } from "@/components/primitives";
 import { Button, Icon, TextLink } from "@/components/ui";
 import { nextProject, type ProjectEntry } from "@/content/source";
@@ -49,8 +50,8 @@ const copy = {
   team: { ro: "Pe șantier", ru: "На площадке", en: "On site" },
   teamText: { ro: "Calitatea se controlează pe șantier, nu în prezentări: echipa urmărește lucrările, bugetul și graficul în fiecare săptămână.", ru: "Качество проверяем на площадке, а не в презентациях: каждую неделю — работы, бюджет и график.", en: "Quality is controlled on site, not in presentations: the team follows works, budget and schedule every week." },
   closeTitle: { ro: "Discutăm proiectul — sau terenul dumneavoastră.", ru: "Обсудим проект — или ваш участок.", en: "Let's talk about the project — or your land." },
-  discuss: { ro: "Scrie-ne despre proiect", ru: "Написать о проекте", en: "Write to us about the project" },
-  land: { ro: "Propune un teren", ru: "Предложить участок", en: "Offer a site" },
+  discuss: { ro: "Discutăm o oportunitate", ru: "Обсудить возможность", en: "Discuss an opportunity" },
+  land: { ro: "Propuneți un obiect sau un teren", ru: "Предложить объект или землю", en: "Offer a property or land" },
   next: { ro: "Următorul proiect", ru: "Следующий проект", en: "Next project" },
   planTitle: { ro: "Cum poate funcționa terenul.", ru: "Как может работать участок.", en: "How the site could work." },
   planLabel: { ro: "Schemă ilustrativă — neaprobată", ru: "Иллюстративная схема — не утверждена", en: "Illustrative scheme — not approved" },
@@ -130,6 +131,7 @@ export function DevelopmentProjectPage({ locale, project }: { locale: SiteLocale
           <span className="xp-flag xp-flag--light">{dev.status[locale]}{dev.media ? "" : ` · ${drochiaProfile.status.value[locale]}`}</span>
           <MaskTitle as="h1" className="xp-hero__title" lines={[dev.name]} />
           <p className="xp-hero__lead">{dev.lead[locale]}</p>
+          <ProjectNow project={project} locale={locale} tone="dark" />
         </div>
       </section>
 

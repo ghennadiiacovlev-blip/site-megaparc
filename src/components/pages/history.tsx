@@ -1,11 +1,13 @@
 import Link from "next/link";
 import { Fragment, type ReactNode } from "react";
-import { MaskTitle } from "@/components/experience";
+import { HeroFigures, MaskTitle } from "@/components/experience";
 import { HistoryMap } from "@/components/history-map";
 import { PageShell } from "@/components/page-shell";
 import { ArtImage } from "@/components/primitives";
+import { ProjectNow } from "@/components/project-facts";
 import { Icon } from "@/components/ui";
-import { getProject } from "@/content/source";
+import { getProject, listProjects, publicSpaces } from "@/content/source";
+import { portfolioFigures } from "@/data/demo-content";
 import { chapters, entries, episodeImage, episodePlace, heritage, historyCopy, internationalPlaces, sectorLabel, type Chapter, type HistoryEntry } from "@/lib/history";
 import { localePath, publicAsset, type SiteLocale } from "@/lib/site-data";
 
@@ -240,8 +242,25 @@ export function HistoryPage({ locale }: { locale: SiteLocale }) {
             </Interlude>
             <section className="hc-ch hc-ch--today" id={chapter.key}>
               <div className="xp-shell">
+                <nav className="hc-chain" aria-label={chapter.label[locale]} data-reveal>
+                  <ol>
+                    {h.todayChain.map(([hash, label], index) => (
+                      <li key={hash} className={hash === "#today" ? "is-current" : undefined}>
+                        <a href={hash}><span>{String(index + 1).padStart(2, "0")}</span>{label[locale]}</a>
+                      </li>
+                    ))}
+                  </ol>
+                </nav>
                 <ChapterHead chapter={chapter} locale={locale} year={year} />
-                <ul className="hc-today">
+                <div data-reveal>
+                  <HeroFigures className="hc-today__figures" items={[
+                    { value: portfolioFigures.operating.value[locale], label: h.todayFigures.operating[locale] },
+                    { value: String(listProjects().filter((project) => project.kind !== "operating").length).padStart(2, "0"), label: h.todayFigures.development[locale] },
+                    { value: portfolioFigures.gla.value[locale], label: h.todayFigures.gla[locale] },
+                    { value: String(publicSpaces.length).padStart(2, "0"), label: h.todayFigures.spaces[locale] },
+                  ]} />
+                </div>
+                <ul className="hc-today" id="today-projects">
                   {todaySlugs.map((slug) => {
                     const project = getProject(slug)!;
                     return (
@@ -252,6 +271,7 @@ export function HistoryPage({ locale }: { locale: SiteLocale }) {
                           </figure>
                           <span className="hc-today__name">{project.name}</span>
                           <span className="hc-today__format">{project.format[locale]}</span>
+                          <ProjectNow project={project} locale={locale} as="span" className="hc-today__now" />
                         </Link>
                       </li>
                     );
@@ -304,7 +324,7 @@ export function HistoryPage({ locale }: { locale: SiteLocale }) {
             <h2 className="xp-close__title">{h.closeTitle[locale]}</h2>
           </div>
           <nav className="xp-close__routes" aria-label={h.index[locale]} data-reveal>
-            {[...h.todayLinks, ["/careers", { ro: "Cariere", ru: "Вакансии", en: "Careers" }] as const].map(([path, label]) => (
+            {[...h.todayLinks, ["/careers#positions", { ro: "Vezi posturile", ru: "Смотреть вакансии", en: "See vacancies" }] as const].map(([path, label]) => (
               <Link key={path} href={p(path)}>
                 {label[locale]}
                 <Icon name="arrow" size={18} />

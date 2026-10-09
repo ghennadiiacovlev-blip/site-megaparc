@@ -78,9 +78,9 @@ export const pageSeo = {
   partnership: {
     title: { ro: "Parteneriat investițional — MEGAPARC", ru: "Инвестиционное партнёрство — MEGAPARC", en: "Investment partnership — MEGAPARC" },
     description: {
-      ro: "Pentru investitori, bănci și parteneri: obiectele MEGAPARC, proiectele de dezvoltare, cum evaluăm proiectele și cum discutăm un parteneriat.",
-      ru: "Для инвесторов, банков и партнёров: объекты MEGAPARC, проекты развития, как мы оцениваем проекты и как обсуждаем партнёрство.",
-      en: "For investors, banks and partners: MEGAPARC's properties, development projects, how we evaluate projects and how we discuss a partnership.",
+      ro: "Pentru investitori, bănci și parteneri: obiectele MEGAPARC, studiul de caz Moscova 9, proiectele de dezvoltare, ce căutăm, cum evaluăm și cum începe discuția.",
+      ru: "Для инвесторов, банков и партнёров: объекты MEGAPARC, кейс Moscova 9, проекты развития, что мы ищем, как оцениваем и как начинается разговор.",
+      en: "For investors, banks and partners: MEGAPARC's properties, the Moscova 9 case study, development projects, what we look for, how we evaluate and how a conversation starts.",
     },
   },
   offer: {

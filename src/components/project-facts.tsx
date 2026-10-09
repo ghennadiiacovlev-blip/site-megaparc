@@ -16,3 +16,18 @@ export function ProjectFacts({ project, locale, className = "" }: { project: Pro
     </ul>
   );
 }
+
+const nowLabel = { ro: "Acum", ru: "Сейчас", en: "Now" } as const;
+
+/** What MEGAPARC is doing on the project now — the sixth answer of a project card (TRUST & PROOF PASS 2026-10-09). */
+export function ProjectNow({ project, locale, tone, as: Tag = "p", className = "" }: { project: ProjectEntry; locale: SiteLocale; tone?: "dark"; as?: "p" | "span"; className?: string }) {
+  return (
+    <Tag className={`pj-now${tone === "dark" ? " pj-now--dark" : ""} ${className}`.trim()}>
+      <span className="pj-now__label">{nowLabel[locale]}</span>
+      <span>
+        {project.now.value[locale]}
+        {project.now.status === "DEMO" ? <DemoMark /> : null}
+      </span>
+    </Tag>
+  );
+}

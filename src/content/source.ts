@@ -1,4 +1,4 @@
-import { assetProfiles, creangaProfile, drochiaProfile, tenantFit, vatraProfile, type DataPoint } from "@/data/demo-content";
+import { assetProfiles, creangaProfile, drochiaProfile, projectNow, tenantFit, vatraProfile, type DataPoint } from "@/data/demo-content";
 import { spaces, type AvailableSpace, type SpaceField, type SpaceProject } from "@/data/leasing-inventory";
 import { developmentProjects, portfolioAssets, type AssetMedia, type DevelopmentProject, type PortfolioAsset } from "@/lib/assets";
 import { openVacancies, type Vacancy } from "@/lib/careers";
@@ -131,6 +131,8 @@ export type ProjectEntry = {
   formatDemo: boolean;
   /** The reason to care, one line. */
   line: Localized;
+  /** What MEGAPARC is doing on the project now (governed point). */
+  now: DataPoint;
   media: AssetMedia | null;
   /** Registered concept placement when no approved photograph exists. */
   conceptUse?: string;
@@ -173,6 +175,7 @@ const operatingEntry = (slug: SpaceProject): ProjectEntry => {
     format: profile.format.value,
     formatDemo: profile.format.status === "DEMO",
     line: tenantFit[slug].reason,
+    now: projectNow[slug],
     media: a.media,
     conceptUse: isCreanga ? "portfolio.creanga-78" : undefined,
     facts: [{ label: label.area, point: profile.area }],
@@ -197,6 +200,7 @@ export const projects: ProjectEntry[] = [
     format: dev("vatra").status,
     formatDemo: false,
     line: { ro: "Un proiect propriu în realizare — de la teren la clădirea care lucrează.", ru: "Собственный проект: от участка до работающего здания.", en: "An own project in delivery — from site to a working building." },
+    now: projectNow.vatra,
     media: dev("vatra").media,
     facts: [{ label: label.stage, point: vatraProfile.stage }, { label: label.site, point: vatraProfile.site }],
     card: { place: { ro: "Moldova", ru: "Молдова", en: "Moldova" }, size: vatraProfile.site.value, sizeDemo: vatraProfile.site.status === "DEMO", status: cardStatus.development },
@@ -213,6 +217,7 @@ export const projects: ProjectEntry[] = [
     format: dev("drochia-gateway").kind,
     formatDemo: false,
     line: { ro: "2,0 ha la intrarea în Drochia — teren propriu, concept în evaluare.", ru: "2,0 га на въезде в Дрокию — наша земля; концепцию сейчас оцениваем.", en: "2.0 ha at the entrance to Drochia — our own land, concept under evaluation." },
+    now: projectNow["drochia-gateway"],
     media: null,
     conceptUse: "development.drochia",
     facts: [{ label: label.site, point: drochiaProfile.site }, { label: label.status, point: drochiaProfile.status }],

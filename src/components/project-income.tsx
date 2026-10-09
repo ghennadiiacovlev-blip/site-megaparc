@@ -5,7 +5,7 @@ import { UnitCard } from "@/components/leasing/unit-card";
 import { UnitPlan } from "@/components/leasing/unit-plan";
 import { LocationSection } from "@/components/location-section";
 import { PageShell } from "@/components/page-shell";
-import { ProjectFacts } from "@/components/project-facts";
+import { ProjectFacts, ProjectNow } from "@/components/project-facts";
 import { ArtImage, FactList } from "@/components/primitives";
 import { Button, Icon, TextLink } from "@/components/ui";
 import { isDemoField, nextProject, spacesFor, type ProjectEntry } from "@/content/source";
@@ -33,8 +33,12 @@ const copy = {
   spaces: { ro: "Vezi spațiile libere", ru: "Смотреть свободные помещения", en: "See the available spaces" },
   whyLabel: { ro: "De ce acest obiect", ru: "Почему этот объект", en: "Why this property" },
   locationLabel: { ro: "Localizare", ru: "Расположение", en: "Location" },
+  use: { ro: "Destinație", ru: "Назначение", en: "Use" },
+  tenants: { ro: "Chiriași", ru: "Арендаторы", en: "Tenants" },
+  units: { ro: "Spații", ru: "Помещения", en: "Units" },
+  audience: { ro: "Cui i se potrivește", ru: "Кому подходит", en: "Who it suits" },
   placeLabel: { ro: "Intrare, parcare, acces", ru: "Вход, парковка, доступ", en: "Entrance, parking, access" },
-  placeTitle: { ro: "Cum se ajunge și cum se intră.", ru: `Как сюда приезжают и входят.`, en: "How people arrive and walk in." },
+  placeTitle: { ro: "Cum ajungeți, intrați și descărcați.", ru: `Как подъехать, войти и разгрузиться.`, en: "How you arrive, walk in and unload." },
   photoLabel: { ro: "Fotografie", ru: "Фотография", en: "Photography" },
   factsLabel: { ro: "Date cheie", ru: "Ключевые факты", en: "Key facts" },
   availableLabel: { ro: "Acum se închiriază", ru: "Сейчас сдаётся", en: "Available now" },
@@ -129,6 +133,7 @@ export function IncomeProjectPage({ locale, project }: { locale: SiteLocale; pro
           <div className="pp-hero__side" data-reveal>
             <p className="pp-hero__reason">{fit.reason[locale]}</p>
             <ProjectFacts project={project} locale={locale} />
+            <ProjectNow project={project} locale={locale} />
             <div className="xp-actions">
               {own.length ? <Button href="#available">{copy.spaces[locale]}</Button> : null}
               <TextLink href={viewing}>{copy.viewing[locale]}</TextLink>
@@ -150,6 +155,15 @@ export function IncomeProjectPage({ locale, project }: { locale: SiteLocale; pro
             { label: copy.repositioned[locale], point: profile.repositioned },
           ]} />
           {asset.keyFacts.length ? <FactList facts={asset.keyFacts} locale={locale} /> : null}
+          {/* Creangă 78 has no confirmed key-fact table yet; its governed DEMO profile fills the same place, so the page is not thinner than the others. */}
+          {isCreanga ? (
+            <Ledger locale={locale} className="xp-ledger--pair pp-facts-extra" items={[
+              { label: copy.use[locale], point: creangaProfile.use },
+              { label: copy.tenants[locale], point: profile.tenants },
+              { label: copy.units[locale], point: profile.availability },
+              { label: copy.audience[locale], point: creangaProfile.audience },
+            ]} />
+          ) : null}
         </div>
       </section>
 

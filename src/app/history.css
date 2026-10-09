@@ -182,6 +182,23 @@
 .hc-today__links a { display: inline-flex; align-items: center; gap: .6rem; min-height: 2.9rem; padding: 0 1.2rem; border: 1px solid var(--xp-line-strong); border-radius: 999px; color: inherit; font-size: .78rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; transition: background var(--xp-ui) ease, color var(--xp-ui) ease; }
 .hc-today__links a:hover, .hc-today__links a:focus-visible { background: var(--ink); color: white; }
 
+/* end transition — history → MEGAPARC → real estate → today → current projects */
+.hc-chain { margin-bottom: var(--xp-5); }
+.hc-chain ol { display: flex; flex-wrap: wrap; gap: .4rem 0; margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--xp-line-strong); }
+.hc-chain li { display: flex; align-items: center; }
+.hc-chain li + li::before { content: ""; width: clamp(.9rem, 2.4vw, 2.2rem); height: 1px; margin: 0 .55rem; background: var(--xp-line-strong); }
+.hc-chain a { display: inline-flex; align-items: baseline; gap: .45rem; padding: .9rem 0 .2rem; color: var(--muted); font-size: .78rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; transition: color var(--xp-ui) ease; }
+.hc-chain a span { color: var(--brand); font-size: .66rem; letter-spacing: .14em; }
+.hc-chain a:hover, .hc-chain a:focus-visible, .hc-chain li.is-current a { color: var(--ink); }
+.hc-today__figures { margin: clamp(.4rem, 1.6vw, 1rem) 0 var(--xp-5); }
+.hc-today__figures dd { font-size: clamp(1.5rem, 2.8vw, 3rem); }
+@media (max-width: 719px) {
+  .hc-today__figures { grid-auto-flow: row; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .hc-today__figures .xp-figures__item:nth-child(2n + 1) { padding-left: 0; border-left: 0; }
+  .hc-today__figures .xp-figures__item:nth-child(n + 3) { margin-top: .9rem; border-top: 1px solid var(--xp-line); }
+}
+.hc-today .hc-today__now { flex-direction: column; gap: .2rem; margin-top: .2rem; font-size: .86rem; }
+
 /* ---- Register — the whole chronicle on one page ------------------------- */
 .hc-register { padding: var(--xp-sec-tight) 0; background: var(--hs-paper); color: var(--hs-ink); }
 .hc-register__title { margin-bottom: var(--xp-4); font-size: var(--xp-h2); font-weight: 500; line-height: 1.04; letter-spacing: -.03em; }
