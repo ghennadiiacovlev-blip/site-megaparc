@@ -413,9 +413,9 @@ export const caseStudy: { slug: "moscova-9"; stages: CaseStage[] } = {
       key: "capex",
       label: { ro: "Investiții", ru: "Инвестиции", en: "Investment" },
       text: C("capex", "Investment / capex", {
-        ro: "Renovarea fațadei, a instalațiilor și a zonei de descărcare. Volumul investițiilor îl prezentăm la discutarea unui proiect concret.",
-        ru: "Обновление фасада, инженерных систем и зоны разгрузки. Объём инвестиций раскрываем при обсуждении конкретного проекта.",
-        en: "Renewal of the facade, building services and the loading zone. The investment volume is shared when a specific project is discussed.",
+        ro: "Renovarea fațadei, a instalațiilor și a zonei de descărcare. Parametrii investiției se prezintă în cadrul discutării unui proiect concret.",
+        ru: "Обновление фасада, инженерных систем и зоны разгрузки. Параметры инвестиций раскрываются в рамках обсуждения конкретного проекта.",
+        en: "Renewal of the facade, building services and the loading zone. Investment parameters are disclosed when a specific project is discussed.",
       }, "DEMO", "OWNER — scope of works (no figures published)"),
     },
     {
@@ -437,22 +437,22 @@ export const caseStudy: { slug: "moscova-9"; stages: CaseStage[] } = {
       }, "CONFIRMED"),
     },
     {
-      key: "result",
-      label: { ro: "Rezultatul astăzi", ru: "Результат сегодня", en: "The result today" },
-      text: C("result", "Current result", {
-        ro: "Un obiect gata de lucru pe prima linie, independent de centrele comerciale: liber acum, până la 1.289,93 m².",
-        ru: "Готовый объект первой линии, независимый от торговых центров: свободен сейчас, до 1 289,93 м².",
-        en: "A ready first-line property, independent of the malls: available now, up to 1,289.93 m².",
-      }, "DEMO", "OWNER — current lease status (leasing inventory)"),
+      key: "status",
+      label: { ro: "Statutul actual", ru: "Текущий статус", en: "Current status" },
+      text: C("status", "Current status", {
+        ro: "În etapa actuală obiectul se oferă spre închiriere integral sau parțial — până la 1.289,93 m².",
+        ru: "На текущем этапе объект предлагается в аренду целиком или частью — до 1 289,93 м².",
+        en: "At this stage the property is offered for lease as a whole or in part — up to 1,289.93 m².",
+      }, "DEMO", "OWNER — current lease status (leasing inventory)"),
     },
     {
-      key: "next",
-      label: { ro: "Opțiunea următoare", ru: "Следующий вариант", en: "The next option" },
-      text: C("next", "Next strategic option", {
-        ro: "Închiriere pe termen lung unui brand flagship sau împărțirea în două blocuri; decizia de păstrare sau vânzare — după strategia obiectului.",
-        ru: "Долгосрочная аренда флагманскому бренду или разделение на два блока; решение о владении или продаже — по стратегии объекта.",
-        en: "A long lease to a flagship brand, or a split into two units; the decision to hold or sell follows the property's strategy.",
-      }, "DEMO", "OWNER — strategy for Moscova 9"),
+      key: "strategy",
+      label: { ro: "Strategia ulterioară", ru: "Дальнейшая стратегия", en: "Further strategy" },
+      text: C("strategy", "Further strategy", {
+        ro: "Decizia ulterioară se ia în funcție de profilul închirierii, potențialul obiectului și condițiile pieței.",
+        ru: "Дальнейшее решение определяется исходя из профиля аренды, потенциала объекта и рыночных условий.",
+        en: "The further decision depends on the leasing profile, the property's potential and market conditions.",
+      }, "DEMO", "OWNER — strategy for Moscova 9"),
     },
   ],
 };

@@ -16,7 +16,10 @@ import { localePath, type SiteLocale } from "@/lib/site-data";
  * partners (OWNER briefs "TRUST, SCALE & DESIRE" and "TRUST & PROOF PASS",
  * 2026-10-08/09). Sequence: hero → real assets → case study (Moscova 9) → how
  * value is created → current development → what we look for and how we
- * evaluate → how a conversation starts → discuss an opportunity.
+ * evaluate → how a project is reviewed → discuss an opportunity. Contractors
+ * and designers are a secondary cooperation route under the three primary
+ * audiences; the no-public-product statement is a restrained legal note
+ * (OWNER trust copy patch 2026-10-09).
  * Language rule: no regulated or public investment product — "investment
  * partnership", "opportunity", "discuss"; no returns, prices or promises.
  * Case and process are governed points (CONFIRMED or DEMO) in
@@ -31,29 +34,29 @@ const copy = {
     cta: "Discutăm o oportunitate",
     projects: "Proiectele",
     assetsLabel: "Imobile proprii",
-    assetsTitle: "Obiecte care funcționează deja.",
+    assetsTitle: "Activele MEGAPARC în funcțiune.",
     record: { years: "ani de experiență a grupului", founded: "este fondată MEGAPARC", operating: "obiecte în funcțiune", development: "proiecte de dezvoltare", gla: "suprafață închiriabilă" },
     owned: "Proprietate MEGAPARC",
     spaces: (n: number) => (n === 1 ? "1 spațiu liber" : `${n} spații libere`),
     leased: "Spațiile sunt închiriate",
     open: "Vezi obiectul",
-    caseLabel: "Studiu de caz · Moscova 9",
-    caseTitle: "Cum lucrează MEGAPARC cu un obiect.",
-    caseLead: "De la punctul de plecare la decizia următoare — pe exemplul Moscova 9.",
+    caseLabel: "Studiu de caz",
+    caseTitle: "Moscova 9 · logica creării valorii.",
+    caseLead: "De la punctul de plecare la strategia ulterioară.",
     caseOpen: "Vezi Moscova 9",
     caseSpace: "Spațiul disponibil",
     valueLabel: "Cum se creează valoarea",
-    valueTitle: "Trei direcții ale aceleiași afaceri.",
+    valueTitle: "Trei direcții de creare a valorii.",
     devLabel: "Dezvoltare",
-    devTitle: "Proiecte în lucru.",
+    devTitle: "Proiectele de dezvoltare în curs.",
     devLead: "Fiecare proiect trece prin aceleași șase etape; mai jos — unde se află astăzi.",
     stage: "Etapă",
     site: "Teren",
     completion: "Finalizare",
     status: "Statut",
-    lookLabel: "Ce căutăm și cum evaluăm",
-    lookTitle: "Ce cumpărăm și cum verificăm.",
-    lookTypes: "Ce căutăm",
+    lookLabel: "Ce analizăm și cum evaluăm",
+    lookTitle: "Criterii de selecție și verificare investițională.",
+    lookTypes: "Ce analizăm",
     lookChecks: "Cum evaluăm",
     checks: [
       ["Economie", "Cererea, viitorii chiriași, costurile și termenele — calculate înainte de decizie."],
@@ -64,14 +67,14 @@ const copy = {
       ["Exploatare", "Cum va funcționa clădirea ani la rând: întreținere, costuri, calitate."],
     ],
     talkLabel: "Parteneriat și finanțare",
-    talkTitle: "Cum începe discuția.",
+    talkTitle: "Etapele analizei unui proiect.",
     note: "MEGAPARC nu oferă produse de investiții publice. Fiecare parteneriat se discută separat, pentru un proiect concret.",
     partners: [
       ["Investitori", "Participare la un proiect concret MEGAPARC; condițiile se discută individual.", "/contact?subject=partnership#partnership"],
-      ["Bănci", "Finanțarea achiziției și dezvoltării obiectelor proprii.", "/contact?subject=partnership#partnership"],
-      ["Proprietari de obiecte și terenuri", "Vânzare sau dezvoltare comună a imobilului.", "/offer"],
-      ["Constructori și proiectanți", "Lucru pe șantierele noastre: proiectare, construcție, inginerie.", "/contact?subject=partnership#partnership"],
+      ["Bănci și parteneri financiari", "Finanțarea achiziției și dezvoltării obiectelor proprii.", "/contact?subject=partnership#partnership"],
+      ["Proprietari de imobile și terenuri", "Vânzare sau dezvoltare comună a imobilului.", "/offer"],
     ],
+    coop: { title: "Constructori și proiectanți", text: "Lucru pe șantierele noastre: proiectare, construcție, inginerie.", cta: "Scrieți despre colaborare", to: "/contact#question" },
     closeLabel: "Contact",
     closeTitle: "Discutăm o oportunitate.",
     routes: [["Discutați o oportunitate", "/contact?subject=partnership#partnership"], ["Propuneți un obiect sau un teren", "/offer"], ["Proiectele", "/projects"], ["Istoricul grupului", "/history"]],
@@ -83,29 +86,29 @@ const copy = {
     cta: "Обсудить возможность",
     projects: "Проекты",
     assetsLabel: "Собственная недвижимость",
-    assetsTitle: "Объекты, которые уже работают.",
+    assetsTitle: "Действующие активы MEGAPARC.",
     record: { years: "лет опыта группы", founded: "основана MEGAPARC", operating: "действующих объекта", development: "проекта развития", gla: "арендуемая площадь" },
     owned: "Собственность MEGAPARC",
     spaces: (n: number) => (n === 1 ? "1 свободное помещение" : n < 5 ? `${n} свободных помещения` : `${n} свободных помещений`),
     leased: "Помещения сданы",
     open: "Открыть объект",
-    caseLabel: "Кейс · Moscova 9",
-    caseTitle: `Как MEGAPARC работает с${N}объектом.`,
-    caseLead: `От исходной точки до${N}следующего решения${N}— на${N}примере Moscova 9.`,
+    caseLabel: "Кейс",
+    caseTitle: `Moscova${N}9${N}· логика создания стоимости.`,
+    caseLead: `От исходной точки до${N}дальнейшей стратегии.`,
     caseOpen: "Открыть Moscova 9",
     caseSpace: "Свободное помещение",
     valueLabel: "Как создаётся стоимость",
-    valueTitle: "Три направления одного бизнеса.",
+    valueTitle: "Три направления создания стоимости.",
     devLabel: "Развитие",
-    devTitle: `Проекты в${N}работе.`,
+    devTitle: "Текущие проекты развития.",
     devLead: `Каждый проект проходит одни и${N}те${N}же шесть стадий; ниже — где они сейчас.`,
     stage: "Стадия",
     site: "Участок",
     completion: "Завершение",
     status: "Статус",
-    lookLabel: "Что мы ищем и как оцениваем",
-    lookTitle: "Что покупаем и как проверяем.",
-    lookTypes: "Что мы ищем",
+    lookLabel: `Что рассматриваем и${N}как оцениваем`,
+    lookTitle: `Критерии отбора и${N}инвестиционная проверка.`,
+    lookTypes: "Что рассматриваем",
     lookChecks: "Как оцениваем",
     checks: [
       ["Экономика", `Спрос, будущие арендаторы, затраты и${N}сроки считаем до${N}решения.`],
@@ -116,14 +119,14 @@ const copy = {
       ["Эксплуатация", `Как здание будет работать годами: обслуживание, расходы, качество.`],
     ],
     talkLabel: "Партнёрство и финансирование",
-    talkTitle: "Как начинается разговор.",
+    talkTitle: "Порядок рассмотрения проекта.",
     note: `MEGAPARC не${N}предлагает публичных инвестиционных продуктов. Каждое партнёрство обсуждается отдельно, по${N}конкретному проекту.`,
     partners: [
       ["Инвесторы", `Участие в${N}конкретном проекте MEGAPARC; условия обсуждаются индивидуально.`, "/contact?subject=partnership#partnership"],
-      ["Банки", `Финансирование приобретения и${N}девелопмента собственных объектов.`, "/contact?subject=partnership#partnership"],
-      [`Собственники объектов и${N}земли`, `Продажа или совместное развитие недвижимости.`, "/offer"],
-      [`Подрядчики и${N}проектировщики`, `Работа на${N}наших площадках: проектирование, строительство, инженерия.`, "/contact?subject=partnership#partnership"],
+      [`Банки и${N}финансовые партнёры`, `Финансирование приобретения и${N}девелопмента собственных объектов.`, "/contact?subject=partnership#partnership"],
+      [`Собственники недвижимости и${N}земли`, `Продажа или совместное развитие недвижимости.`, "/offer"],
     ],
+    coop: { title: `Подрядчики и${N}проектировщики`, text: `Работа на${N}наших площадках: проектирование, строительство, инженерия.`, cta: `Написать о${N}сотрудничестве`, to: "/contact#question" },
     closeLabel: "Контакты",
     closeTitle: "Обсудим возможность.",
     routes: [["Обсудить возможность", "/contact?subject=partnership#partnership"], [`Предложить объект или${N}землю`, "/offer"], ["Проекты", "/projects"], ["История группы", "/history"]],
@@ -135,29 +138,29 @@ const copy = {
     cta: "Discuss an opportunity",
     projects: "Projects",
     assetsLabel: "Our own real estate",
-    assetsTitle: "Properties that already work.",
+    assetsTitle: "MEGAPARC's operating assets.",
     record: { years: "years of the group's experience", founded: "MEGAPARC founded", operating: "operating properties", development: "development projects", gla: "lettable area" },
     owned: "Owned by MEGAPARC",
     spaces: (n: number) => (n === 1 ? "1 space available" : `${n} spaces available`),
     leased: "Spaces leased",
     open: "View the property",
-    caseLabel: "Case study · Moscova 9",
-    caseTitle: "How MEGAPARC works with a property.",
-    caseLead: "From the starting point to the next decision — on the example of Moscova 9.",
+    caseLabel: "Case study",
+    caseTitle: "Moscova 9 · the logic of value creation.",
+    caseLead: "From the starting point to the further strategy.",
     caseOpen: "View Moscova 9",
     caseSpace: "The available space",
     valueLabel: "How value is created",
-    valueTitle: "Three directions of one business.",
+    valueTitle: "Three directions of value creation.",
     devLabel: "Development",
-    devTitle: "Projects under way.",
+    devTitle: "Current development projects.",
     devLead: "Every project goes through the same six stages; below — where each stands today.",
     stage: "Stage",
     site: "Site",
     completion: "Completion",
     status: "Status",
-    lookLabel: "What we look for and how we evaluate",
-    lookTitle: "What we buy and how we check it.",
-    lookTypes: "What we look for",
+    lookLabel: "What we consider and how we evaluate",
+    lookTitle: "Selection criteria and investment due diligence.",
+    lookTypes: "What we consider",
     lookChecks: "How we evaluate",
     checks: [
       ["Economics", "Demand, future tenants, costs and timing — worked out before the decision."],
@@ -168,14 +171,14 @@ const copy = {
       ["Operations", "How the building will run for years: upkeep, costs, quality."],
     ],
     talkLabel: "Partnership and financing",
-    talkTitle: "How a conversation starts.",
+    talkTitle: "How a project is reviewed.",
     note: "MEGAPARC does not offer public investment products. Every partnership is discussed separately, around a specific project.",
     partners: [
       ["Investors", "Taking part in a specific MEGAPARC project; terms are discussed individually.", "/contact?subject=partnership#partnership"],
-      ["Banks", "Financing the acquisition and development of our own properties.", "/contact?subject=partnership#partnership"],
-      ["Owners of property and land", "Sale or joint development of real estate.", "/offer"],
-      ["Contractors and designers", "Work on our sites: design, construction, engineering.", "/contact?subject=partnership#partnership"],
+      ["Banks and financial partners", "Financing the acquisition and development of our own properties.", "/contact?subject=partnership#partnership"],
+      ["Owners of real estate and land", "Sale or joint development of real estate.", "/offer"],
     ],
+    coop: { title: "Contractors and designers", text: "Work on our sites: design, construction, engineering.", cta: "Write about cooperation", to: "/contact#question" },
     closeLabel: "Contact",
     closeTitle: "Let's discuss an opportunity.",
     routes: [["Discuss an opportunity", "/contact?subject=partnership#partnership"], ["Offer a property or land", "/offer"], ["Projects", "/projects"], ["The group's history", "/history"]],
@@ -395,17 +398,25 @@ export function PartnershipPage({ locale }: { locale: SiteLocale }) {
                 </li>
               ))}
             </ol>
-            <ul className="pt-partners" data-reveal>
-              {c.partners.map(([title, text, to]) => (
-                <li key={title}>
-                  <Link href={href(to)}>
-                    <h3>{title}</h3>
-                    <p>{text}</p>
-                    <Icon name="arrow" size={18} />
-                  </Link>
-                </li>
-              ))}
-            </ul>
+            <div data-reveal>
+              <ul className="pt-partners">
+                {c.partners.map(([title, text, to]) => (
+                  <li key={title}>
+                    <Link href={href(to)}>
+                      <h3>{title}</h3>
+                      <p>{text}</p>
+                      <Icon name="arrow" size={18} />
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+              {/* Contractors and designers — a secondary cooperation route, not an investment-partnership audience (OWNER copy patch 2026-10-09). */}
+              <p className="pt-coop">
+                <span className="pt-coop__title">{c.coop.title}</span>
+                <span>{c.coop.text}</span>
+                <TextLink href={href(c.coop.to)}>{c.coop.cta}</TextLink>
+              </p>
+            </div>
           </div>
           <p className="pt-note" data-reveal>{c.note}</p>
           <div className="xp-actions" data-reveal>

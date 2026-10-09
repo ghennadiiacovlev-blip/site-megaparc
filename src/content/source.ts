@@ -140,6 +140,13 @@ export type ProjectEntry = {
   facts: { label: Localized; point: DataPoint }[];
   /** Card facts line (final craft pass): place · size · status — read without opening the page. */
   card: { place: Localized; size: Localized; sizeDemo: boolean; status: Localized };
+  /**
+   * Editorial card composition (OWNER "PROJECT CARD TYPOGRAPHY FIX", 2026-10-09):
+   * name · meta · headline · status · scope · two actions. Set only for Dacia 31
+   * for now; cards without it keep the standard composition. CMS: "Заголовок
+   * карточки" + "Что сдаётся" (e.g. «Всё здание»).
+   */
+  editorial?: { headline: Localized; scope: Localized };
   asset?: PortfolioAsset;
   development?: DevelopmentProject;
 };
@@ -186,7 +193,13 @@ const operatingEntry = (slug: SpaceProject): ProjectEntry => {
 
 export const projects: ProjectEntry[] = [
   operatingEntry("moscova-9"),
-  operatingEntry("dacia-31"),
+  {
+    ...operatingEntry("dacia-31"),
+    editorial: {
+      headline: { ro: "Clădire de birouri independentă pentru o singură companie.", ru: "Отдельное офисное здание для одной компании.", en: "A stand-alone office building for one company." },
+      scope: { ro: "Întreaga clădire", ru: "Всё здание", en: "Whole building" },
+    },
+  },
   operatingEntry("moscova-20"),
   operatingEntry("creanga-78"),
   {

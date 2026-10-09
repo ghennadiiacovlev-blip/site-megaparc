@@ -106,11 +106,11 @@ export const directions: Direction[] = [
   },
 ];
 
-/** Supporting logic — never a fourth business line. */
+/** Supporting logic — never a fourth business line. Public wording names the further strategy, not "hold or sell" (OWNER trust copy patch 2026-10-09). */
 export const holdOrSell: Localized = {
-  ro: "După punerea în valoare a potențialului unui obiect, MEGAPARC decide păstrarea pe termen lung sau vânzarea, în funcție de strategia de investiții.",
-  ru: "После реализации потенциала объекта MEGAPARC принимает решение о долгосрочном владении или продаже исходя из инвестиционной стратегии.",
-  en: "Once a property's potential is realised, MEGAPARC decides whether to hold it for the long term or sell it, in line with its investment strategy.",
+  ro: "Strategia ulterioară pentru fiecare obiect se stabilește în funcție de profilul închirierii, potențialul obiectului și condițiile pieței.",
+  ru: "Дальнейшая стратегия по каждому объекту определяется исходя из профиля аренды, потенциала объекта и рыночных условий.",
+  en: "The further strategy for each property is set by its leasing profile, its potential and market conditions.",
 };
 
 export const reinvestment: Localized = {

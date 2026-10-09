@@ -98,7 +98,7 @@ const copy = {
     reply: "Reply",
     viewing: "Viewing",
     closeLabel: "Nothing yet?",
-    closeTitle: "Tell us what you need — we'll let you know.",
+    closeTitle: "Tell us what you are looking for — we'll let you know.",
     routes: [["Leave a space request", "/contact?subject=lease#occupier"], ["All projects", "/projects"], ["Offer a property or land", "/offer"]],
   },
 } as const;

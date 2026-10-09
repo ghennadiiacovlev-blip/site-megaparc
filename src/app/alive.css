@@ -184,7 +184,8 @@
   .pt-figures .xp-figures__item:nth-child(2n + 1) { padding-left: 0; border-left: 0; }
   .pt-figures .xp-figures__item:nth-child(n + 3) { margin-top: .9rem; border-top: 1px solid var(--xp-line); }
 }
-.pt-note { max-width: 44rem; margin: clamp(1.6rem, 4vw, 2.4rem) 0 1rem; padding-left: 1rem; border-left: 2px solid var(--brand); color: var(--ink); font-size: 1rem; line-height: 1.6; }
+/* restrained legal / explanatory note (OWNER trust copy patch 2026-10-09) — never a brand headline */
+.pt-note { max-width: 40rem; margin: clamp(1.8rem, 4vw, 2.4rem) 0 1.2rem; color: var(--muted); font-size: .82rem; line-height: 1.55; }
 
 .pt-assets { display: grid; gap: clamp(1.6rem, 3vw, 1.4rem); margin-top: clamp(1.4rem, 3vw, 2.2rem); }
 .pt-asset { display: grid; gap: .6rem; color: inherit; }
@@ -420,3 +421,26 @@ html.al-nav main { animation: alRoute .55s var(--al-ease) both; }
 
 /* Creangă 78 — governed DEMO profile in place of the confirmed fact table */
 .pp-facts-extra { margin-top: var(--xp-4); padding-top: var(--xp-3); border-top: 1px solid var(--xp-line-strong); }
+
+/* contractors and designers — secondary cooperation route under the three partnership audiences */
+.pt-coop { display: grid; gap: .3rem; margin-top: 1.6rem; color: var(--muted); font-size: .92rem; line-height: 1.5; }
+.pt-coop__title { color: var(--ink); font-weight: 500; }
+.pt-coop .tlink { justify-self: start; margin-top: .45rem; }
+
+/* editorial project card text (OWNER "PROJECT CARD TYPOGRAPHY FIX", 2026-10-09) — one left edge, no box */
+.pj-ed { display: grid; justify-items: start; align-content: start; width: 100%; }
+.pj-ed__name a { color: inherit; transition: color var(--xp-ui) ease; }
+.pj-ed__name a:hover { color: var(--brand); }
+.pj-ed__meta { display: flex; flex-wrap: wrap; margin: .8rem 0 0; color: var(--ink); font-size: .95rem; line-height: 1.45; }
+.pj-ed__meta span { white-space: nowrap; }
+.pj-ed__meta span + span::before { content: "·"; margin: 0 .55em; color: var(--muted); }
+.pj-ed__headline { margin: clamp(1.4rem, 2.6vw, 2rem) 0 0; font-size: clamp(1.3rem, 1.85vw, 1.8rem); font-weight: 500; line-height: 1.15; letter-spacing: -.005em; text-transform: uppercase; }
+.pj-ed__offer { display: grid; gap: .4rem; margin-top: clamp(1.3rem, 2.4vw, 1.8rem); }
+.pj-ed__status { margin: 0; color: var(--brand); font-size: var(--xp-label); font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+.pj-ed__scope { margin: 0; color: var(--ink); font-size: .95rem; line-height: 1.45; }
+.pj-ed__actions { display: flex; flex-wrap: wrap; gap: .8rem 2rem; justify-self: stretch; margin-top: clamp(1.4rem, 2.6vw, 1.9rem); padding-top: 1.1rem; border-top: 1px solid var(--xp-line); }
+.xp-piece__copy--editorial .pj-ed { max-width: 34rem; }
+.xp-showcase__lead--editorial > .xp-showcase__media { display: block; color: inherit; }
+@media (min-width: 1024px) {
+  .xp-showcase__lead--editorial .xp-showcase__caption { width: 42%; padding: 1.9rem 2.4rem 1.7rem 0; }
+}

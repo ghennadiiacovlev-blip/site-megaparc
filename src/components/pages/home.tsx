@@ -10,7 +10,7 @@ import { Button, Icon, TextLink } from "@/components/ui";
 import { formatAreaRange, getProject, listProjects, listVacancies, publicSpaces, sortSpaces, spacesCount, spacesFor } from "@/content/source";
 import { drochiaProfile, portfolioFigures, vatraProfile } from "@/data/demo-content";
 import { CareersMoment } from "@/components/careers-moment";
-import { ProjectFacts, ProjectNow } from "@/components/project-facts";
+import { ProjectEditorial, ProjectFacts, ProjectNow } from "@/components/project-facts";
 import { eras, historyCopy } from "@/lib/history";
 import { areaBands } from "@/lib/leasing";
 import { brand, localePath, publicAsset, type Localized, type SiteLocale } from "@/lib/site-data";
@@ -34,7 +34,7 @@ const copy = {
     scroll: "Derulează",
     heroLine: "MEGAPARC · din 2005",
     heroTitle: ["Imobiliare comerciale —", "de la investiție", "la obiectul care funcționează."],
-    heroLead: "MEGAPARC investește în imobiliare și terenuri, dezvoltă proiecte proprii și închiriază spații în clădirile sale — cu peste trei decenii de experiență antreprenorială a grupului în spate.",
+    heroLead: "MEGAPARC investește în imobiliare și terenuri, dezvoltă proiecte proprii și închiriază spații comerciale. Compania a fost fondată în 2005; istoria antreprenorială a grupului începe în 1991.",
     ctaPartner: "Parteneriat investițional",
     ctaSpace: "Spații libere",
     ctaOffer: "Propuneți un obiect sau un teren",
@@ -73,14 +73,14 @@ const copy = {
     historyLabel: "Istoric",
     historyCta: "Citiți cronica",
     closeLabel: "Contact",
-    closeTitle: "Spuneți-ne ce aveți nevoie.",
+    closeTitle: "Alegeți pasul următor.",
     closeRoutes: [["Solicită o vizionare", "/contact?subject=lease#occupier"], ["Discutăm o oportunitate", "/contact?subject=partnership#partnership"], ["Propuneți un obiect sau un teren", "/offer"], ["Vezi posturile", "/careers#positions"], ["Întrebare generală", "/contact#question"]],
   },
   ru: {
     scroll: "Листайте",
     heroLine: "MEGAPARC · с 2005 года",
     heroTitle: ["Коммерческая недвижимость —", "от инвестиции", "до работающего объекта."],
-    heroLead: `MEGAPARC инвестирует в${N}недвижимость и${N}землю, ведёт девелопмент собственных проектов и${N}сдаёт площади в${N}своих зданиях. За${N}компанией — более трёх десятилетий предпринимательского опыта группы.`,
+    heroLead: `MEGAPARC инвестирует в${N}недвижимость и${N}землю, развивает собственные проекты и${N}сдаёт коммерческие площади. Компания основана в${N}2005${N}году; предпринимательская история группы начинается в${N}1991‑м.`,
     ctaPartner: "Инвестиционное партнёрство",
     ctaSpace: "Свободные помещения",
     ctaOffer: `Предложить объект или${N}землю`,
@@ -119,14 +119,14 @@ const copy = {
     historyLabel: "История",
     historyCta: "Читать хронику",
     closeLabel: "Контакты",
-    closeTitle: "Расскажите, что вам нужно.",
+    closeTitle: "Выберите следующий шаг.",
     closeRoutes: [["Запросить просмотр", "/contact?subject=lease#occupier"], ["Обсудить возможность", "/contact?subject=partnership#partnership"], [`Предложить объект или${N}землю`, "/offer"], ["Смотреть вакансии", "/careers#positions"], ["Общий вопрос", "/contact#question"]],
   },
   en: {
     scroll: "Scroll",
     heroLine: "MEGAPARC · since 2005",
     heroTitle: ["Commercial real estate —", "from investment", "to a working property."],
-    heroLead: "MEGAPARC invests in real estate and land, develops its own projects and leases space in its own buildings — backed by more than three decades of the group's entrepreneurial experience.",
+    heroLead: "MEGAPARC invests in real estate and land, develops its own projects and leases commercial space. The company was founded in 2005; the group's entrepreneurial history begins in 1991.",
     ctaPartner: "Investment partnership",
     ctaSpace: "Available spaces",
     ctaOffer: "Offer a property or land",
@@ -165,7 +165,7 @@ const copy = {
     historyLabel: "History",
     historyCta: "Read the chronicle",
     closeLabel: "Contact",
-    closeTitle: "Tell us what you need.",
+    closeTitle: "Choose the next step.",
     closeRoutes: [["Request a viewing", "/contact?subject=lease#occupier"], ["Discuss an opportunity", "/contact?subject=partnership#partnership"], ["Offer a property or land", "/offer"], ["See vacancies", "/careers#positions"], ["General question", "/contact#question"]],
   },
 } as const;
@@ -246,18 +246,26 @@ export function HomePage({ locale }: { locale: SiteLocale }) {
       <section className="xp-sec xp-sec--warm" id="projects">
         <div className="xp-shell">
           <Opening no="01" label={c.projectsLabel} title={c.projectsTitle} lead={c.projectsLead} className="xp-opening--split" />
-          <Link href={p(`/projects/${lead.slug}`)} className="xp-showcase__lead al-reveal" data-reveal>
-            <figure className="xp-fig" style={{ "--ratio": "21 / 9" } as CSSProperties}>
-              <ArtImage media={lead.media!} alt={`${lead.name} — ${lead.format[locale]}`} sizes="100vw" depth={14} />
-            </figure>
-            <span className="xp-showcase__caption">
-              <span className="xp-showcase__name">{lead.name}</span>
-              <ProjectFacts project={lead} locale={locale} />
-              <span className="xp-showcase__reason">{lead.line[locale]}</span>
-              <ProjectNow project={lead} locale={locale} as="span" />
-              <span className="xp-showcase__meta">{spacesFor(lead.slug).length ? c.spacesHere(spacesFor(lead.slug).length) : c.projectsOpen}<Icon name="arrow" /></span>
-            </span>
-          </Link>
+          {/* Lead — Dacia 31 in the editorial card composition (OWNER "PROJECT CARD TYPOGRAPHY FIX", 2026-10-09) */}
+          <div className="xp-showcase__lead xp-showcase__lead--editorial al-reveal" data-reveal>
+            <Link href={p(`/projects/${lead.slug}`)} className="xp-showcase__media" aria-label={lead.name} tabIndex={-1}>
+              <figure className="xp-fig" style={{ "--ratio": "21 / 9" } as CSSProperties}>
+                <ArtImage media={lead.media!} alt={`${lead.name} — ${lead.format[locale]}`} sizes="100vw" depth={14} />
+              </figure>
+            </Link>
+            <div className="xp-showcase__caption">
+              {lead.editorial ? (
+                <ProjectEditorial project={lead} locale={locale} nameAs="h3" nameClass="xp-showcase__name" />
+              ) : (
+                <>
+                  <h3 className="xp-showcase__name"><Link href={p(`/projects/${lead.slug}`)}>{lead.name}</Link></h3>
+                  <ProjectFacts project={lead} locale={locale} />
+                  <span className="xp-showcase__reason">{lead.line[locale]}</span>
+                  <ProjectNow project={lead} locale={locale} as="span" />
+                </>
+              )}
+            </div>
+          </div>
           <ul className="xp-showcase">
             {pieces.map((project) => (
               <li key={project.slug} data-reveal>

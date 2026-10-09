@@ -4,7 +4,7 @@ import { DirectionsLine } from "@/components/business-stage";
 import { CollectionFilter } from "@/components/collection-filter";
 import { ConceptImage, DemoMark, HeroFigures, Opening } from "@/components/experience";
 import { PageShell } from "@/components/page-shell";
-import { ProjectFacts, ProjectNow } from "@/components/project-facts";
+import { ProjectEditorial, ProjectFacts, ProjectNow } from "@/components/project-facts";
 import { ArtImage } from "@/components/primitives";
 import { Button, Icon, TextLink } from "@/components/ui";
 import { formatAreaRange, listProjects, projectTags, publicSpaces, spacesFor, type ProjectEntry } from "@/content/source";
@@ -37,7 +37,7 @@ const copy = {
     all: "Toate",
     tags: { operating: "În funcțiune", development: "Dezvoltare", land: "Teren", leasing: "Se închiriază", sale: "De vânzare" } as Record<string, string>,
     collectionLabel: "Colecția",
-    collectionTitle: "Clădiri în funcțiune, proiecte în lucru și teren.",
+    collectionTitle: "Clădiri în funcțiune, proiecte de dezvoltare și teren.",
     open: "Vezi proiectul",
     available: (n: number) => (n === 1 ? "1 spațiu liber" : `${n} spații libere`),
     seeSpaces: "Vezi spațiile",
@@ -65,7 +65,7 @@ const copy = {
     all: "Все",
     tags: { operating: "Действующие", development: "Развитие", land: "Земля", leasing: "Есть в аренду", sale: "Продажа" } as Record<string, string>,
     collectionLabel: "Коллекция",
-    collectionTitle: `Действующие здания, проекты в работе и земля.`,
+    collectionTitle: `Действующие здания, проекты развития и земля.`,
     open: "Открыть проект",
     available: (n: number) => (n === 1 ? "1 свободное помещение" : n < 5 ? `${n} свободных помещения` : `${n} свободных помещений`),
     seeSpaces: "Смотреть помещения",
@@ -93,7 +93,7 @@ const copy = {
     all: "All",
     tags: { operating: "Operating", development: "Development", land: "Land", leasing: "Space to lease", sale: "For sale" } as Record<string, string>,
     collectionLabel: "The collection",
-    collectionTitle: "Operating buildings, projects under way and land.",
+    collectionTitle: "Operating buildings, development projects and land.",
     open: "View the project",
     available: (n: number) => (n === 1 ? "1 space available" : `${n} spaces available`),
     seeSpaces: "See the spaces",
@@ -171,29 +171,35 @@ export function ProjectsPage({ locale }: { locale: SiteLocale }) {
                         </span>
                       </figure>
                     </Link>
-                    <div className="xp-piece__copy" data-reveal>
-                      <p className="xp-eyebrow"><span>{project.kind === "operating" ? `${project.district[locale]} · ` : ""}{project.format[locale]}{project.formatDemo ? <DemoMark /> : null}</span></p>
-                      <h2 className="xp-piece__name"><Link href={href}>{project.name}</Link></h2>
-                      <ProjectFacts project={project} locale={locale} />
-                      {project.forSale ? (
-                        <ul className="pj-tags">
-                          <li className="pj-tag pj-tag--sale">{c.tags.sale}</li>
-                        </ul>
-                      ) : null}
-                      <p className="xp-piece__reason">{project.line[locale]}</p>
-                      <ProjectNow project={project} locale={locale} />
-                      {own.length ? (
-                        <Link className="pj-available" href={`${p("/leasing")}?project=${project.slug}#available`}>
-                          <span className="pj-available__dot" aria-hidden="true" />
-                          <span>{c.available(own.length)} · {own.map((s) => formatAreaRange(s.areaMin, s.area, locale)).join(" · ")}{own.some((s) => s.dataStatus === "DEMO") ? <DemoMark /> : null}</span>
-                          <Icon />
-                        </Link>
-                      ) : null}
-                      <div className="xp-actions">
-                        <Button href={href}>{c.open}</Button>
-                        {own.length ? <TextLink href={`${p("/leasing")}?project=${project.slug}#available`}>{c.seeSpaces}</TextLink> : null}
+                    {project.editorial ? (
+                      <div className="xp-piece__copy xp-piece__copy--editorial" data-reveal>
+                        <ProjectEditorial project={project} locale={locale} nameClass="xp-piece__name" />
                       </div>
-                    </div>
+                    ) : (
+                      <div className="xp-piece__copy" data-reveal>
+                        <p className="xp-eyebrow"><span>{project.kind === "operating" ? `${project.district[locale]} · ` : ""}{project.format[locale]}{project.formatDemo ? <DemoMark /> : null}</span></p>
+                        <h2 className="xp-piece__name"><Link href={href}>{project.name}</Link></h2>
+                        <ProjectFacts project={project} locale={locale} />
+                        {project.forSale ? (
+                          <ul className="pj-tags">
+                            <li className="pj-tag pj-tag--sale">{c.tags.sale}</li>
+                          </ul>
+                        ) : null}
+                        <p className="xp-piece__reason">{project.line[locale]}</p>
+                        <ProjectNow project={project} locale={locale} />
+                        {own.length ? (
+                          <Link className="pj-available" href={`${p("/leasing")}?project=${project.slug}#available`}>
+                            <span className="pj-available__dot" aria-hidden="true" />
+                            <span>{c.available(own.length)} · {own.map((s) => formatAreaRange(s.areaMin, s.area, locale)).join(" · ")}{own.some((s) => s.dataStatus === "DEMO") ? <DemoMark /> : null}</span>
+                            <Icon />
+                          </Link>
+                        ) : null}
+                        <div className="xp-actions">
+                          <Button href={href}>{c.open}</Button>
+                          {own.length ? <TextLink href={`${p("/leasing")}?project=${project.slug}#available`}>{c.seeSpaces}</TextLink> : null}
+                        </div>
+                      </div>
+                      )}
                   </article>
                 );
               })}
