@@ -5,7 +5,7 @@ import { UnitCard } from "@/components/leasing/unit-card";
 import { UnitPlan } from "@/components/leasing/unit-plan";
 import { LocationSection } from "@/components/location-section";
 import { PageShell } from "@/components/page-shell";
-import { ProjectFacts, ProjectNow } from "@/components/project-facts";
+import { ProjectFacts, ProjectStatus, storyLine } from "@/components/project-facts";
 import { ArtImage, FactList } from "@/components/primitives";
 import { Button, Icon, TextLink } from "@/components/ui";
 import { isDemoField, nextProject, spacesFor, type ProjectEntry } from "@/content/source";
@@ -88,9 +88,12 @@ function CapabilityRows({ slug, keys, locale }: { slug: AssetSlug; keys: Require
   const fit = tenantFit[slug];
   if (!fit.capabilities) return null;
   const capabilities = fit.capabilities;
+  // only confirmed capabilities are published (§29: no invented technical specs)
+  const shown = keys.filter((key) => capabilities[key].status !== "DEMO");
+  if (!shown.length) return null;
   return (
     <div className="xp-cap">
-      {keys.map((key) => {
+      {shown.map((key) => {
         const capability = capabilities[key];
         return (
           <div key={key} className="xp-cap__row">
@@ -125,6 +128,9 @@ export function IncomeProjectPage({ locale, project }: { locale: SiteLocale; pro
   /** The capability / fit profile is retired (Creangă 78) — those blocks are not shown. */
   const profileRetired = fit.capabilities === null;
   const story = isCreanga ? [] : asset.story[locale];
+  /** Value-creation levers are analysis, not confirmed facts: only confirmed ones are published (§29). */
+  const levers = profile.levers.filter((lever) => lever.title.status !== "DEMO");
+  const hasTech = Boolean(fit.capabilities && techKeys.some((key) => fit.capabilities![key].status !== "DEMO")) || asset.building.programme.length > 0 || levers.length > 0;
   const lead = isCreanga ? creangaProfile.lead.value[locale] : asset.lead[locale];
   const narrative = isCreanga ? creangaProfile.narrative.value[locale] : asset.narrative[locale];
   const location = isCreanga ? creangaProfile.location.value[locale] : asset.location[locale];
@@ -150,9 +156,10 @@ export function IncomeProjectPage({ locale, project }: { locale: SiteLocale; pro
             <h1 className="pp-hero__name">{asset.name}</h1>
           </div>
           <div className="pp-hero__side" data-reveal>
-            <p className="pp-hero__reason">{fit.reason[locale]}</p>
+            {/* a fully let building gets its editorial line, never a leasing pitch for space that is not offered */}
+            <p className="pp-hero__reason">{fullyLet ? storyLine[slug][locale] : fit.reason[locale]}</p>
             <ProjectFacts project={project} locale={locale} />
-            <ProjectNow project={project} locale={locale} />
+            <ProjectStatus project={project} locale={locale} />
             <div className="xp-actions">
               {own.length ? <Button href="#available">{copy.spaces[locale]}</Button> : null}
               {own.length ? <TextLink href={viewing}>{copy.viewing[locale]}</TextLink> : <TextLink href={viewing}>{copy.noneCta[locale]}</TextLink>}
@@ -211,7 +218,8 @@ export function IncomeProjectPage({ locale, project }: { locale: SiteLocale; pro
       </section>
       ) : null}
 
-      {/* ENTRANCE · PARKING · ACCESS — the street-level detail of the real building */}
+      {/* ENTRANCE · PARKING · ACCESS — the street-level detail of the real building (not for a retired profile: its only photograph is the hero) */}
+      {profileRetired ? null : (
       <section className="xp-sec pp-access">
         <div className="xp-shell xp-split xp-split--wide">
           <figure className={`pp-access__media al-reveal${isCreanga ? " pp-access__media--native" : ""}`} data-reveal style={{ "--focus": accessFocus[slug] ?? "50% 60%" } as CSSProperties}>
@@ -222,7 +230,7 @@ export function IncomeProjectPage({ locale, project }: { locale: SiteLocale; pro
               <p className="xp-eyebrow"><span className="xp-eyebrow__no">{no()}</span><span>{copy.todayLabel[locale]}</span></p>
               <h2 className="xp-split__title">{todayTitle[locale](asset.name)}</h2>
               <ProjectFacts project={project} locale={locale} />
-              <ProjectNow project={project} locale={locale} />
+              <ProjectStatus project={project} locale={locale} />
             </div>
           ) : (
             <div className="xp-split__copy" data-reveal>
@@ -233,6 +241,8 @@ export function IncomeProjectPage({ locale, project }: { locale: SiteLocale; pro
           )}
         </div>
       </section>
+
+      )}
 
       {/* AVAILABLE SPACES */}
       <section className="xp-sec xp-sec--warm" id="available">
@@ -281,8 +291,8 @@ export function IncomeProjectPage({ locale, project }: { locale: SiteLocale; pro
 
       )}
 
-      {/* 07 TECHNICAL INFORMATION — not for a retired profile */}
-      {profileRetired ? null : (
+      {/* 07 TECHNICAL INFORMATION — confirmed content only */}
+      {profileRetired || !hasTech ? null : (
       <section className="xp-sec xp-sec--warm">
         <div className="xp-shell">
           <Opening no={no()} label={copy.techLabel[locale]} title={copy.techTitle[locale]} lead={asset.caveat?.[locale]} className="xp-opening--split" />
@@ -291,17 +301,17 @@ export function IncomeProjectPage({ locale, project }: { locale: SiteLocale; pro
               <CapabilityRows slug={slug} keys={techKeys} locale={locale} />
               {asset.building.programme.length ? <FactList facts={asset.building.programme} locale={locale} /> : null}
             </div>
-            <div data-reveal>
+            {levers.length ? <div data-reveal>
               <p className="xp-label">{copy.improveLabel[locale]}</p>
               <ol className="xp-numbered">
-                {profile.levers.map((lever) => (
+                {levers.map((lever) => (
                   <li key={lever.title.key}>
                     <h3>{lever.title.value[locale]}<DemoMark /></h3>
                     <p>{lever.text[locale]}</p>
                   </li>
                 ))}
               </ol>
-            </div>
+            </div> : null}
           </div>
         </div>
       </section>

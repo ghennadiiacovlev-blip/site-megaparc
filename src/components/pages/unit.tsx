@@ -61,6 +61,7 @@ const t = {
 } satisfies Record<string, Localized>;
 
 function Row({ label, value, demo }: { label: string; value: string; demo?: boolean }) {
+  if (demo) return null; // §29: invented values are not published
   return (
     <div className="lx-data__row">
       <dt>{label}</dt>

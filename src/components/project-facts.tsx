@@ -1,9 +1,9 @@
 import Link from "next/link";
-import { DemoMark } from "@/components/experience";
 import { viewingHref } from "@/components/leasing/unit-card";
 import { TextLink } from "@/components/ui";
 import { availabilityOf, formatAreaRange, formatDate, spacesFor, type ProjectEntry } from "@/content/source";
-import { localePath, type SiteLocale } from "@/lib/site-data";
+import { occupancyOf, type OperatingSlug } from "@/data/demo-content";
+import { localePath, type Localized, type SiteLocale } from "@/lib/site-data";
 
 /** Place · size · status — the three facts a project card answers before the page opens (final craft pass 2026-10-08). */
 export function ProjectFacts({ project, locale, className = "" }: { project: ProjectEntry; locale: SiteLocale; className?: string }) {
@@ -11,28 +11,41 @@ export function ProjectFacts({ project, locale, className = "" }: { project: Pro
   return (
     <ul className={`pj-facts ${className}`.trim()}>
       <li>{place[locale]}</li>
-      <li>
-        {size[locale]}
-        {sizeDemo ? <DemoMark /> : null}
-      </li>
+      {sizeDemo ? null : <li>{size[locale]}</li>}
       <li>{status[locale]}</li>
     </ul>
   );
 }
 
-const nowLabel = { ro: "Acum", ru: "Сейчас", en: "Now" } as const;
+const N = " ";
+/** One editorial line per building, written from the confirmed format and location only. */
+export const storyLine: Record<string, Localized> = {
+  "dacia-31": { ro: "Clădire de birouri independentă pentru o singură companie.", ru: "Отдельное офисное здание для одной компании.", en: "A stand-alone office building for one company." },
+  "moscova-9": { ro: "Obiect comercial independent pe bulevardul Moscova, în afara centrelor comerciale.", ru: `Отдельно стоящий торговый объект на${N}бульваре Москова${N}— вне торговых центров.`, en: "A stand-alone retail building on Moscova Boulevard, outside the malls." },
+  "moscova-20": { ro: "Spațiu comercial de colț la intersecția bulevardului Moscova cu strada Matei Basarab.", ru: `Угловое торговое помещение на${N}пересечении бульвара Москова и${N}улицы Матей Басараб.`, en: "A corner retail space where Moscova Boulevard meets Matei Basarab Street." },
+  "creanga-78": { ro: "Obiect comercial în funcțiune în Chișinău.", ru: `Действующий коммерческий объект в${N}Кишинёве.`, en: "An operating commercial property in Chișinău." },
+};
 
-/** What MEGAPARC is doing on the project now — the sixth answer of a project card (TRUST & PROOF PASS 2026-10-09). */
-export function ProjectNow({ project, locale, tone, as: Tag = "p", className = "" }: { project: ProjectEntry; locale: SiteLocale; tone?: "dark"; as?: "p" | "span"; className?: string }) {
-  return (
-    <Tag className={`pj-now${tone === "dark" ? " pj-now--dark" : ""} ${className}`.trim()}>
-      <span className="pj-now__label">{nowLabel[locale]}</span>
-      <span>
-        {project.now.value[locale]}
-        {project.now.status === "DEMO" ? <DemoMark /> : null}
-      </span>
-    </Tag>
-  );
+const statusCopy = {
+  full: { ro: "Ocupat 100 %", ru: "Занят на\u00a0100\u00a0%", en: "100% occupied" },
+  free: { ro: "Liber:", ru: "Свободно:", en: "Available:" },
+} as const;
+
+/**
+ * One confirmed status line for an operating property (OWNER premium brief
+ * 2026-10-09: no CRM-style «Сейчас» label): fully let → «Занят на 100 %»;
+ * a published space → «Свободно: 625,7 м²». Nothing when no status is
+ * confirmed (Dacia 31) — occupancy is never invented.
+ */
+export function ProjectStatus({ project, locale, tone, as: Tag = "p", className = "" }: { project: ProjectEntry; locale: SiteLocale; tone?: "dark"; as?: "p" | "span"; className?: string }) {
+  if (project.kind !== "operating") return null;
+  const spaces = spacesFor(project.slug);
+  const slug = project.slug as OperatingSlug;
+  let text: string | null = null;
+  if (spaces.length) text = `${statusCopy.free[locale]} ${spaces.map((space) => formatAreaRange(space.areaMin, space.area, locale)).join(" · ")}`;
+  else if (occupancyOf(slug).fullyLet) text = statusCopy.full[locale];
+  if (!text) return null;
+  return <Tag className={`pj-status${tone === "dark" ? " pj-status--dark" : ""}${spaces.length ? " is-open" : ""} ${className}`.trim()}>{text}</Tag>;
 }
 
 const editorialCopy = {

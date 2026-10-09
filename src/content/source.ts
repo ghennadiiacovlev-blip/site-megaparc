@@ -53,7 +53,8 @@ export const today = new Date().toISOString().slice(0, 10);
 /* ------------------------------------------------------------------ */
 
 /** Everything a tenant may see: available and reserved. Leased records are never published. */
-export const publicSpaces: AvailableSpace[] = spaces.filter((space) => space.status !== "leased");
+/** Only AVAILABLE and RESERVED records are public; LEASED and DRAFT stay in the CMS. */
+export const publicSpaces: AvailableSpace[] = spaces.filter((space) => space.status === "available" || space.status === "reserved");
 
 /** Every record, including leased ones — only the internal CMS workflow prototype reads this. */
 export const allSpacesForCmsPrototype: AvailableSpace[] = spaces;

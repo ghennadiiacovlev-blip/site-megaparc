@@ -11,7 +11,7 @@ import { useMemo, useState } from "react";
  * Nothing is saved anywhere: state lives in this component only.
  */
 
-export type CmsStatus = "available" | "reserved" | "leased";
+export type CmsStatus = "available" | "reserved" | "leased" | "draft";
 export type CmsRecord = { id: string; code: string; project: string; unit: string; area: string; floor: string; uses: string; from: string; status: CmsStatus; updated: string };
 
 export type CmsCopy = {
@@ -43,7 +43,7 @@ export function CmsPrototype({ records, copy, initial }: { records: CmsRecord[];
   const [draft, setDraft] = useState<CmsStatus | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
   const current = data.find((record) => record.id === open) ?? null;
-  const published = useMemo(() => data.filter((record) => record.status !== "leased"), [data]);
+  const published = useMemo(() => data.filter((record) => record.status === "available" || record.status === "reserved"), [data]);
 
   const choose = (id: string) => {
     setOpen(id);
@@ -128,7 +128,7 @@ export function CmsPrototype({ records, copy, initial }: { records: CmsRecord[];
         <p className="cms__site-count">{copy.siteCount.replace("{n}", String(published.length).padStart(2, "0"))}</p>
         <ul>
           {data.map((record) => (
-            <li key={record.id} className={`cms__card${record.status === "leased" ? " is-gone" : ""}${record.id === open ? " is-focus" : ""}`} aria-hidden={record.status === "leased"}>
+            <li key={record.id} className={`cms__card${record.status === "leased" || record.status === "draft" ? " is-gone" : ""}${record.id === open ? " is-focus" : ""}`} aria-hidden={record.status === "leased" || record.status === "draft"}>
               <span className="cms__card-code">{record.code}</span>
               <span className="cms__card-name">{record.project}</span>
               <span className="cms__card-meta">{record.area} · {record.floor}</span>

@@ -7,6 +7,7 @@ import "../experience.css";
 import "../leasing.css";
 import "../history.css";
 import "../alive.css";
+import "../premium.css";
 
 /** Root layout for the EN edition: static HTML is served with lang="en". */
 export const metadata: Metadata = {

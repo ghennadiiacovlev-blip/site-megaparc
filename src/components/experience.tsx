@@ -19,7 +19,7 @@ import { publicAsset, type Localized, type SiteLocale } from "@/lib/site-data";
 export function conceptMedia(key: VisualKey, position?: string): AssetMedia {
   const src = publicAsset(`/assets/brand/${key}.webp`);
   const mobile = conceptVisuals[key].mobile ? publicAsset(`/assets/brand/${key}-mobile.webp`) : src;
-  return { src, card: src, wide: src, mobile, position };
+  return { src, card: src, wide: src, portrait: src, mobile, position };
 }
 
 /** Real MEGAPARC photograph of a portfolio property. */
@@ -140,12 +140,15 @@ export function plural(n: number, forms: readonly [string, string, string], loca
 export type LedgerItem = { label: string; point?: DataPoint; value?: ReactNode; hint?: string };
 
 /**
- * Fact ledger: label over value, hairline columns. A DEMO value carries a small
- * ring and the ledger adds a one-line legend — invented figures are never
- * presented as silent facts.
+ * Fact ledger: label over value. DEMO points are not rendered at all (OWNER
+ * premium brief 2026-10-09 §29: no invented years, parking counts, plot areas,
+ * dates or technical specifications on public pages); they stay in the
+ * register until the OWNER supplies the real value.
  */
-export function Ledger({ items, locale, tone = "light", size = "md", className = "" }: { items: LedgerItem[]; locale: SiteLocale; tone?: "light" | "dark"; size?: "md" | "lg"; className?: string }) {
-  const hasDemo = items.some((item) => item.point?.status === "DEMO");
+export function Ledger({ items: all, locale, tone = "light", size = "md", className = "" }: { items: LedgerItem[]; locale: SiteLocale; tone?: "light" | "dark"; size?: "md" | "lg"; className?: string }) {
+  const items = all.filter((item) => item.value !== undefined || (item.point && item.point.status !== "DEMO"));
+  if (!items.length) return null;
+  const hasDemo = false;
   return (
     <div className={`xp-ledger xp-ledger--${size}${tone === "dark" ? " xp-ledger--dark" : ""} ${className}`.trim()}>
       <dl>

@@ -154,10 +154,10 @@ export function ArtImage({
   className?: string;
   position?: string;
   sizes?: string;
-  /** Which large source to use above 720px. */
-  variant?: "master" | "wide";
+  /** Which art-directed crop to use above 720px: master · wide 21:9 · card 4:3 · portrait 3:4 (phones always get the 4:5 crop). */
+  variant?: "master" | "wide" | "card" | "portrait";
 }) {
-  const large = variant === "wide" ? media.wide : media.src;
+  const large = variant === "wide" ? media.wide : variant === "card" ? media.card : variant === "portrait" ? media.portrait : media.src;
   const { props: desktop } = getImageProps({ alt, sizes, priority, src: large, width: 2200, height: 1400 });
   const { props: mobile } = getImageProps({ alt, sizes, priority, src: media.mobile, width: 1000, height: 1250 });
   const { srcSet: mobileSet, ...img } = mobile;

@@ -179,7 +179,8 @@ export type AssetProfile = {
   tenants?: DataPoint;
   acquired: DataPoint;
   repositioned: DataPoint;
-  availability: DataPoint;
+  /** Public offer summary — absent when no offer is confirmed (Dacia 31, OWNER 2026-10-09). */
+  availability?: DataPoint;
   /** Forward-looking value-creation levers (analysis, not a record of past works). */
   levers: { title: DataPoint; text: Localized }[];
 };
@@ -200,7 +201,6 @@ export const assetProfiles: Record<"dacia-31" | "moscova-9" | "moscova-20" | "cr
     tenants: demo("asset.dacia-31.tenants", "PROJECTS", P("dacia-31"), "Tenants", { ro: "1 · un singur utilizator", ru: "1 · единый пользователь", en: "1 · single occupier" }, "OWNER — current lease schedule"),
     acquired: demo("asset.dacia-31.acquired", "PROJECTS", P("dacia-31"), "Acquired", "2007", "OWNER — acquisition date"),
     repositioned: demo("asset.dacia-31.repositioned", "PROJECTS", P("dacia-31"), "Repositioned", "2021", "OWNER — last major works"),
-    availability: confirmed("asset.dacia-31.availability", "LEASING", P("dacia-31"), "Availability", { ro: "5.223 m² din 1 ianuarie 2027", ru: "5 223 м² с 1 января 2027", en: "5,223 m² from 1 January 2027" }, "Confirmed public offer — kept separate from the total property area (5 541 m², OWNER 2026-10-09)"),
     levers: [
       lever("single-occupier", "dacia-31", { ro: "Un sediu pentru o singură companie", ru: "Штаб-квартира для одной компании", en: "A headquarters for one company" }, { ro: "Pregătim clădirea pentru următorul utilizator unic din 2027: acces propriu, nume pe fațadă, etaje organizate pe funcții.", ru: "Готовим здание к следующему единому пользователю с 2027 года: собственный вход, название на фасаде, этажи под функции компании.", en: "Preparing the building for its next single occupier from 2027: own entrance, name on the facade, floors arranged by function." }),
       lever("services", "dacia-31", { ro: "Audit tehnic și modernizarea instalațiilor", ru: "Технический аудит и обновление инженерии", en: "Technical audit and services upgrade" }, { ro: "Capacitățile reale și redundanța se confirmă prin audit, apoi se adaptează la cerințele utilizatorului.", ru: "Реальные мощности и резервирование подтверждаются аудитом и адаптируются под требования пользователя.", en: "Actual capacities and redundancy are confirmed by audit and then adapted to the occupier's requirements." }),
@@ -401,7 +401,7 @@ const NOW = (slug: string, value: Localized, status: "CONFIRMED" | "DEMO", sourc
 
 export const projectNow: Record<string, DataPoint> = {
   "moscova-9": NOW("moscova-9", { ro: "Obiectul este ocupat 100 %.", ru: `Объект занят на 100 %.`, en: "The property is 100% occupied." }, "CONFIRMED"),
-  "dacia-31": NOW("dacia-31", { ro: "Oferim spre închiriere 5.223 m² — din 1 ianuarie 2027.", ru: `Предлагаем в аренду 5 223 м² — с 1 января 2027.`, en: "Offering 5,223 m² for lease — from 1 January 2027." }, "CONFIRMED"),
+  "dacia-31": NOW("dacia-31", { ro: "Clădire de birouri în proprietatea MEGAPARC.", ru: "Офисное здание в собственности MEGAPARC.", en: "An office building owned by MEGAPARC." }, "CONFIRMED"),
   "moscova-20": NOW("moscova-20", { ro: "Închiriem spațiul de colț de 625,7 m² cu vitrină pe două străzi.", ru: `Сдаём угловое помещение 625,7 м² с витриной на две улицы.`, en: "Leasing the 625.7 m² corner space with windows on two streets." }, "CONFIRMED"),
   "creanga-78": NOW("creanga-78", { ro: "Obiectul este ocupat 100 %.", ru: `Объект занят на 100 %.`, en: "The property is 100% occupied." }, "CONFIRMED"),
   "dacia-31-development": NOW("dacia-31-development", { ro: "Planificăm 3 clădiri de ≈ 1.600 m² fiecare.", ru: `Планируем 3 здания по ≈ 1 600 м².`, en: "Planning 3 buildings of ≈ 1,600 m² each." }, "CONFIRMED"),
@@ -431,9 +431,9 @@ export const caseStudy: { slug: "moscova-9"; stages: CaseStage[] } = {
       key: "start",
       label: { ro: "Punctul de plecare", ru: "Исходная точка", en: "Starting point" },
       text: C("start", "Starting point", {
-        ro: "O clădire comercială independentă pe prima linie a bulevardului Moscova, în afara centrelor comerciale: suprafața obiectului 2.536 m²; spațiul comercial de 1.289,93 m² cu sala principală de 737,07 m², zonă de descărcare cu rampă, două intrări dinspre bulevard.",
-        ru: "Отдельно стоящее торговое здание на первой линии бульвара Москова, вне торговых центров: площадь объекта 2 536 м²; торговое помещение 1 289,93 м² с основным залом 737,07 м², зона разгрузки с рампой, два входа с бульвара.",
-        en: "A stand-alone retail building on the first line of Moscova Boulevard, outside the malls: a total property area of 2,536 m²; the 1,289.93 m² retail premises with a 737.07 m² main hall, a loading zone with a ramp, two entrances from the boulevard.",
+        ro: "O clădire comercială independentă pe prima linie a bulevardului Moscova, în afara centrelor comerciale: suprafața obiectului 2.536 m², sala principală de 737,07 m², zonă de descărcare cu rampă, două intrări dinspre bulevard.",
+        ru: "Отдельно стоящее торговое здание на первой линии бульвара Москова, вне торговых центров: площадь объекта 2 536 м², основной зал 737,07 м², зона разгрузки с рампой, два входа с бульвара.",
+        en: "A stand-alone retail building on the first line of Moscova Boulevard, outside the malls: a total property area of 2,536 m², a 737.07 m² main hall, a loading zone with a ramp, two entrances from the boulevard.",
       }, "CONFIRMED"),
     },
     {
@@ -449,9 +449,9 @@ export const caseStudy: { slug: "moscova-9"; stages: CaseStage[] } = {
       key: "decision",
       label: { ro: "Decizia MEGAPARC", ru: "Решение MEGAPARC", en: "MEGAPARC's decision" },
       text: C("decision", "Decision", {
-        ro: "Achiziția clădirii în întregime, pentru a răspunde ca proprietar de fațadă, intrări și logistică. Achiziționată în 2006.",
-        ru: "Приобрести здание целиком, чтобы как собственник отвечать за фасад, входы и логистику. Приобретено в 2006 году.",
-        en: "Acquire the whole building, so as to be responsible, as owner, for its facade, entrances and logistics. Acquired in 2006.",
+        ro: "Achiziția clădirii în întregime, pentru a răspunde ca proprietar de fațadă, intrări și logistică.",
+        ru: "Приобрести здание целиком, чтобы как собственник отвечать за фасад, входы и логистику.",
+        en: "Acquire the whole building, so as to be responsible, as owner, for its facade, entrances and logistics.",
       }, "DEMO", "OWNER — acquisition year (asset.moscova-9.acquired)"),
     },
     {
@@ -467,9 +467,9 @@ export const caseStudy: { slug: "moscova-9"; stages: CaseStage[] } = {
       key: "reposition",
       label: { ro: "Repoziționare", ru: "Репозиционирование", en: "Repositioning" },
       text: C("reposition", "Development / repositioning", {
-        ro: "Clădirea a fost adusă la formatul unui magazin independent: sală deschisă, rampă, spații auxiliare. Ultimele lucrări majore — în 2019.",
-        ru: "Здание приведено к формату отдельно стоящего магазина: открытый зал, рампа, вспомогательные помещения. Последние крупные работы — 2019 год.",
-        en: "The building was brought to the format of a stand-alone store: an open hall, a ramp, support rooms. The latest major works — 2019.",
+        ro: "Clădirea a fost adusă la formatul unui magazin independent: sală deschisă, rampă, spații auxiliare.",
+        ru: "Здание приведено к формату отдельно стоящего магазина: открытый зал, рампа, вспомогательные помещения.",
+        en: "The building was brought to the format of a stand-alone store: an open hall, a ramp, support rooms.",
       }, "DEMO", "OWNER — latest major works (asset.moscova-9.repositioned)"),
     },
     {
@@ -564,7 +564,7 @@ export type ConceptVisual = {
   mobile: boolean;
 };
 
-const visualKeys = ["cv-hero-2", "cv-manage", "cv-meeting-room", "cv-cafe", "cv-field", "cv-office-light", "cv-salesfloor", "cv-office-building", "cv-inspection", "cv-plans", "cv-frame", "cv-level", "cv-entrance", "cv-loft-cafe", "cv-boutique", "cv-office-tenants", "cv-urban-plot", "cv-model", "cv-crane", "cv-rebar-crew", "cv-site-pair", "cv-scaffold-street", "cv-loft-team", "cv-drawing"] as const;
+const visualKeys = ["cv-hero-plaza", "cv-hero-2", "cv-manage", "cv-meeting-room", "cv-cafe", "cv-field", "cv-office-light", "cv-salesfloor", "cv-office-building", "cv-inspection", "cv-plans", "cv-frame", "cv-level", "cv-entrance", "cv-loft-cafe", "cv-boutique", "cv-office-tenants", "cv-urban-plot", "cv-model", "cv-crane", "cv-rebar-crew", "cv-site-pair", "cv-scaffold-street", "cv-loft-team", "cv-drawing"] as const;
 export type VisualKey = (typeof visualKeys)[number];
 const portraitOnly: VisualKey[] = ["cv-cafe"];
 
@@ -626,6 +626,7 @@ const A = {
   officeTenants: { ro: "Chiriași la lucru lângă o fațadă de sticlă cu vedere spre oraș", ru: "Арендаторы за работой у стеклянного фасада с видом на город", en: "Tenants at work by a glass facade with a city view" },
   urbanPlot: { ro: "Teren în lucru între străzile unui oraș, văzut de sus", ru: "Участок в работе среди городских улиц, вид сверху", en: "A plot under works between town streets, from above" },
   model: { ro: "Mâini cu compas și riglă deasupra unei machete", ru: "Работа с макетом генплана", en: "Hands with compass and ruler over a masterplan model" },
+  heroPlaza: { ro: "Clădiri de birouri contemporane deasupra unei piețe pavate cu cărămidă, copaci și o terasă", ru: "Современные офисные здания над площадью из клинкера, деревья и терраса кафе", en: "Contemporary office buildings above a brick-paved square, trees and a café terrace" },
   crane: { ro: "Cadru de beton și macara deasupra orașului", ru: "Строящийся каркас и башенный кран над городом", en: "A concrete frame and a tower crane over the city" },
   rebarCrew: { ro: "Echipă pe o placă armată, macara, acoperișuri roșii", ru: "Бригада на армированной плите, кран, красные крыши", en: "A crew on a reinforced slab, a crane, red roofs" },
   sitePair: { ro: "Ingineri pe șantier care arată spre structură", ru: "Инженеры на площадке обсуждают конструкцию", en: "Engineers on site pointing at the structure" },
@@ -640,6 +641,8 @@ const A = {
 place("home.direction.investment", "Home", "Directions · 01 investment", null, "cv-inspection", "BRAND", "Investment — people evaluating a real asset", "HIGH", "MEGAPARC team on a site visit with plans at a property", A.inspection);
 place("home.direction.development", "Home", "Directions · 02 development", null, "cv-frame", "BRAND", "Development — engineering on site", "HIGH", "VATRA site: MEGAPARC engineer on site", A.frame);
 place("home.direction.leasing", "Home", "Directions · 03 leasing", null, "cv-loft-cafe", "BRAND", "Leasing — tenant activity at street level", "HIGH", "People entering a MEGAPARC property", A.loftCafe);
+// Home hero — a concept architectural photograph that sells the brand, never a MEGAPARC asset (OWNER premium brief 2026-10-09). Source: Unsplash, Wolfgang Weiser, Hamburg (Unsplash License). Not captioned on the site.
+place("home.hero", "Home", "Hero · brand", null, "cv-hero-plaza", "BRAND", "Brand — scale, capital, city, architecture", "HIGH", "Commissioned architectural photograph or an approved MEGAPARC brand image", A.heroPlaza, "50% 60%");
 place("home.proof", "Home", "Proof · full-bleed scene", null, "cv-crane", "BRAND", "Execution — work in progress behind the figures", "MEDIUM", "VATRA construction, wide, daylight", A.crane);
 place("home.route.partner", "Home", "Routes · investment partnership", null, "cv-model", "BRAND", "Partnership — a meeting over plans", "MEDIUM", "MEGAPARC meeting over drawings", A.model);
 // About · the business (three scenes): real property photographs carry the scene; these insets add human scale.

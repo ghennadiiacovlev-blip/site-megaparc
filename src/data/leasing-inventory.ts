@@ -24,7 +24,8 @@ import type { Localized } from "@/lib/site-data";
  * type stripping to write docs/DEMO_DATA_REGISTER.md.
  */
 
-export type SpaceStatus = "available" | "reserved" | "leased";
+/** draft = kept in the CMS, not published (offer not confirmed by the OWNER). */
+export type SpaceStatus = "available" | "reserved" | "leased" | "draft";
 export type SpaceUse = "retail" | "office" | "showroom" | "services" | "clinic" | "fnb";
 export type SpaceNeed = "visibility" | "flow" | "parking" | "ground" | "entrance" | "power" | "ventilation" | "delivery" | "flexible" | "fast";
 export type NeedFit = "strong" | "possible" | "limited";
@@ -202,7 +203,7 @@ export const spaces: AvailableSpace[] = [
     floorLabel: L("Demisol + 3 etaje + etaj tehnic", "Цоколь + 3 этажа + технический", "Lower ground + 3 floors + technical"),
     area: 5223,
     uses: ["office"],
-    status: "available",
+    status: "draft", // OWNER 2026-10-09: 5 223 m² is not a confirmed offer — not published
     availableFrom: "2027-01-01",
     headline: L(
       "O clădire separată pentru sediul unei singure companii — cu numele ei pe fațadă.",

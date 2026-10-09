@@ -3,7 +3,7 @@ import type { CSSProperties } from "react";
 import { ConceptImage, DemoMark, Ledger, MaskTitle, Opening, Val } from "@/components/experience";
 import { LocationSection } from "@/components/location-section";
 import { PageShell } from "@/components/page-shell";
-import { ProjectNow } from "@/components/project-facts";
+import { ProjectStatus } from "@/components/project-facts";
 import { ArtImage } from "@/components/primitives";
 import { Button, Icon, TextLink } from "@/components/ui";
 import { nextProject, type ProjectEntry } from "@/content/source";
@@ -116,6 +116,8 @@ export function DevelopmentProjectPage({ locale, project }: { locale: SiteLocale
         { label: copy.decision, point: drochiaProfile.decision },
       ];
 
+  const steps = timeline.filter((step) => !step.point || step.point.status !== "DEMO");
+
   return (
     <PageShell locale={locale} variant="overlay" experience mainClassName="xp-project">
       {/* 01 CONCEPT — hero */}
@@ -131,7 +133,7 @@ export function DevelopmentProjectPage({ locale, project }: { locale: SiteLocale
           <span className="xp-flag xp-flag--light">{dev.status[locale]}{dev.media ? "" : ` · ${drochiaProfile.status.value[locale]}`}</span>
           <MaskTitle as="h1" className="xp-hero__title" lines={[dev.name]} />
           <p className="xp-hero__lead">{dev.lead[locale]}</p>
-          <ProjectNow project={project} locale={locale} tone="dark" />
+          <ProjectStatus project={project} locale={locale} tone="dark" />
         </div>
       </section>
 
@@ -261,12 +263,13 @@ export function DevelopmentProjectPage({ locale, project }: { locale: SiteLocale
         </div>
       </section>
 
-      {/* 07 TIMELINE */}
+      {/* 07 TIMELINE — confirmed steps only (no invented start / completion dates) */}
+      {steps.length >= 2 ? (
       <section className="xp-sec">
         <div className="xp-shell">
           <p className="xp-eyebrow xp-eyebrow--gap" data-reveal><span className="xp-eyebrow__no">07</span><span>{copy.timelineLabel[locale]}</span></p>
           <ol className="pj-timeline" data-reveal>
-            {timeline.map((step) => (
+            {steps.map((step) => (
               <li key={step.label.en} className={step.current ? "is-current" : undefined}>
                 <span className="pj-timeline__label">{step.label[locale]}</span>
                 <span className="pj-timeline__value">{step.point ? <Val point={step.point} locale={locale} /> : step.value}</span>
@@ -275,6 +278,7 @@ export function DevelopmentProjectPage({ locale, project }: { locale: SiteLocale
           </ol>
         </div>
       </section>
+      ) : null}
 
       {/* 09 GALLERY — photo direction storyboard in the preview */}
 

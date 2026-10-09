@@ -3,7 +3,7 @@ import type { CSSProperties } from "react";
 import { DirectionsLine } from "@/components/business-stage";
 import { ConceptImage, HeroFigures, Ledger, MaskTitle, Opening } from "@/components/experience";
 import { PageShell } from "@/components/page-shell";
-import { ProjectFacts, ProjectNow } from "@/components/project-facts";
+import { ProjectFacts, ProjectStatus } from "@/components/project-facts";
 import { ArtImage } from "@/components/primitives";
 import { Button, Icon, TextLink } from "@/components/ui";
 import { getProject, kindLabel, listLand, listProjects, publicSpaces, spacesFor } from "@/content/source";
@@ -259,7 +259,7 @@ export function PartnershipPage({ locale }: { locale: SiteLocale }) {
                     <span className="pt-asset__owned">{c.owned}</span>
                     <span className="pt-asset__name">{project.name}</span>
                     <ProjectFacts project={project} locale={locale} />
-                    <ProjectNow project={project} locale={locale} />
+                    <ProjectStatus project={project} locale={locale} />
                     <span className="pt-asset__status">
                       <i aria-hidden="true" className={own.length ? "is-open" : undefined} />
                       {own.length ? c.spaces(own.length) : c.leased}

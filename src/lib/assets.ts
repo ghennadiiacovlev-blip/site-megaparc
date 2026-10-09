@@ -43,6 +43,8 @@ export type AssetMedia = {
   mobile: string;
   /** Wide editorial crop (21:9). */
   wide: string;
+  /** Upright crop (3:4) for tall cards — art-directed per photograph (scripts/photo-grade.mjs). */
+  portrait: string;
   position?: string;
 };
 
@@ -86,6 +88,7 @@ function media(folder: string, base: string, position?: string): AssetMedia {
     card: publicAsset(`/assets/${folder}/${base}-card.webp`),
     mobile: publicAsset(`/assets/${folder}/${base}-mobile.webp`),
     wide: publicAsset(`/assets/${folder}/${base}-wide.webp`),
+    portrait: publicAsset(`/assets/${folder}/${base}-portrait.webp`),
     position,
   };
 }
@@ -239,9 +242,9 @@ export const portfolioAssets: PortfolioAsset[] = [
       en: "Retail brands that want their own boulevard address instead of a unit in a shopping centre: a flagship store, a showroom or specialist retail.",
     },
     lead: {
-      ro: "Spațiu comercial de 1.289,93 m² pe bulevardul Moscova, în afara centrelor comerciale: fațadă lungă, două intrări pentru clienți și zonă separată de descărcare.",
-      ru: "Торговое помещение площадью 1 289,93 м² на бульваре Москова, вне торговых центров: протяжённый фасад, два входа для покупателей и отдельная зона разгрузки.",
-      en: "A 1,289.93 m² retail property on Moscova Boulevard, outside shopping centres: a long frontage, two customer entrances and a separate unloading zone.",
+      ro: "Obiect comercial independent pe bulevardul Moscova, în afara centrelor comerciale: fațadă lungă, două intrări pentru clienți și zonă separată de descărcare.",
+      ru: "Отдельно стоящий торговый объект на бульваре Москова, вне торговых центров: протяжённый фасад, два входа для покупателей и отдельная зона разгрузки.",
+      en: "A stand-alone retail property on Moscova Boulevard, outside shopping centres: a long frontage, two customer entrances and a separate unloading zone.",
     },
     story: {
       ro: [
@@ -261,7 +264,6 @@ export const portfolioAssets: PortfolioAsset[] = [
       ],
     },
     keyFacts: [
-      { label: { ro: "Spațiu comercial", ru: "Торговое помещение", en: "Retail premises" }, value: { ro: "1.289,93 m²", ru: "1 289,93 м²", en: "1,289.93 m²" } },
       { label: { ro: "Sală principală de vânzare", ru: "Основной торговый зал", en: "Main sales floor" }, value: { ro: "737,07 m²", ru: "737,07 м²", en: "737.07 m²" } },
       { label: { ro: "Zonă de descărcare", ru: "Зона разгрузки", en: "Loading zone" }, value: { ro: "69,46 m² · rampă", ru: "69,46 м² · рампа", en: "69.46 m² · ramp" } },
       { label: { ro: "Intrări clienți", ru: "Входы для покупателей", en: "Customer entrances" }, value: { ro: "2, dinspre bulevard", ru: "2, с бульвара", en: "2, from the boulevard" } },
