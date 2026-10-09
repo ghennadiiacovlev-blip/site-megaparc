@@ -1,29 +1,29 @@
 import Link from "next/link";
 import type { CSSProperties } from "react";
 import { DirectionsLine } from "@/components/business-stage";
-import { ConceptImage, HeroFigures, Ledger, MaskTitle, Opening } from "@/components/experience";
+import { ConceptImage, Ledger, MaskTitle } from "@/components/experience";
 import { PageShell } from "@/components/page-shell";
-import { ProjectFacts, ProjectStatus } from "@/components/project-facts";
+import { ProjectFacts, ProjectStatus, storyLine } from "@/components/project-facts";
 import { ArtImage } from "@/components/primitives";
-import { Button, Icon, TextLink } from "@/components/ui";
-import { getProject, kindLabel, listLand, listProjects, publicSpaces, spacesFor } from "@/content/source";
-import { caseStudy, daciaDevelopment, drochiaProfile, partnershipProcess, portfolioFigures, vatraProfile } from "@/data/demo-content";
+import { SiteMap } from "@/components/site-map";
+import { Button, Icon } from "@/components/ui";
+import { getProject, kindLabel, listLand, listProjects, publicSpaces } from "@/content/source";
+import { caseStudy, daciaDevelopment, drochiaProfile, occupancyOf, partnershipProcess, portfolioFigures, vatraProfile } from "@/data/demo-content";
 import { acquisitionTypes, developmentStages } from "@/lib/business";
 import { localePath, type SiteLocale } from "@/lib/site-data";
 
 /**
  * INVESTMENT PARTNERSHIP — the proof page for investors, banks and capital
- * partners (OWNER briefs "TRUST, SCALE & DESIRE" and "TRUST & PROOF PASS",
- * 2026-10-08/09). Sequence: hero → real assets → case study (Moscova 9) → how
- * value is created → current development → what we look for and how we
- * evaluate → how a project is reviewed → discuss an opportunity. Contractors
- * and designers are a secondary cooperation route under the three primary
- * audiences; the no-public-product statement is a restrained legal note
- * (OWNER trust copy patch 2026-10-09).
+ * partners. Approved copy (OWNER trust copy patch 2026-10-09) and sequence are
+ * unchanged; OWNER "PREMIUM PHASE 2" (2026-10-09) rebuilt the reading:
+ * hero on a development scene of real scale (concept, DEMO) → real assets as
+ * one major building and three supporting ones, photography first → the
+ * Moscova 9 case as an investment story in three chapters (the eight governed
+ * stages on one progression line) → how value is created → current
+ * development → what we consider and the six disciplines of the check, set as
+ * typography → how a project is reviewed → discuss an opportunity.
  * Language rule: no regulated or public investment product — "investment
  * partnership", "opportunity", "discuss"; no returns, prices or promises.
- * Case and process are governed points (CONFIRMED or DEMO) in
- * src/data/demo-content.ts.
  */
 const N = " ";
 const copy = {
@@ -36,15 +36,15 @@ const copy = {
     assetsLabel: "Imobile proprii",
     assetsTitle: "Activele MEGAPARC în funcțiune.",
     record: { years: "ani de experiență a grupului", founded: "este fondată MEGAPARC", operating: "obiecte în funcțiune", development: "proiecte de dezvoltare", area: "suprafața obiectelor în funcțiune" },
-    owned: "Proprietate MEGAPARC",
-    spaces: (n: number) => (n === 1 ? "1 spațiu liber" : `${n} spații libere`),
-    leased: "Spațiile sunt închiriate",
     open: "Vezi obiectul",
     caseLabel: "Studiu de caz",
     caseTitle: "Moscova 9 · logica creării valorii.",
     caseLead: "De la punctul de plecare la strategia ulterioară.",
     caseOpen: "Vezi Moscova 9",
     caseSpace: "Spațiul disponibil",
+    chapters: ["Obiectul și oportunitatea", "Decizia și lucrările", "Astăzi și mai departe"],
+    highlights: { area: "suprafața obiectului", occupied: "ocupat" },
+    mapLabel: "Hartă: Moscova 9 pe bulevardul Moscova",
     valueLabel: "Cum se creează valoarea",
     valueTitle: "Trei direcții de creare a valorii.",
     devLabel: "Dezvoltare",
@@ -89,15 +89,15 @@ const copy = {
     assetsLabel: "Собственная недвижимость",
     assetsTitle: "Действующие активы MEGAPARC.",
     record: { years: "лет опыта группы", founded: "основана MEGAPARC", operating: "действующих объекта", development: "проекта развития", area: "площадь действующих объектов" },
-    owned: "Собственность MEGAPARC",
-    spaces: (n: number) => (n === 1 ? "1 свободное помещение" : n < 5 ? `${n} свободных помещения` : `${n} свободных помещений`),
-    leased: "Помещения сданы",
     open: "Открыть объект",
     caseLabel: "Кейс",
     caseTitle: `Moscova${N}9${N}· логика создания стоимости.`,
     caseLead: `От исходной точки до${N}дальнейшей стратегии.`,
     caseOpen: "Открыть Moscova 9",
     caseSpace: "Свободное помещение",
+    chapters: [`Объект и${N}возможность`, `Решение и${N}работы`, `Сегодня и${N}дальше`],
+    highlights: { area: "площадь объекта", occupied: "занято" },
+    mapLabel: "Карта: Moscova 9 на бульваре Москова",
     valueLabel: "Как создаётся стоимость",
     valueTitle: "Три направления создания стоимости.",
     devLabel: "Развитие",
@@ -142,15 +142,15 @@ const copy = {
     assetsLabel: "Our own real estate",
     assetsTitle: "MEGAPARC's operating assets.",
     record: { years: "years of the group's experience", founded: "MEGAPARC founded", operating: "operating properties", development: "development projects", area: "operating property area" },
-    owned: "Owned by MEGAPARC",
-    spaces: (n: number) => (n === 1 ? "1 space available" : `${n} spaces available`),
-    leased: "Spaces leased",
     open: "View the property",
     caseLabel: "Case study",
     caseTitle: "Moscova 9 · the logic of value creation.",
     caseLead: "From the starting point to the further strategy.",
     caseOpen: "View Moscova 9",
     caseSpace: "The available space",
+    chapters: ["The building and the opportunity", "The decision and the works", "Today and next"],
+    highlights: { area: "property area", occupied: "occupied" },
+    mapLabel: "Map: Moscova 9 on Moscova Boulevard",
     valueLabel: "How value is created",
     valueTitle: "Three directions of value creation.",
     devLabel: "Development",
@@ -189,6 +189,12 @@ const copy = {
 } as const;
 
 const groupYears = Math.floor((2026 - 1991) / 5) * 5;
+/** The eight governed case stages, read as three chapters (keys from caseStudy). */
+const chapterKeys = [["start", "opportunity"], ["decision", "capex", "reposition"], ["leasing", "status", "strategy"]] as const;
+const roman = ["I", "II", "III"];
+/** Major asset + three supporting ones (photography first). */
+const majorSlug = "dacia-31";
+const minorSlugs = ["moscova-9", "moscova-20", "creanga-78"];
 
 export function PartnershipPage({ locale }: { locale: SiteLocale }) {
   const c = copy[locale];
@@ -199,123 +205,190 @@ export function PartnershipPage({ locale }: { locale: SiteLocale }) {
     return `${p(path)}${query ? `?${query}` : ""}${hash ? `#${hash}` : ""}`;
   };
   const projects = listProjects();
-  const operating = projects.filter((project) => project.kind === "operating");
   const development = projects.filter((project) => project.kind === "development");
   const vatra = getProject("vatra")!;
   const drochia = getProject("drochia-gateway")!;
   const daciaDev = getProject("dacia-31-development")!;
+  const major = getProject(majorSlug)!;
+  const minors = minorSlugs.map((slug) => getProject(slug)!);
   const caseProject = getProject(caseStudy.slug)!;
   const caseSpace = publicSpaces.find((space) => space.project === caseStudy.slug);
+  const caseOccupancy = occupancyOf("moscova-9");
+  const stageByKey = (key: string) => caseStudy.stages.find((stage) => stage.key === key)!;
+  const stageNo = (key: string) => caseStudy.stages.findIndex((stage) => stage.key === key) + 1;
   const stageOf = (slug: string) => getProject(slug)!.development!.stage;
   const discuss = href("/contact?subject=partnership#partnership");
 
   return (
     <PageShell locale={locale} variant="overlay" experience>
-      {/* HERO — a plot under works, one statement, one action */}
-      <section className="xp-hero xp-hero--page pt-hero" data-xp-hero>
-        <div className="xp-hero__media">
-          <div className="xp-hero__frame is-active">
-            <ConceptImage id="partnership.hero" locale={locale} priority />
-          </div>
+      {/* HERO — a development of real scale (concept, DEMO), the approved statement, one action */}
+      <section className="pm-hero pt2-hero" data-xp-hero>
+        <div className="pm-hero__media" aria-hidden="true">
+          <ConceptImage id="partnership.hero" locale={locale} priority sizes="100vw" />
         </div>
-        <div className="xp-hero__veil" aria-hidden="true" />
-        <div className="xp-shell xp-hero__copy">
-          <span className="xp-flag xp-flag--light">MEGAPARC · {c.label}</span>
-          <MaskTitle as="h1" className="xp-hero__title pt-hero__title" lines={[...c.title]} />
-          <p className="xp-hero__lead">{c.lead}</p>
-          <div className="xp-actions">
-            <Button href={discuss} variant="light">{c.cta}</Button>
-            <TextLink href={p("/projects")} className="tlink--light">{c.projects}</TextLink>
+        <div className="pm-hero__veil" aria-hidden="true" />
+        <div className="xp-shell pm-hero__inner">
+          <p className="pm-kicker pm-kicker--light">MEGAPARC · {c.label}</p>
+          <MaskTitle as="h1" className="pm-hero__title pt2-hero__title" lines={[...c.title]} />
+          <div className="pm-hero__base pt2-hero__base">
+            <p className="pm-hero__statement">{c.lead}</p>
+            <div className="pm-actions">
+              <Button href={discuss} variant="light">{c.cta}</Button>
+              <Link className="pm-link pm-link--light" href={p("/projects")}>{c.projects}<Icon /></Link>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* 01 REAL ASSETS — what MEGAPARC owns, with the track record */}
-      <section className="xp-sec">
+      {/* REAL ASSETS — one major building, three supporting; photography first, confirmed facts second */}
+      <section className="pm-sec pm-sec--paper pt2-assets" id="assets">
         <div className="xp-shell">
-          <Opening no="01" label={c.assetsLabel} title={c.assetsTitle} />
-          <div data-reveal>
-            <HeroFigures className="pt-figures" items={[
-              { value: `${groupYears}+`, label: c.record.years },
-              { value: "2005", label: c.record.founded },
-              { value: portfolioFigures.operating.value[locale], label: c.record.operating },
-              { value: String(development.length).padStart(2, "0"), label: c.record.development },
-              { value: portfolioFigures.area.value[locale], label: c.record.area },
-            ]} />
+          <div className="pm-head pm-head--split" data-reveal>
+            <p className="pm-kicker">{c.assetsLabel}</p>
+            <h2 className="pm-h2">{c.assetsTitle}</h2>
+            <dl className="pt2-record">
+              <div><dt>{c.record.years}</dt><dd>{groupYears}+</dd></div>
+              <div><dt>{c.record.founded}</dt><dd>2005</dd></div>
+              <div><dt>{c.record.operating}</dt><dd>{portfolioFigures.operating.value[locale]}</dd></div>
+              <div><dt>{c.record.development}</dt><dd>{String(development.length).padStart(2, "0")}</dd></div>
+              <div className="pt2-record__wide"><dt>{c.record.area}</dt><dd>{portfolioFigures.area.value[locale]}</dd></div>
+            </dl>
           </div>
-          <ul className="pt-assets">
-            {operating.map((project) => {
-              const own = spacesFor(project.slug);
-              return (
-                <li key={project.slug} data-reveal>
-                  <Link href={p(`/projects/${project.slug}`)} className="pt-asset al-hover">
-                    <figure className="xp-fig" style={{ "--ratio": "4 / 3" } as CSSProperties}>
-                      {project.media ? (
-                        <ArtImage media={project.media} alt={`${project.name} — ${project.format[locale]}`} sizes="(min-width: 1100px) 25vw, (min-width: 720px) 50vw, 100vw" position={project.slug === "moscova-20" ? "50% 74%" : undefined} />
-                      ) : (
-                        <ConceptImage id={project.conceptUse!} locale={locale} sizes="(min-width: 1100px) 25vw, 100vw" />
-                      )}
-                    </figure>
-                    <span className="pt-asset__owned">{c.owned}</span>
-                    <span className="pt-asset__name">{project.name}</span>
-                    <ProjectFacts project={project} locale={locale} />
-                    <ProjectStatus project={project} locale={locale} />
-                    <span className="pt-asset__status">
-                      <i aria-hidden="true" className={own.length ? "is-open" : undefined} />
-                      {own.length ? c.spaces(own.length) : c.leased}
-                    </span>
-                    <span className="pt-asset__cta">{c.open}<Icon name="arrow" size={16} /></span>
-                  </Link>
-                </li>
-              );
-            })}
+          <article className="pt2-major" data-reveal>
+            <Link href={p(`/projects/${major.slug}`)} className="pt2-major__media al-reveal" tabIndex={-1} aria-hidden="true">
+              <ArtImage media={major.media!} variant="card" alt="" sizes="(min-width: 1024px) 64vw, 100vw" />
+            </Link>
+            <div className="pt2-major__copy">
+              <h3 className="pt2-major__name"><Link href={p(`/projects/${major.slug}`)}>{major.name}</Link></h3>
+              <ProjectFacts project={major} locale={locale} />
+              <p className="pt2-major__line">{storyLine[major.slug][locale]}</p>
+              <ProjectStatus project={major} locale={locale} />
+              <Link className="pm-more" href={p(`/projects/${major.slug}`)}>{c.open}<Icon /></Link>
+            </div>
+          </article>
+          <ul className="pt2-minor">
+            {minors.map((project) => (
+              <li key={project.slug} data-reveal>
+                <Link href={p(`/projects/${project.slug}`)} className="pt2-minor__media al-hover" tabIndex={-1} aria-hidden="true">
+                  <ArtImage media={project.media!} variant="portrait" alt="" sizes="(min-width: 1024px) 30vw, 100vw" />
+                </Link>
+                <h3 className="pt2-minor__name"><Link href={p(`/projects/${project.slug}`)}>{project.name}</Link></h3>
+                <ProjectFacts project={project} locale={locale} />
+                <ProjectStatus project={project} locale={locale} />
+                <Link className="pm-more" href={p(`/projects/${project.slug}`)}>{c.open}<Icon /></Link>
+              </li>
+            ))}
           </ul>
         </div>
       </section>
 
-      {/* 02 CASE STUDY — Moscova 9, from starting point to next option */}
-      <section className="xp-sec xp-sec--warm" id="case">
+      {/* CASE — Moscova 9 as an investment story: the building, one progression line, three chapters */}
+      <section className="pt2-case" id="case">
+        <div className="xp-shell pm-head pm-head--split" data-reveal>
+          <p className="pm-kicker">{c.caseLabel}</p>
+          <h2 className="pm-h2">{c.caseTitle}</h2>
+          <p className="pm-head__lead">{c.caseLead}</p>
+        </div>
+        <figure className="pt2-case__hero al-reveal" data-reveal>
+          <ArtImage media={caseProject.media!} variant="wide" alt={`${caseProject.name} — ${caseProject.format[locale]}`} sizes="100vw" />
+        </figure>
         <div className="xp-shell">
-          <Opening no="02" label={c.caseLabel} title={c.caseTitle} lead={c.caseLead} className="xp-opening--split" />
-          <div className="pt-case">
-            <div className="pt-case__aside">
-              <figure className="pt-case__media al-reveal" data-reveal>
-                <ArtImage media={caseProject.media!} alt={`${caseProject.name} — ${caseProject.format[locale]}`} sizes="(min-width: 1024px) 45vw, 100vw" position="50% 60%" />
+          <ol className="pt2-rail" aria-label={c.caseTitle} data-reveal>
+            {chapterKeys.map((keys, chapter) => (
+              <li key={chapter} className="pt2-rail__group">
+                <span className="pt2-rail__ch">{roman[chapter]}</span>
+                <ol>
+                  {keys.map((key) => (
+                    <li key={key} className={key === "status" ? "is-current" : undefined}>
+                      <span>{String(stageNo(key)).padStart(2, "0")}</span>
+                      {stageByKey(key).label[locale]}
+                    </li>
+                  ))}
+                </ol>
+              </li>
+            ))}
+          </ol>
+          <div className="pt2-chapters">
+            {/* I — the building and the opportunity: the boulevard on the map, the confirmed area */}
+            <article className="pt2-ch pt2-ch--one" data-reveal>
+              <header className="pt2-ch__head">
+                <span className="pt2-ch__no">{roman[0]}</span>
+                <h3 className="pt2-ch__title">{c.chapters[0]}</h3>
+              </header>
+              <figure className="pt2-ch__media pt2-ch__media--map">
+                <SiteMap slug="moscova-9" name={caseProject.name} label={c.mapLabel} />
               </figure>
-              <div className="pt-case__facts" data-reveal>
-                <span className="pt-case__name">{caseProject.name}</span>
-                <ProjectFacts project={caseProject} locale={locale} />
-                <div className="pt-case__links">
-                  <TextLink href={p(`/projects/${caseProject.slug}`)}>{c.caseOpen}</TextLink>
-                  {caseSpace ? <TextLink href={p(`/leasing/${caseSpace.id}`)}>{c.caseSpace}</TextLink> : null}
+              <div className="pt2-ch__body">
+                <p className="pt2-ch__figure">{caseProject.card.size[locale]}<span>{c.highlights.area}</span></p>
+                {chapterKeys[0].map((key) => (
+                  <div key={key} className="pt2-ch__stage">
+                    <h4>{stageByKey(key).label[locale]}</h4>
+                    <p>{stageByKey(key).text.value[locale]}</p>
+                  </div>
+                ))}
+              </div>
+            </article>
+            {/* II — the decision and the works: the building itself */}
+            <article className="pt2-ch pt2-ch--two" data-reveal>
+              <header className="pt2-ch__head">
+                <span className="pt2-ch__no">{roman[1]}</span>
+                <h3 className="pt2-ch__title">{c.chapters[1]}</h3>
+              </header>
+              <figure className="pt2-ch__media al-reveal">
+                <ArtImage media={caseProject.media!} variant="portrait" alt="" sizes="(min-width: 1024px) 34vw, 100vw" />
+              </figure>
+              <div className="pt2-ch__body">
+                {chapterKeys[1].map((key) => (
+                  <div key={key} className="pt2-ch__stage">
+                    <h4>{stageByKey(key).label[locale]}</h4>
+                    <p>{stageByKey(key).text.value[locale]}</p>
+                  </div>
+                ))}
+              </div>
+            </article>
+            {/* III — today and next: the confirmed occupancy */}
+            <article className="pt2-ch pt2-ch--three" data-reveal>
+              <header className="pt2-ch__head">
+                <span className="pt2-ch__no">{roman[2]}</span>
+                <h3 className="pt2-ch__title">{c.chapters[2]}</h3>
+              </header>
+              <div className="pt2-ch__body">
+                {caseOccupancy.fullyLet ? <p className="pt2-ch__figure pt2-ch__figure--lg">100{N}%<span>{c.highlights.occupied}</span></p> : null}
+                {chapterKeys[2].map((key) => (
+                  <div key={key} className="pt2-ch__stage">
+                    <h4>{stageByKey(key).label[locale]}</h4>
+                    <p>{stageByKey(key).text.value[locale]}</p>
+                  </div>
+                ))}
+                <div className="pm-actions">
+                  <Link className="pm-link" href={p(`/projects/${caseProject.slug}`)}>{c.caseOpen}<Icon /></Link>
+                  {caseSpace ? <Link className="pm-link pm-link--quiet" href={p(`/leasing/${caseSpace.id}`)}>{c.caseSpace}<Icon /></Link> : null}
                 </div>
               </div>
-            </div>
-            <ol className="pt-case__stages">
-              {caseStudy.stages.map((stage, index) => (
-                <li key={stage.key} data-reveal style={{ "--i": index } as CSSProperties}>
-                  <span className="pt-case__no">{String(index + 1).padStart(2, "0")}</span>
-                  <h3>{stage.label[locale]}</h3>
-                  <p>{stage.text.value[locale]}</p>
-                </li>
-              ))}
-            </ol>
+            </article>
           </div>
         </div>
       </section>
 
-      {/* 03 HOW VALUE IS CREATED */}
-      <section className="xp-sec">
+      {/* HOW VALUE IS CREATED */}
+      <section className="pm-sec pm-sec--warm">
         <div className="xp-shell">
-          <Opening no="03" label={c.valueLabel} title={c.valueTitle} />
+          <div className="pm-head" data-reveal>
+            <p className="pm-kicker">{c.valueLabel}</p>
+            <h2 className="pm-h2">{c.valueTitle}</h2>
+          </div>
           <DirectionsLine locale={locale} />
         </div>
       </section>
 
-      {/* 04 CURRENT DEVELOPMENT — dark signature, with the six stages */}
-      <section className="xp-sec xp-sec--ink">
+      {/* CURRENT DEVELOPMENT — dark signature, with the six stages */}
+      <section className="pm-sec pm-sec--ink pt2-dev">
         <div className="xp-shell">
-          <Opening no="04" label={c.devLabel} title={c.devTitle} lead={c.devLead} tone="dark" className="xp-opening--split" />
+          <div className="pm-head pm-head--split pm-head--dark" data-reveal>
+            <p className="pm-kicker">{c.devLabel}</p>
+            <h2 className="pm-h2">{c.devTitle}</h2>
+            <p className="pm-head__lead">{c.devLead}</p>
+          </div>
           <ol className="xp-process xp-process--stages pt-stages" style={{ "--n": developmentStages.length } as CSSProperties} data-reveal>
             {developmentStages.map((stage, index) => {
               const here = [vatra, drochia].filter((project) => stageOf(project.slug) === index);
@@ -334,7 +407,7 @@ export function PartnershipPage({ locale }: { locale: SiteLocale }) {
           <div className="pt-pipeline">
             <Link href={p(`/projects/${vatra.slug}`)} className="pt-pipe al-reveal" data-reveal>
               <figure className="xp-fig" style={{ "--ratio": "16 / 10" } as CSSProperties}>
-                <ArtImage media={vatra.media!} alt={`${vatra.name} — ${vatra.format[locale]}`} sizes="(min-width: 1024px) 50vw, 100vw" position="50% 70%" />
+                <ArtImage media={vatra.media!} variant="card" alt={`${vatra.name} — ${vatra.format[locale]}`} sizes="(min-width: 1024px) 50vw, 100vw" />
               </figure>
               <span className="pt-pipe__name">{vatra.name}</span>
               <Ledger locale={locale} tone="dark" className="xp-ledger--pair" items={[
@@ -343,9 +416,9 @@ export function PartnershipPage({ locale }: { locale: SiteLocale }) {
                 { label: c.completion, point: vatraProfile.completion },
               ]} />
             </Link>
-            <Link href={p(`/projects/${drochia.slug}`)} className="pt-pipe al-reveal" data-reveal>
-              <figure className="xp-fig" style={{ "--ratio": "16 / 10" } as CSSProperties}>
-                <ConceptImage id="project.drochia.hero" locale={locale} sizes="(min-width: 1024px) 50vw, 100vw" />
+            <Link href={p(`/projects/${drochia.slug}`)} className="pt-pipe pt2-pipe--map al-reveal" data-reveal>
+              <figure className="pt2-pipe__map">
+                <SiteMap slug="drochia-gateway" name={drochia.name} label={drochia.name} />
               </figure>
               <span className="pt-pipe__name">{drochia.name}</span>
               <Ledger locale={locale} tone="dark" className="xp-ledger--pair" items={[
@@ -370,42 +443,45 @@ export function PartnershipPage({ locale }: { locale: SiteLocale }) {
         </div>
       </section>
 
-      {/* 05 WHAT WE LOOK FOR + HOW WE EVALUATE */}
-      <section className="xp-sec xp-sec--warm">
+      {/* WHAT WE CONSIDER + THE SIX DISCIPLINES OF THE CHECK — typography, not tiles */}
+      <section className="pm-sec pm-sec--paper pt2-look">
         <div className="xp-shell">
-          <Opening no="05" label={c.lookLabel} title={c.lookTitle} />
-          <div className="pt-look">
-            <div data-reveal>
-              <p className="xp-label">{c.lookTypes}</p>
-              <ul className="pt-types">
-                {acquisitionTypes.map((type) => (
-                  <li key={type.key}>
-                    <h3>{type.title[locale]}</h3>
-                    <p>{type.text[locale]}</p>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div data-reveal>
-              <p className="xp-label">{c.lookChecks}</p>
-              <ol className="pt-checks">
-                {c.checks.map(([title, text], index) => (
-                  <li key={title}>
-                    <span className="pt-checks__no">{String(index + 1).padStart(2, "0")}</span>
-                    <h3>{title}</h3>
-                    <p>{text}</p>
-                  </li>
-                ))}
-              </ol>
-            </div>
+          <div className="pm-head" data-reveal>
+            <p className="pm-kicker">{c.lookLabel}</p>
+            <h2 className="pm-h2">{c.lookTitle}</h2>
+          </div>
+          <div className="pt2-types" data-reveal>
+            <p className="pt2-sub">{c.lookTypes}</p>
+            <ul>
+              {acquisitionTypes.map((type) => (
+                <li key={type.key}>
+                  <h3>{type.title[locale]}</h3>
+                  <p>{type.text[locale]}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="pt2-disc">
+            <p className="pt2-sub" data-reveal>{c.lookChecks}</p>
+            <ul className="pt2-disc__list">
+              {c.checks.map(([title, text]) => (
+                <li key={title} data-reveal>
+                  <h3>{title}</h3>
+                  <p>{text}</p>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       </section>
 
-      {/* 06 PARTNERSHIP AND FINANCING — how a conversation starts */}
-      <section className="xp-sec">
+      {/* PARTNERSHIP AND FINANCING — how a conversation starts */}
+      <section className="pm-sec pm-sec--warm">
         <div className="xp-shell">
-          <Opening no="06" label={c.talkLabel} title={c.talkTitle} />
+          <div className="pm-head" data-reveal>
+            <p className="pm-kicker">{c.talkLabel}</p>
+            <h2 className="pm-h2">{c.talkTitle}</h2>
+          </div>
           <div className="pt-talk">
             <ol className="pt-steps" data-reveal>
               {partnershipProcess.map((step, index) => (
@@ -431,28 +507,28 @@ export function PartnershipPage({ locale }: { locale: SiteLocale }) {
               <p className="pt-coop">
                 <span className="pt-coop__title">{c.coop.title}</span>
                 <span>{c.coop.text}</span>
-                <TextLink href={href(c.coop.to)}>{c.coop.cta}</TextLink>
+                <Link className="pm-link" href={href(c.coop.to)}>{c.coop.cta}<Icon /></Link>
               </p>
             </div>
           </div>
           <p className="pt-note" data-reveal>{c.note}</p>
-          <div className="xp-actions" data-reveal>
+          <div className="pm-actions pt2-talk__cta" data-reveal>
             <Button href={discuss}>{c.cta}</Button>
           </div>
         </div>
       </section>
 
-      {/* 07 DISCUSS AN OPPORTUNITY */}
-      <section className="xp-sec xp-sec--red">
-        <div className="xp-shell xp-close">
+      {/* DISCUSS AN OPPORTUNITY — calm close */}
+      <section className="pm-close">
+        <div className="xp-shell pm-close__grid">
           <div data-reveal>
-            <p className="xp-eyebrow"><span className="xp-eyebrow__no">07</span><span>{c.closeLabel}</span></p>
-            <h2 className="xp-close__title">{c.closeTitle}</h2>
+            <p className="pm-kicker">{c.closeLabel}</p>
+            <h2 className="pm-close__title">{c.closeTitle}</h2>
           </div>
-          <nav className="xp-close__routes" aria-label={c.closeLabel} data-reveal>
+          <nav className="pm-close__routes" aria-label={c.closeLabel} data-reveal>
             {c.routes.map(([label, to]) => (
               <Link key={label} href={href(to)}>
-                {label}
+                <span>{label}</span>
                 <Icon name="arrow" size={18} />
               </Link>
             ))}

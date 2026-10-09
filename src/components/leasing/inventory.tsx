@@ -10,7 +10,8 @@ import { Icon } from "@/components/ui";
  * only decides which are visible (the `hidden` attribute) and says how many
  * match. Editorial filter hierarchy (final craft pass 2026-10-08): a question,
  * then the options as quiet text buttons; pressing the active option again
- * clears it — no "all" chips, no boxed panel. Filters: use · area · property · available now. State mirrors the URL
+ * clears it — no "all" chips, no boxed panel. OWNER premium phase 2 (2026-10-09): three quiet selects (use · area · building)
+ * below the opening offer; the available-now switch is gone from the UI but ?now=1 still works. State mirrors the URL
  * (?use=fnb&area=120-300&project=moscova-20&now=1) so Home, project pages and
  * the tenant advisor can deep-link into a filtered view.
  */
@@ -133,51 +134,37 @@ export function LeasingInventory({
 
   return (
     <div className="lx-inv">
-      <div className="lx-inv__filters" role="group" aria-label={copy.label}>
-        <fieldset className="lx-inv__row">
-          <legend>{copy.use}</legend>
-          <div className="lx-inv__chips">
+      {/* OWNER premium phase 2 (2026-10-09): three quiet selects — use · area · building; filters are a utility, never the hero */}
+      <div className="lx-inv__filters lx2-filters" role="group" aria-label={copy.label}>
+        <label className="lx-inv__select">
+          <span>{copy.use}</span>
+          <select value={use} onChange={(event) => setUse(event.target.value)}>
+            <option value="all">{copy.all}</option>
             {uses.map((option) => {
               const n = countFor("use", (item) => item.uses.includes(option.key));
-              const active = use === option.key;
-              return (
-                <button key={option.key} type="button" className={`lx-opt${active ? " is-active" : ""}`} aria-pressed={active} disabled={n === 0 && !active} onClick={() => setUse(active ? "all" : option.key)}>
-                  {option.label}
-                </button>
-              );
+              return <option key={option.key} value={option.key} disabled={n === 0 && use !== option.key}>{option.label}</option>;
             })}
-          </div>
-        </fieldset>
-        <fieldset className="lx-inv__row">
-          <legend>{copy.area}</legend>
-          <div className="lx-inv__chips">
+          </select>
+        </label>
+        <label className="lx-inv__select">
+          <span>{copy.area}</span>
+          <select value={band} onChange={(event) => setBand(event.target.value)}>
+            <option value="all">{copy.anyArea}</option>
             {bands.map((option) => {
               const n = countFor("band", (item) => item.areaMin <= option.max && item.area >= option.min);
-              const active = band === option.key;
-              return (
-                <button key={option.key} type="button" className={`lx-opt${active ? " is-active" : ""}`} aria-pressed={active} disabled={n === 0 && !active} onClick={() => setBand(active ? "all" : option.key)}>
-                  {option.label}
-                </button>
-              );
+              return <option key={option.key} value={option.key} disabled={n === 0 && band !== option.key}>{option.label}</option>;
             })}
-          </div>
-        </fieldset>
-        <div className="lx-inv__row lx-inv__row--inline">
-          <label className="lx-inv__select">
-            <span>{copy.project}</span>
-            <select value={project} onChange={(event) => setProject(event.target.value)}>
-              <option value="all">{copy.allProjects}</option>
-              {projects.map((option) => (
-                <option key={option.key} value={option.key}>{option.label}</option>
-              ))}
-            </select>
-          </label>
-          <label className="lx-inv__toggle">
-            <input type="checkbox" checked={now} onChange={(event) => setNow(event.target.checked)} />
-            <span className="lx-inv__switch" aria-hidden="true" />
-            <span>{copy.nowOnly}</span>
-          </label>
-        </div>
+          </select>
+        </label>
+        <label className="lx-inv__select">
+          <span>{copy.project}</span>
+          <select value={project} onChange={(event) => setProject(event.target.value)}>
+            <option value="all">{copy.allProjects}</option>
+            {projects.map((option) => (
+              <option key={option.key} value={option.key}>{option.label}</option>
+            ))}
+          </select>
+        </label>
       </div>
 
       <div className="lx-inv__status" aria-live="polite">

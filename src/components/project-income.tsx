@@ -1,117 +1,80 @@
 import Link from "next/link";
 import type { CSSProperties } from "react";
-import { ConceptImage, DemoMark, Ledger, Opening } from "@/components/experience";
-import { UnitCard } from "@/components/leasing/unit-card";
+import { viewingHref } from "@/components/leasing/unit-card";
 import { UnitPlan } from "@/components/leasing/unit-plan";
 import { LocationSection } from "@/components/location-section";
 import { PageShell } from "@/components/page-shell";
-import { ProjectFacts, ProjectStatus, storyLine } from "@/components/project-facts";
-import { ArtImage, FactList } from "@/components/primitives";
-import { Button, Icon, TextLink } from "@/components/ui";
-import { isDemoField, nextProject, spacesFor, type ProjectEntry } from "@/content/source";
-import { assetProfiles, creangaProfile, imageUses, occupancyOf, tenantFit, type Requirement } from "@/data/demo-content";
+import { ProjectStatus, storyLine } from "@/components/project-facts";
+import { ArtImage } from "@/components/primitives";
+import { Button, Icon } from "@/components/ui";
+import { availabilityLabel, availabilityOf, formatAreaRange, isDemoField, nextProject, spacesFor, type ProjectEntry } from "@/content/source";
+import { assetProfiles, creangaProfile, occupancyOf, tenantFit, type Requirement } from "@/data/demo-content";
 import type { AssetSlug } from "@/lib/assets";
-import { fitCopy, needs as needCopy, uses as useTaxonomy } from "@/lib/leasing";
+import { needs as needCopy } from "@/lib/leasing";
 import { localePath, type Localized, type SiteLocale } from "@/lib/site-data";
 
 /**
- * INCOME PROPERTY PAGE — a short digital property tour (OWNER briefs 2026-10-08,
- * "MAKE THE WEBSITE FEEL ALIVE" / "TRUST, SCALE & DESIRE"): full property hero →
- * key facts → why → location (light map) → gallery → entrance · parking ·
- * access → available spaces → who it fits → technical → plan → viewing.
- * Earlier order (acceptance brief 2026-10-08): the building first —
- * large photograph → intro (name, reason, place · size · status) → why this
- * property → key facts → available now → location (light map) → gallery → who
- * it fits → technical information → plan → request a viewing.
- * Confirmed copy from src/lib/assets.ts; profile values from
- * src/data/demo-content.ts and spaces from the content source, each with its
- * status (DEMO values carry the ring). No rent or commercial term is shown.
- * OWNER-confirmed asset data (2026-10-09): a property that is 100 % occupied and
- * has no public offer shows no availability, no viewing CTA and no plan — only
- * "fully let" and a waitlist. Creangă 78: real photograph in a contained hero
- * (960 px original), its retired DEMO multi-tenant profile hides the fit,
- * technical and gallery blocks; the access block becomes "the property today".
+ * OPERATING PROPERTY PAGE — a digital property tour (OWNER "PREMIUM PHASE 2",
+ * 2026-10-09): hero (the building, then name · city / district · total area ·
+ * status — no box over the photograph) → identity → street / context → key
+ * facts → entrance · access · parking → location (light OSM map) → gallery
+ * (only real photography — none beyond the hero yet, so it is not shown) →
+ * the available unit, if any, set apart from the property → its plan →
+ * technical information → close.
+ * Only confirmed values are published; DEMO profile values (land, parking
+ * counts, years, levers) never render. A fully occupied building (Moscova 9,
+ * Creangă 78) carries no leasing language, no viewing and no availability
+ * action — its story, architecture, location, operation and current status.
+ * Dacia 31 has no public offer and no published occupancy: no availability
+ * statement at all. Moscova 20: the property (704 m²) and the available unit
+ * (625,7 m²) are separate blocks.
  */
+const N = " ";
 const copy = {
   back: { ro: "Proiecte", ru: "Проекты", en: "Projects" },
-  viewing: { ro: "Solicită o vizionare", ru: "Запросить просмотр", en: "Request a viewing" },
-  spaces: { ro: "Vezi spațiile libere", ru: "Смотреть свободные помещения", en: "See the available spaces" },
-  whyLabel: { ro: "De ce acest obiect", ru: "Почему этот объект", en: "Why this property" },
-  locationLabel: { ro: "Localizare", ru: "Расположение", en: "Location" },
-  use: { ro: "Destinație", ru: "Назначение", en: "Use" },
-  tenants: { ro: "Chiriași", ru: "Арендаторы", en: "Tenants" },
-  units: { ro: "Spații", ru: "Помещения", en: "Units" },
-  audience: { ro: "Cui i se potrivește", ru: "Кому подходит", en: "Who it suits" },
-  placeLabel: { ro: "Intrare, parcare, acces", ru: "Вход, парковка, доступ", en: "Entrance, parking, access" },
-  placeTitle: { ro: "Cum ajungeți, intrați și descărcați.", ru: `Как подъехать, войти и разгрузиться.`, en: "How you arrive, walk in and unload." },
-  photoLabel: { ro: "Fotografie", ru: "Фотография", en: "Photography" },
-  factsLabel: { ro: "Date cheie", ru: "Ключевые факты", en: "Key facts" },
-  availableLabel: { ro: "Acum se închiriază", ru: "Сейчас сдаётся", en: "Available now" },
-  availableTitle: { ro: "Spațiile libere în această clădire.", ru: "Свободные помещения в этом здании.", en: "The available spaces in this building." },
-  noneTitle: { ro: "Acum toate spațiile sunt închiriate.", ru: "Сейчас все помещения сданы.", en: "All spaces are currently leased." },
-  noneText: { ro: "Lăsați o cerere — vă scriem când se eliberează un spațiu aici.", ru: "Оставьте запрос — напишем, когда здесь освободится помещение.", en: "Leave a request — we write when a space frees up here." },
-  noneCta: { ro: "Anunțați-mă dacă se eliberează", ru: "Сообщить, если освободится", en: "Tell me if it frees up" },
-  otherSpaces: { ro: "Spații libere în alte clădiri", ru: "Свободные помещения в других зданиях", en: "Available space in other buildings" },
-  leasingLabel: { ro: "Închiriere", ru: "Аренда", en: "Leasing" },
-  todayLabel: { ro: "Obiectul astăzi", ru: "Объект сегодня", en: "The property today" },
-  fullTitle: { ro: "Obiectul este închiriat integral.", ru: "Объект сдан полностью.", en: "The property is fully let." },
-  fullText: { ro: "Spații libere există în alte clădiri MEGAPARC. Lăsați o cerere — vă scriem dacă aici se eliberează un spațiu.", ru: "Свободные помещения есть в других зданиях MEGAPARC. Оставьте запрос — напишем, если здесь освободится место.", en: "Space is available in other MEGAPARC buildings. Leave a request — we write if space frees up here." },
-  fitLabel: { ro: "Cui i se potrivește", ru: "Кому подходит", en: "Who it fits" },
-  fitTitle: { ro: "Pentru cine lucrează această clădire.", ru: "Для кого работает это здание.", en: "Who this building works for." },
-  whyItWorks: { ro: "De ce funcționează", ru: "Почему это работает", en: "Why it works" },
-  techLabel: { ro: "Informații tehnice", ru: "Техническая информация", en: "Technical information" },
-  techTitle: { ro: "Ce suportă clădirea.", ru: "Технические возможности здания.", en: "What the building can take." },
-  improveLabel: { ro: "Ce îmbunătățim ca proprietar", ru: "Что мы улучшаем как собственник", en: "What we improve as the owner" },
-  galleryLabel: { ro: "Galerie", ru: "Галерея", en: "Gallery" },
-  planLabel: { ro: "Plan", ru: "План", en: "Plan" },
-  format: { ro: "Format", ru: "Формат", en: "Format" },
+  place: { ro: "Oraș · cartier", ru: "Город · район", en: "City · district" },
   area: { ro: "Suprafața totală", ru: "Общая площадь", en: "Total area" },
-  land: { ro: "Teren", ru: "Участок", en: "Land plot" },
-  parking: { ro: "Parcare", ru: "Парковка", en: "Parking" },
-  acquired: { ro: "Cumpărat", ru: "Куплен", en: "Acquired" },
-  repositioned: { ro: "Renovat", ru: "Обновлён", en: "Renovated" },
+  format: { ro: "Format", ru: "Формат", en: "Format" },
+  status: { ro: "Statut", ru: "Статус", en: "Status" },
+  identityLabel: { ro: "Obiectul", ru: "Объект", en: "The property" },
+  contextLabel: { ro: "Strada și împrejurimile", ru: "Улица и окружение", en: "Street and surroundings" },
+  factsLabel: { ro: "Date cheie", ru: "Ключевые факты", en: "Key facts" },
+  levels: { ro: "Niveluri", ru: "Уровни", en: "Levels" },
+  accessLabel: { ro: "Intrare · acces · parcare", ru: "Вход · доступ · парковка", en: "Entrance · access · parking" },
+  accessTitle: { ro: "Cum se ajunge și cum se intră.", ru: `Как подъехать и${N}войти.`, en: "How you arrive and walk in." },
+  techLabel: { ro: "Informații tehnice", ru: "Техническая информация", en: "Technical information" },
+  unitLabel: { ro: "Spațiu liber în clădire", ru: "Свободное помещение в здании", en: "Available space in the building" },
+  unitOpen: { ro: "Vezi spațiul", ru: "Смотреть помещение", en: "View the space" },
+  viewing: { ro: "Solicită o vizionare", ru: "Запросить просмотр", en: "Request a viewing" },
+  planLabel: { ro: "Plan", ru: "План", en: "Plan" },
+  occupied: { ro: "ocupat", ru: "занято", en: "occupied" },
+  closeLabel: { ro: "Mai departe", ru: "Дальше", en: "Next" },
+  closeViewing: { ro: "Vedeți spațiul cu ochii dumneavoastră.", ru: "Посмотрите помещение вживую.", en: "See the space for yourself." },
+  closeAsk: { ro: "Întrebați despre această clădire.", ru: `Вопрос об${N}этом здании?`, en: "A question about this building?" },
+  closeFull: { ro: "Clădirea este închiriată integral.", ru: "Здание сдано полностью.", en: "The building is fully let." },
+  ask: { ro: "Scrieți-ne despre obiect", ru: "Написать об объекте", en: "Write about the property" },
   nextLabel: { ro: "Următorul proiect", ru: "Следующий проект", en: "Next project" },
-  closeTitle: { ro: "Vedeți clădirea cu ochii dumneavoastră.", ru: "Посмотрите здание вживую.", en: "See the building for yourself." },
-  closeText: { ro: "Spuneți-ne ce deschideți și ce este critic — pregătim vizionarea cu răspunsurile tehnice la îndemână.", ru: "Расскажите, что вы открываете и что для вас важно, — к просмотру подготовим ответы на технические вопросы.", en: "Tell us what you are opening and what is critical — we prepare the viewing with the technical answers at hand." },
+  allProjects: { ro: "Toate proiectele", ru: "Все проекты", en: "All projects" },
+  partnership: { ro: "Parteneriat investițional", ru: "Инвестиционное партнёрство", en: "Investment partnership" },
 } satisfies Record<string, Localized>;
 
+/** Moscova 20: the property itself (704 m², OWNER-confirmed) — kept apart from the 625,7 m² unit on offer. */
+const propertyLine: Partial<Record<AssetSlug, Localized>> = {
+  "moscova-20": {
+    ro: "Obiect comercial de 704 m² la colțul bulevardului Moscova cu strada Matei Basarab — pe prima linie.",
+    ru: `Торговый объект площадью 704${N}м² на${N}углу бульвара Москова и${N}улицы Матей Басараб${N}— на${N}первой линии.`,
+    en: "A 704 m² retail property on the corner of Moscova Boulevard and Matei Basarab Street — on the first line.",
+  },
+};
+/** Story paragraphs addressed to a prospective tenant — hidden while the building is fully let; unit paragraphs go to the unit block. */
+const pitchParagraphs: Partial<Record<AssetSlug, number[]>> = { "moscova-9": [0] };
+const unitParagraphs: Partial<Record<AssetSlug, number[]>> = { "moscova-20": [2] };
 /** Hero framing per property: the whole building, its frontage and the street. */
-const heroPosition: Partial<Record<AssetSlug, string>> = { "moscova-9": "50% 64%", "dacia-31": "50% 58%", "moscova-20": "50% 74%" };
+const heroPosition: Partial<Record<AssetSlug, string>> = { "moscova-9": "50% 60%", "dacia-31": "50% 56%", "moscova-20": "50% 70%" };
+const accessKeys: Requirement[] = ["entrance", "visibility", "delivery", "parking"];
 const techKeys: Requirement[] = ["ground", "power", "ventilation", "flexible"];
-const accessKeys: Requirement[] = ["entrance", "parking", "visibility", "delivery"];
-/** Street-level detail cut from the real photograph: the entrance and frontage of each building. */
-const accessFocus: Partial<Record<AssetSlug, string>> = { "moscova-9": "40% 62%", "dacia-31": "57% 66%", "moscova-20": "58% 64%" };
-
-const todayTitle = { ro: (name: string) => `${name} astăzi.`, ru: (name: string) => `${name} сегодня.`, en: (name: string) => `${name} today.` };
-
-function CapabilityRows({ slug, keys, locale }: { slug: AssetSlug; keys: Requirement[]; locale: SiteLocale }) {
-  const fit = tenantFit[slug];
-  if (!fit.capabilities) return null;
-  const capabilities = fit.capabilities;
-  // only confirmed capabilities are published (§29: no invented technical specs)
-  const shown = keys.filter((key) => capabilities[key].status !== "DEMO");
-  if (!shown.length) return null;
-  return (
-    <div className="xp-cap">
-      {shown.map((key) => {
-        const capability = capabilities[key];
-        return (
-          <div key={key} className="xp-cap__row">
-            <span className="xp-cap__label">{needCopy[key].label[locale]}</span>
-            <span className={`xp-cap__level xp-cap__level--${capability.level}`}>
-              {fitCopy[capability.level][locale]}
-              <i aria-hidden="true"><b /><b /><b /></i>
-            </span>
-            <p className="xp-cap__note">
-              {capability.note[locale]}
-              {capability.status === "DEMO" ? <DemoMark /> : null}
-            </p>
-          </div>
-        );
-      })}
-    </div>
-  );
-}
+/** Leasing-flexibility notes read as an offer — not shown for a fully let building. */
+const offerKeys: Requirement[] = ["flexible"];
 
 export function IncomeProjectPage({ locale, project }: { locale: SiteLocale; project: ProjectEntry }) {
   const asset = project.asset!;
@@ -121,77 +84,57 @@ export function IncomeProjectPage({ locale, project }: { locale: SiteLocale; pro
   const fit = tenantFit[slug];
   const profile = assetProfiles[slug];
   const isCreanga = slug === "creanga-78";
-  const place = project.district[locale];
   const occupancy = occupancyOf(slug);
-  /** 100 % occupied and nothing on the public market (OWNER 2026-10-09). */
-  const fullyLet = occupancy.fullyLet && spacesFor(slug).length === 0;
-  /** The capability / fit profile is retired (Creangă 78) — those blocks are not shown. */
-  const profileRetired = fit.capabilities === null;
-  const story = isCreanga ? [] : asset.story[locale];
-  /** Value-creation levers are analysis, not confirmed facts: only confirmed ones are published (§29). */
-  const levers = profile.levers.filter((lever) => lever.title.status !== "DEMO");
-  const hasTech = Boolean(fit.capabilities && techKeys.some((key) => fit.capabilities![key].status !== "DEMO")) || asset.building.programme.length > 0 || levers.length > 0;
-  const lead = isCreanga ? creangaProfile.lead.value[locale] : asset.lead[locale];
-  const narrative = isCreanga ? creangaProfile.narrative.value[locale] : asset.narrative[locale];
-  const location = isCreanga ? creangaProfile.location.value[locale] : asset.location[locale];
   const own = spacesFor(slug);
-  const viewing = `${p("/contact")}?subject=lease&property=${slug}#occupier`;
-  const gallery = imageUses.filter((use) => use.id.startsWith(`asset.${slug}.gallery`));
-  const typeOf = (key: string) => useTaxonomy.find((t) => t.key === key);
-  const firstPlan = own[0];
-  let n = 0;
-  const no = () => String(++n).padStart(2, "0");
+  /** 100 % occupied and nothing on the public market (OWNER 2026-10-09). */
+  const fullyLet = occupancy.fullyLet && own.length === 0;
+  const unit = own[0] ?? null;
+  /** A district is shown only when confirmed (Creangă 78's district is not yet). */
+  const district = isCreanga && creangaProfile.district.status === "DEMO" ? null : project.district[locale];
+  const placeLine = [asset.city[locale], district].filter(Boolean).join(` · `);
+  const narrative = isCreanga ? creangaProfile.narrative.value[locale] : asset.narrative[locale];
+  const lead = propertyLine[slug]?.[locale] ?? (isCreanga ? creangaProfile.lead.value[locale] : fullyLet ? storyLine[slug][locale] : asset.lead[locale]);
+  const hidden = new Set([...(fullyLet ? pitchParagraphs[slug] ?? [] : []), ...(unitParagraphs[slug] ?? [])]);
+  const story = isCreanga ? [] : asset.story[locale].filter((_, index) => !hidden.has(index));
+  const unitStory = (unitParagraphs[slug] ?? []).map((index) => asset.story[locale][index]).filter(Boolean);
+  const caps = fit.capabilities;
+  const confirmedCap = (key: Requirement) => (caps && caps[key].status !== "DEMO" && !(fullyLet && offerKeys.includes(key)) ? caps[key] : null);
+  const access = accessKeys.map((key) => ({ key, cap: confirmedCap(key) })).filter((row) => row.cap);
+  const tech = techKeys.map((key) => ({ key, cap: confirmedCap(key) })).filter((row) => row.cap);
+  /** Moscova 20's fact list and programme describe the unit — they belong to the unit block. */
+  const unitFacts = slug === "moscova-20";
+  const keyFacts = unitFacts ? [] : asset.keyFacts;
+  const programme = unitFacts ? [] : asset.building.programme;
+  const maxLevel = Math.max(1, ...programme.map((row) => parseFloat(row.value.en.replace(/[^\d.]/g, "")) || 0));
+  const statusText = fullyLet ? null : own.length ? null : project.card.status[locale];
 
   return (
-    <PageShell locale={locale} experience mainClassName="xp-asset">
-      {/* 01 PROPERTY — the whole building first, the intro below it (no card over the photograph) */}
-      <section className={`pp-hero${isCreanga ? " pp-hero--contained" : ""}`}>
-        <figure className="pp-hero__media" data-reveal>
-          <ArtImage media={asset.media!} alt={`${asset.name} — ${asset.positioning[locale]}`} priority position={heroPosition[slug]} />
+    <PageShell locale={locale} experience mainClassName="xp-asset pp2">
+      {/* HERO — the building first; identity beside it, never over it */}
+      <section className={`pp2-hero${isCreanga ? " pp2-hero--contained" : ""}`}>
+        <div className="xp-shell pp2-hero__head" data-reveal>
+          <Link href={p("/projects")} className="pp2-back"><Icon name="left" /> {copy.back[locale]}</Link>
+          <h1 className="pp2-hero__name">{asset.name}</h1>
+          <dl className="pp2-hero__facts">
+            <div><dt>{copy.place[locale]}</dt><dd>{placeLine}</dd></div>
+            <div><dt>{copy.area[locale]}</dt><dd>{profile.area.value[locale]}</dd></div>
+            <div><dt>{copy.status[locale]}</dt><dd>{statusText ?? <ProjectStatus project={project} locale={locale} as="span" />}</dd></div>
+          </dl>
+        </div>
+        <figure className="xp-shell pp2-hero__media" data-reveal>
+          <ArtImage media={asset.media!} variant={isCreanga ? "card" : "master"} alt={`${asset.name} — ${asset.positioning[locale]}`} priority sizes={isCreanga ? "(min-width: 1024px) 60rem, 100vw" : "(min-width: 1440px) 1360px, 100vw"} position={heroPosition[slug]} />
         </figure>
-        <div className="xp-shell pp-hero__intro">
-          <div className="pp-hero__head" data-reveal>
-            <Link href={p("/projects")} className="back-link"><Icon name="left" /> {copy.back[locale]}</Link>
-            <p className="xp-eyebrow"><span>{place} · {asset.city[locale]} · {profile.format.value[locale]}</span></p>
-            <h1 className="pp-hero__name">{asset.name}</h1>
-          </div>
-          <div className="pp-hero__side" data-reveal>
-            {/* a fully let building gets its editorial line, never a leasing pitch for space that is not offered */}
-            <p className="pp-hero__reason">{fullyLet ? storyLine[slug][locale] : fit.reason[locale]}</p>
-            <ProjectFacts project={project} locale={locale} />
-            <ProjectStatus project={project} locale={locale} />
-            <div className="xp-actions">
-              {own.length ? <Button href="#available">{copy.spaces[locale]}</Button> : null}
-              {own.length ? <TextLink href={viewing}>{copy.viewing[locale]}</TextLink> : <TextLink href={viewing}>{copy.noneCta[locale]}</TextLink>}
-            </div>
-          </div>
-        </div>
       </section>
 
-      {/* 02 KEY FACTS — the essentials straight after the building */}
-      <section className="xp-sec xp-sec--stone xp-sec--tight">
-        <div className="xp-shell" data-reveal>
-          <p className="xp-eyebrow xp-eyebrow--gap"><span className="xp-eyebrow__no">{no()}</span><span>{copy.factsLabel[locale]}</span></p>
-          <Ledger locale={locale} className="xp-ledger--cols-3" items={[
-            { label: copy.area[locale], point: profile.area },
-            { label: copy.leasingLabel[locale], point: profile.availability },
-            { label: copy.land[locale], point: profile.land },
-            { label: copy.parking[locale], point: profile.parking },
-            { label: copy.acquired[locale], point: profile.acquired },
-            { label: copy.repositioned[locale], point: profile.repositioned },
-          ]} />
-          {asset.keyFacts.length ? <FactList facts={asset.keyFacts} locale={locale} /> : null}
-        </div>
-      </section>
-
-      <section className="xp-sec">
-        <div className="xp-shell xp-split xp-split--text">
+      {/* IDENTITY — what the building is */}
+      <section className="pm-sec pm-sec--paper pp2-id">
+        <div className="xp-shell pp2-id__grid">
           <div data-reveal>
-            <p className="xp-eyebrow"><span className="xp-eyebrow__no">{no()}</span><span>{copy.whyLabel[locale]}</span></p>
-            <h2 className="xp-split__title xp-split__title--gap">{narrative}</h2>
+            <p className="pm-kicker">{copy.identityLabel[locale]}</p>
+            <h2 className="pm-h2 pp2-id__title">{narrative}</h2>
           </div>
-          <div className="xp-prose" data-reveal>
-            <p className="xp-lead">{lead}</p>
+          <div className="pp2-id__text" data-reveal>
+            <p className="pp2-id__lead">{lead}</p>
             {story.map((paragraph) => (
               <p key={paragraph}>{paragraph}</p>
             ))}
@@ -199,168 +142,175 @@ export function IncomeProjectPage({ locale, project }: { locale: SiteLocale; pro
         </div>
       </section>
 
-      {/* LOCATION — light editorial map (reusable module) */}
-      <LocationSection locale={locale} no={no()} mapKey={slug} name={asset.name} place={place} area={asset.city[locale]} text={location} points={asset.connectivity} map={asset.map} />
-
-      {/* GALLERY — an editorial pair; the hero photograph is never repeated */}
-      {gallery.length ? (
-      <section className="xp-sec xp-sec--warm">
-        <div className="xp-shell">
-          <p className="xp-eyebrow xp-eyebrow--gap" data-reveal><span className="xp-eyebrow__no">{no()}</span><span>{copy.galleryLabel[locale]}</span></p>
-          <div className="pp-gallery">
-            {gallery.map((use) => (
-              <figure key={use.id} className="pp-gallery__item" data-reveal>
-                <ConceptImage id={use.id} locale={locale} sizes="(min-width: 720px) 50vw, 100vw" depth={8} />
-              </figure>
-            ))}
-          </div>
-        </div>
-      </section>
-      ) : null}
-
-      {/* ENTRANCE · PARKING · ACCESS — the street-level detail of the real building (not for a retired profile: its only photograph is the hero) */}
-      {profileRetired ? null : (
-      <section className="xp-sec pp-access">
-        <div className="xp-shell xp-split xp-split--wide">
-          <figure className={`pp-access__media al-reveal${isCreanga ? " pp-access__media--native" : ""}`} data-reveal style={{ "--focus": accessFocus[slug] ?? "50% 60%" } as CSSProperties}>
-            <ArtImage media={asset.media!} alt={`${asset.name} — ${(profileRetired ? copy.todayLabel : copy.placeLabel)[locale]}`} sizes="(min-width: 1024px) 55vw, 100vw" position={accessFocus[slug]} />
-          </figure>
-          {profileRetired ? (
-            <div className="xp-split__copy" data-reveal>
-              <p className="xp-eyebrow"><span className="xp-eyebrow__no">{no()}</span><span>{copy.todayLabel[locale]}</span></p>
-              <h2 className="xp-split__title">{todayTitle[locale](asset.name)}</h2>
-              <ProjectFacts project={project} locale={locale} />
-              <ProjectStatus project={project} locale={locale} />
-            </div>
-          ) : (
-            <div className="xp-split__copy" data-reveal>
-              <p className="xp-eyebrow"><span className="xp-eyebrow__no">{no()}</span><span>{copy.placeLabel[locale]}</span></p>
-              <h2 className="xp-split__title">{copy.placeTitle[locale]}</h2>
-              <CapabilityRows slug={slug} keys={accessKeys} locale={locale} />
-            </div>
-          )}
-        </div>
-      </section>
-
-      )}
-
-      {/* AVAILABLE SPACES */}
-      <section className="xp-sec xp-sec--warm" id="available">
-        <div className="xp-shell">
-          <Opening no={no()} label={copy.availableLabel[locale]} title={own.length ? copy.availableTitle[locale] : copy.noneTitle[locale]} lead={own.length ? undefined : copy.noneText[locale]} className="xp-opening--split" />
-          {own.length ? (
-            <div className="lx-rail">
-              {own.map((space) => (
-                <UnitCard key={space.id} space={space} locale={locale} />
-              ))}
-            </div>
-          ) : (
-            <div className="xp-actions">
-              <Button href={viewing}>{copy.noneCta[locale]}</Button>
-              <TextLink href={`${p("/leasing")}#available`}>{copy.otherSpaces[locale]}</TextLink>
-            </div>
-          )}
-        </div>
-      </section>
-
-      {/* 06 WHO IT FITS — not for a retired profile */}
-      {profileRetired ? null : (
-      <section className="xp-sec">
-        <div className="xp-shell">
-          <Opening no={no()} label={copy.fitLabel[locale]} title={copy.fitTitle[locale]} />
-          <div className="xp-fit">
-            <ul className="xp-fit__types" data-reveal>
-              {fit.bestFor.map((key) => (
-                <li key={key}>
-                  {typeOf(key)?.label[locale]}
-                  <span>{typeOf(key)?.goal[locale]}{fit.bestForStatus === "DEMO" ? <DemoMark /> : null}</span>
-                </li>
-              ))}
-            </ul>
-            <div data-reveal>
-              <p className="xp-label">{copy.whyItWorks[locale]}</p>
-              <ol className="xp-numbered">
-                {fit.why.map((line) => (
-                  <li key={line.en}><h3>{line[locale]}</h3></li>
+      {/* STREET / CONTEXT — the frontage and what is around it (confirmed points only) */}
+      {asset.connectivity.length ? (
+        <section className="pm-sec pm-sec--warm pp2-context">
+          <div className="xp-shell pp2-context__grid">
+            <figure className="pp2-context__media al-reveal" data-reveal>
+              <ArtImage media={asset.media!} variant="portrait" alt={`${asset.name} — ${copy.contextLabel[locale]}`} sizes="(min-width: 1024px) 34vw, 100vw" />
+            </figure>
+            <div className="pp2-context__copy" data-reveal>
+              <p className="pm-kicker">{copy.contextLabel[locale]}</p>
+              <ul className="pp2-points">
+                {asset.connectivity.map((point) => (
+                  <li key={point.en}>{point[locale]}</li>
                 ))}
-              </ol>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      )}
-
-      {/* 07 TECHNICAL INFORMATION — confirmed content only */}
-      {profileRetired || !hasTech ? null : (
-      <section className="xp-sec xp-sec--warm">
-        <div className="xp-shell">
-          <Opening no={no()} label={copy.techLabel[locale]} title={copy.techTitle[locale]} lead={asset.caveat?.[locale]} className="xp-opening--split" />
-          <div className="xp-split xp-split--text">
-            <div data-reveal>
-              <CapabilityRows slug={slug} keys={techKeys} locale={locale} />
-              {asset.building.programme.length ? <FactList facts={asset.building.programme} locale={locale} /> : null}
-            </div>
-            {levers.length ? <div data-reveal>
-              <p className="xp-label">{copy.improveLabel[locale]}</p>
-              <ol className="xp-numbered">
-                {levers.map((lever) => (
-                  <li key={lever.title.key}>
-                    <h3>{lever.title.value[locale]}<DemoMark /></h3>
-                    <p>{lever.text[locale]}</p>
-                  </li>
-                ))}
-              </ol>
-            </div> : null}
-          </div>
-        </div>
-      </section>
-      )}
-
-      {/* 09 PLAN */}
-      {firstPlan ? (
-        <section className="xp-sec">
-          <div className="xp-shell xp-split xp-split--text">
-            <div data-reveal>
-              <p className="xp-eyebrow"><span className="xp-eyebrow__no">{no()}</span><span>{copy.planLabel[locale]}</span></p>
-              <h2 className="xp-split__title xp-split__title--gap">{firstPlan.unit[locale]}</h2>
-              <TextLink href={p(`/leasing/${firstPlan.id}`)}>{copy.spaces[locale]}</TextLink>
-            </div>
-            <div data-reveal style={{ "--plan-max": "40rem" } as CSSProperties}>
-              <UnitPlan plan={firstPlan.plan} locale={locale} demo={isDemoField(firstPlan, "plan")} title={`${asset.name} — ${firstPlan.unit[locale]}`} uid={`project-${firstPlan.id}`} />
+              </ul>
             </div>
           </div>
         </section>
       ) : null}
 
-      {/* 10 REQUEST A VIEWING */}
-      <section className="xp-sec xp-sec--ink">
-        <div className="xp-shell xp-close">
-          <div data-reveal>
-            <p className="xp-eyebrow"><span className="xp-eyebrow__no">{no()}</span><span>{asset.name}</span></p>
-            <h2 className="xp-close__title">{(fullyLet ? copy.fullTitle : copy.closeTitle)[locale]}</h2>
-            <p className="xp-lead xp-lead--gap xp-lead--light">{(fullyLet ? copy.fullText : copy.closeText)[locale]}</p>
-            <div className="xp-actions xp-actions--top">
-              {fullyLet ? (
-                <>
-                  <Button href={`${p("/leasing")}#available`} variant="light">{copy.otherSpaces[locale]}</Button>
-                  <TextLink href={viewing} className="tlink--light">{copy.noneCta[locale]}</TextLink>
-                </>
-              ) : (
-                <>
-                  <Button href={viewing} variant="light">{copy.viewing[locale]}</Button>
-                  {own.length ? <TextLink href={`${p("/leasing")}?project=${slug}#available`} className="tlink--light">{copy.spaces[locale]}</TextLink> : null}
-                </>
-              )}
+      {/* KEY FACTS — the property in figures */}
+      <section className="pm-sec pm-sec--paper pp2-facts">
+        <div className="xp-shell">
+          <p className="pm-kicker" data-reveal>{copy.factsLabel[locale]}</p>
+          <dl className="pp2-figures" data-reveal>
+            <div className="pp2-figures__lead"><dt>{copy.area[locale]}</dt><dd>{profile.area.value[locale]}</dd></div>
+            {occupancy.fullyLet ? <div><dt>{copy.status[locale]}</dt><dd>100{N}%<small>{copy.occupied[locale]}</small></dd></div> : null}
+            {/* the confirmed format, unless the fact list already names it */}
+            {keyFacts.some((fact) => /format|формат/i.test(fact.label.en + fact.label.ru)) ? null : <div className="pp2-figures__text"><dt>{copy.format[locale]}</dt><dd>{profile.format.value[locale]}</dd></div>}
+            {keyFacts.filter((fact) => !/^(Общая площадь|Total|Suprafața totală)/.test(fact.label[locale])).map((fact) => (
+              <div key={fact.label.en}><dt>{fact.label[locale]}</dt><dd>{fact.value[locale]}</dd></div>
+            ))}
+          </dl>
+          {programme.length ? (
+            <div className="pp2-levels" data-reveal>
+              <p className="pp2-sub">{copy.levels[locale]}</p>
+              <ol>
+                {[...programme].reverse().map((row) => {
+                  const m2 = parseFloat(row.value.en.replace(/[^\d.]/g, "")) || 0;
+                  return (
+                    <li key={row.label.en} style={{ "--w": `${Math.round((m2 / maxLevel) * 100)}%` } as CSSProperties}>
+                      <span className="pp2-levels__name">{row.label[locale]}</span>
+                      <span className="pp2-levels__bar" aria-hidden="true" />
+                      <span className="pp2-levels__value">{row.value[locale]}</span>
+                    </li>
+                  );
+                })}
+              </ol>
+            </div>
+          ) : null}
+        </div>
+      </section>
+
+      {/* ENTRANCE · ACCESS · PARKING — confirmed only */}
+      {access.length ? (
+        <section className="pm-sec pm-sec--warm pp2-access">
+          <div className="xp-shell">
+            <div className="pm-head pm-head--split" data-reveal>
+              <p className="pm-kicker">{copy.accessLabel[locale]}</p>
+              <h2 className="pm-h2">{copy.accessTitle[locale]}</h2>
+            </div>
+            <dl className="pp2-rows">
+              {access.map(({ key, cap }) => (
+                <div key={key} data-reveal>
+                  <dt>{needCopy[key].label[locale]}</dt>
+                  <dd>{cap!.note[locale]}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        </section>
+      ) : null}
+
+      {/* LOCATION — light editorial map (the route actions only where the address is confirmed) */}
+      <LocationSection locale={locale} no="" mapKey={slug} name={asset.name} place={district ?? asset.city[locale]} area={district ? asset.city[locale] : ""} text={isCreanga ? "" : asset.location[locale]} points={[]} map={asset.map} />
+
+      {/* AVAILABLE UNIT — set apart from the property */}
+      {unit ? (
+        <section className="pm-sec pp2-unit" id="available">
+          <div className="xp-shell pp2-unit__grid">
+            <div className="pp2-unit__copy" data-reveal>
+              <p className="pm-kicker">{copy.unitLabel[locale]}</p>
+              <h2 className="pp2-unit__name">{unit.unit[locale]}</h2>
+              <p className="pp2-unit__area">{formatAreaRange(unit.areaMin, unit.area, locale)}</p>
+              <p className={`lx2-offer__status is-${availabilityOf(unit).key}`}>{availabilityLabel(unit, locale)}</p>
+              {unitStory.map((paragraph) => (
+                <p key={paragraph} className="pp2-unit__text">{paragraph}</p>
+              ))}
+              {unit.confirmed.includes("highlights") && unit.highlights.length ? (
+                <ul className="lx2-offer__points">
+                  {unit.highlights.map((point) => (
+                    <li key={point.en}>{point[locale]}</li>
+                  ))}
+                </ul>
+              ) : null}
+              <div className="pm-actions">
+                <Button href={viewingHref(locale, unit)}>{copy.viewing[locale]}</Button>
+                <Link className="pm-link" href={p(`/leasing/${unit.id}`)}>{copy.unitOpen[locale]}<Icon /></Link>
+              </div>
+            </div>
+            <div className="pp2-unit__side" data-reveal>
+              {unitFacts ? (
+                <dl className="pp2-unit__facts">
+                  {asset.keyFacts.map((fact) => (
+                    <div key={fact.label.en}><dt>{fact.label[locale]}</dt><dd>{fact.value[locale]}</dd></div>
+                  ))}
+                  {asset.building.programme.map((fact) => (
+                    <div key={fact.label.en}><dt>{fact.label[locale]}</dt><dd>{fact.value[locale]}</dd></div>
+                  ))}
+                </dl>
+              ) : null}
+              {unit.plan ? (
+                <div className="pp2-unit__plan" style={{ "--plan-max": "36rem" } as CSSProperties}>
+                  <p className="pp2-sub">{copy.planLabel[locale]}</p>
+                  <UnitPlan plan={unit.plan} locale={locale} demo={isDemoField(unit, "plan")} title={`${asset.name} — ${unit.unit[locale]}`} uid={`project-${unit.id}`} />
+                </div>
+              ) : null}
             </div>
           </div>
-          <nav className="xp-close__routes" aria-label={copy.nextLabel[locale]} data-reveal>
+          {asset.caveat ? <p className="xp-shell pp2-caveat">{asset.caveat[locale]}</p> : null}
+        </section>
+      ) : null}
+
+      {/* TECHNICAL INFORMATION — confirmed only, for the whole building */}
+      {!unit && tech.length >= 2 ? (
+        <section className="pm-sec pm-sec--paper pp2-tech">
+          <div className="xp-shell">
+            <div className="pm-head pm-head--split" data-reveal>
+              <p className="pm-kicker">{copy.techLabel[locale]}</p>
+              {asset.caveat ? <p className="pm-head__lead">{asset.caveat[locale]}</p> : null}
+            </div>
+            <dl className="pp2-rows">
+              {tech.map(({ key, cap }) => (
+                <div key={key} data-reveal>
+                  <dt>{needCopy[key].label[locale]}</dt>
+                  <dd>{cap!.note[locale]}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        </section>
+      ) : null}
+
+      {/* CLOSE — a viewing only where a unit is offered; a fully let building has no availability action */}
+      <section className="pm-close">
+        <div className="xp-shell pm-close__grid">
+          <div data-reveal>
+            <p className="pm-kicker">{asset.name}</p>
+            <h2 className="pm-close__title pp2-close__title">{(unit ? copy.closeViewing : fullyLet ? copy.closeFull : copy.closeAsk)[locale]}</h2>
+            {unit ? (
+              <div className="pm-actions pp2-close__actions">
+                <Button href={viewingHref(locale, unit)}>{copy.viewing[locale]}</Button>
+              </div>
+            ) : !fullyLet ? (
+              <div className="pm-actions pp2-close__actions">
+                <Button href={`${p("/contact")}?subject=general&property=${slug}#question`}>{copy.ask[locale]}</Button>
+              </div>
+            ) : null}
+          </div>
+          <nav className="pm-close__routes" aria-label={copy.closeLabel[locale]} data-reveal>
             <Link href={p(`/projects/${next.slug}`)}>
-              <span><small className="xp-label">{copy.nextLabel[locale]}</small><br />{next.name}</span>
+              <span>{copy.nextLabel[locale]} · {next.name}</span>
               <Icon name="arrow" size={18} />
             </Link>
             <Link href={p("/projects")}>
-              {copy.back[locale]}
+              <span>{copy.allProjects[locale]}</span>
+              <Icon name="arrow" size={18} />
+            </Link>
+            <Link href={p("/partnership")}>
+              <span>{copy.partnership[locale]}</span>
               <Icon name="arrow" size={18} />
             </Link>
           </nav>

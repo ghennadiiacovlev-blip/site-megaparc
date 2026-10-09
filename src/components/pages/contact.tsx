@@ -1,24 +1,24 @@
 import Link from "next/link";
-import { DemoLegend, Opening, Val } from "@/components/experience";
+import { DemoLegend, Val } from "@/components/experience";
 import { EnquiryFormBlock } from "@/components/journey-blocks";
 import { PageShell } from "@/components/page-shell";
 import { company, contactLinks, leasingProcess } from "@/data/demo-content";
 import { Icon } from "@/components/ui";
-import { brand, localePath, type SiteLocale } from "@/lib/site-data";
+import { localePath, type SiteLocale } from "@/lib/site-data";
 
 /**
- * CONTACT — calm, routing first (final craft pass 2026-10-08).
- * The first screen is a statement and three routes (leasing · offer a property
- * or land · vacancies); the form follows as the fourth way in, adapting to its
- * subject (space · property or land · careers · partnership or other), with the
- * details and what happens next. Public contacts are OWNER-confirmed
- * (2026-10-09): one general mailbox and two telephones, clickable (mailto / tel);
- * department mailboxes are not published until the OWNER supplies them.
+ * CONTACT — start with the right conversation (OWNER "PREMIUM PHASE 2",
+ * 2026-10-09). The first screen: one statement, the OWNER-confirmed contacts
+ * set large and clickable (mailto / tel), and the five routes — leasing ·
+ * investment partnership · offer a property or land · vacancies · general
+ * question — as calm full-width rows. The form follows, adapting to its
+ * subject, with the details and what happens next. Department mailboxes are
+ * not published until the OWNER supplies them.
  */
 const copy = {
   ro: {
     label: "Contact",
-    title: "Să stăm de vorbă.",
+    title: "Începeți cu discuția potrivită.",
     lead: "Alegeți direcția — sau scrieți-ne mai jos.",
     routes: [["Închiriere", "Găsiți un spațiu", "/leasing#available"], ["Parteneriat investițional", "Discutăm o oportunitate", "#partnership"], ["Propuneți un obiect sau un teren", "Trimiteți informațiile", "/offer#form"], ["Cariere", "Vezi posturile", "/careers#positions"], ["Întrebare generală", "Scrieți-ne", "#question"]],
     formLabel: "Scrieți-ne",
@@ -35,7 +35,7 @@ const copy = {
   },
   ru: {
     label: "Контакты",
-    title: "Поговорим о задаче.",
+    title: "Начните с\u00a0нужного разговора.",
     lead: "Выберите направление — или опишите задачу в форме ниже.",
     routes: [["Аренда", "Найти помещение", "/leasing#available"], ["Инвестиционное партнёрство", "Обсудить возможность", "#partnership"], ["Предложить объект или землю", "Отправить информацию", "/offer#form"], ["Вакансии", "Смотреть вакансии", "/careers#positions"], ["Общий вопрос", "Написать нам", "#question"]],
     formLabel: "Написать нам",
@@ -52,7 +52,7 @@ const copy = {
   },
   en: {
     label: "Contact",
-    title: "Let's talk it through.",
+    title: "Start with the right conversation.",
     lead: "Choose a route — or write to us below.",
     routes: [["Leasing", "Find a space", "/leasing#available"], ["Investment partnership", "Discuss an opportunity", "#partnership"], ["Offer a property or land", "Send the details", "/offer#form"], ["Careers", "See vacancies", "/careers#positions"], ["General question", "Write to us", "#question"]],
     formLabel: "Write to us",
@@ -84,25 +84,29 @@ export function ContactPage({ locale }: { locale: SiteLocale }) {
 
   return (
     <PageShell locale={locale} experience mainClassName="xp-contact">
-      <section className="xp-pagehero xp-sh">
-        <div className="xp-shell xp-sh__grid">
-          <p className="xp-eyebrow xp-sh__eyebrow"><span className="xp-eyebrow__no">{brand.name}</span><span>{c.label}</span></p>
-          <h1 className="xp-display-title xp-sh__title">{c.title}</h1>
-          <div className="xp-sh__lead">
-            <p className="xp-pagehero__lead">{c.lead}</p>
-            <ul className="xp-contact__direct">
+      <section className="ct2-hero">
+        <div className="xp-shell ct2-hero__grid">
+          <div className="ct2-hero__copy">
+            <p className="pm-kicker" data-reveal>{c.label}</p>
+            <h1 className="ct2-hero__title" data-reveal>{c.title}</h1>
+            <p className="ct2-hero__lead" data-reveal>{c.lead}</p>
+            <ul className="ct2-direct" data-reveal>
               {direct.map(([label, point, href]) => (
-                <li key={href}><a href={href} aria-label={`${label}: ${point.value[locale]}`}>{point.value[locale]}</a></li>
+                <li key={href}>
+                  <span>{label}</span>
+                  <a href={href} aria-label={`${label}: ${point.value[locale]}`}>{point.value[locale]}</a>
+                </li>
               ))}
             </ul>
           </div>
-          <nav className="xp-sh__aside xp-routes" aria-label={c.label}>
+          <nav className="ct2-routes" aria-label={c.label} data-reveal>
             {c.routes.map(([label, action, href]) => {
               const [path, hash] = href.split("#");
               return (
                 <Link key={label} href={path ? `${localePath(locale, path)}${hash ? `#${hash}` : ""}` : `#${hash}`}>
-                  <span className="xp-routes__label">{label}</span>
-                  <span className="xp-routes__action">{action}<Icon /></span>
+                  <span className="ct2-routes__label">{label}</span>
+                  <span className="ct2-routes__action">{action}</span>
+                  <Icon name="arrow" size={18} />
                 </Link>
               );
             })}
@@ -112,7 +116,10 @@ export function ContactPage({ locale }: { locale: SiteLocale }) {
 
       <section className="xp-sec xp-sec--warm xp-contact__form" id="write">
         <div className="xp-shell">
-          <Opening no="01" label={c.formLabel} title={c.formTitle} />
+          <div className="pm-head" data-reveal>
+            <p className="pm-kicker">{c.formLabel}</p>
+            <h2 className="pm-h2">{c.formTitle}</h2>
+          </div>
         </div>
         <div className="xp-shell xp-contact__grid">
           <EnquiryFormBlock locale={locale} />

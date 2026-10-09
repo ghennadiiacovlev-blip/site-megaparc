@@ -1,28 +1,36 @@
 import Link from "next/link";
 import type { CSSProperties } from "react";
-import { DemoMark, Opening, Val, plural } from "@/components/experience";
+import { DemoMark, MaskTitle, Val } from "@/components/experience";
 import { LeasingInventory, type InventoryCopy } from "@/components/leasing/inventory";
 import { TenantAdvisor, type AdvisorCopy } from "@/components/leasing/tenant-advisor";
-import { AvailabilityChip, SpaceImage, UnitCard, viewingHref } from "@/components/leasing/unit-card";
+import { SpaceImage, UnitCard, viewingHref } from "@/components/leasing/unit-card";
 import { PageShell } from "@/components/page-shell";
-import { Icon } from "@/components/ui";
+import { ArtImage } from "@/components/primitives";
+import { Button, Icon } from "@/components/ui";
 import { availabilityLabel, availabilityOf, formatArea, formatAreaRange, getProject, listProjects, publicSpaces, sortSpaces, spacesFor } from "@/content/source";
 import { leasingProcess } from "@/data/demo-content";
-import { areaBands, fitsBand, leasingSteps, needOrder, needs, noPrice, uses } from "@/lib/leasing";
-import { brand, localePath, type SiteLocale } from "@/lib/site-data";
+import { areaBands, leasingSteps, needOrder, needs, noPrice, uses } from "@/lib/leasing";
+import { localePath, type SiteLocale } from "@/lib/site-data";
 
 /**
  * LEASING — a top-level product, not a subsection (OWNER correction 2026-10-08).
- * The tenant sees WHAT IS AVAILABLE NOW first: a compact practical hero with the
- * live count and two shortcuts (journey A "about 200 m²", journey B "a
- * restaurant"), the inventory with filters, the tenant advisor, the buildings
- * with space, the process, the waiting list. Only published spaces (available
- * or reserved) appear — a space marked LEASED in the CMS disappears everywhere.
+ * OWNER "PREMIUM PHASE 2" (2026-10-09): desire first, filter second. The opening
+ * is the first available space as a property opportunity — a large photograph
+ * of the real building beside the statement, the unit, its area, floor, status,
+ * its confirmed advantages and one action (Запросить просмотр). The minimal
+ * filters (use · area · building) and the inventory follow; then the tenant
+ * advisor, the buildings with space (only when there is more than one), the
+ * process and the waiting list. Only published spaces (available or reserved)
+ * appear — a space marked LEASED in the CMS disappears everywhere.
  */
 const copy = {
   ro: {
     label: "Închiriere",
-    title: "Spații pentru afaceri.",
+    heroTitle: ["Găsiți locul", "pentru afacerea dumneavoastră."],
+    offerSpace: "Vezi spațiul",
+    offerMore: "Toate spațiile libere",
+    building: "Clădirea",
+    noneTitle: "Acum toate spațiile sunt închiriate.",    title: "Spații pentru afaceri.",
     lead: "Spațiile libere din clădirile MEGAPARC — cu planuri, caracteristici și statut actualizat.",
     spaces: ["spațiu", "spații", "spații"],
     now: "libere acum",
@@ -41,6 +49,10 @@ const copy = {
     spacesIn: (n: number) => (n === 1 ? "1 spațiu" : `${n} spații`),
     processLabel: "Cum închiriem",
     processTitle: "Cinci pași, de la cerere la deschidere.",
+    areaLabel: "Suprafață",
+    floorLabel: "Nivel",
+    statusLabel: "Statut",
+    viewingCta: "Solicită o vizionare",
     reply: "Răspuns",
     viewing: "Vizionare",
     closeLabel: "N-ați găsit?",
@@ -49,7 +61,11 @@ const copy = {
   },
   ru: {
     label: "Аренда",
-    title: "Помещения для бизнеса.",
+    heroTitle: ["Найдите место", "для\u00a0вашего бизнеса."],
+    offerSpace: "Смотреть помещение",
+    offerMore: "Все свободные помещения",
+    building: "Здание",
+    noneTitle: "Сейчас все помещения сданы.",    title: "Помещения для бизнеса.",
     lead: "Свободные площади в объектах MEGAPARC — с планами, характеристиками и актуальным статусом.",
     spaces: ["помещение", "помещения", "помещений"],
     now: "свободно сейчас",
@@ -68,6 +84,10 @@ const copy = {
     spacesIn: (n: number) => (n === 1 ? "1 помещение" : n < 5 ? `${n} помещения` : `${n} помещений`),
     processLabel: "Как мы сдаём",
     processTitle: "Пять шагов — от запроса до открытия.",
+    areaLabel: "Площадь",
+    floorLabel: "Этаж",
+    statusLabel: "Статус",
+    viewingCta: "Запросить просмотр",
     reply: "Ответ",
     viewing: "Просмотр",
     closeLabel: "Не нашли?",
@@ -76,7 +96,11 @@ const copy = {
   },
   en: {
     label: "Leasing",
-    title: "Space for business.",
+    heroTitle: ["Find the place", "for your business."],
+    offerSpace: "View the space",
+    offerMore: "All available spaces",
+    building: "Building",
+    noneTitle: "All spaces are leased right now.",    title: "Space for business.",
     lead: "Available space in MEGAPARC properties — with plans, specifications and up-to-date status.",
     spaces: ["space", "spaces", "spaces"],
     now: "available now",
@@ -95,6 +119,10 @@ const copy = {
     spacesIn: (n: number) => (n === 1 ? "1 space" : `${n} spaces`),
     processLabel: "How we lease",
     processTitle: "Five steps, from request to opening.",
+    areaLabel: "Area",
+    floorLabel: "Level",
+    statusLabel: "Status",
+    viewingCta: "Request a viewing",
     reply: "Reply",
     viewing: "Viewing",
     closeLabel: "Nothing yet?",
@@ -119,63 +147,69 @@ export function LeasingPage({ locale }: { locale: SiteLocale }) {
   const c = copy[locale];
   const p = (path: string) => localePath(locale, path);
   const list = sortSpaces(publicSpaces);
-  const shortcutBand = areaBands.find((band) => list.some((space) => fitsBand(band, space.area, space.areaMin)));
-  const nowCount = list.filter((s) => availabilityOf(s).key === "now").length;
   const withSpace = listProjects().filter((project) => spacesFor(project.slug).length);
+  /** The opening offer: the first published space in public order (available now first). */
+  const lead = list[0] ?? null;
+  const leadProject = lead ? getProject(lead.project) ?? null : null;
 
   return (
     <PageShell locale={locale} experience mainClassName="lx-page">
-      {/* HERO — a short statement, the live count, two shortcuts (journeys A and B) */}
-      <section className="xp-pagehero xp-sh">
-        <div className="xp-shell xp-sh__grid">
-          <p className="xp-eyebrow xp-sh__eyebrow" data-reveal><span className="xp-eyebrow__no">{brand.name}</span><span>{c.label}</span></p>
-          <h1 className="xp-display-title xp-sh__title" data-reveal>{c.title}</h1>
-          <p className="xp-pagehero__lead xp-sh__lead" data-reveal>{c.lead}</p>
-          {/* WHAT CAN I RENT NOW? — a live board of the first spaces, before any filter (OWNER brief 2026-10-08) */}
-          <div className="xp-sh__aside lx-board" data-reveal>
-            <p className="lx-board__head">
-              <span><i aria-hidden="true" />{c.boardLabel}</span>
-              <span>{String(list.length).padStart(2, "0")} {plural(list.length, c.spaces, locale)} · {String(nowCount).padStart(2, "0")} {c.now} · {String(withSpace.length).padStart(2, "0")} {plural(withSpace.length, c.buildings, locale)}</span>
-            </p>
-            <ul className="lx-board__list">
-              {list.slice(0, 4).map((space, index) => {
-                const project = getProject(space.project)!;
-                return (
-                  <li key={space.id} style={{ "--i": index } as CSSProperties}>
-                    <Link href={p(`/leasing/${space.id}`)} className="lx-board__row">
-                      <figure className="lx-board__media">
-                        <SpaceImage photo={space.photos[0]} space={space} locale={locale} sizes="9rem" priority={index === 0} />
-                      </figure>
-                      <span className="lx-board__main">
-                        <span className="lx-board__where">{project.name} · {project.district[locale]}</span>
-                        <span className="lx-board__unit">{space.unit[locale]}</span>
-                        <span className="lx-board__why">{space.headline[locale]}</span>
-                      </span>
-                      <span className="lx-board__side">
-                        <span className="lx-board__area">{formatAreaRange(space.areaMin, space.area, locale)}</span>
-                        <AvailabilityChip space={space} locale={locale} />
-                      </span>
-                    </Link>
-                  </li>
-                );
-              })}
-            </ul>
-            <a className="lx-board__all" href="#available">{c.boardAll} · {String(list.length).padStart(2, "0")}<Icon name="down" /></a>
-          </div>
-          {/* Same page, new filter: plain relative links reload the page so the inventory and the advisor read the URL. */}
-          <nav className="xp-sh__foot lx-hero__shortcuts" aria-label={c.label} data-reveal>
-            {/* shortcuts follow the published inventory (OWNER 2026-10-09): only a band and a use that hold a space */}
-            {shortcutBand ? <a href={`?area=${shortcutBand.key}#available`}>{c.shortcutArea} {shortcutBand.label[locale]}<Icon /></a> : null}
-            {list.some((space) => space.uses.includes("fnb")) ? <a href="?use=fnb#advisor">{c.shortcutFood}<Icon /></a> : null}
-            <a href="#available">{c.shortcutAll}<Icon name="down" /></a>
-          </nav>
+      {/* HERO — desire first: the first available space as a property opportunity, before any filter */}
+      <section className={`lx2-hero${lead ? "" : " lx2-hero--none"}`}>
+        {lead && leadProject ? (
+          <Link href={p(`/leasing/${lead.id}`)} className="lx2-hero__media" tabIndex={-1} aria-hidden="true">
+            {/* the real building; on wide screens the frame is held to its left part, clear of the temporary lettering on the glazing */}
+            <ArtImage media={leadProject.media!} alt="" priority sizes="(min-width: 1024px) 50vw, 100vw" position="0% 50%" />
+          </Link>
+        ) : null}
+        <div className="lx2-hero__copy">
+          <p className="pm-kicker" data-reveal>{c.label}</p>
+          <MaskTitle as="h1" className="lx2-hero__title" lines={[...c.heroTitle]} />
+          {lead && leadProject ? (
+            <div className="lx2-offer" data-reveal>
+              <p className="lx2-offer__where">
+                <Link href={p(`/projects/${leadProject.slug}`)}>{leadProject.name}</Link>
+                <span>{leadProject.district[locale]}</span>
+              </p>
+              <p className="lx2-offer__unit">{lead.unit[locale]}</p>
+              <dl className="lx2-offer__facts">
+                <div><dt className="sr-only">{c.areaLabel}</dt><dd className="lx2-offer__area">{formatAreaRange(lead.areaMin, lead.area, locale)}</dd></div>
+                {/* the floor is shown once: when the unit name already carries it, it is not repeated */}
+                {lead.unit[locale].includes(lead.floorLabel[locale]) ? null : <div><dt className="sr-only">{c.floorLabel}</dt><dd>{lead.floorLabel[locale]}</dd></div>}
+                <div><dt className="sr-only">{c.statusLabel}</dt><dd className={`lx2-offer__status is-${availabilityOf(lead).key}`}>{availabilityLabel(lead, locale)}</dd></div>
+              </dl>
+              {lead.confirmed.includes("highlights") && lead.highlights.length ? (
+                <ul className="lx2-offer__points">
+                  {lead.highlights.slice(0, 4).map((point) => (
+                    <li key={point.en}>{point[locale]}</li>
+                  ))}
+                </ul>
+              ) : null}
+              <div className="pm-actions">
+                <Button href={viewingHref(locale, lead)}>{c.viewingCta}</Button>
+                <Link className="pm-link" href={p(`/leasing/${lead.id}`)}>{c.offerSpace}<Icon /></Link>
+              </div>
+              <a className="lx2-offer__more" href="#available">{c.offerMore} · {String(list.length).padStart(2, "0")}<Icon name="down" /></a>
+            </div>
+          ) : (
+            <div className="lx2-offer" data-reveal>
+              <p className="lx2-offer__unit">{c.noneTitle}</p>
+              <div className="pm-actions">
+                <Button href={`${p("/contact")}?subject=lease#occupier`}>{c.routes[0][0]}</Button>
+              </div>
+            </div>
+          )}
         </div>
       </section>
 
       {/* AVAILABLE NOW — inventory */}
       <section className="xp-sec lx-available" id="available">
         <div className="xp-shell">
-          <Opening no="01" label={c.availableLabel} title={c.availableTitle} lead={noPrice[locale]} className="xp-opening--split" />
+          <div className="pm-head pm-head--split" data-reveal>
+            <p className="pm-kicker">{c.availableLabel}</p>
+            <h2 className="pm-h2">{c.availableTitle}</h2>
+            <p className="pm-head__lead">{noPrice[locale]}</p>
+          </div>
           <LeasingInventory
             locale={locale}
             items={list.map((s) => ({ id: s.id, uses: s.uses, area: s.area, areaMin: s.areaMin ?? s.area, project: s.project, avail: availabilityOf(s).key }))}
@@ -195,7 +229,10 @@ export function LeasingPage({ locale }: { locale: SiteLocale }) {
       {/* TENANT ADVISOR */}
       <section className="xp-sec xp-sec--warm" id="advisor">
         <div className="xp-shell">
-          <Opening no="02" label={c.advisorLabel} title={c.advisorTitle} className="xp-opening--split" />
+          <div className="pm-head pm-head--split" data-reveal>
+            <p className="pm-kicker">{c.advisorLabel}</p>
+            <h2 className="pm-h2">{c.advisorTitle}</h2>
+          </div>
           <TenantAdvisor
             items={list.map((space) => ({
               id: space.id,
@@ -222,10 +259,14 @@ export function LeasingPage({ locale }: { locale: SiteLocale }) {
         </div>
       </section>
 
-      {/* BUILDINGS WITH SPACE */}
+      {/* BUILDINGS WITH SPACE — only when there is more than one (a single building is already the opening) */}
+      {withSpace.length > 1 ? (
       <section className="xp-sec">
         <div className="xp-shell">
-          <Opening no="03" label={c.buildingsLabel} title={c.buildingsTitle} />
+          <div className="pm-head" data-reveal>
+            <p className="pm-kicker">{c.buildingsLabel}</p>
+            <h2 className="pm-h2">{c.buildingsTitle}</h2>
+          </div>
           <ul className="lx-buildings">
             {withSpace.map((project) => {
               const own = spacesFor(project.slug);
@@ -247,11 +288,16 @@ export function LeasingPage({ locale }: { locale: SiteLocale }) {
           </ul>
         </div>
       </section>
+      ) : null}
 
       {/* PROCESS */}
       <section className="xp-sec xp-sec--stone">
         <div className="xp-shell">
-          <Opening no="04" label={c.processLabel} title={c.processTitle} lead={noPrice[locale]} className="xp-opening--split" />
+          <div className="pm-head pm-head--split" data-reveal>
+            <p className="pm-kicker">{c.processLabel}</p>
+            <h2 className="pm-h2">{c.processTitle}</h2>
+            <p className="pm-head__lead">{noPrice[locale]}</p>
+          </div>
           <ol className="xp-process" style={{ "--n": leasingSteps.length } as CSSProperties} data-reveal>
             {leasingSteps.map((step) => (
               <li key={step.title.en}>
@@ -268,19 +314,19 @@ export function LeasingPage({ locale }: { locale: SiteLocale }) {
       </section>
 
       {/* CLOSE — waiting list */}
-      <section className="xp-sec xp-sec--ink">
-        <div className="xp-shell xp-close">
+      <section className="pm-close">
+        <div className="xp-shell pm-close__grid">
           <div data-reveal>
-            <p className="xp-eyebrow"><span className="xp-eyebrow__no">05</span><span>{c.closeLabel}</span></p>
-            <h2 className="xp-close__title">{c.closeTitle}</h2>
+            <p className="pm-kicker">{c.closeLabel}</p>
+            <h2 className="pm-close__title lx2-close__title">{c.closeTitle}</h2>
           </div>
-          <nav className="xp-close__routes" aria-label={c.closeLabel} data-reveal>
+          <nav className="pm-close__routes" aria-label={c.closeLabel} data-reveal>
             {c.routes.map(([label, href]) => {
               const [path, hash] = href.split("#");
               const [route, query] = path.split("?");
               return (
                 <Link key={label} href={`${p(route)}${query ? `?${query}` : ""}${hash ? `#${hash}` : ""}`}>
-                  {label}
+                  <span>{label}</span>
                   <Icon name="arrow" size={18} />
                 </Link>
               );

@@ -4,7 +4,7 @@ import { PageShell } from "@/components/page-shell";
 import { ProjectFacts, ProjectStatus, storyLine } from "@/components/project-facts";
 import { ArtImage } from "@/components/primitives";
 import { Icon } from "@/components/ui";
-import { getProject, kindLabel, listLand, listProjects, publicSpaces, type ProjectEntry } from "@/content/source";
+import { getProject, kindLabel, listLand, listProjects, type ProjectEntry } from "@/content/source";
 import { drochiaProfile, landTotalExact, portfolioFigures } from "@/data/demo-content";
 import { locationMaps } from "@/data/location-maps";
 import { localePath, publicAsset, type SiteLocale } from "@/lib/site-data";
@@ -26,8 +26,7 @@ const copy = {
     figOperating: "obiecte în funcțiune",
     figDevelopment: "proiecte de dezvoltare",
     figLand: "terenuri",
-    figSpaces: "spațiu liber",
-    figSpacesMany: "spații libere",
+    figArea: "suprafața obiectelor în funcțiune",
     index: [["Obiecte în funcțiune", "#collection"], ["Dezvoltare", "#development"], ["Terenuri", "#land"]],
     spaces: "Spații libere",
     operatingKicker: "Obiecte în funcțiune",
@@ -52,8 +51,7 @@ const copy = {
     figOperating: "действующих объекта",
     figDevelopment: "проекта развития",
     figLand: "земли",
-    figSpaces: "свободное помещение",
-    figSpacesMany: "свободных помещения",
+    figArea: "площадь действующих объектов",
     index: [["Действующие объекты", "#collection"], ["Развитие", "#development"], ["Земля", "#land"]],
     spaces: "Свободные помещения",
     operatingKicker: "Действующие объекты",
@@ -78,8 +76,7 @@ const copy = {
     figOperating: "operating properties",
     figDevelopment: "development projects",
     figLand: "of land",
-    figSpaces: "space available",
-    figSpacesMany: "spaces available",
+    figArea: "operating property area",
     index: [["Operating properties", "#collection"], ["Development", "#development"], ["Land", "#land"]],
     spaces: "Available spaces",
     operatingKicker: "Operating properties",
@@ -164,7 +161,8 @@ export function ProjectsPage({ locale }: { locale: SiteLocale }) {
             <div><dt>{c.figOperating}</dt><dd>{plural(operating.length)}</dd></div>
             <div><dt>{c.figDevelopment}</dt><dd>{plural(development.length)}</dd></div>
             <div><dt>{c.figLand}</dt><dd>{portfolioFigures.land.value[locale]}</dd></div>
-            <div><dt>{publicSpaces.length === 1 ? c.figSpaces : c.figSpacesMany}</dt><dd>{plural(publicSpaces.length)}</dd></div>
+            {/* OWNER phase 2 (2026-10-09): availability is a link, not a portfolio KPI */}
+            <div><dt>{c.figArea}</dt><dd>{portfolioFigures.area.value[locale]}</dd></div>
           </dl>
           <nav className="pj2-index" aria-label={c.label} data-reveal>
             {c.index.map(([label, hash]) => (

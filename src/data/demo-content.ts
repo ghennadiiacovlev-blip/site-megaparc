@@ -564,7 +564,7 @@ export type ConceptVisual = {
   mobile: boolean;
 };
 
-const visualKeys = ["cv-hero-plaza", "cv-hero-2", "cv-manage", "cv-meeting-room", "cv-cafe", "cv-field", "cv-office-light", "cv-salesfloor", "cv-office-building", "cv-inspection", "cv-plans", "cv-frame", "cv-level", "cv-entrance", "cv-loft-cafe", "cv-boutique", "cv-office-tenants", "cv-urban-plot", "cv-model", "cv-crane", "cv-rebar-crew", "cv-site-pair", "cv-scaffold-street", "cv-loft-team", "cv-drawing"] as const;
+const visualKeys = ["cv-hero-plaza", "cv-hero-2", "cv-manage", "cv-meeting-room", "cv-cafe", "cv-field", "cv-office-light", "cv-salesfloor", "cv-office-building", "cv-inspection", "cv-plans", "cv-frame", "cv-level", "cv-entrance", "cv-loft-cafe", "cv-boutique", "cv-office-tenants", "cv-dev-frame", "cv-model", "cv-crane", "cv-rebar-crew", "cv-site-pair", "cv-scaffold-street", "cv-loft-team", "cv-drawing"] as const;
 export type VisualKey = (typeof visualKeys)[number];
 const portraitOnly: VisualKey[] = ["cv-cafe"];
 
@@ -624,7 +624,7 @@ const A = {
   loftCafe: { ro: "Cafenea luminoasă într-o clădire reconvertită, cu clienți", ru: "Светлое кафе в обновлённом здании, посетители", en: "A sunlit café in a converted building, with customers" },
   boutique: { ro: "Cumpărători într-un magazin luminat de vitrină", ru: "Покупатели в магазине, свет от витрины", en: "Shoppers in a shop lit from the window" },
   officeTenants: { ro: "Chiriași la lucru lângă o fațadă de sticlă cu vedere spre oraș", ru: "Арендаторы за работой у стеклянного фасада с видом на город", en: "Tenants at work by a glass facade with a city view" },
-  urbanPlot: { ro: "Teren în lucru între străzile unui oraș, văzut de sus", ru: "Участок в работе среди городских улиц, вид сверху", en: "A plot under works between town streets, from above" },
+  devFrame: { ro: "Montajul carcasei metalice a unei clădiri comerciale pe un șantier mare, macarale și echipe la lucru, văzut de sus", ru: "Монтаж стального каркаса коммерческого здания на большой площадке: краны и бригады за работой, вид сверху", en: "A steel frame of a commercial building going up on a large site — cranes and crews at work, seen from above" },
   model: { ro: "Mâini cu compas și riglă deasupra unei machete", ru: "Работа с макетом генплана", en: "Hands with compass and ruler over a masterplan model" },
   heroPlaza: { ro: "Clădiri de birouri contemporane deasupra unei piețe pavate cu cărămidă, copaci și o terasă", ru: "Современные офисные здания над площадью из клинкера, деревья и терраса кафе", en: "Contemporary office buildings above a brick-paved square, trees and a café terrace" },
   crane: { ro: "Cadru de beton și macara deasupra orașului", ru: "Строящийся каркас и башенный кран над городом", en: "A concrete frame and a tower crane over the city" },
@@ -649,7 +649,8 @@ place("home.route.partner", "Home", "Routes · investment partnership", null, "c
 place("business.investment.inset", "About", "Business · 01 investment inset", null, "cv-plans", "BRAND", "Evaluating an asset — plans and people", "HIGH", "Site inspection of a property, plans in hand", A.plans);
 place("business.development.inset", "About", "Business · 02 development inset", null, "cv-level", "BRAND", "Construction work", "HIGH", "VATRA construction crew", A.level);
 place("business.leasing.inset", "About", "Business · 03 leasing inset", null, "cv-entrance", "BRAND", "Tenant activity", "HIGH", "Tenant activity inside a MEGAPARC property", A.entrance);
-place("partnership.hero", "Partnership", "Hero", null, "cv-urban-plot", "BRAND", "Opportunity — a plot under works in a city", "HIGH", "MEGAPARC site from above (drone), daylight", A.urbanPlot);
+// Pexels 2314021, Diego Pontes, Malvinas (PB), Brazil — Pexels License; provenance internal only (OWNER premium phase 2, 2026-10-09)
+place("partnership.hero", "Partnership", "Hero", null, "cv-dev-frame", "BRAND", "Capital at work — a commercial frame going up, project scale, human scale", "HIGH", "MEGAPARC development site from above (drone), daylight", A.devFrame, "50% 55%");
 place("home.route.owner", "Home", "Routes · offer a property or land", null, "cv-field", "BRAND", "Owner route — land", "MEDIUM", "Land at a town entrance (MEGAPARC site visit)", A.field);
 // Projects
 place("development.drochia", "Projects", "Collection · Drochia Gateway", "Drochia Gateway", "cv-field", "PROPERTY_DIRECTION", "Site context direction — not the site", "HIGH", "Drochia Gateway DRONE — the real site, both road fronts", A.field);
